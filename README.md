@@ -13,8 +13,8 @@ mvn eclipse:eclipse
 You could download from the maven repository, now!<br>
 &lt;dependency&gt;<br>
 	&lt;groupId&gt;com.github.Andy-Shao&lt;/groupId&gt;<br>
-	&lt;artifactId&gt;Useful-Tools&lt;/artifactId&gt;<br>
-	&lt;version&gt;${Useful-Tools.Version.Number}&lt;/version&gt;<br>
+	&lt;artifactId&gt;Gear&lt;/artifactId&gt;<br>
+	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 
