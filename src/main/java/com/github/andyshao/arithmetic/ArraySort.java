@@ -21,6 +21,8 @@ public final class ArraySort {
      * 
      * @param data array
      * @param comparator {@link Comparator}
+     * @param start start positon
+     * @param end end position
      * @param <DATA> data
      * @return if the data is null then return it.
      */
@@ -83,7 +85,7 @@ public final class ArraySort {
      * @param end end position
      * @param comparator {@link Comparator}
      * @param <DATA> data type
-     * @return
+     * @return the array which has been sorted
      */
     public static final <DATA> DATA[] mgsort(DATA[] data , int start , int end , Comparator<DATA> comparator) {
         //Stop the recursion when no more divisions can be made.
