@@ -18,14 +18,14 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 
-**What the newest plugins for v5.0**
+**What the newest plugins for v2.0**
 
 *Add the classic data structure*<br>
 You could use the graph or others more difficult data structure, now.
 
 *Add the classic aritmatic*
 
-**What the newest plugins for v4.0**
+**What the newest plugins for v1.0**
 
 *Support JDK8 interface functional*<br>
 Adjust the com.github.andyshao.convert.Convert &
