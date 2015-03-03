@@ -24,7 +24,7 @@ public final class ArraySort {
      * 速度比快速排序快，但是占用空间巨大.稳定的排序能使具有相同
      * 数值的元素有相同的顺序.
      * 
-     * @param data array
+     * @param array array
      * @param convert calculate the data to a integer
      * @param start start position(inclusive)
      * @param end end position(exclusive)
@@ -37,31 +37,76 @@ public final class ArraySort {
      */
     @SuppressWarnings("unchecked")
     public static final <DATA> DATA[] ctsort(
-        DATA[] data , Convert<DATA , Integer> convert , int start , int end , int max) {
+        DATA[] array , Convert<DATA , Integer> convert , int start , int end , int max) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         int[] counts = new int[max];
         Arrays.fill(counts , 0);
         //Count the occurrences of each element.
         for (int i = start ; i < end ; i++) {
-            Integer index = convert.convert(data[i]);
+            Integer index = convert.convert(array[i]);
             counts[index] = counts[index] + 1;
         }
         //Adjust each count to reflect the counts before it.
         for (int i = 1 ; i < max ; i++)
             counts[i] = counts[i] + counts[i - 1];
 
-        DATA[] temp = (DATA[]) Array.newInstance(data.getClass().getComponentType() , data.length);
+        DATA[] temp = (DATA[]) Array.newInstance(array.getClass().getComponentType() , array.length);
         //Use the counts to position each element where it belongs.
         for (int i = end - 1 ; i >= start ; i--) {
-            int index = convert.convert(data[i]);
-            temp[counts[index] - 1 + start] = data[i];
+            int index = convert.convert(array[i]);
+            temp[counts[index] - 1 + start] = array[i];
             counts[index] = counts[index] - 1;
         }
 
         //Prepare to pass back the sorted data.
-        System.arraycopy(temp , start , data , start , end - start);
+        System.arraycopy(temp , start , array , start , end - start);
 
-        return data;
+        return array;
+    }
+    
+    /**
+     * count sort(计数排序)<br>
+     * 速度比快速排序快，但是占用空间巨大.稳定的排序能使具有相同
+     * 数值的元素有相同的顺序.
+     * 
+     * @param array array
+     * @param convert calculate the data to a integer
+     * @param start start position(inclusive)
+     * @param end end position(exclusive)
+     * @param max the max value(k) of array clip which from start side to end
+     *            side but never
+     *            include the end side. the max = k + 1
+     * @param <DATA> data type
+     * @param <ARRAY> array type
+     * @return the array which has been sorted.
+     * @throws IllegalArgumentException if start bigger than or equal end.
+     */
+    @SuppressWarnings("unchecked")
+    public static final <ARRAY, DATA> ARRAY ctsort(ARRAY array, Convert<DATA , Integer> convert, int start, int end, int max){
+            if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+            int[] counts = new int[max];
+            Arrays.fill(counts , 0);
+            //Count the occurrences of each element.
+            for (int i = start ; i < end ; i++) {
+                Integer index = convert.convert((DATA) Array.get(array , i));
+                counts[index] = counts[index] + 1;
+            }
+            //Adjust each count to reflect the counts before it.
+            for (int i = 1 ; i < max ; i++)
+                counts[i] = counts[i] + counts[i - 1];
+            
+            ARRAY temp = (ARRAY) Array.newInstance(array.getClass().getComponentType() , Array.getLength(array));
+            //Use the counts to position each element where it belongs.
+            for (int i = end - 1 ; i >= start ; i--) {
+                int index = convert.convert((DATA) Array.get(array , i));
+                Array.set(temp , counts[index] - 1 + start , (DATA) Array.get(array , i));
+                counts[index] = counts[index] - 1;
+            }
+            
+            //Prepare to pass back the sorted data.
+            System.arraycopy(temp , start , array , start , end - start);
+            
+            return array;
     }
 
     /**

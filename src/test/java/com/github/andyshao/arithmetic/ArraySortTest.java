@@ -68,8 +68,14 @@ public class ArraySortTest {
         ArraySort.ctsort(this.data , this.convert , 2 , 6 , maxValue);
         Assert.assertThat(Arrays.deepEquals(this.data , this.clipAnswer) , Matchers.is(true));
 
-        ArraySort.<Integer> ctsort(this.data , this.convert , 0 , this.data.length , maxValue);
+        ArraySort.ctsort(this.data , this.convert , 0 , this.data.length , maxValue);
         Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        
+        ArraySort.ctsort(this.dataX , this.convert , 2 , 6 , maxValue);
+        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        
+        ArraySort.ctsort(this.dataX , this.convert , 0 , this.dataX.length , maxValue);
+        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
     }
 
     @Test
