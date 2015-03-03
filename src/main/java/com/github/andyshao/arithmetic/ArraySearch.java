@@ -30,8 +30,6 @@ public final class ArraySearch {
      */
     @SuppressWarnings("unchecked")
     public static final <ARRAY , DATA> int bisearch(ARRAY sorted , DATA target , Comparator<DATA> comparator) {
-        if (!sorted.getClass().isArray()) throw new IllegalArgumentException(sorted + " is not a array.");
-
         //Continue searching until the left and right indices cross.
         int left = 0;
         int right = Array.getLength(sorted) - 1;
