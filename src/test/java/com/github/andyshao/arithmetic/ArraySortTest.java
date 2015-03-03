@@ -103,5 +103,11 @@ public class ArraySortTest {
 
         ArraySort.rxsort(this.data , this.convert , 3 , 10 , 0 , this.data.length);
         Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        
+        ArraySort.rxsort(this.dataX , this.convert , 3 , 10 , 2 , 6);
+        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        
+        ArraySort.rxsort(this.dataX , this.convert , 3 , 10 , 0 , this.dataX.length);
+        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
     }
 }
