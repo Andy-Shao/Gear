@@ -31,6 +31,52 @@ public final class ArraySort {
      * @param max the max value(k) of array clip which from start side to end
      *            side but never
      *            include the end side. the max = k + 1
+     * @param <DATA> data type
+     * @param <ARRAY> array type
+     * @return the array which has been sorted.
+     * @throws IllegalArgumentException if start bigger than or equal end.
+     */
+    @SuppressWarnings("unchecked")
+    public static final <ARRAY , DATA> ARRAY ctsort(
+        ARRAY array , Convert<DATA , Integer> convert , int start , int end , int max) {
+        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        int[] counts = new int[max];
+        Arrays.fill(counts , 0);
+        //Count the occurrences of each element.
+        for (int i = start ; i < end ; i++) {
+            Integer index = convert.convert((DATA) Array.get(array , i));
+            counts[index] = counts[index] + 1;
+        }
+        //Adjust each count to reflect the counts before it.
+        for (int i = 1 ; i < max ; i++)
+            counts[i] = counts[i] + counts[i - 1];
+
+        ARRAY temp = (ARRAY) Array.newInstance(array.getClass().getComponentType() , Array.getLength(array));
+        //Use the counts to position each element where it belongs.
+        for (int i = end - 1 ; i >= start ; i--) {
+            int index = convert.convert((DATA) Array.get(array , i));
+            Array.set(temp , counts[index] - 1 + start , Array.get(array , i));
+            counts[index] = counts[index] - 1;
+        }
+
+        //Prepare to pass back the sorted data.
+        System.arraycopy(temp , start , array , start , end - start);
+
+        return array;
+    }
+
+    /**
+     * count sort(计数排序)<br>
+     * 速度比快速排序快，但是占用空间巨大.稳定的排序能使具有相同
+     * 数值的元素有相同的顺序.
+     * 
+     * @param array array
+     * @param convert calculate the data to a integer
+     * @param start start position(inclusive)
+     * @param end end position(exclusive)
+     * @param max the max value(k) of array clip which from start side to end
+     *            side but never
+     *            include the end side. the max = k + 1
      * @param <DATA> array type
      * @return the array which has been sorted.
      * @throws IllegalArgumentException if start bigger than or equal end.
@@ -65,78 +111,6 @@ public final class ArraySort {
     }
 
     /**
-     * count sort(计数排序)<br>
-     * 速度比快速排序快，但是占用空间巨大.稳定的排序能使具有相同
-     * 数值的元素有相同的顺序.
-     * 
-     * @param array array
-     * @param convert calculate the data to a integer
-     * @param start start position(inclusive)
-     * @param end end position(exclusive)
-     * @param max the max value(k) of array clip which from start side to end
-     *            side but never
-     *            include the end side. the max = k + 1
-     * @param <DATA> data type
-     * @param <ARRAY> array type
-     * @return the array which has been sorted.
-     * @throws IllegalArgumentException if start bigger than or equal end.
-     */
-    @SuppressWarnings("unchecked")
-    public static final <ARRAY , DATA> ARRAY ctsort(
-        ARRAY array , Convert<DATA , Integer> convert , int start , int end , int max) {
-        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
-        int[] counts = new int[max];
-        Arrays.fill(counts , 0);
-        //Count the occurrences of each element.
-        for (int i = start ; i < end ; i++) {
-            Integer index = convert.convert((DATA) Array.get(array , i));
-            counts[index] = counts[index] + 1;
-        }
-        //Adjust each count to reflect the counts before it.
-        for (int i = 1 ; i < max ; i++)
-            counts[i] = counts[i] + counts[i - 1];
-
-        ARRAY temp = (ARRAY) Array.newInstance(array.getClass().getComponentType() , Array.getLength(array));
-        //Use the counts to position each element where it belongs.
-        for (int i = end - 1 ; i >= start ; i--) {
-            int index = convert.convert((DATA) Array.get(array , i));
-            Array.set(temp , counts[index] - 1 + start , (DATA) Array.get(array , i));
-            counts[index] = counts[index] - 1;
-        }
-
-        //Prepare to pass back the sorted data.
-        System.arraycopy(temp , start , array , start , end - start);
-
-        return array;
-    }
-
-    /**
-     * insert sort(插入排序)
-     * 
-     * @param data array
-     * @param comparator {@link Comparator}
-     * @param start start position(inclusive)
-     * @param end end position(exclusive)
-     * @param <DATA> data type
-     * @return if the data is null then return it.
-     * @throws IllegalArgumentException if start bigger than or equal end
-     */
-    public static final <DATA> DATA[] issort(final DATA[] data , int start , int end , Comparator<DATA> comparator) {
-        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
-        //Repeatedly insert a key element among the sorted elements.
-        for (int i = start + 1 ; i < end ; i++) {
-            DATA temp = data[i];
-            int j = i - 1;
-
-            //Determine the position at which to insert the key element.
-            for ( ; j >= start && comparator.compare(data[j] , temp) > 0 ; j--)
-                data[j + 1] = data[j];
-            data[j + 1] = temp;
-        }
-        return data;
-    }
-
-    /**
      * insert sort(插入排序)
      * 
      * @param data array
@@ -161,6 +135,32 @@ public final class ArraySort {
             for ( ; j >= start && comparator.compare((DATA) Array.get(data , j) , temp) > 0 ; j--)
                 Array.set(data , j + 1 , Array.get(data , j));
             Array.set(data , j + 1 , temp);
+        }
+        return data;
+    }
+
+    /**
+     * insert sort(插入排序)
+     * 
+     * @param data array
+     * @param comparator {@link Comparator}
+     * @param start start position(inclusive)
+     * @param end end position(exclusive)
+     * @param <DATA> data type
+     * @return if the data is null then return it.
+     * @throws IllegalArgumentException if start bigger than or equal end
+     */
+    public static final <DATA> DATA[] issort(final DATA[] data , int start , int end , Comparator<DATA> comparator) {
+        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        //Repeatedly insert a key element among the sorted elements.
+        for (int i = start + 1 ; i < end ; i++) {
+            DATA temp = data[i];
+            int j = i - 1;
+
+            //Determine the position at which to insert the key element.
+            for ( ; j >= start && comparator.compare(data[j] , temp) > 0 ; j--)
+                data[j + 1] = data[j];
+            data[j + 1] = temp;
         }
         return data;
     }
@@ -324,61 +324,6 @@ public final class ArraySort {
      * @param start start position(inclusive)
      * @param end end position(exclusive)
      * @param <DATA> data type
-     * @return the array which has been sorted.
-     * @throws IllegalArgumentException if start bigger than or equal end.
-     */
-    @SuppressWarnings("unchecked")
-    public static final <DATA> DATA[] rxsort(
-        DATA[] array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
-        if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);
-
-        int[] counts = new int[k];
-        DATA[] temp = (DATA[]) Array.newInstance(array.getClass().getComponentType() , array.length);
-
-        //Sort from the least significant position to the most significant.
-        for (int n = 0 ; n < p ; n++) {
-            //Initialize the counts.
-            Arrays.fill(counts , 0);
-
-            //Calculate the position value.
-            int pval = (int) Math.pow(k , n);
-
-            //Count the occurrences of each digit value.
-            for (int j = start ; j < end ; j++) {
-                int index = convert.convert(array[j]) / pval % k;
-                counts[index] = counts[index] + 1;
-            }
-
-            //Adjust each count to reflect the counts before it.
-            for (int i = 1 ; i < k ; i++)
-                counts[i] = counts[i] + counts[i - 1];
-
-            //Use the counts to position each element where it belongs.
-            for (int j = end - 1 ; j >= start ; j--) {
-                int index = convert.convert(array[j]) / pval % k;
-                temp[counts[index] - 1 + start] = array[j];
-                counts[index] = counts[index] - 1;
-            }
-
-            System.arraycopy(temp , start , array , start , end - start);
-        }
-
-        return array;
-    }
-
-    /**
-     * radix sort(基数排序)<br>
-     * 基数排序并不局限于对整数进行排序，只要能吧元素分割成整数，就可以排序.Should use the double
-     * size of data's space.
-     * 
-     * @param array array
-     * @param convert {@link Convert} the DATA covert to {@link Integer}
-     * @param p 每个元素的位数.
-     * @param k k&lt;=data.length at the comment time. 具体该选择什么值作为基数取决于数据本身，
-     *            同时考虑到空间的限制.
-     * @param start start position(inclusive)
-     * @param end end position(exclusive)
-     * @param <DATA> data type
      * @param <ARRAY> array type
      * @return the array which has been sorted.
      * @throws IllegalArgumentException if start bigger than or equal end.
@@ -413,6 +358,61 @@ public final class ArraySort {
             for (int j = end - 1 ; j >= start ; j--) {
                 int index = convert.convert((DATA) Array.get(array , j)) / pval % k;
                 Array.set(temp , counts[index] - 1 + start , Array.get(array , j));
+                counts[index] = counts[index] - 1;
+            }
+
+            System.arraycopy(temp , start , array , start , end - start);
+        }
+
+        return array;
+    }
+
+    /**
+     * radix sort(基数排序)<br>
+     * 基数排序并不局限于对整数进行排序，只要能吧元素分割成整数，就可以排序.Should use the double
+     * size of data's space.
+     * 
+     * @param array array
+     * @param convert {@link Convert} the DATA covert to {@link Integer}
+     * @param p 每个元素的位数.
+     * @param k k&lt;=data.length at the comment time. 具体该选择什么值作为基数取决于数据本身，
+     *            同时考虑到空间的限制.
+     * @param start start position(inclusive)
+     * @param end end position(exclusive)
+     * @param <DATA> data type
+     * @return the array which has been sorted.
+     * @throws IllegalArgumentException if start bigger than or equal end.
+     */
+    @SuppressWarnings("unchecked")
+    public static final <DATA> DATA[] rxsort(
+        DATA[] array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
+        if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);
+
+        int[] counts = new int[k];
+        DATA[] temp = (DATA[]) Array.newInstance(array.getClass().getComponentType() , array.length);
+
+        //Sort from the least significant position to the most significant.
+        for (int n = 0 ; n < p ; n++) {
+            //Initialize the counts.
+            Arrays.fill(counts , 0);
+
+            //Calculate the position value.
+            int pval = (int) Math.pow(k , n);
+
+            //Count the occurrences of each digit value.
+            for (int j = start ; j < end ; j++) {
+                int index = convert.convert(array[j]) / pval % k;
+                counts[index] = counts[index] + 1;
+            }
+
+            //Adjust each count to reflect the counts before it.
+            for (int i = 1 ; i < k ; i++)
+                counts[i] = counts[i] + counts[i - 1];
+
+            //Use the counts to position each element where it belongs.
+            for (int j = end - 1 ; j >= start ; j--) {
+                int index = convert.convert(array[j]) / pval % k;
+                temp[counts[index] - 1 + start] = array[j];
                 counts[index] = counts[index] - 1;
             }
 
