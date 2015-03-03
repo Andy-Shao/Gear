@@ -20,7 +20,9 @@ import com.github.andyshao.convert.Convert;
 public final class ArraySort {
 
     /**
-     * count sort(计数排序)
+     * count sort(计数排序)<br>
+     * 速度比快速排序快，但是占用空间巨大.稳定的排序能使具有相同
+     * 数值的元素有相同的顺序.
      * 
      * @param data array
      * @param convert calculate the data to a integer
@@ -132,7 +134,9 @@ public final class ArraySort {
     }
 
     /**
-     * Merge sort(归并排序)
+     * Merge sort(归并排序)<br>
+     * 归并排序在所有情况下都能达到快速排序的平均性能.必须要有两倍于无序数据集
+     * 的空间来运行算法.
      * 
      * @param data array which should be sorted
      * @param start start position(inclusive)
@@ -229,6 +233,61 @@ public final class ArraySort {
             //Iterate and sort the right partition.
             start = index;
         }
+        return data;
+    }
+
+    /**
+     * radix sort(基数排序)<br>
+     * 基数排序并不局限于对整数进行排序，只要能吧元素分割成整数，就可以排序.Should use the double 
+     * size of data's space.  
+     * 
+     * @param data array
+     * @param convert {@link Convert} the DATA covert to {@link Integer}
+     * @param p 每个元素的位数.
+     * @param k k&lt;=data.length at the comment time. 具体该选择什么值作为基数取决于数据本身，
+     *            同时考虑到空间的限制.
+     * @param start start position(inclusive)
+     * @param end end position(exclusive)
+     * @param <DATA> data type
+     * @return the array which has been sorted.
+     * @throws IllegalArgumentException if start bigger than or equal end.
+     */
+    @SuppressWarnings("unchecked")
+    public static final <DATA> DATA[] rxsort(
+        DATA[] data , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
+        if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);
+
+        int[] counts = new int[k];
+        DATA[] temp = (DATA[]) Array.newInstance(data.getClass().getComponentType() , data.length);
+
+        //Sort from the least significant position to the most significant.
+        for (int n = 0 ; n < p ; n++) {
+            //Initialize the counts.
+            Arrays.fill(counts , 0);
+
+            //Calculate the position value.
+            int pval = (int) Math.pow(k , n);
+
+            //Count the occurrences of each digit value.
+            for (int j = start ; j < end ; j++) {
+                int index = convert.convert(data[j]) / pval % k;
+                counts[index] = counts[index] + 1;
+            }
+
+            //Adjust each count to reflect the counts before it.
+            for (int i = 1 ; i < k ; i++)
+                counts[i] = counts[i] + counts[i - 1];
+
+            //Use the counts to position each element where it belongs.
+            for (int j = end - 1 ; j >= start ; j--) {
+                int index = convert.convert(data[j]) / pval % k;
+                temp[counts[index] - 1 + start] = data[j];
+                counts[index] = counts[index] - 1;
+            }
+
+            System.arraycopy(temp , start , data , start , end - start);
+        }
+
         return data;
     }
 
