@@ -89,6 +89,34 @@ public final class ArraySort {
         }
         return data;
     }
+    
+    /**
+     * insert sort(插入排序)
+     * 
+     * @param data array
+     * @param comparator {@link Comparator}
+     * @param start start position(inclusive)
+     * @param end end position(exclusive)
+     * @param <ARRAY> array type
+     * @param <DATA> data type
+     * @return if the data is null then return it.
+     * @throws IllegalArgumentException if start bigger than or equal end
+     */
+    @SuppressWarnings("unchecked")
+    public static final <ARRAY, DATA> ARRAY issort(final ARRAY data, int start, int end, Comparator<DATA> comparator){
+        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        //Repeatedly insert a key element among the sorted elements.
+        for (int i = start + 1 ; i < end ; i++) {
+            DATA temp = (DATA) Array.get(data , i);
+            int j = i - 1;
+            
+            //Determine the position at which to insert the key element.
+            for ( ; j >= start && comparator.compare((DATA) Array.get(data , j) , temp) > 0 ; j--)
+                Array.set(data , j + 1 , Array.get(data , j));
+            Array.set(data , j + 1 , temp);
+        }
+        return data;
+    }
 
     /**
      * 
