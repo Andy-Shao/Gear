@@ -69,7 +69,7 @@ public final class ArraySort {
      * @param comparator {@link Comparator}
      * @param start start position(inclusive)
      * @param end end position(exclusive)
-     * @param <DATA> data
+     * @param <DATA> data type
      * @return if the data is null then return it.
      * @throws IllegalArgumentException if start bigger than or equal end
      */
@@ -95,7 +95,7 @@ public final class ArraySort {
      * @param division division position(inclusive)
      * @param end end position(exclusive)
      * @param comparator {@link Comparator}
-     * @param <DATA>
+     * @param <DATA> data type
      * @return the array which has been merged
      */
     @SuppressWarnings("unchecked")
