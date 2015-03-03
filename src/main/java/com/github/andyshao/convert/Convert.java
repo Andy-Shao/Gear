@@ -22,7 +22,16 @@ public interface Convert<IN , OUT> {
             builder.append(ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX).convert(b));
         return builder.toString();
     };
+    public static final Convert<byte[] , String> BYTES_TO_HEX = (byte[] in) -> {
+        StringBuilder builder = new StringBuilder();
+        for (Byte b : in)
+            builder.append(ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX).convert(b));
+        return builder.toString();
+    };
     public static final Convert<String , Byte[]> HEX_2_BYTES = new ConvertStr2Byte();
+    public static final Convert<String , byte[]> HEX_TO_BYTES = (String in) -> {
+        return ConvertStr2Byte.hexStringTobytes(in);
+    };
     public static final Convert<Object , Boolean> OB_2_BOOLEAN = (Object in) -> {
         String str = Convert.OB_2_STR.convert(in);
         return str == null ? null : Boolean.valueOf(str);
