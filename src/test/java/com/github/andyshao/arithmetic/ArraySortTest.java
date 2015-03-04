@@ -89,6 +89,12 @@ public class ArraySortTest {
 
         ArraySort.qksort(this.data , 0 , this.data.length , this.comparator);
         Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        
+        ArraySort.qksort(this.dataX , 2 , 6 , this.comparator);
+        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        
+        ArraySort.qksort(this.dataX , 0 , this.dataX.length , this.comparator);
+        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
     }
 
     @Test

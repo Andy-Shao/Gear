@@ -240,8 +240,9 @@ public final class ArraySort {
         return data;
     }
 
-    static final <DATA> int partition(DATA[] data , int start , int end , Comparator<DATA> comparator) {
-        Integer[] r = new Integer[3];
+    @SuppressWarnings("unchecked")
+    static final <ARRAY , DATA> int partition(ARRAY array , int start , int end , Comparator<DATA> comparator) {
+        int[] r = new int[3];
         final Random random = new Random();
         int tail = end - 1;
 
@@ -249,10 +250,10 @@ public final class ArraySort {
         r[0] = random.ints(start , tail).findFirst().getAsInt();
         r[1] = random.ints(start , tail).findFirst().getAsInt();
         r[2] = random.ints(start , tail).findFirst().getAsInt();
-        ArraySort.<Integer> issort(r , 0 , r.length , (i1 , i2) -> {
+        ArraySort.<int[] , Integer> issort(r , 0 , r.length , (i1 , i2) -> {
             return Integer.compare(i1 , i2);
         });
-        DATA pval = data[r[1]];
+        DATA pval = (DATA) Array.get(array , r[1]);
 
         //Create two partitions around the partition value.
         start--;
@@ -262,20 +263,62 @@ public final class ArraySort {
             //Move left until an element is found in the wrong partition.
             do
                 tail--;
-            while (comparator.compare(data[tail] , pval) > 0);
+            while (comparator.compare((DATA) Array.get(array , tail) , pval) > 0);
 
             //Move right until an element is found in the wrong partition.
             do
                 start++;
-            while (comparator.compare(data[start] , pval) < 0);
+            while (comparator.compare((DATA) Array.get(array , start) , pval) < 0);
 
             if (start >= tail) //Stop partitioning when the left and right counters cross.
             break;
             else {
                 //Swap the elements now under the left and right counters.
-                DATA temp = data[start];
-                data[start] = data[tail];
-                data[tail] = temp;
+                DATA temp = (DATA) Array.get(array , start);
+                Array.set(array , start , Array.get(array , tail));
+                Array.set(array , tail , temp);
+            }
+        }
+
+        return tail;
+    }
+
+    static final <DATA> int partition(DATA[] array , int start , int end , Comparator<DATA> comparator) {
+        int[] r = new int[3];
+        final Random random = new Random();
+        int tail = end - 1;
+
+        //Use the median-of-three method to find the partition value.
+        r[0] = random.ints(start , tail).findFirst().getAsInt();
+        r[1] = random.ints(start , tail).findFirst().getAsInt();
+        r[2] = random.ints(start , tail).findFirst().getAsInt();
+        ArraySort.<int[] , Integer> issort(r , 0 , r.length , (i1 , i2) -> {
+            return Integer.compare(i1 , i2);
+        });
+        DATA pval = array[r[1]];
+
+        //Create two partitions around the partition value.
+        start--;
+        tail++;
+
+        while (true) {
+            //Move left until an element is found in the wrong partition.
+            do
+                tail--;
+            while (comparator.compare(array[tail] , pval) > 0);
+
+            //Move right until an element is found in the wrong partition.
+            do
+                start++;
+            while (comparator.compare(array[start] , pval) < 0);
+
+            if (start >= tail) //Stop partitioning when the left and right counters cross.
+            break;
+            else {
+                //Swap the elements now under the left and right counters.
+                DATA temp = array[start];
+                array[start] = array[tail];
+                array[tail] = temp;
             }
         }
 
@@ -285,7 +328,7 @@ public final class ArraySort {
     /**
      * quick sort(快速排序)
      * 
-     * @param data array
+     * @param array array
      * @param start the begin of sort(inclusive)
      * @param end the end of sort(exclusive)
      * @param comparator {@link Comparator}
@@ -294,21 +337,51 @@ public final class ArraySort {
      * @throws ArraySortException when the sort has error.
      * @throws IllegalArgumentException if start bigger than or equal end
      */
-    public static final <DATA> DATA[] qksort(final DATA[] data , int start , int end , Comparator<DATA> comparator) {
+    public static final <ARRAY , DATA> ARRAY qksort(
+        final ARRAY array , int start , int end , Comparator<DATA> comparator) {
         if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         //Stop the recursion when it is not possible to partition further.
         while (start < end - 1) {
             int index = 0;
             //Determine where to partition the elements.
-            if ((index = ArraySort.partition(data , start , end , comparator)) < 0) throw new ArraySortException();
+            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new ArraySortException();
 
             //Recursively sort the left partition.
-            ArraySort.qksort(data , start , ++index , comparator);
+            ArraySort.qksort(array , start , ++index , comparator);
 
             //Iterate and sort the right partition.
             start = index;
         }
-        return data;
+        return array;
+    }
+
+    /**
+     * quick sort(快速排序)
+     * 
+     * @param array array
+     * @param start the begin of sort(inclusive)
+     * @param end the end of sort(exclusive)
+     * @param comparator {@link Comparator}
+     * @param <DATA> data type
+     * @return the array which is sorted.
+     * @throws ArraySortException when the sort has error.
+     * @throws IllegalArgumentException if start bigger than or equal end
+     */
+    public static final <DATA> DATA[] qksort(final DATA[] array , int start , int end , Comparator<DATA> comparator) {
+        if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        //Stop the recursion when it is not possible to partition further.
+        while (start < end - 1) {
+            int index = 0;
+            //Determine where to partition the elements.
+            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new ArraySortException();
+
+            //Recursively sort the left partition.
+            ArraySort.qksort(array , start , ++index , comparator);
+
+            //Iterate and sort the right partition.
+            start = index;
+        }
+        return array;
     }
 
     /**
