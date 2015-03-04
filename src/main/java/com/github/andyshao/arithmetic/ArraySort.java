@@ -414,7 +414,7 @@ public final class ArraySort {
      * @param <DATA> data type
      * @param <ARRAY> array type
      * @return the array which is sorted.
-     * @throws ArraySortException when the sort has error.
+     * @throws SortException when the sort has error.
      * @throws IllegalArgumentException if start bigger than or equal end
      */
     public static final <ARRAY , DATA> ARRAY qksort(
@@ -424,7 +424,7 @@ public final class ArraySort {
         while (start < end - 1) {
             int index = 0;
             //Determine where to partition the elements.
-            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new ArraySortException();
+            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new SortException();
 
             //Recursively sort the left partition.
             ArraySort.qksort(array , start , ++index , comparator);
@@ -444,7 +444,7 @@ public final class ArraySort {
      * @param comparator {@link Comparator}
      * @param <DATA> data type
      * @return the array which is sorted.
-     * @throws ArraySortException when the sort has error.
+     * @throws SortException when the sort has error.
      * @throws IllegalArgumentException if start bigger than or equal end
      */
     public static final <DATA> DATA[] qksort(final DATA[] array , int start , int end , Comparator<DATA> comparator) {
@@ -453,7 +453,7 @@ public final class ArraySort {
         while (start < end - 1) {
             int index = 0;
             //Determine where to partition the elements.
-            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new ArraySortException();
+            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new SortException();
 
             //Recursively sort the left partition.
             ArraySort.qksort(array , start , ++index , comparator);

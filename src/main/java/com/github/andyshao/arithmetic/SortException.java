@@ -9,22 +9,22 @@ package com.github.andyshao.arithmetic;
  * @author Andy.Shao
  *
  */
-public class ArraySortException extends ArithmeticException {
+public class SortException extends ArithmeticException {
     private static final long serialVersionUID = -6634240428324974480L;
 
-    public ArraySortException() {
+    public SortException() {
         super();
     }
 
-    public ArraySortException(String message) {
+    public SortException(String message) {
         super(message);
     }
 
-    public ArraySortException(String message , Throwable exception) {
+    public SortException(String message , Throwable exception) {
         super(message , exception);
     }
 
-    public ArraySortException(Throwable exceptoin) {
+    public SortException(Throwable exceptoin) {
         super(exceptoin);
     }
 }
