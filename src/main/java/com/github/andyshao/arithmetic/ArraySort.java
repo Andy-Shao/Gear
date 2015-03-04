@@ -173,6 +173,52 @@ public final class ArraySort {
      * @param end end position(exclusive)
      * @param comparator {@link Comparator}
      * @param <DATA> data type
+     * @param <ARRAY> array type
+     * @return the array which has been merged
+     */
+    @SuppressWarnings("unchecked")
+    static final <ARRAY , DATA> ARRAY merge(
+        ARRAY array , int start , int division , int end , Comparator<DATA> comparator) {
+        //initialize the counters used in merging.
+        int leftPos = start;
+        int rightPos = division + 1;
+        int tempPos = 0;
+        ARRAY temp = (ARRAY) Array.newInstance(array.getClass().getComponentType() , end - start);
+
+        //Continue while either division has elements to merge.
+        FIRST: while (leftPos <= division || rightPos < end) {
+            if (leftPos > division) {
+                //The left division has no more elements to merge.
+                while (rightPos < end)
+                    Array.set(temp , tempPos++ , Array.get(array , rightPos++));
+                continue FIRST;
+            } else if (rightPos >= end) {
+                //The right division has no more elements to merge.
+                while (leftPos <= division)
+                    Array.set(temp , tempPos++ , Array.get(array , leftPos++));
+                continue FIRST;
+            }
+
+            //Append the next ordered element to the merged elements.
+            if (comparator.compare((DATA) Array.get(array , leftPos) , (DATA) Array.get(array , rightPos)) < 0) Array
+                .set(temp , tempPos++ , Array.get(array , leftPos++));
+            else Array.set(temp , tempPos++ , Array.get(array , rightPos++));
+        }
+
+        //Prepare to pass back the merged data.
+        System.arraycopy(temp , 0 , array , start , end - start);
+
+        return array;
+    }
+
+    /**
+     * 
+     * @param array array
+     * @param start start position(inclusive)
+     * @param division division position(inclusive)
+     * @param end end position(exclusive)
+     * @param comparator {@link Comparator}
+     * @param <DATA> data type
      * @return the array which has been merged
      */
     @SuppressWarnings("unchecked")
@@ -209,49 +255,36 @@ public final class ArraySort {
     }
 
     /**
+     * Merge sort(归并排序)<br>
+     * 归并排序在所有情况下都能达到快速排序的平均性能.必须要有两倍于无序数据集
+     * 的空间来运行算法.
      * 
-     * @param array array
+     * @param data array which should be sorted
      * @param start start position(inclusive)
-     * @param division division position(inclusive)
      * @param end end position(exclusive)
      * @param comparator {@link Comparator}
      * @param <DATA> data type
      * @param <ARRAY> array type
-     * @return the array which has been merged
+     * @return the array which has been sorted
+     * @throws IllegalArgumentException if start bigger than or equal end
      */
-    @SuppressWarnings("unchecked")
-    static final <ARRAY , DATA> ARRAY merge(
-        ARRAY array , int start , int division , int end , Comparator<DATA> comparator) {
-        //initialize the counters used in merging.
-        int leftPos = start;
-        int rightPos = division + 1;
-        int tempPos = 0;
-        ARRAY temp = (ARRAY) Array.newInstance(array.getClass().getComponentType() , end - start);
+    public static final <ARRAY , DATA> ARRAY mgsort(ARRAY data , int start , int end , Comparator<DATA> comparator) {
+        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        //Stop the recursion when no more divisions can be made.
+        if (start < end - 1) {
+            int division;
+            //Determine where to divide the elements.
+            division = (start + end) / 2;
 
-        //Continue while either division has elements to merge.
-        FIRST: while (leftPos <= division || rightPos < end) {
-            if (leftPos > division) {
-                //The left division has no more elements to merge.
-                while (rightPos < end)
-                    Array.set(temp , tempPos++ , Array.get(array , rightPos++));
-                continue FIRST;
-            } else if (rightPos >= end) {
-                //The right division has no more elements to merge.
-                while (leftPos <= division)
-                    Array.set(temp , tempPos++ , Array.get(array , leftPos++));
-                continue FIRST;
-            }
+            //Recursively sort the two divisions.
+            ArraySort.mgsort(data , start , division , comparator);
+            ArraySort.mgsort(data , division , end , comparator);
 
-            //Append the next ordered element to the merged elements.
-            if (comparator.compare((DATA) Array.get(array , leftPos) , (DATA) Array.get(array , rightPos)) < 0) Array.set(
-                temp , tempPos++ , Array.get(array , leftPos++));
-            else Array.set(temp , tempPos++ , Array.get(array , rightPos++));
+            //Merge the two sorted divisions into a single sorted set.
+            ArraySort.merge(data , start , division - 1 , end , comparator);
         }
 
-        //Prepare to pass back the merged data.
-        System.arraycopy(temp , 0 , array , start , end - start);
-
-        return array;
+        return data;
     }
 
     /**
@@ -283,39 +316,6 @@ public final class ArraySort {
             ArraySort.merge(data , start , division - 1 , end , comparator);
         }
 
-        return data;
-    }
-    
-    /**
-     * Merge sort(归并排序)<br>
-     * 归并排序在所有情况下都能达到快速排序的平均性能.必须要有两倍于无序数据集
-     * 的空间来运行算法.
-     * 
-     * @param data array which should be sorted
-     * @param start start position(inclusive)
-     * @param end end position(exclusive)
-     * @param comparator {@link Comparator}
-     * @param <DATA> data type
-     * @param <ARRAY> array type
-     * @return the array which has been sorted
-     * @throws IllegalArgumentException if start bigger than or equal end
-     */
-    public static final <ARRAY, DATA> ARRAY mgsort(ARRAY data, int start, int end, Comparator<DATA> comparator){
-        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
-        //Stop the recursion when no more divisions can be made.
-        if (start < end - 1) {
-            int division;
-            //Determine where to divide the elements.
-            division = (start + end) / 2;
-            
-            //Recursively sort the two divisions.
-            ArraySort.mgsort(data , start , division , comparator);
-            ArraySort.mgsort(data , division , end , comparator);
-            
-            //Merge the two sorted divisions into a single sorted set.
-            ArraySort.merge(data , start , division - 1 , end , comparator);
-        }
-        
         return data;
     }
 
