@@ -2,6 +2,7 @@ package com.github.andyshao.util;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.function.Function;
 
 import com.github.andyshao.convert.Convert;
 
@@ -153,11 +154,32 @@ public final class ArrayTools {
      * @param <OUT> Ouput array type
      * @return output array
      */
-    @SuppressWarnings("unchecked")
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
+        return ArrayTools.pack_unpack(in , outClazz , (Object input) -> {
+            return input;
+        });
+    }
+
+    /**
+     * Try to convert the array.<br>
+     * eg.<br>
+     * int[] -- Integer[]<br>
+     * int[] -- long[]<br>
+     * Take Note: long[] can't convert to int[].
+     * It is low efficient. It need use a for loop copy array.
+     * 
+     * @param in input array
+     * @param outClazz output array type
+     * @param function do some operations
+     * @param <IN> Input array type
+     * @param <OUT> Ouput array type
+     * @return output array
+     */
+    @SuppressWarnings("unchecked")
+    public static final <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz , Function<Object , Object> function) {
         OUT result = (OUT) Array.newInstance(outClazz.getComponentType() , Array.getLength(in));
         for (int i = 0 ; i < Array.getLength(in) ; i++)
-            Array.set(result , i , Array.get(in , i));
+            Array.set(result , i , function.apply(Array.get(in , i)));
 
         return result;
     }
