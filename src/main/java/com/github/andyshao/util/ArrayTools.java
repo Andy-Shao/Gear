@@ -172,7 +172,7 @@ public final class ArrayTools {
      * @param outClazz output array type
      * @param function do some operations
      * @param <IN> Input array type
-     * @param <OUT> Ouput array type
+     * @param <OUT> Output array type
      * @return output array
      */
     @SuppressWarnings("unchecked")
