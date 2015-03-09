@@ -143,11 +143,22 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
     public D set(D data , int index) {
         D result = null;
         if (data == null) throw new NullPointerException();
-        if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
+        if (index < 0) throw new IndexOutOfBoundsException();
+        else if(index >= this.size) {
+            this.replaceSpace(data.getClass());
+            this.set(data , index);
+        }
         index = index + this.start;
         result = this.array[index];
         this.array[index] = data;
         this.actionAccount++;
+        return result;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public D[] toArray(){
+        D[] result = (D[]) Array.newInstance(this.array.getClass().getComponentType() , this.size());
+        System.arraycopy(this.array , this.start , result , 0 , result.length);
         return result;
     }
 

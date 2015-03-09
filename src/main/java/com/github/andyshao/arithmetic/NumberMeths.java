@@ -2,6 +2,9 @@ package com.github.andyshao.arithmetic;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.function.Function;
+
+import com.github.andyshao.lang.AutoIncreaseArray;
 
 /**
  * 
@@ -96,6 +99,60 @@ public final class NumberMeths {
         }
 
         return pz;
+    }
+
+    /**
+     * (方程求解)
+     * 
+     * @param f f(x)
+     * @param g f'(x)
+     * @param x x[0] is x
+     * @param maxTimes the limit times.
+     * @param delta 允许的最大偏差
+     * @param scale scale of the {@code BigDecimal} quotient to be returned.
+     * @param roundingMode rounding mode to apply.
+     * @return a Double[]
+     */
+    public static final BigDecimal[] root(
+        Function<BigDecimal , BigDecimal> f , Function<BigDecimal , BigDecimal> g , AutoIncreaseArray<BigDecimal> x ,
+        int maxTimes , BigDecimal delta , int scale , RoundingMode roundingMode) {
+        if (maxTimes < 0) throw new IllegalArgumentException();
+        //User Newton's method to find a root of f.
+        for (int i = 0 , satisfied = 0 ; satisfied == 0 && i + 1 < maxTimes ; i++) {
+            //Determine the next iteration of x.
+            BigDecimal temp = x.get(i);
+            x.set(temp.subtract(f.apply(temp).divide(g.apply(temp) , scale , roundingMode)) , i + 1);
+
+            //Determine whether the desired approximation has been obtained.
+            if (x.get(i + 1).subtract(x.get(i)).abs().compareTo(delta) < 0) satisfied = 1;
+        }
+        return x.toArray();
+    }
+
+    /**
+     * (方程求解)
+     * 
+     * @param f f(x)
+     * @param g f'(x)
+     * @param x x[0] is x
+     * @param maxTimes the limit times.
+     * @param delta 允许的最大偏差
+     * @return a Double[]
+     */
+    public static final Double[] root(
+        Function<Double , Double> f , Function<Double , Double> g , AutoIncreaseArray<Double> x , int maxTimes ,
+        double delta) {
+        if (maxTimes < 0) throw new IllegalArgumentException();
+        //User Newton's method to find a root of f.
+        for (int i = 0 , satisfied = 0 ; satisfied == 0 && i + 1 < maxTimes ; i++) {
+            //Determine the next iteration of x.
+            Double temp = x.get(i);
+            x.set(temp - (f.apply(temp) / g.apply(temp)) , i + 1);
+
+            //Determine whether the desired approximation has been obtained.
+            if (Math.abs(x.get(i + 1) - x.get(i)) < delta) satisfied = 1;
+        }
+        return x.toArray();
     }
 
     public NumberMeths() {
