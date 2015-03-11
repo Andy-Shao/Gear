@@ -20,17 +20,14 @@ public final class ByteOperation {
         byte headTemp = dest[destStart];
         byte tailTemp = dest[destStart + length_];
 
-        for (int i = 7 ; i >= destPos - (destPos >> 3 << 3) ; i--)
-            headTemp = ByteOperation.bitSet(i , 0 , headTemp)[0];
-        for (int i = 0 ; i < (destPos + length) - ((destPos + length) >> 3 << 3) ; i++)
-            tailTemp = ByteOperation.bitSet(i , 0 , tailTemp)[0];
+        headTemp = ByteOperation.fill(0 , destPos - (destPos >> 3 << 3) , 8 , headTemp)[0];
+        tailTemp = ByteOperation.fill(0 , 0 , (destPos + length) - ((destPos + length) >> 3 << 3) , tailTemp)[0];
 
         System.arraycopy(src , srcStart , dest , destStart , length_ + 1);
 
-        for (int i = 0 ; i < destPos - (destPos >> 3 << 3) ; i++)
-            dest[destStart] = ByteOperation.bitSet(i , 0 , dest[destStart])[0];
-        for (int i = 7 ; i >= (destPos + length) - ((destPos + length) >> 3 << 3) ; i--)
-            dest[destStart + length_] = ByteOperation.bitSet(i , 0 , dest[destStart + length_])[0];
+        dest[destStart] = ByteOperation.fill(0 , 0 , destPos - (destPos >> 3 << 3) , dest[destStart])[0];
+        dest[destStart + length_] =
+            ByteOperation.fill(0 , (destPos + length) - ((destPos + length) >> 3 << 3) , 8 , dest[destStart + length_])[0];
 
         dest[destStart] |= headTemp;
         dest[destStart + length_] |= tailTemp;
@@ -101,6 +98,22 @@ public final class ByteOperation {
         return b;
     }
 
+    public static final byte[] bitRotRight(int count , final byte... bs) {
+        int size = bs.length << 3;
+        if (size > 0) for (int j = 0 ; j < count ; j++) {
+            int fbit = 0;
+            for (int i = 0 ; i < bs.length ; i++) {
+                int lbit = ByteOperation.bitGet(0 , bs[i]);
+                if (i == 0) fbit = lbit;
+                else bs[i - 1] = ByteOperation.bitSet(7 , lbit , bs[i - 1])[0];
+                bs[i] = (byte) (bs[i] << 1);
+            }
+            ByteOperation.bitSet(7 , fbit , bs);
+        }
+
+        return bs;
+    }
+
     /**
      * set the binary value
      * 
@@ -116,6 +129,15 @@ public final class ByteOperation {
         if (state == 0) b[pos >> 3] &= ~value;
         else b[pos >> 3] |= value;
         return b;
+    }
+
+    public static final byte[] fill(int state , int startPos , int endPos , byte... bs) {
+        if (state != 0 && state != 1) throw new IllegalArgumentException();
+        if (startPos >= endPos) throw new IllegalArgumentException();
+
+        for (int i = startPos ; i < endPos ; i++)
+            ByteOperation.bitSet(i , state , bs);
+        return bs;
     }
 
     public static final String toString(byte b) {
