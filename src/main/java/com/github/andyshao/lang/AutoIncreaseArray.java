@@ -144,7 +144,7 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         D result = null;
         if (data == null) throw new NullPointerException();
         if (index < 0) throw new IndexOutOfBoundsException();
-        else if(index >= this.size) {
+        else if (index >= this.size) {
             this.replaceSpace(data.getClass());
             this.set(data , index);
         }
@@ -154,15 +154,15 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.actionAccount++;
         return result;
     }
-    
-    @SuppressWarnings("unchecked")
-    public D[] toArray(){
-        D[] result = (D[]) Array.newInstance(this.array.getClass().getComponentType() , this.size());
-        System.arraycopy(this.array , this.start , result , 0 , result.length);
-        return result;
-    }
 
     public int size() {
         return this.size;
+    }
+
+    @SuppressWarnings("unchecked")
+    public D[] toArray() {
+        D[] result = (D[]) Array.newInstance(this.array.getClass().getComponentType() , this.size());
+        System.arraycopy(this.array , this.start , result , 0 , result.length);
+        return result;
     }
 }

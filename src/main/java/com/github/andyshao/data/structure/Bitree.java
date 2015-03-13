@@ -18,7 +18,7 @@ import com.github.andyshao.lang.Cleanable;
  */
 public interface Bitree<D> extends Cleanable , Tree<D> {
     public interface BitreeNode<DATA> {
-        public static <D> BitreeNode<D> DEFAULT_BITREE_NODE() {
+        public static <D> BitreeNode<D> defaultBitreeNode() {
             return new BitreeNode<D>() {
                 private D data;
                 private BitreeNode<D> left;

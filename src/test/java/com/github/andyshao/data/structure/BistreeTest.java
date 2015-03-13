@@ -17,7 +17,7 @@ public class BistreeTest {
     @Before
     public void before() {
         this.bistree = Bistree.<Integer> defaultBistree(Bitree.<AvlNode<Integer>> defaultBitTree(() -> {
-            return Bitree.BitreeNode.DEFAULT_BITREE_NODE();
+            return Bitree.BitreeNode.defaultBitreeNode();
         }) , () -> {
             return Bistree.AvlNode.DEFAULT_AVL_NODE();
         } , (int1 , int2) -> {
@@ -26,7 +26,7 @@ public class BistreeTest {
 
         {
             Bitree.<AvlNode<Integer>> defaultBitTree(() -> {
-                return Bitree.BitreeNode.DEFAULT_BITREE_NODE();
+                return Bitree.BitreeNode.defaultBitreeNode();
             });
         }
     }

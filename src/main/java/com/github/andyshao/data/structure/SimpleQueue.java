@@ -27,7 +27,7 @@ public class SimpleQueue<D> implements Queue<D> {
     @Override
     public boolean addAll(Collection<? extends D> c) {
         boolean result = true;
-        for(D d : c)
+        for (D d : c)
             result |= this.offer(d);
         return result;
     }
@@ -69,13 +69,13 @@ public class SimpleQueue<D> implements Queue<D> {
 
     @Override
     public D peek() {
-        if(this.size() == 0) return null;
+        if (this.size() == 0) return null;
         return this.list.get(0);
     }
 
     @Override
     public D poll() {
-        if(this.size() == 0) return null;
+        if (this.size() == 0) return null;
         return this.list.remove(0);
     }
 

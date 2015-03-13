@@ -140,15 +140,15 @@ public class GraphTest {
         Queue<DfsVertex<String>> queue = new SimpleQueue<>();
         Graph.dfs(graph , queue);
         DfsVertex<String> dfs = queue.peek();
-        if(!dfs.data().equals(cs150.data())){
+        if (!dfs.data().equals(cs150.data())) {
             Assert.assertThat(queue.poll() , Matchers.is(ma300));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma200), Matchers.is(cs300)));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma100), Matchers.is(cs200)));
+            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma200) , Matchers.is(cs300)));
+            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma100) , Matchers.is(cs200)));
         } else {
             Assert.assertThat(queue.poll() , Matchers.is(cs150));
             Assert.assertThat(queue.poll() , Matchers.is(ma300));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma200), Matchers.is(cs300)));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma100), Matchers.is(cs200)));
+            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma200) , Matchers.is(cs300)));
+            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma100) , Matchers.is(cs200)));
         }
     }
 }

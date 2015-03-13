@@ -13,6 +13,8 @@ import java.util.Arrays;
  *
  */
 public final class ByteOperation {
+    public static final int UNCHAR_MAX = 0xff;
+
     public static final void bitCopy(byte[] src , int srcPos , byte[] dest , int destPos , int length) {
         int srcStart = srcPos >> 3;
         int destStart = destPos >> 3;

@@ -22,7 +22,7 @@ public class Lz77Compress implements Compress {
     public static final int LZ77_WINOFF_BITS = 12;
 
     @Override
-    public byte[] compress(byte[] data) {
+    public byte[] compress(byte[] original) {
         // TODO Auto-generated method stub
         return null;
     }

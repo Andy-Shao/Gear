@@ -12,7 +12,7 @@ package com.github.andyshao.arithmetic;
  */
 public interface Compress {
 
-    public byte[] compress(byte[] data);
+    public byte[] compress(byte[] original);
 
     public byte[] uncompress(byte[] data);
 }

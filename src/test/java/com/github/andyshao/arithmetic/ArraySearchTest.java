@@ -24,10 +24,10 @@ public class ArraySearchTest {
 
         index = ArraySearch.bisearch(this.data , 15 , this.comparator);
         Assert.assertThat(index , Matchers.is(-1));
-        
+
         index = ArraySearch.bisearch(this.dataX , 3 , this.comparator);
         Assert.assertThat(index , Matchers.is(3));
-        
+
         index = ArraySearch.bisearch(this.dataX , 15 , this.comparator);
         Assert.assertThat(index , Matchers.is(-1));
     }

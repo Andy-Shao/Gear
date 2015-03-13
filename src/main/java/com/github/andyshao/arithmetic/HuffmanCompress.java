@@ -1,10 +1,15 @@
 package com.github.andyshao.arithmetic;
 
+import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.function.Supplier;
 
 import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.lang.ByteOperation;
+import com.github.andyshao.lang.IntegerOperation;
+import com.github.andyshao.lang.ShortOperation;
+import com.github.andyshao.util.ArrayTools;
 
 /**
  * 
@@ -52,6 +57,35 @@ public class HuffmanCompress implements Compress {
      *
      */
     public interface HuffNode {
+        public class MyHuffNode implements HuffNode {
+            private int freq;
+            private int symbol;
+
+            @Override
+            public int freq() {
+                return this.freq;
+            }
+
+            @Override
+            public void freq(int freq) {
+                this.freq = freq;
+            }
+
+            @Override
+            public int symbol() {
+                return this.symbol;
+            }
+
+            @Override
+            public void symbol(int symbol) {
+                this.symbol = symbol;
+            }
+        }
+
+        public static HuffNode defaultHuffNode() {
+            return new MyHuffNode();
+        }
+
         public int freq();
 
         public void freq(int freq);
@@ -60,8 +94,6 @@ public class HuffmanCompress implements Compress {
 
         public void symbol(int symbol);
     }
-
-    static final int UNCHAR_MAX = 0xff;
 
     public static void buildTable(BitreeNode<HuffNode> node , final short code , final int size , HuffCode[] table) {
         if (!Bitree.bitree_is_eob(node)) {
@@ -83,7 +115,7 @@ public class HuffmanCompress implements Compress {
             return HuffmanCompress.compareFreq(tree1 , tree2);
         });
 
-        for (int c = 0 ; c <= HuffmanCompress.UNCHAR_MAX ; c++)
+        for (int c = 0 ; c <= ByteOperation.UNCHAR_MAX ; c++)
             if (freqs[c] != 0) {
                 //Set up a binary tree for the current symbol and its frequency.
                 Bitree<HuffNode> init = bitreeFactory.get();
@@ -120,9 +152,67 @@ public class HuffmanCompress implements Compress {
     }
 
     @Override
-    public byte[] compress(byte[] data) {
-        // TODO Auto-generated method stub
-        return null;
+    public byte[] compress(byte[] original) {
+        //Initially, there is no buffer of compressed data.
+        byte[] compressed = null;
+
+        //Get the frequency of each symbol i the original data.
+        int[] freqs = new int[ByteOperation.UNCHAR_MAX + 1];
+        Arrays.fill(freqs , 0);
+
+        if (original.length > 0) for (int ipos = 0 ; ipos < original.length ; ipos++)
+            freqs[original[ipos]]++;
+
+        //Scale the frequencies to fit into the one byte.
+        int max = ByteOperation.UNCHAR_MAX;
+
+        for (int c = 0 ; c <= ByteOperation.UNCHAR_MAX ; c++)
+            if (freqs[c] > max) max = freqs[c];
+
+        for (int c = 0 ; c <= ByteOperation.UNCHAR_MAX ; c++) {
+            int scale = (int) (freqs[c] / ((double) max / (double) ByteOperation.UNCHAR_MAX));
+            if (scale == 0 && freqs[c] != 0) freqs[c] = 1;
+            else freqs[c] = scale;
+        }
+
+        HuffCode[] table = new HuffCode[ByteOperation.UNCHAR_MAX + 1];
+        {
+            Bitree<HuffNode> tree = HuffmanCompress.buildTree(freqs , () -> {
+                return Bitree.defaultBitTree(() -> {
+                    return BitreeNode.defaultBitreeNode();
+                });
+            } , () -> {
+                return HuffNode.defaultHuffNode();
+            });
+
+            Arrays.fill(table , 0);
+            HuffmanCompress.buildTable(tree.root() , (short) 0x0000 , 0 , table);
+        }
+
+        int hsize = (ByteOperation.UNCHAR_MAX + 2);
+        byte[] comp =
+            ArrayTools.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
+                ArrayTools.pack_unpack(freqs , byte[].class , (input) -> {
+                    return (byte) input;
+                }));
+
+        int opos = hsize << 3;
+        for (int ipos = 0 ; ipos < original.length ; ipos++) {
+            int c = original[ipos];
+            for (int i = 0 ; i < table[c].size() ; i++) {
+                if ((opos - (opos >> 3 << 3)) == 0) {
+                    byte[] temp = null;
+                    comp = temp;
+                }
+
+                int cpos = (2 << 3) - table[c].size() + i;
+                ByteOperation.bitSet(opos , ByteOperation.bitGet(cpos , ShortOperation.toByte(table[c].code())) , comp);
+                opos++;
+            }
+        }
+
+        compressed = comp;
+        return compressed;
     }
 
     @Override

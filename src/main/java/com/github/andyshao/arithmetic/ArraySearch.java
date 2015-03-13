@@ -14,10 +14,6 @@ import java.util.Comparator;
  *
  */
 public final class ArraySearch {
-    private ArraySearch() {
-        throw new AssertionError("No com.github.andyshao.arithmetic.ArraySearch instances for you!");
-    }
-
     /**
      * binary search(二分查找)
      * 
@@ -78,5 +74,9 @@ public final class ArraySearch {
 
         //Return that the data was not found.
         return -1;
+    }
+
+    private ArraySearch() {
+        throw new AssertionError("No com.github.andyshao.arithmetic.ArraySearch instances for you!");
     }
 }

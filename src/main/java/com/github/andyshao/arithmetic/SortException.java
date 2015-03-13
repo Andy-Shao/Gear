@@ -6,6 +6,7 @@ package com.github.andyshao.arithmetic;
  * Descript:<br>
  * Copyright: Copryright(c) Mar 1, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
