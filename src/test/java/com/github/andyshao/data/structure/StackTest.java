@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-@Deprecated
 @RunWith(Parameterized.class)
 public class StackTest {
     @Parameters
@@ -18,7 +17,7 @@ public class StackTest {
         return Arrays.asList(new Object[][] {
             {
                 Stack.<String , CycleLinkedElmt<String> , SingleLinked<String>> defaultStack(SingleLinked
-                    .defaultSingleLinked())
+                    .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
             } ,
             {
                 Stack.<String , CycleLinkedElmt<String> , CycleLinked<String>> defaultStack(CycleLinked

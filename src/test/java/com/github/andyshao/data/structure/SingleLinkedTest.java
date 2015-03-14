@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-@Deprecated
 public class SingleLinkedTest {
 
     private final String[] data = new String[] {
@@ -15,7 +14,7 @@ public class SingleLinkedTest {
 
     @Before
     public void before() {
-        this.linked = SingleLinked.<String> defaultSingleLinked();
+        this.linked = SingleLinked.<String> defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
     }
 
     @Test

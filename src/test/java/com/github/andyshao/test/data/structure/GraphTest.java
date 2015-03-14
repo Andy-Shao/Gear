@@ -3,6 +3,7 @@ package com.github.andyshao.test.data.structure;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.SingleLinked;
 
 @Deprecated
@@ -20,7 +21,7 @@ public class GraphTest {
         this.graph = Graph.<String> DEFAULT_GRAPH((obj1 , obj2) -> {
             return obj1.compareTo(obj2);
         } , () -> {
-            return SingleLinked.defaultSingleLinked();
+            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
         });
     }
 

@@ -31,7 +31,7 @@ public class GraphTest {
         this.graph = Graph.<String> defaultGraph((obj1 , obj2) -> {
             return obj1.compareTo(obj2);
         } , () -> {
-            return SingleLinked.defaultSingleLinked();
+            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
         });
     }
 
@@ -47,7 +47,7 @@ public class GraphTest {
         Graph<Graph.BfsVertex<String>> graph = Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> {
             return obj1.data().compareTo(obj2.data());
         } , () -> {
-            return SingleLinked.defaultSingleLinked();
+            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
         });
         graph.graph_ins_vertex(node1);
         graph.graph_ins_vertex(node2);
@@ -118,7 +118,7 @@ public class GraphTest {
         Graph<DfsVertex<String>> graph = Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> {
             return obj1.data().compareTo(obj2.data());
         } , () -> {
-            return SingleLinked.defaultSingleLinked();
+            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
         });
         graph.graph_ins_vertex(cs100);
         graph.graph_ins_vertex(cs200);

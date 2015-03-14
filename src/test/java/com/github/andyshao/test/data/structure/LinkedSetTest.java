@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.SingleLinked;
 
 @Deprecated
@@ -16,7 +17,7 @@ public class LinkedSetTest {
 
     @Before
     public void before() {
-        this.set = LinkedSet.DEFAULT_SET(SingleLinked.defaultSingleLinked());
+        this.set = LinkedSet.DEFAULT_SET(SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
     }
 
     @Test

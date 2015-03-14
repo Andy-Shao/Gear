@@ -38,12 +38,14 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         }
 
         private long actionCount = 0;
-        private Function<D , CycleLinkedElmt<D>> cycleLinkedElmt = (data) -> {
-            return CycleLinkedElmt.defaultElmt(data);
-        };
+        private final Function<D , CycleLinkedElmt<D>> cycleLinkedElmt;
         private CycleLinkedElmt<D> head;
         private int size = 0;
         private CycleLinkedElmt<D> tail;
+
+        public MySingleLinked(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt) {
+            this.cycleLinkedElmt = cycleLinkedElmt;
+        }
 
         @Override
         public void clear() {
@@ -149,12 +151,6 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         }
 
         @Override
-        public void setCycleLinkedElmt(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt) {
-            if (this.actionCount != 0) throw new SecurityException("Only set this field before insert & remove.");
-            this.cycleLinkedElmt = cycleLinkedElmt;
-        }
-
-        @Override
         public int size() {
             return this.size;
         }
@@ -165,8 +161,8 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         }
     }
 
-    public static <DATA> SingleLinked<DATA> defaultSingleLinked() {
-        return new MySingleLinked<DATA>();
+    public static <DATA> SingleLinked<DATA> defaultSingleLinked(Function<DATA , CycleLinkedElmt<DATA>> cycleLinkedElmt) {
+        return new MySingleLinked<DATA>(cycleLinkedElmt);
     }
 
     public Function<D , CycleLinkedElmt<D>> getCycleLinkedElmtFactory();
@@ -176,6 +172,4 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
 
     @Override
     public D list_rem_next(CycleLinkedElmt<D> element);
-
-    public void setCycleLinkedElmt(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt);
 }

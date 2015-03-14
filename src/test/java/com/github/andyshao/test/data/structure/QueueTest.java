@@ -23,7 +23,7 @@ public class QueueTest {
         return Arrays.asList(new Object[][] {
             {
                 Queue.<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked
-                    .defaultSingleLinked())
+                    .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
             } ,
             {
                 Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked

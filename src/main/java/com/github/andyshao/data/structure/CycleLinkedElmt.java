@@ -3,7 +3,7 @@ package com.github.andyshao.data.structure;
 import java.util.Objects;
 
 public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLinkedElmt<DATA>> {
-    public static <DAT> CycleLinkedElmt<DAT> defaultElmt(DAT data) {
+    public static <DAT> CycleLinkedElmt<DAT> defaultElmt() {
         CycleLinkedElmt<DAT> result = new CycleLinkedElmt<DAT>() {
             private DAT data;
             private CycleLinkedElmt<DAT> next;
@@ -45,8 +45,12 @@ public interface CycleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , CycleLin
                 this.next = next;
             }
         };
-        result.setData(data);
+        return result;
+    }
 
+    public static <DAT> CycleLinkedElmt<DAT> defaultElmt(DAT data) {
+        CycleLinkedElmt<DAT> result = CycleLinkedElmt.defaultElmt();
+        result.setData(data);
         return result;
     }
 }
