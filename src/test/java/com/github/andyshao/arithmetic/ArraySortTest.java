@@ -20,12 +20,8 @@ public class ArraySortTest {
         313 , 314 , 311 , 316 , 317 , 319 , 312 , 310 , 315 , 318
     };
     private final int[] clipAnswerX = ArrayTools.pack_unpack(this.clipAnswer , int[].class);
-    private final Comparator<Integer> comparator = (i1 , i2) -> {
-        return Integer.compare(i1 , i2);
-    };
-    private final Convert<Integer , Integer> convert = (in) -> {
-        return in;
-    };
+    private final Comparator<Integer> comparator = (i1 , i2) -> Integer.compare(i1 , i2);
+    private final Convert<Integer , Integer> convert = (in) -> in;
 
     private volatile Integer[] data;
     private volatile int[] dataX;

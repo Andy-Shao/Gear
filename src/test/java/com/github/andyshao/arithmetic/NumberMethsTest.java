@@ -18,9 +18,7 @@ public class NumberMethsTest {
         final double[] x = new double[] {
             -3.0 , -2.0 , 2.0 , 3.0
         };
-        Function<Object , Object> function = (input) -> {
-            return new BigDecimal(Objects.toString(input));
-        };
+        Function<Object , Object> function = (input) -> new BigDecimal(Objects.toString(input));
         final BigDecimal[] xX = ArrayTools.pack_unpack(x , BigDecimal[].class , function);
         final double[] fx = new double[] {
             -5.0 , -1.1 , 1.9 , 4.8

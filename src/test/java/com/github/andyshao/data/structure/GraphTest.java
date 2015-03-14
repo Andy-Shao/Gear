@@ -115,11 +115,9 @@ public class GraphTest {
         final DfsVertex<String> ma100 = GraphTest.buildDfsVertex("MA100");
         final DfsVertex<String> ma200 = GraphTest.buildDfsVertex("MA200");
         final DfsVertex<String> ma300 = GraphTest.buildDfsVertex("MA300");
-        Graph<DfsVertex<String>> graph = Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> {
-            return obj1.data().compareTo(obj2.data());
-        } , () -> {
-            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
-        });
+        Graph<DfsVertex<String>> graph =
+            Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
+                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         graph.graph_ins_vertex(cs100);
         graph.graph_ins_vertex(cs200);
         graph.graph_ins_vertex(cs300);

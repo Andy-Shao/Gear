@@ -29,9 +29,7 @@ public interface Convert<IN , OUT> {
         return builder.toString();
     };
     public static final Convert<String , Byte[]> HEX_2_BYTES = new ConvertStr2Byte();
-    public static final Convert<String , byte[]> HEX_TO_BYTES = (String in) -> {
-        return ConvertStr2Byte.hexStringTobytes(in);
-    };
+    public static final Convert<String , byte[]> HEX_TO_BYTES = (String in) -> ConvertStr2Byte.hexStringTobytes(in);
     public static final Convert<Object , Boolean> OB_2_BOOLEAN = (Object in) -> {
         String str = Convert.OB_2_STR.convert(in);
         return str == null ? null : Boolean.valueOf(str);
@@ -56,16 +54,12 @@ public interface Convert<IN , OUT> {
         String str = Convert.OB_2_STR.convert(in);
         return str == null ? null : Long.valueOf(str);
     };
-    public static final Convert<Object , Object> OB_2_OB = (Object in) -> {
-        return in;
-    };
+    public static final Convert<Object , Object> OB_2_OB = (Object in) -> in;
     public static final Convert<Object , Short> OB_2_SHORT = (Object in) -> {
         String str = Convert.OB_2_STR.convert(in);
         return str == null ? null : Short.valueOf(str);
     };
-    public static final Convert<Object , String> OB_2_STR = (Object in) -> {
-        return Objects.toString(in , null);
-    };
+    public static final Convert<Object , String> OB_2_STR = (Object in) -> Objects.toString(in , null);
 
     public static <IN , OUT> OUT converting(IN in , Convert<IN , OUT> convert) {
         return convert.convert(in);

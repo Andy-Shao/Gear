@@ -16,9 +16,7 @@ public class BitTreeTest {
 
     @Before
     public void before() {
-        this.bitree = Bitree.<String> defaultBitTree(() -> {
-            return BitreeNode.<String> defaultBitreeNode();
-        });
+        this.bitree = Bitree.<String> defaultBitTree(() -> BitreeNode.<String> defaultBitreeNode());
     }
 
     @Test
@@ -94,18 +92,13 @@ public class BitTreeTest {
 
     @Test
     public void testMeger() {
-        Bitree<String> left = Bitree.<String> defaultBitTree(() -> {
-            return BitreeNode.<String> defaultBitreeNode();
-        });
-        Bitree<String> right = Bitree.<String> defaultBitTree(() -> {
-            return BitreeNode.<String> defaultBitreeNode();
-        });
+        Bitree<String> left = Bitree.<String> defaultBitTree(() -> BitreeNode.<String> defaultBitreeNode());
+        Bitree<String> right = Bitree.<String> defaultBitTree(() -> BitreeNode.<String> defaultBitreeNode());
 
         left.bitree_ins_left(null , "left");
         right.bitree_ins_left(null , "right");
-        Tree<String> bitree = Bitree.<String> bitreeMerge(() -> {
-            return BitreeNode.<String> defaultBitreeNode();
-        } , left , right , "root");
+        Tree<String> bitree =
+            Bitree.<String> bitreeMerge(() -> BitreeNode.<String> defaultBitreeNode() , left , right , "root");
 
         Assert.assertThat(bitree.size() , Matchers.is(3));
         Assert.assertThat(bitree.root().data() , Matchers.is("root"));

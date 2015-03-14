@@ -16,9 +16,7 @@ public class ByteOperationTest {
         this.b = (byte) 0xa5;
         this.bs = ArrayTools.pack_unpack(new int[] {
             0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff , 0xa5
-        } , byte[].class , (input) -> {
-            return (byte) ((int) input);
-        });
+        } , byte[].class , (input) -> (byte) ((int) input));
     }
 
     @Test

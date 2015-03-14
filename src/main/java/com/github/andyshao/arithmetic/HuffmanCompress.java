@@ -154,15 +154,8 @@ public class HuffmanCompress implements Compress {
     private final Supplier<HuffNode> huffNodeFactory;
 
     public HuffmanCompress() {
-        this(() -> {
-            return HuffCode.defaultHuffCode();
-        } , () -> {
-            return HuffNode.defaultHuffNode();
-        } , () -> {
-            return Bitree.defaultBitTree(() -> {
-                return BitreeNode.defaultBitreeNode();
-            });
-        });
+        this(() -> HuffCode.defaultHuffCode() , () -> HuffNode.defaultHuffNode() , () -> Bitree
+            .defaultBitTree(() -> BitreeNode.defaultBitreeNode()));
     }
 
     public HuffmanCompress(

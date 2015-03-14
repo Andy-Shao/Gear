@@ -16,9 +16,7 @@ public class HeapTest {
 
     @Before
     public void before() {
-        this.heap = Heap.<Double> defaultHeap((d1 , d2) -> {
-            return d1.compareTo(d2);
-        });
+        this.heap = Heap.<Double> defaultHeap((d1 , d2) -> d1.compareTo(d2));
     }
 
     @Test
@@ -26,9 +24,7 @@ public class HeapTest {
         this.testInsert();
 
         Double head = this.heap.heap_extract();
-        PriorityQueue<Double> queue = new PriorityQueue<Double>((d1 , d2) -> {
-            return d1.compareTo(d2);
-        });
+        PriorityQueue<Double> queue = new PriorityQueue<Double>((d1 , d2) -> d1.compareTo(d2));
         for (Double d : this.data)
             queue.add(d);
         Double first = queue.poll();

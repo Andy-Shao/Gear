@@ -9,9 +9,7 @@ import org.junit.Test;
 import com.github.andyshao.util.ArrayTools;
 
 public class ArraySearchTest {
-    private final Comparator<Integer> comparator = (i1 , i2) -> {
-        return Integer.compare(i1 , i2);
-    };
+    private final Comparator<Integer> comparator = (i1 , i2) -> Integer.compare(i1 , i2);
     private final int[] data = new int[] {
         0 , 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9
     };
