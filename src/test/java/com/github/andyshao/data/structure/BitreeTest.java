@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
-public class BitTreeTest {
+public class BitreeTest {
 
     private volatile Bitree<String> bitree;
 
@@ -97,8 +97,7 @@ public class BitTreeTest {
 
         left.bitree_ins_left(null , "left");
         right.bitree_ins_left(null , "right");
-        Tree<String> bitree =
-            Bitree.<String> bitreeMerge(() -> BitreeNode.<String> defaultBitreeNode() , left , right , "root");
+        Tree<String> bitree = this.bitree.bitreeMeger(left , right , "root");
 
         Assert.assertThat(bitree.size() , Matchers.is(3));
         Assert.assertThat(bitree.root().data() , Matchers.is("root"));

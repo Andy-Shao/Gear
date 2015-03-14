@@ -186,6 +186,11 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
+        public Bitree<DATA> bitreeMeger(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+            return new MyBitree<DATA>(this.getTreeNodeFactory() , left , right , data);
+        }
+
+        @Override
         public void clear() {
             this.root = null;
             this.size = 0;
@@ -214,11 +219,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
         return node.left() == null && node.right() == null;
-    }
-
-    public static <DATA> Bitree<DATA> bitreeMerge(
-        Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
-        return new Bitree.MyBitree<>(treeNodeFactory , left , right , data);
     }
 
     public static <DATA> Bitree<DATA> defaultBitTree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
@@ -301,6 +301,8 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
      * @throws TreeOperationException other exception of action'
      */
     public void bitree_rem_right(BitreeNode<D> node) throws TreeOperationException;
+
+    public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
 
     @Override
     public default void clear() {

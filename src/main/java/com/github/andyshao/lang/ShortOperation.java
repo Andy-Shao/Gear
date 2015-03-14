@@ -18,6 +18,21 @@ public final class ShortOperation {
         };
     }
 
+    public static final short valueOf(byte[] bs) {
+        short s = 0x0000;
+        s |= bs[0];
+        s |= bs[1] << 8;
+        return s;
+    }
+
+    public static final int toUnsingedInt(short unsignedShort) {
+        return 0x0000ffff & unsignedShort;
+    }
+
+    public static final long toUnsingedLong(short unsingedShort) {
+        return 0x000000000000ffffL & unsingedShort;
+    }
+
     private ShortOperation() {
         throw new AssertionError("No " + ShortOperation.class + " for you!");
     }

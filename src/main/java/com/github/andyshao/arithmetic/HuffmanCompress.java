@@ -183,9 +183,8 @@ public class HuffmanCompress implements Compress {
     }
 
     public final Bitree<HuffNode> buildTree(int[] freqs) {
-        PriorityQueue<Bitree<HuffNode>> pqueue = new PriorityQueue<Bitree<HuffNode>>((tree1 , tree2) -> {
-            return HuffmanCompress.compareFreq(tree1 , tree2);
-        });
+        PriorityQueue<Bitree<HuffNode>> pqueue =
+            new PriorityQueue<Bitree<HuffNode>>((tree1 , tree2) -> HuffmanCompress.compareFreq(tree1 , tree2));
 
         for (int c = 0 ; c <= ByteOperation.UNCHAR_MAX ; c++)
             if (freqs[c] != 0) {
@@ -206,7 +205,7 @@ public class HuffmanCompress implements Compress {
             Bitree<HuffNode> right = pqueue.poll();
             HuffNode data = this.getHuffNodeFactory().get();
             data.freq(left.root().data().freq() + right.root().data().freq());
-            Bitree.bitreeMerge(merge.getTreeNodeFactory() , left , right , data);
+//            Bitree.bitreeMerge(merge.getTreeNodeFactory() , left , right , data);
             pqueue.offer(merge);
         }
 
@@ -223,7 +222,7 @@ public class HuffmanCompress implements Compress {
         Arrays.fill(freqs , 0);
 
         if (original.length > 0) for (int ipos = 0 ; ipos < original.length ; ipos++)
-            freqs[original[ipos]]++;
+            freqs[ByteOperation.toUnsignedInt(original[ipos])]++;
 
         //Scale the frequencies to fit into the one byte.
         int max = ByteOperation.UNCHAR_MAX;
