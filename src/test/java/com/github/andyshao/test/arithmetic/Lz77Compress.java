@@ -1,4 +1,4 @@
-package com.github.andyshao.arithmetic;
+package com.github.andyshao.test.arithmetic;
 
 /**
  * 
