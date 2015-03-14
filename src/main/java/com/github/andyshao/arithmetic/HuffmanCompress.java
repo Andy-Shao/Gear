@@ -191,7 +191,7 @@ public class HuffmanCompress implements Compress {
                 //Set up a binary tree for the current symbol and its frequency.
                 Bitree<HuffNode> init = this.getBitreeFactory().get();
                 HuffNode data = this.getHuffNodeFactory().get();
-                data.symbol((byte) c);
+                data.symbol(c);
                 data.freq(freqs[c]);
 
                 init.bitree_ins_left(null , data);
@@ -200,12 +200,12 @@ public class HuffmanCompress implements Compress {
 
         int size = pqueue.size();
         for (int c = 1 ; c <= size - 1 ; c++) {
-            Bitree<HuffNode> merge = this.getBitreeFactory().get();
+            Bitree<HuffNode> merge = null;
             Bitree<HuffNode> left = pqueue.poll();
             Bitree<HuffNode> right = pqueue.poll();
             HuffNode data = this.getHuffNodeFactory().get();
             data.freq(left.root().data().freq() + right.root().data().freq());
-//            Bitree.bitreeMerge(merge.getTreeNodeFactory() , left , right , data);
+            merge = this.getBitreeFactory().get().bitreeMeger(left , right , data);
             pqueue.offer(merge);
         }
 
@@ -240,16 +240,15 @@ public class HuffmanCompress implements Compress {
         {
             Bitree<HuffNode> tree = this.buildTree(freqs);
 
-            Arrays.fill(table , 0);
+            for (int i = 0 ; i < table.length ; i++)
+                table[i] = this.getHuffCodeFactory().get();
             this.buildTable(tree.root() , (short) 0x0000 , 0 , table);
         }
 
         int hsize = (ByteOperation.UNCHAR_MAX + 2);
         byte[] comp =
             ArrayTools.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
-                ArrayTools.pack_unpack(freqs , byte[].class , (input) -> {
-                    return (byte) input;
-                }));
+                ArrayTools.pack_unpack(freqs , byte[].class , (input) -> (byte)((int) input)));
 
         int opos = hsize << 3;
         for (int ipos = 0 ; ipos < original.length ; ipos++) {

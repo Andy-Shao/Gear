@@ -43,7 +43,7 @@ public final class ByteOperation {
      * @return the value 1 or 0
      */
     public static final int bitGet(int pos , final byte... b) {
-        if (pos < 0) throw new IllegalArgumentException();
+        if (pos < 0) throw new IllegalArgumentException("pos is less than 0");
         int value = 0x01 << (pos - (pos >> 3 << 3));
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
