@@ -191,16 +191,17 @@ public interface Graph<D> extends Cleanable {
                 return new HashSet<>();
             });
         };
-        protected SingleLinked<AdjList<DATA>> adjlists;
+        protected Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>> adjlists;
         private final Comparator<DATA> comparator;
         protected int ecount;
-        protected final Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory;
+        protected final Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory;
         protected int vcount;
 
-        public MyGraph(Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
-            this.singleLinkedFactory = singleLinkedFactory;
+        public MyGraph(
+            Comparator<DATA> comparator , Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory) {
+            this.linkedFactory = linkedFactory;
             this.comparator = comparator;
-            this.adjlists = this.singleLinkedFactory.get();
+            this.adjlists = this.linkedFactory.get();
             this.vcount = 0;
             this.ecount = 0;
             this.actionAcount = 0;
@@ -235,7 +236,7 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public SingleLinked<Graph.AdjList<DATA>> graph_adjlists() {
+        public Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>> graph_adjlists() {
             return this.adjlists;
         }
 
@@ -467,7 +468,8 @@ public interface Graph<D> extends Cleanable {
     }
 
     public static <DATA> Graph<DATA> defaultGraph(
-        Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
+        Comparator<DATA> comparator ,
+        Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> singleLinkedFactory) {
         return new MyGraph<DATA>(comparator , singleLinkedFactory);
     }
 
@@ -525,7 +527,7 @@ public interface Graph<D> extends Cleanable {
      */
     public AdjList<D> graph_adjlist(final D data);
 
-    public SingleLinked<AdjList<D>> graph_adjlists();
+    public Linked<AdjList<D> , CycleLinkedElmt<AdjList<D>>> graph_adjlists();
 
     public int graph_ecount();
 

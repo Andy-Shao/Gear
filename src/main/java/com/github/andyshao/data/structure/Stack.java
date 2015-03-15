@@ -18,8 +18,8 @@ import com.github.andyshao.lang.Cleanable;
 public interface Stack<D> extends Cleanable , Iterable<D> {
 
     public static
-        <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E> & SingleLinkedOperation<DATA , E>>
-        Stack<DATA> defaultStack(T linked) {
+        <DATA , E extends Linked.LinkedElmt<DATA , E>>
+        Stack<DATA> defaultStack(Linked<DATA, E> linked) {
         return new Stack<DATA>() {
 
             @Override

@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-@Deprecated
 public class DoubleLinkedTest {
 
     private String[] data = new String[] {
@@ -23,7 +22,7 @@ public class DoubleLinkedTest {
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(0));
 
         for (int i = 0 ; i < this.data.length ; i++)
-            this.doubleLinked.dlist_ins_next(this.doubleLinked.head() , this.data[i]);
+            this.doubleLinked.list_ins_next(this.doubleLinked.head() , this.data[i]);
 
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(2));
     }

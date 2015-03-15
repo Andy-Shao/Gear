@@ -3,6 +3,7 @@ package com.github.andyshao.data.structure;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * 
@@ -17,7 +18,7 @@ import java.util.Objects;
  */
 public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElmt<D>> {
     public interface DoubleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , DoubleLinkedElmt<DATA>> {
-        public static <DATA> DoubleLinkedElmt<DATA> DEFAULT_ELMT(DATA data) {
+        public static <DATA> DoubleLinkedElmt<DATA> defaultElmt(DATA data) {
             DoubleLinkedElmt<DATA> result = new DoubleLinkedElmt<DATA>() {
                 private DATA data;
                 private DoubleLinkedElmt<DATA> next;
@@ -94,45 +95,13 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public void dlist_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
-                //Do not allow a NULL element unless the list is empty.
-                if (element == null && this.size() != 0) throw new LinkedOperationException(
-                    "Do not allow a NULL element unless the list is empty.");
-
-                DoubleLinked.DoubleLinkedElmt<DATA> new_element =
-                    DoubleLinked.DoubleLinkedElmt.<DATA> DEFAULT_ELMT(data);
-
-                if (this.size() == 0) {
-                    //Handle insertion when the list is empty.
-                    this.head = new_element;
-                    this.head.setPrev(null);
-                    this.head.setNext(null);
-                    this.tail = new_element;
-                } else {
-                    //Handle insertion when the list is not empty.
-                    new_element.setNext(element.next());
-                    new_element.setPrev(element);
-
-                    if (element.next() == null) this.tail = new_element;
-                    else element.next().setPrev(new_element);
-
-                    element.setNext(new_element);
-                }
-
-                //Adjust the size of the list to account for the inserted element.
-                this.size++;
-                this.actionCount++;
-
-            }
-
-            @Override
             public void dlist_ins_prev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allowed a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) throw new LinkedOperationException(
                     "Do not allowed a NULL element unless the list is empty.");
 
                 DoubleLinked.DoubleLinkedElmt<DATA> new_element =
-                    DoubleLinked.DoubleLinkedElmt.<DATA> DEFAULT_ELMT(data);
+                    DoubleLinked.DoubleLinkedElmt.<DATA> defaultElmt(data);
 
                 if (this.size() == 0) {
                     //Handle insertion when the list is empty.
@@ -229,6 +198,44 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
+            public void list_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
+                //Do not allow a NULL element unless the list is empty.
+                if (element == null && this.size() != 0) throw new LinkedOperationException(
+                    "Do not allow a NULL element unless the list is empty.");
+
+                DoubleLinked.DoubleLinkedElmt<DATA> new_element =
+                    DoubleLinked.DoubleLinkedElmt.<DATA> defaultElmt(data);
+
+                if (this.size() == 0) {
+                    //Handle insertion when the list is empty.
+                    this.head = new_element;
+                    this.head.setPrev(null);
+                    this.head.setNext(null);
+                    this.tail = new_element;
+                } else {
+                    //Handle insertion when the list is not empty.
+                    new_element.setNext(element.next());
+                    new_element.setPrev(element);
+
+                    if (element.next() == null) this.tail = new_element;
+                    else element.next().setPrev(new_element);
+
+                    element.setNext(new_element);
+                }
+
+                //Adjust the size of the list to account for the inserted element.
+                this.size++;
+                this.actionCount++;
+
+            }
+
+            @Override
+            public DATA list_rem_next(DoubleLinkedElmt<DATA> element) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
             public int size() {
                 return this.size;
             }
@@ -238,10 +245,14 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 return this.tail;
             }
 
+            @Override
+            public Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> getElmtFactory(DATA data) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
         };
     }
-
-    public void dlist_ins_next(DoubleLinkedElmt<D> element , final D data);
 
     public void dlist_ins_prev(DoubleLinkedElmt<D> element , final D data);
 

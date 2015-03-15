@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.util.function.Function;
+
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -34,7 +36,21 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
         public abstract void setNext(T next);
     }
 
+    public Function<D , T> getElmtFactory(D data);
+
     public T head();
+
+    public void list_ins_next(T element , final D data);
+
+    /**
+     * Remove the next element.<br>
+     * If the element is the tail, Then it won't remove anything.
+     * 
+     * @param element the item of linked's
+     * @return if something is removed return data. If it doesn't return null.
+     * @throws LinkedOperationException the operation of remove node
+     */
+    public D list_rem_next(T element);
 
     public int size();
 

@@ -16,15 +16,14 @@ import java.util.function.Function;
  *
  * @param <D> data
  */
-public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , SingleLinkedOperation<D , CycleLinkedElmt<D>> {
-    public class MySingleLinked<D> implements SingleLinked<D> {
+public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>>{
         private class MyIterator implements Iterator<D> {
-            private final long actionCount = MySingleLinked.this.actionCount;
-            private volatile CycleLinkedElmt<D> index = MySingleLinked.this.head();
+            private final long actionCount = SingleLinked.this.actionCount;
+            private volatile CycleLinkedElmt<D> index = SingleLinked.this.head();
 
             @Override
             public boolean hasNext() {
-                if (this.actionCount != MySingleLinked.this.actionCount) throw new ConcurrentModificationException();
+                if (this.actionCount != SingleLinked.this.actionCount) throw new ConcurrentModificationException();
                 return this.index != null;
             }
 
@@ -43,7 +42,7 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         private int size = 0;
         private CycleLinkedElmt<D> tail;
 
-        public MySingleLinked(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt) {
+        public SingleLinked(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt) {
             this.cycleLinkedElmt = cycleLinkedElmt;
         }
 
@@ -70,11 +69,6 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
                 return this.size() == that.size() && Objects.equals(this.head() , that.head())
                     && Objects.equals(this.tail() , that.tail());
             } else return false;
-        }
-
-        @Override
-        public Function<D , CycleLinkedElmt<D>> getCycleLinkedElmtFactory() {
-            return this.cycleLinkedElmt;
         }
 
         @Override
@@ -159,17 +153,13 @@ public interface SingleLinked<D> extends Linked<D , CycleLinkedElmt<D>> , Single
         public CycleLinkedElmt<D> tail() {
             return this.tail;
         }
-    }
+
+        @Override
+        public Function<D , CycleLinkedElmt<D>> getElmtFactory(D data) {
+            return this.cycleLinkedElmt;
+        }
 
     public static <DATA> SingleLinked<DATA> defaultSingleLinked(Function<DATA , CycleLinkedElmt<DATA>> cycleLinkedElmt) {
-        return new MySingleLinked<DATA>(cycleLinkedElmt);
+        return new SingleLinked<DATA>(cycleLinkedElmt);
     }
-
-    public Function<D , CycleLinkedElmt<D>> getCycleLinkedElmtFactory();
-
-    @Override
-    public void list_ins_next(CycleLinkedElmt<D> element , final D data);
-
-    @Override
-    public D list_rem_next(CycleLinkedElmt<D> element);
 }

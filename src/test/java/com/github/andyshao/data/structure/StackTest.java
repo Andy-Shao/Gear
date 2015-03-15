@@ -16,12 +16,10 @@ public class StackTest {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
             {
-                Stack.<String , CycleLinkedElmt<String> , SingleLinked<String>> defaultStack(SingleLinked
+                Stack.<String , CycleLinkedElmt<String>> defaultStack(SingleLinked
                     .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
-            } ,
-            {
-                Stack.<String , CycleLinkedElmt<String> , CycleLinked<String>> defaultStack(CycleLinked
-                    .defaultCycleLinked())
+            } , {
+                Stack.<String , CycleLinkedElmt<String>> defaultStack(CycleLinked.defaultCycleLinked())
             }
         });
     }

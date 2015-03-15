@@ -1,6 +1,7 @@
 package com.github.andyshao.test.data.structure;
 
 import java.util.Iterator;
+import java.util.function.Function;
 
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Linked;
@@ -118,6 +119,21 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             @Override
             public CycleLinkedElmt<DATA> tail() {
                 return linked.tail();
+            }
+
+            @Override
+            public void list_ins_next(CycleLinkedElmt<DATA> element , DATA data) {
+                linked.list_ins_next(element , data);
+            }
+
+            @Override
+            public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
+                return linked.list_rem_next(element);
+            }
+
+            @Override
+            public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
+                return linked.getElmtFactory(data);
             }
         };
     }
