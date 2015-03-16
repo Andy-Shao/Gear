@@ -1,5 +1,15 @@
 package com.github.andyshao.arithmetic;
 
+/**
+ * 
+ * Title:<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Mar 16, 2015<br>
+ * Encoding:UNIX UTF-8
+ * 
+ * @author Andy.Shao
+ *
+ */
 public class GraphAlgException extends ArithmeticException {
     private static final long serialVersionUID = 6039554849054230704L;
 

@@ -3,7 +3,6 @@ package com.github.andyshao.arithmetic;
 import java.util.Collection;
 import java.util.Comparator;
 
-import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.Graph.AdjList;
 import com.github.andyshao.data.structure.Graph.VertexColor;
@@ -20,25 +19,25 @@ import com.github.andyshao.data.structure.Graph.VertexColor;
  */
 public final class GraphAlg {
     public static class MstVertex<DATA> {
-        public DATA data;
-        public double weight;
         public VertexColor color;
+        public DATA data;
         public double key;
         public MstVertex<DATA> parent;
+        public double weight;
     }
 
     public static class PathVertex<DATA> {
-        public DATA data;
-        public double weight;
         public VertexColor color;
         public double d;
+        public DATA data;
         public PathVertex<DATA> parent;
+        public double weight;
     }
 
     public static class TspVertex<DATA> {
+        public VertexColor color;
         public DATA data;
         public double x , y;
-        public VertexColor color;
     }
 
     public static final <DATA> Collection<MstVertex<DATA>> mst(
@@ -47,9 +46,8 @@ public final class GraphAlg {
         //Initialize all of the vertices in the graph.
         boolean found = false;
 
-        for (CycleLinkedElmt<AdjList<MstVertex<DATA>>> element = graph.graph_adjlists().head() ; element != null ; element =
-            element.next()) {
-            MstVertex<DATA> mst_vertex = element.data().vertex();
+        for (AdjList<MstVertex<DATA>> element : graph.graph_adjlists()) {
+            MstVertex<DATA> mst_vertex = element.vertex();
 
             if (comparator.compare(mst_vertex , start) == 0) {
                 //Initialize the start vertex.
@@ -71,6 +69,42 @@ public final class GraphAlg {
         for (int i = 0 ; i < graph.graph_vcount() ; i++) {
             //Select the white vertex with the smallest key value.
             double minimum = Double.MAX_VALUE;
+            AdjList<MstVertex<DATA>> adjlist = null;
+            for (AdjList<MstVertex<DATA>> element : graph.graph_adjlists()) {
+                MstVertex<DATA> mst_vertex = element.vertex();
+
+                if (mst_vertex.color == VertexColor.WHITE && mst_vertex.key < minimum) {
+                    minimum = mst_vertex.key;
+                    adjlist = element;
+                }
+            }
+            //Color the selected vertex black.
+            adjlist.vertex().color = VertexColor.BLACK;
+
+            //Traverse each vertex adjacent to the selected vertex.
+            for (MstVertex<DATA> adj_vertex : adjlist.adjacent())
+                //Find the adjacent vertex in the list of adjacency-list structures.
+                ELEMENT: for (AdjList<MstVertex<DATA>> element : graph.graph_adjlists()) {
+                    MstVertex<DATA> mst_vertex = element.vertex();
+
+                    if (comparator.compare(mst_vertex , adj_vertex) == 0) {
+                        //Decide whether to chagne the key value and parent of the
+                        //addjacent vertex in the list of adjacency-list structures.
+                        if (mst_vertex.color == VertexColor.WHITE && adj_vertex.weight < mst_vertex.key) {
+                            mst_vertex.key = adj_vertex.weight;
+                            mst_vertex.parent = adjlist.vertex();
+                        }
+                        break ELEMENT;
+                    }
+                }
+        }
+
+        //Load the minimum spanning tree into a list.
+        for (AdjList<MstVertex<DATA>> element : graph.graph_adjlists()) {
+            //Load each black vertex from the list of adjacency-list structures.
+            MstVertex<DATA> mst_vertex = element.vertex();
+
+            if (mst_vertex.color == VertexColor.BLACK) result.add(mst_vertex);
         }
 
         return result;
