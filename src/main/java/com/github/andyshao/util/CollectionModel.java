@@ -52,13 +52,6 @@ public interface CollectionModel<E> extends Collection<E> {
     }
 
     @Override
-    public default boolean retainAll(Collection<?> c) {
-        for (E e : this)
-            if (!c.contains(e)) this.remove(e);
-        return true;
-    }
-
-    @Override
     public default Object[] toArray() {
         Object[] array = new Object[this.size()];
         int index = 0;
