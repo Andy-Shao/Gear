@@ -8,7 +8,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.andyshao.lang.Convert;
-import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 

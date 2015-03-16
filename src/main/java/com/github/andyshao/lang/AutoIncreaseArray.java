@@ -173,15 +173,14 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         return new CollectionModel<D>() {
 
             @Override
-            public int size() {
-                return AutoIncreaseArray.this.size();
+            public boolean add(D e) {
+                AutoIncreaseArray.this.addTail(e);
+                return true;
             }
 
             @Override
-            public boolean contains(Object o) {
-                for (D d : this)
-                    if (d.equals(o)) return true;
-                return false;
+            public void clear() {
+                AutoIncreaseArray.this.clear();
             }
 
             @Override
@@ -190,25 +189,25 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
             }
 
             @Override
-            public boolean add(D e) {
-                AutoIncreaseArray.this.addTail(e);
-                return true;
-            }
-
-            @Override
             public boolean remove(Object o) {
-                for(int i=0; i< this.size(); i++){
-                    if(Objects.equals(o , AutoIncreaseArray.this.get(i))){
-                        
+                for (int i = 0 ; i < this.size() ; i++)
+                    if (Objects.equals(o , AutoIncreaseArray.this.get(i))) {
+                        AutoIncreaseArray.this.remove(i);
                         break;
                     }
-                }
                 return true;
             }
 
             @Override
-            public void clear() {
-                AutoIncreaseArray.this.clear();
+            public boolean retainAll(Collection<?> c) {
+                for (int i = 0 ; i < this.size() ; i++)
+                    if (!c.contains(AutoIncreaseArray.this.get(i))) AutoIncreaseArray.this.remove(i);
+                return true;
+            }
+
+            @Override
+            public int size() {
+                return AutoIncreaseArray.this.size();
             }
         };
     }

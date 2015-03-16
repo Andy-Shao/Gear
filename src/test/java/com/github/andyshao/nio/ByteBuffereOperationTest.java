@@ -7,8 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.nio.ByteBuffereOperation;
-
 public class ByteBuffereOperationTest {
 
     private volatile ByteBuffer buffer;

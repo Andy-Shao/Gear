@@ -248,7 +248,7 @@ public class HuffmanCompress implements Compress {
         int hsize = (ByteOperation.UNCHAR_MAX + 2);
         byte[] comp =
             ArrayOperation.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
-                ArrayOperation.pack_unpack(freqs , byte[].class , (input) -> (byte)((int) input)));
+                ArrayOperation.pack_unpack(freqs , byte[].class , (input) -> (byte) ((int) input)));
 
         int opos = hsize << 3;
         for (int ipos = 0 ; ipos < original.length ; ipos++) {

@@ -5,8 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.lang.StringOperation;
-
 public class StringOperationTest {
     private volatile String str;
 

@@ -24,11 +24,8 @@ public final class IntegerOperation {
         };
     }
 
-    public static final int valueOf(short[] s) {
-        int i = 0x00000000;
-        i |= s[0];
-        i |= s[1] << 16;
-        return i;
+    public static final long toUnsingedLong(int unsingedInt) {
+        return 0x00000000ffffffffL & unsingedInt;
     }
 
     public static final int valueOf(byte[] bs) {
@@ -40,8 +37,11 @@ public final class IntegerOperation {
         return i;
     }
 
-    public static final long toUnsingedLong(int unsingedInt) {
-        return 0x00000000ffffffffL & unsingedInt;
+    public static final int valueOf(short[] s) {
+        int i = 0x00000000;
+        i |= s[0];
+        i |= s[1] << 16;
+        return i;
     }
 
     private IntegerOperation() {

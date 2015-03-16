@@ -15,10 +15,17 @@ import java.util.function.Function;
  *
  * @param <DATA> data
  */
-public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>>{
-    
+public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
+
+    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
+        return new CycleLinked<DATA>() {
+
+        };
+    }
+
     private long actionAccount = 0;
     private CycleLinkedElmt<DATA> head;
+
     private int size;
 
     @Override
@@ -34,6 +41,12 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>>{
     }
 
     @Override
+    public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
     public CycleLinkedElmt<DATA> head() {
         return this.head;
     }
@@ -43,12 +56,12 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>>{
         return new Iterator<DATA>() {
             private volatile boolean asked = false;
             private volatile CycleLinkedElmt<DATA> index;
-            private final long linkedActionAccount = actionAccount;
+            private final long linkedActionAccount = CycleLinked.this.actionAccount;
 
             @Override
             public boolean hasNext() {
-                if (this.linkedActionAccount != actionAccount) throw new ConcurrentModificationException();
-                else if (this.asked && this.index.equals(head)) return false;
+                if (this.linkedActionAccount != CycleLinked.this.actionAccount) throw new ConcurrentModificationException();
+                else if (this.asked && this.index.equals(CycleLinked.this.head)) return false;
                 else if (!this.asked) this.asked = true;
                 return this.index != null;
             }
@@ -106,9 +119,6 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>>{
             if (old_element == this.head) this.head = old_element.next();
         }
 
-        //Free the storage allocated by the abstract datatype.
-        old_element.free();
-
         //Adjust the size of the list to account for the removed element.
         this.size--;
         this.actionAccount++;
@@ -124,18 +134,5 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>>{
     @Override
     public CycleLinkedElmt<DATA> tail() {
         return this.head;
-    }
-
-    @Override
-    public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
-        return new CycleLinked<DATA>() {
-            
-
-        };
     }
 }

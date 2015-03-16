@@ -156,17 +156,17 @@ public final class ByteOperation {
             str += ByteOperation.toString(b) + ",";
         return str.substring(0 , str.length() - 1);
     }
-    
-    public static final short toUnsignedShort(byte unsignedByte){
-        return (short) (0x00ff & unsignedByte);
-    }
-    
-    public static final int toUnsignedInt(byte unsignedByte){
+
+    public static final int toUnsignedInt(byte unsignedByte) {
         return 0x000000ff & unsignedByte;
     }
-    
-    public static final long toUnsignedLong(byte unsignedByte){
+
+    public static final long toUnsignedLong(byte unsignedByte) {
         return 0x00000000000000ffL & unsignedByte;
+    }
+
+    public static final short toUnsignedShort(byte unsignedByte) {
+        return (short) (0x00ff & unsignedByte);
     }
 
     private ByteOperation() {

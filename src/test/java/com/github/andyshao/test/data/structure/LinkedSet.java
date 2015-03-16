@@ -42,6 +42,11 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             }
 
             @Override
+            public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
+                return linked.getElmtFactory(data);
+            }
+
+            @Override
             public int hashCode() {
                 int result = 0;
                 for (CycleLinkedElmt<DATA> member = this.head() ; member != null ; member = member.next())
@@ -57,6 +62,16 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             @Override
             public Iterator<DATA> iterator() {
                 return linked.iterator();
+            }
+
+            @Override
+            public void list_ins_next(CycleLinkedElmt<DATA> element , DATA data) {
+                linked.list_ins_next(element , data);
+            }
+
+            @Override
+            public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
+                return linked.list_rem_next(element);
             }
 
             @Override
@@ -119,21 +134,6 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             @Override
             public CycleLinkedElmt<DATA> tail() {
                 return linked.tail();
-            }
-
-            @Override
-            public void list_ins_next(CycleLinkedElmt<DATA> element , DATA data) {
-                linked.list_ins_next(element , data);
-            }
-
-            @Override
-            public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
-                return linked.list_rem_next(element);
-            }
-
-            @Override
-            public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
-                return linked.getElmtFactory(data);
             }
         };
     }

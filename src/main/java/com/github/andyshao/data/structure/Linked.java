@@ -1,8 +1,12 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.Cleanable;
+import com.github.andyshao.util.CollectionModel;
 
 /**
  * 
@@ -55,4 +59,52 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
     public int size();
 
     public T tail();
+
+    public default Collection<D> toCollection() {
+        return new CollectionModel<D>() {
+
+            @Override
+            public boolean add(D e) {
+                Linked.this.list_ins_next(Linked.this.tail() , e);
+                return true;
+            }
+
+            @Override
+            public void clear() {
+                Linked.this.clear();
+            }
+
+            @Override
+            public Iterator<D> iterator() {
+                return Linked.this.iterator();
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                T prev = null;
+                for (T element = Linked.this.head() ; element != null ; element = element.next()) {
+                    if (Objects.equals(element.data() , o)) {
+                        Linked.this.list_rem_next(prev);
+                        break;
+                    }
+                    prev = element;
+                }
+                return true;
+            }
+
+            @Override
+            public boolean retainAll(Collection<?> c) {
+                T prev = null;
+                for (T element = Linked.this.head() ; element != null ; element = element.next())
+                    if (!c.contains(element.data())) Linked.this.list_rem_next(prev);
+                    else prev = element;
+                return true;
+            }
+
+            @Override
+            public int size() {
+                return Linked.this.size();
+            }
+        };
+    }
 }

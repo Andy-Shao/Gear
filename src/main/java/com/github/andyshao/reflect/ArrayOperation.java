@@ -248,11 +248,11 @@ public final class ArrayOperation {
         if (start >= Array.getLength(array)) return array;
 
         T head =
-            start == 0 ? ArrayOperation.splitArray(array , end , Array.getLength(array)) : ArrayOperation.splitArray(array , 0 ,
-                start);
+            start == 0 ? ArrayOperation.splitArray(array , end , Array.getLength(array)) : ArrayOperation.splitArray(
+                array , 0 , start);
         T tail =
-            start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0) : ArrayOperation.splitArray(array ,
-                end , Array.getLength(array));
+            start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0) : ArrayOperation.splitArray(
+                array , end , Array.getLength(array));
         array = ArrayOperation.mergeArray((Class<T>) array.getClass() , head , tail);
 
         return array;

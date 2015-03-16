@@ -6,14 +6,13 @@ public class CycleLinkedElmt<DATA> implements Linked.LinkedElmt<DATA , CycleLink
     public static <DAT> CycleLinkedElmt<DAT> defaultElmt() {
         return new CycleLinkedElmt<DAT>();
     }
-    
 
     public static <DAT> CycleLinkedElmt<DAT> defaultElmt(DAT data) {
         CycleLinkedElmt<DAT> result = CycleLinkedElmt.defaultElmt();
         result.setData(data);
         return result;
     }
-    
+
     private DATA data;
     private CycleLinkedElmt<DATA> next;
 

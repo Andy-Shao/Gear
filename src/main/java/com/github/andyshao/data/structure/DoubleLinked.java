@@ -166,6 +166,12 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
+            public Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> getElmtFactory(DATA data) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
             public int hashCode() {
                 return Objects.hash(this.head , this.size , this.tail);
             }
@@ -243,12 +249,6 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             @Override
             public DoubleLinked.DoubleLinkedElmt<DATA> tail() {
                 return this.tail;
-            }
-
-            @Override
-            public Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> getElmtFactory(DATA data) {
-                // TODO Auto-generated method stub
-                return null;
             }
 
         };
