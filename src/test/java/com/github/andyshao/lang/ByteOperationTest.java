@@ -5,7 +5,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.andyshao.util.ArrayTools;
+import com.github.andyshao.reflect.ArrayOperation;
 
 public class ByteOperationTest {
     private volatile byte b;
@@ -14,7 +14,7 @@ public class ByteOperationTest {
     @Before
     public void before() {
         this.b = (byte) 0xa5;
-        this.bs = ArrayTools.pack_unpack(new int[] {
+        this.bs = ArrayOperation.pack_unpack(new int[] {
             0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff , 0xa5
         } , byte[].class , (input) -> (byte) ((int) input));
     }

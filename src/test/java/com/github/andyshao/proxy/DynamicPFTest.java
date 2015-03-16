@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.andyshao.proxy.DynamicProxyFactoryTest.MyInterface;
-import com.github.andyshao.util.Reflects;
+import com.github.andyshao.reflect.Reflects;
 
 public class DynamicPFTest {
 

@@ -1,4 +1,4 @@
-package com.github.andyshao.convert;
+package com.github.andyshao.lang;
 
 import java.util.Objects;
 

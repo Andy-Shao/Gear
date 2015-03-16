@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.andyshao.util.Reflects;
+import com.github.andyshao.reflect.Reflects;
 
 /**
  * 

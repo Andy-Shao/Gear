@@ -1,4 +1,4 @@
-package com.github.andyshao.convert;
+package com.github.andyshao.lang;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -9,7 +9,8 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.util.ArrayTools;
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.reflect.ArrayOperation;
 
 public class ConvertTest {
 
@@ -28,12 +29,12 @@ public class ConvertTest {
         byte[] bs = "Andy-Shao".getBytes();
 
         {
-            String hexStr = Convert.BYTES_2_HEX.convert(ArrayTools.pack_unpack(bs , Byte[].class));
+            String hexStr = Convert.BYTES_2_HEX.convert(ArrayOperation.pack_unpack(bs , Byte[].class));
             Assert.assertTrue(hexStr.equalsIgnoreCase(hexString));
         }
 
         {
-            byte[] bs2 = ArrayTools.pack_unpack(Convert.HEX_2_BYTES.convert(hexString) , byte[].class);
+            byte[] bs2 = ArrayOperation.pack_unpack(Convert.HEX_2_BYTES.convert(hexString) , byte[].class);
             Assert.assertArrayEquals(bs , bs2);
         }
     }

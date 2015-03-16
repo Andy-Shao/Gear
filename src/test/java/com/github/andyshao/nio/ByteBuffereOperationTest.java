@@ -1,4 +1,4 @@
-package com.github.andyshao.util;
+package com.github.andyshao.nio;
 
 import java.nio.ByteBuffer;
 
@@ -7,7 +7,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ByteBuffereToolsTest {
+import com.github.andyshao.nio.ByteBuffereOperation;
+
+public class ByteBuffereOperationTest {
 
     private volatile ByteBuffer buffer;
 
@@ -22,7 +24,7 @@ public class ByteBuffereToolsTest {
         this.buffer.put(before);
         this.buffer.flip();
 
-        byte[] after = ByteBuffereTools.usedArray(this.buffer);
+        byte[] after = ByteBuffereOperation.usedArray(this.buffer);
         Assert.assertThat(before.length , Matchers.is(after.length));
         Assert.assertThat(new String(after) , Matchers.is("Andy-Shao"));
     }

@@ -3,7 +3,7 @@ package com.github.andyshao.test.data.structure.convert;
 import java.util.Iterator;
 import java.util.Set;
 
-import com.github.andyshao.convert.Convert;
+import com.github.andyshao.lang.Convert;
 
 /**
  * 

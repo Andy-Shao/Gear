@@ -1,4 +1,6 @@
-package com.github.andyshao.util;
+package com.github.andyshao.lang;
+
+import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -10,14 +12,14 @@ package com.github.andyshao.util;
  * @author Andy.Shao
  *
  */
-public final class StringTools {
+public final class StringOperation {
     /**
      * 
      * @param str a string which should be flipped
      * @return A string which has flipped.
      */
     public static String flipString(String str) {
-        return new String(ArrayTools.flipArray(str.toCharArray()));
+        return new String(ArrayOperation.flipArray(str.toCharArray()));
     }
 
     /**
@@ -60,7 +62,7 @@ public final class StringTools {
      */
     public static String replaceAll(String str , String key , String padding) {
         while (str.indexOf(key) != -1)
-            str = StringTools.replaceFirst(str , key , padding);
+            str = StringOperation.replaceFirst(str , key , padding);
         return str;
     }
 
@@ -74,7 +76,7 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceFirst(String str , String key , String padding) {
-        return StringTools.replace(str , padding , str.indexOf(key) , key.length());
+        return StringOperation.replace(str , padding , str.indexOf(key) , key.length());
     }
 
     /**
@@ -87,7 +89,7 @@ public final class StringTools {
      * @return the end of the string
      */
     public static String replaceLast(String str , String key , String padding) {
-        return StringTools.replace(str , padding , str.lastIndexOf(key) , key.length());
+        return StringOperation.replace(str , padding , str.lastIndexOf(key) , key.length());
     }
 
     /**
@@ -101,19 +103,19 @@ public final class StringTools {
     public static String[] split(String str , String separator) {
         String[] result = new String[0];
         for (int index ; (index = str.indexOf(separator)) != -1 ;) {
-            result = ArrayTools.mergeArray(String[].class , result , new String[] {
+            result = ArrayOperation.mergeArray(String[].class , result , new String[] {
                 str.substring(0 , index)
             });
             str = str.substring(index + separator.length());
         }
-        if (str.length() != 0) result = ArrayTools.mergeArray(String[].class , result , new String[] {
+        if (str.length() != 0) result = ArrayOperation.mergeArray(String[].class , result , new String[] {
             str
         });
 
         return result;
     }
 
-    private StringTools() {
-        throw new AssertionError("Not allowed to instance " + StringTools.class.getName());
+    private StringOperation() {
+        throw new AssertionError("Not allowed to instance " + StringOperation.class.getName());
     }
 }

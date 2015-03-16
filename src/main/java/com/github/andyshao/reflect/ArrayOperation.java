@@ -1,10 +1,10 @@
-package com.github.andyshao.util;
+package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.github.andyshao.convert.Convert;
+import com.github.andyshao.lang.Convert;
 
 /**
  * Some tools of {@link Array}<br>
@@ -14,7 +14,7 @@ import com.github.andyshao.convert.Convert;
  * 
  * @author Andy
  */
-public final class ArrayTools {
+public final class ArrayOperation {
     /**
      * Let a Object[][] convert to a Map.
      * Let Object[i][0] is key and Object[i][1] is value.
@@ -92,7 +92,7 @@ public final class ArrayTools {
      */
     @SuppressWarnings("unchecked")
     public static <T> T getValue(T array , int index , T nullDefault) {
-        if (ArrayTools.isAbove(array , index)) return nullDefault;
+        if (ArrayOperation.isAbove(array , index)) return nullDefault;
         return (T) Array.get(array , index);
     }
 
@@ -116,7 +116,7 @@ public final class ArrayTools {
      *         true
      */
     public static <T> boolean isEmpty(T array , int index) {
-        return ArrayTools.isAbove(array , index) ? false : Array.get(array , index) == null;
+        return ArrayOperation.isAbove(array , index) ? false : Array.get(array , index) == null;
     }
 
     /**
@@ -155,7 +155,7 @@ public final class ArrayTools {
      * @return output array
      */
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
-        return ArrayTools.pack_unpack(in , outClazz , (Object input) -> {
+        return ArrayOperation.pack_unpack(in , outClazz , (Object input) -> {
             return input;
         });
     }
@@ -197,7 +197,7 @@ public final class ArrayTools {
     public static <T , I> T removeAllItem(T array , I item) {
         ARRAY: for (int i = 0 ; i < Array.getLength(array) ; i++)
             if (Array.get(array , i).equals(item)) {
-                array = ArrayTools.removeItem(array , i);
+                array = ArrayOperation.removeItem(array , i);
                 continue ARRAY;
             }
         return array;
@@ -214,8 +214,8 @@ public final class ArrayTools {
      * @return a array which has been processed.
      */
     public static <T , I> T removeFirstItem(T array , I item) {
-        int index = ArrayTools.findFirstItem(array , item);
-        if (index >= 0) array = ArrayTools.removeItem(array , index);
+        int index = ArrayOperation.findFirstItem(array , item);
+        if (index >= 0) array = ArrayOperation.removeItem(array , index);
         return array;
     }
 
@@ -229,7 +229,7 @@ public final class ArrayTools {
      * @return a array which has been processed.
      */
     public static <T> T removeItem(T array , int i) {
-        return ArrayTools.removeItem(array , i , i + 1);
+        return ArrayOperation.removeItem(array , i , i + 1);
     }
 
     /**
@@ -248,12 +248,12 @@ public final class ArrayTools {
         if (start >= Array.getLength(array)) return array;
 
         T head =
-            start == 0 ? ArrayTools.splitArray(array , end , Array.getLength(array)) : ArrayTools.splitArray(array , 0 ,
+            start == 0 ? ArrayOperation.splitArray(array , end , Array.getLength(array)) : ArrayOperation.splitArray(array , 0 ,
                 start);
         T tail =
-            start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0) : ArrayTools.splitArray(array ,
+            start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0) : ArrayOperation.splitArray(array ,
                 end , Array.getLength(array));
-        array = ArrayTools.mergeArray((Class<T>) array.getClass() , head , tail);
+        array = ArrayOperation.mergeArray((Class<T>) array.getClass() , head , tail);
 
         return array;
     }
@@ -269,8 +269,8 @@ public final class ArrayTools {
      * @return a array which has been processed.
      */
     public static <T , I> T removeLastItem(T array , I item) {
-        int index = ArrayTools.findLastItem(array , item);
-        if (index >= 0) array = ArrayTools.removeItem(array , index);
+        int index = ArrayOperation.findLastItem(array , item);
+        if (index >= 0) array = ArrayOperation.removeItem(array , index);
         return array;
     }
 
@@ -305,7 +305,7 @@ public final class ArrayTools {
         return targets;
     }
 
-    private ArrayTools() {
+    private ArrayOperation() {
         throw new AssertionError("No ArrayTools instances for you!");
     }
 }

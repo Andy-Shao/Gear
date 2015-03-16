@@ -1,4 +1,4 @@
-package com.github.andyshao.util;
+package com.github.andyshao.reflect;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
@@ -296,10 +296,10 @@ public final class Reflects {
         Field[] result = new Field[0];
         if (clazz.getSuperclass() != null) {
             Field[] fields = Reflects.superGetDeclaredFields(clazz.getSuperclass());
-            result = ArrayTools.mergeArray(Field[].class , result , fields);
+            result = ArrayOperation.mergeArray(Field[].class , result , fields);
         }
         Field[] fields = clazz.getDeclaredFields();
-        result = ArrayTools.mergeArray(Field[].class , result , fields);
+        result = ArrayOperation.mergeArray(Field[].class , result , fields);
 
         return result;
     }

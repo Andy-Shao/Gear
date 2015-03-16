@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.util.Reflects;
+import com.github.andyshao.reflect.Reflects;
 
 public class CglibProxyFactoryTest {
 

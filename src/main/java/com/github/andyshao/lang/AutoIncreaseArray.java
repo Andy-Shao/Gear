@@ -1,10 +1,13 @@
 package com.github.andyshao.lang;
 
 import java.lang.reflect.Array;
+import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.Objects;
 
-import com.github.andyshao.util.ArrayTools;
+import com.github.andyshao.reflect.ArrayOperation;
+import com.github.andyshao.util.CollectionModel;
 
 /**
  * 
@@ -122,7 +125,7 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
         index = index + this.start;
         D result = this.array[index];
-        this.array = ArrayTools.removeItem(this.array , index);
+        this.array = ArrayOperation.removeItem(this.array , index);
         this.actionAccount++;
         this.size--;
         return result;
@@ -164,5 +167,49 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         D[] result = (D[]) Array.newInstance(this.array.getClass().getComponentType() , this.size());
         System.arraycopy(this.array , this.start , result , 0 , result.length);
         return result;
+    }
+
+    public Collection<D> toCollection() {
+        return new CollectionModel<D>() {
+
+            @Override
+            public int size() {
+                return AutoIncreaseArray.this.size();
+            }
+
+            @Override
+            public boolean contains(Object o) {
+                for (D d : this)
+                    if (d.equals(o)) return true;
+                return false;
+            }
+
+            @Override
+            public Iterator<D> iterator() {
+                return AutoIncreaseArray.this.iterator();
+            }
+
+            @Override
+            public boolean add(D e) {
+                AutoIncreaseArray.this.addTail(e);
+                return true;
+            }
+
+            @Override
+            public boolean remove(Object o) {
+                for(int i=0; i< this.size(); i++){
+                    if(Objects.equals(o , AutoIncreaseArray.this.get(i))){
+                        
+                        break;
+                    }
+                }
+                return true;
+            }
+
+            @Override
+            public void clear() {
+                AutoIncreaseArray.this.clear();
+            }
+        };
     }
 }

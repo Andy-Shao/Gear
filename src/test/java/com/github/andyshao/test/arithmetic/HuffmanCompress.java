@@ -9,7 +9,7 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.lang.ByteOperation;
 import com.github.andyshao.lang.IntegerOperation;
 import com.github.andyshao.lang.ShortOperation;
-import com.github.andyshao.util.ArrayTools;
+import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -247,8 +247,8 @@ public class HuffmanCompress implements Compress {
 
         int hsize = (ByteOperation.UNCHAR_MAX + 2);
         byte[] comp =
-            ArrayTools.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
-                ArrayTools.pack_unpack(freqs , byte[].class , (input) -> (byte)((int) input)));
+            ArrayOperation.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
+                ArrayOperation.pack_unpack(freqs , byte[].class , (input) -> (byte)((int) input)));
 
         int opos = hsize << 3;
         for (int ipos = 0 ; ipos < original.length ; ipos++) {
