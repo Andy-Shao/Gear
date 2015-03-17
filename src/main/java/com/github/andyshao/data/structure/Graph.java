@@ -395,7 +395,7 @@ public interface Graph<D> extends Cleanable {
         BLACK , GRAY , WHITE
     }
 
-    public static <DATA> void ADD_UNTOWARD_EDGE(Graph<DATA> graph , DATA data1 , DATA data2) {
+    public static <DATA> void addUntowardEdge(Graph<DATA> graph , DATA data1 , DATA data2) {
         graph.graph_ins_edge(data1 , data2);
         graph.graph_ins_edge(data2 , data1);
     }

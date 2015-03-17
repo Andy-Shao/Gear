@@ -57,13 +57,13 @@ public class GraphTest {
         graph.graph_ins_vertex(node6);
         Assert.assertThat(graph.graph_vcount() , Matchers.is(6));
 
-        Graph.ADD_UNTOWARD_EDGE(graph , node1 , node2);
-        Graph.ADD_UNTOWARD_EDGE(graph , node1 , node3);
-        Graph.ADD_UNTOWARD_EDGE(graph , node2 , node3);
-        Graph.ADD_UNTOWARD_EDGE(graph , node2 , node4);
-        Graph.ADD_UNTOWARD_EDGE(graph , node3 , node5);
-        Graph.ADD_UNTOWARD_EDGE(graph , node4 , node5);
-        Graph.ADD_UNTOWARD_EDGE(graph , node5 , node6);
+        Graph.addUntowardEdge(graph , node1 , node2);
+        Graph.addUntowardEdge(graph , node1 , node3);
+        Graph.addUntowardEdge(graph , node2 , node3);
+        Graph.addUntowardEdge(graph , node2 , node4);
+        Graph.addUntowardEdge(graph , node3 , node5);
+        Graph.addUntowardEdge(graph , node4 , node5);
+        Graph.addUntowardEdge(graph , node5 , node6);
         Assert.assertThat(graph.graph_ecount() , Matchers.is(14));
 
         Queue<BfsVertex<String>> queue = new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> {
@@ -94,13 +94,13 @@ public class GraphTest {
         this.graph.graph_ins_vertex(node6);
         Assert.assertThat(this.graph.graph_vcount() , Matchers.is(6));
 
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node1 , node2);
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node1 , node3);
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node2 , node3);
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node2 , node4);
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node3 , node5);
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node4 , node5);
-        Graph.ADD_UNTOWARD_EDGE(this.graph , node5 , node6);
+        Graph.addUntowardEdge(this.graph , node1 , node2);
+        Graph.addUntowardEdge(this.graph , node1 , node3);
+        Graph.addUntowardEdge(this.graph , node2 , node3);
+        Graph.addUntowardEdge(this.graph , node2 , node4);
+        Graph.addUntowardEdge(this.graph , node3 , node5);
+        Graph.addUntowardEdge(this.graph , node4 , node5);
+        Graph.addUntowardEdge(this.graph , node5 , node6);
         Assert.assertThat(this.graph.graph_ecount() , Matchers.is(14));
 
     }

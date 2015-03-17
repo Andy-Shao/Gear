@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.Cleanable;
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.CollectionModel;
 
 /**
