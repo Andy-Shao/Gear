@@ -29,7 +29,7 @@ public interface Heap<D> extends Cleanable {
         }
 
         @Override
-        public DATA heap_extract() {
+        public DATA extract() {
             int ipos , lpos , rpos , mpos;
             DATA result = null , save , temp;
 
@@ -52,13 +52,13 @@ public interface Heap<D> extends Cleanable {
 
             //Heapify the tree by pushing the contents of the new top downward.
             ipos = 0;
-            lpos = Heap.heap_left(ipos);
-            rpos = Heap.heap_right(ipos);
+            lpos = Heap.left(ipos);
+            rpos = Heap.right(ipos);
 
             while (true) {
                 //Select the child to swap with the current node.
-                lpos = Heap.heap_left(ipos);
-                rpos = Heap.heap_right(ipos);
+                lpos = Heap.left(ipos);
+                rpos = Heap.right(ipos);
 
                 if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) mpos =
                     lpos;
@@ -84,7 +84,7 @@ public interface Heap<D> extends Cleanable {
         }
 
         @Override
-        public void heap_insert(DATA data) {
+        public void insert(DATA data) {
             int ipos , ppos;
             DATA temp;
 
@@ -92,7 +92,7 @@ public interface Heap<D> extends Cleanable {
             ipos = this.tree.addTail(data);
 
             //Heapify the tree by pushing the contents of the new node upward.
-            ppos = Heap.heap_parent(ipos);
+            ppos = Heap.parent(ipos);
 
             while (ipos > 0 && this.comparator.compare(this.tree.get(ppos) , this.tree.get(ipos)) > 0) {
                 //Swap the contents of the current node and its parent.
@@ -102,7 +102,7 @@ public interface Heap<D> extends Cleanable {
 
                 //Move up one level in the tree to continue heapifying.
                 ipos = ppos;
-                ppos = Heap.heap_parent(ipos);
+                ppos = Heap.parent(ipos);
             }
         }
 
@@ -124,21 +124,21 @@ public interface Heap<D> extends Cleanable {
         return result;
     }
 
-    public static int heap_left(int npos) {
+    public static int left(int npos) {
         return (npos * 2) + 1;
     }
 
-    public static int heap_parent(int npos) {
+    public static int parent(int npos) {
         return (npos - 1) / 2;
     }
 
-    public static int heap_right(int npos) {
+    public static int right(int npos) {
         return (npos * 2) + 2;
     }
 
-    public D heap_extract();
+    public D extract();
 
-    public void heap_insert(final D data);
+    public void insert(final D data);
 
     public void setComparator(Comparator<D> comparator);
 

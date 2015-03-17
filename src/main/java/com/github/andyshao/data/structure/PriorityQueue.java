@@ -20,12 +20,12 @@ public interface PriorityQueue<D> extends Cleanable {
 
         @Override
         public DATA pqueue_extract() {
-            return this.heap_extract();
+            return this.extract();
         }
 
         @Override
         public void pqueue_insert(DATA data) {
-            this.heap_insert(data);
+            this.insert(data);
         }
 
         @Override

@@ -23,7 +23,7 @@ public class HeapTest {
     public void testExtract() {
         this.testInsert();
 
-        Double head = this.heap.heap_extract();
+        Double head = this.heap.extract();
         PriorityQueue<Double> queue = new PriorityQueue<Double>((d1 , d2) -> d1.compareTo(d2));
         for (Double d : this.data)
             queue.add(d);
@@ -38,7 +38,7 @@ public class HeapTest {
         Assert.assertThat(this.heap.size() , Matchers.is(0));
 
         for (Double d : this.data)
-            this.heap.heap_insert(d);
+            this.heap.insert(d);
 
         Assert.assertThat(this.heap.size() , Matchers.is(this.data.length));
     }
