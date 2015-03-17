@@ -209,6 +209,24 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
             public int size() {
                 return AutoIncreaseArray.this.size();
             }
+
+            @Override
+            public Object[] toArray() {
+                Object[] array = new Object[this.size()];
+                System.arraycopy(AutoIncreaseArray.this.array , 0 , array , 0 , array.length);
+                return array;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public <T> T[] toArray(T[] a) {
+                T[] result = null;
+                if (a.length >= this.size()) result = a;
+                else result = (T[]) Array.newInstance(a.getClass().getComponentType() , this.size());
+
+                System.arraycopy(AutoIncreaseArray.this.array , 0 , result , 0 , result.length);
+                return result;
+            }
         };
     }
 }
