@@ -143,6 +143,8 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
 
             if (element.next() == null) this.tail = element;
         }
+        
+        old_element.free();
 
         //Adjust the size of the list of account for the removed element.
         this.size--;
