@@ -37,12 +37,12 @@ public class GraphAlgTest {
         final MstVertex<String> d = GraphAlgTest.buildMstVertex("d");
         final MstVertex<String> e = GraphAlgTest.buildMstVertex("e");
         final MstVertex<String> f = GraphAlgTest.buildMstVertex("f");
-        graph.graph_ins_vertex(a);
-        graph.graph_ins_vertex(b);
-        graph.graph_ins_vertex(c);
-        graph.graph_ins_vertex(d);
-        graph.graph_ins_vertex(e);
-        graph.graph_ins_vertex(f);
+        graph.insVertex(a);
+        graph.insVertex(b);
+        graph.insVertex(c);
+        graph.insVertex(d);
+        graph.insVertex(e);
+        graph.insVertex(f);
 
         MstVertex.setUntowardWeight(a , b , 7);
         MstVertex.setUntowardWeight(a , c , 4);

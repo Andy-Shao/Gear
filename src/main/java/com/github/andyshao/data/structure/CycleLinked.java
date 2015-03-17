@@ -36,7 +36,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
                 this.head.free();
                 this.head = null;
                 return;
-            } else this.list_rem_next(this.head);
+            } else this.remNext(this.head);
         while (this.size != 0);
     }
 
@@ -76,7 +76,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
     }
 
     @Override
-    public void list_ins_next(CycleLinkedElmt<DATA> element , final DATA data) {
+    public void insNext(CycleLinkedElmt<DATA> element , final DATA data) {
         CycleLinkedElmt<DATA> new_element = CycleLinkedElmt.<DATA> defaultElmt(data);
 
         if (this.size == 0) {
@@ -98,7 +98,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
     }
 
     @Override
-    public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
+    public DATA remNext(CycleLinkedElmt<DATA> element) {
         CycleLinkedElmt<DATA> old_element = CycleLinkedElmt.<DATA> defaultElmt(null);
         DATA data = null;
 

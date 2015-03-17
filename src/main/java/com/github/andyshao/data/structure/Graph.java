@@ -221,7 +221,7 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public Graph.AdjList<DATA> graph_adjlist(DATA data) {
+        public Graph.AdjList<DATA> adjlist(DATA data) {
             CycleLinkedElmt<AdjList<DATA>> element;
 
             //Locate the adjacency list for the vertex.
@@ -236,17 +236,17 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>> graph_adjlists() {
+        public Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>> adjlists() {
             return this.adjlists;
         }
 
         @Override
-        public int graph_ecount() {
+        public int ecount() {
             return this.ecount;
         }
 
         @Override
-        public void graph_ins_edge(DATA data1 , DATA data2) {
+        public void insEdge(DATA data1 , DATA data2) {
             CycleLinkedElmt<AdjList<DATA>> element;
 
             //Do not allow insertion of an edge without both its vertices in the graph.
@@ -268,7 +268,7 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public void graph_ins_vertex(DATA data) {
+        public void insVertex(DATA data) {
             AdjList<DATA> adjlist;
 
             //Do not allow the insertion of duplicate vertices.
@@ -279,14 +279,14 @@ public interface Graph<D> extends Cleanable {
             adjlist = this.adjListFactory.get();
 
             adjlist.vertex(data);
-            this.adjlists.list_ins_next(this.adjlists.tail() , adjlist);
+            this.adjlists.insNext(this.adjlists.tail() , adjlist);
 
             //Adjust the vertex count to account for the inserted vertex.
             this.vcount++;
         }
 
         @Override
-        public boolean graph_is_adjacent(DATA data1 , DATA data2) {
+        public boolean isAdjacent(DATA data1 , DATA data2) {
             CycleLinkedElmt<AdjList<DATA>> element;
 
             element = this.search(data1 , (elmt) -> {
@@ -300,7 +300,7 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public void graph_rem_edge(DATA data1 , DATA data2) {
+        public void remEdge(DATA data1 , DATA data2) {
             CycleLinkedElmt<AdjList<DATA>> element;
 
             //Locate the adjacency list for the first vertex.
@@ -320,7 +320,7 @@ public interface Graph<D> extends Cleanable {
             "unchecked" , "unused"
         })
         @Override
-        public DATA graph_rem_vertex(final DATA data) {
+        public DATA remVertex(final DATA data) {
             CycleLinkedElmt<AdjList<DATA>> element , prev;
             AdjList<DATA> adjList;
             DATA result = data;
@@ -342,7 +342,7 @@ public interface Graph<D> extends Cleanable {
             if (element.data().adjacent().size() > 0) throw new GraphOperationException(
                 "Do not allow removal of the vertex if its adjacency list is not emtpy.");
             //Remove the vertex.
-            adjList = this.adjlists.list_rem_next(prev);
+            adjList = this.adjlists.remNext(prev);
             result = adjList.vertex();
             adjList.free();
             //Adjust the vertex count to account for the removed vertex.
@@ -352,7 +352,7 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public int graph_vcount() {
+        public int vcount() {
             return this.vcount;
         }
 
@@ -396,8 +396,8 @@ public interface Graph<D> extends Cleanable {
     }
 
     public static <DATA> void addUntowardEdge(Graph<DATA> graph , DATA data1 , DATA data2) {
-        graph.graph_ins_edge(data1 , data2);
-        graph.graph_ins_edge(data2 , data1);
+        graph.insEdge(data1 , data2);
+        graph.insEdge(data2 , data1);
     }
 
     /**
@@ -413,11 +413,11 @@ public interface Graph<D> extends Cleanable {
         Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , Collection<BfsVertex<DATA>> result) {
         Queue<AdjList<BfsVertex<DATA>>> queue = new SimpleQueue<>();
         //Initialize the queue with the adjacency list of the start vertex.
-        AdjList<BfsVertex<DATA>> clr_adjlist = graph.graph_adjlist(start);
+        AdjList<BfsVertex<DATA>> clr_adjlist = graph.adjlist(start);
         queue.offer(clr_adjlist);
 
         //Initialize all of the vertices in the graph.
-        for (CycleLinkedElmt<AdjList<BfsVertex<DATA>>> element = graph.graph_adjlists().head() ; element != null ; element =
+        for (CycleLinkedElmt<AdjList<BfsVertex<DATA>>> element = graph.adjlists().head() ; element != null ; element =
             element.next()) {
             BfsVertex<DATA> vertex = element.data().vertex();
             if (graph.match(vertex , start)) {
@@ -438,7 +438,7 @@ public interface Graph<D> extends Cleanable {
             //Traverse each vertex in the current adjacency list.
             for (BfsVertex<DATA> adj_vertex : adjlist.adjacent()) {
                 //Determine the color of the next adjacent vertex.
-                clr_adjlist = graph.graph_adjlist(adj_vertex);
+                clr_adjlist = graph.adjlist(adj_vertex);
                 BfsVertex<DATA> clr_vertex = clr_adjlist.vertex();
 
                 //Color each white vertex gray and enqueue its adjacency list.
@@ -456,7 +456,7 @@ public interface Graph<D> extends Cleanable {
         queue.clear();
 
         //Pass back the hop count for each vertex in a list.
-        for (CycleLinkedElmt<AdjList<BfsVertex<DATA>>> element = graph.graph_adjlists().head() ; element != null ; element =
+        for (CycleLinkedElmt<AdjList<BfsVertex<DATA>>> element = graph.adjlists().head() ; element != null ; element =
             element.next()) {
             //Skip vertices that were not visited (those with hop counts of -1).
             BfsVertex<DATA> vertex = element.data().vertex();
@@ -479,13 +479,13 @@ public interface Graph<D> extends Cleanable {
         CycleLinkedElmt<AdjList<DfsVertex<DATA>>> element;
 
         //Initialize all of the vertices in the graph.
-        for (element = graph.graph_adjlists().head() ; element != null ; element = element.next()) {
+        for (element = graph.adjlists().head() ; element != null ; element = element.next()) {
             vertex = element.data().vertex();
             vertex.color(VertexColor.WHITE);
         }
 
         //Perform depth-first search.
-        for (element = graph.graph_adjlists().head() ; element != null ; element = element.next()) {
+        for (element = graph.adjlists().head() ; element != null ; element = element.next()) {
             //Ensure that every component of unconnected graphs is searched.
             vertex = element.data().vertex();
 
@@ -501,7 +501,7 @@ public interface Graph<D> extends Cleanable {
         adjlist.vertex().color(VertexColor.GRAY);
 
         for (DfsVertex<DATA> adj_vertex : adjlist.adjacent()) {
-            AdjList<DfsVertex<DATA>> clr_adjlist = graph.graph_adjlist(adj_vertex);
+            AdjList<DfsVertex<DATA>> clr_adjlist = graph.adjlist(adj_vertex);
 
             DfsVertex<DATA> clr_vertex = clr_adjlist.vertex();
 
@@ -525,23 +525,23 @@ public interface Graph<D> extends Cleanable {
      * @param data data
      * @return if can't find out return null.
      */
-    public AdjList<D> graph_adjlist(final D data);
+    public AdjList<D> adjlist(final D data);
 
-    public Linked<AdjList<D> , CycleLinkedElmt<AdjList<D>>> graph_adjlists();
+    public Linked<AdjList<D> , CycleLinkedElmt<AdjList<D>>> adjlists();
 
-    public int graph_ecount();
+    public int ecount();
 
-    public void graph_ins_edge(final D data1 , final D data2);
+    public void insEdge(final D data1 , final D data2);
 
-    public void graph_ins_vertex(final D data);
+    public void insVertex(final D data);
 
-    public boolean graph_is_adjacent(final D data1 , final D data2);
+    public boolean isAdjacent(final D data1 , final D data2);
 
-    public void graph_rem_edge(final D data1 , final D data2);
+    public void remEdge(final D data1 , final D data2);
 
-    public D graph_rem_vertex(D data);
+    public D remVertex(D data);
 
-    public int graph_vcount();
+    public int vcount();
 
     public boolean match(D data1 , D data2);
 

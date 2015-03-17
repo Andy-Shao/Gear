@@ -19,7 +19,7 @@ public class CycleLinkedTest {
 
     private void fill() {
         for (int i = 0 ; i < this.data.length ; i++)
-            this.linked.list_ins_next(null , this.data[i]);
+            this.linked.insNext(null , this.data[i]);
     }
 
     @Test

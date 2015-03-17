@@ -67,7 +67,7 @@ public final class GraphAlg {
         //Initialize all of the vertices in the graph.
         {
             boolean found = false;
-            for (AdjList<MstVertex<DATA>> element : graph.graph_adjlists()) {
+            for (AdjList<MstVertex<DATA>> element : graph.adjlists()) {
                 MstVertex<DATA> mst_vertex = element.vertex();
 
                 if (comparator.compare(mst_vertex , start) == 0) {
@@ -88,11 +88,11 @@ public final class GraphAlg {
         }
 
         //Use prim's algorithm to compute a minimum spanning tree.
-        for (int i = 0 ; i < graph.graph_vcount() ; i++) {
+        for (int i = 0 ; i < graph.vcount() ; i++) {
             AdjList<MstVertex<DATA>> adjlist = null;
             //Select the white vertex with the smallest key value.
             double minimum = Double.MAX_VALUE;
-            for (AdjList<MstVertex<DATA>> element : graph.graph_adjlists()) {
+            for (AdjList<MstVertex<DATA>> element : graph.adjlists()) {
                 MstVertex<DATA> mst_vertex = element.vertex();
 
                 if (mst_vertex.color == VertexColor.WHITE && mst_vertex.key < minimum) {

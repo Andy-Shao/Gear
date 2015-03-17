@@ -204,7 +204,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public void list_ins_next(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
+            public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allow a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) throw new LinkedOperationException(
                     "Do not allow a NULL element unless the list is empty.");
@@ -236,7 +236,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public DATA list_rem_next(DoubleLinkedElmt<DATA> element) {
+            public DATA remNext(DoubleLinkedElmt<DATA> element) {
                 // TODO Auto-generated method stub
                 return null;
             }

@@ -80,7 +80,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
         public MyBitree(Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
             this.treeNodeFactory = treeNodeFactory;
-            this.bitree_ins_left(null , data);
+            this.insLeft(null , data);
 
             //Merge the two binary trees into a single binary tree.
             this.root.left(left.root());
@@ -91,7 +91,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
-        public BitreeNode<DATA> bitree_ins_left(BitreeNode<DATA> node , DATA data) throws TreeOperationException {
+        public BitreeNode<DATA> insLeft(BitreeNode<DATA> node , DATA data) throws TreeOperationException {
             BitreeNode<DATA> new_node;
 
             //Determine where to insert the node.
@@ -118,7 +118,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
-        public BitreeNode<DATA> bitree_ins_right(BitreeNode<DATA> node , DATA data) {
+        public BitreeNode<DATA> insRight(BitreeNode<DATA> node , DATA data) {
             BitreeNode<DATA> new_node;
 
             if (node == null) {
@@ -141,7 +141,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
-        public void bitree_rem_left(BitreeNode<DATA> node) {
+        public void remLeft(BitreeNode<DATA> node) {
             BitreeNode<DATA> position;
 
             //Do not allow removal from an empty tree.
@@ -152,8 +152,8 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
             else position = node.left();
 
             if (position != null) {
-                this.bitree_rem_left(position);
-                this.bitree_rem_right(position);
+                this.remLeft(position);
+                this.remRight(position);
                 if (node == null) this.root = null;
                 else node.left(null);
             }
@@ -163,7 +163,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
-        public void bitree_rem_right(BitreeNode<DATA> node) {
+        public void remRight(BitreeNode<DATA> node) {
             BitreeNode<DATA> position;
 
             //Do not allow removal from an empty tree.
@@ -175,8 +175,8 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
             //Remove the nodes.
             if (position != null) {
-                this.bitree_rem_left(position.left());
-                this.bitree_rem_right(position.right());
+                this.remLeft(position.left());
+                this.remRight(position.right());
                 if (node == null) this.root = null;
                 else node.right(null);
             }
@@ -213,11 +213,11 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     }
 
-    public static <DATA> boolean bitree_is_eob(BitreeNode<DATA> node) {
+    public static <DATA> boolean isEob(BitreeNode<DATA> node) {
         return node == null;
     }
 
-    public static <DATA> boolean bitree_is_leaf(BitreeNode<DATA> node) {
+    public static <DATA> boolean isLeaf(BitreeNode<DATA> node) {
         return node.left() == null && node.right() == null;
     }
 
@@ -227,10 +227,10 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     public static <DATA> Collection<DATA> inorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
-        if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.inorder(node.left() , result);
+        if (!Bitree.isEob(node)) {
+            if (!Bitree.isEob(node.left())) Bitree.inorder(node.left() , result);
             result.add(node.data());
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.inorder(node.right() , result);
+            if (!Bitree.isEob(node.right())) Bitree.inorder(node.right() , result);
         }
 
         return result;
@@ -238,9 +238,9 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
-        if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.postorder(node.left() , result);
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.postorder(node.right() , result);
+        if (!Bitree.isEob(node)) {
+            if (!Bitree.isEob(node.left())) Bitree.postorder(node.left() , result);
+            if (!Bitree.isEob(node.right())) Bitree.postorder(node.right() , result);
             result.add(node.data());
         }
 
@@ -249,10 +249,10 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with a preorder listing of the tree.
-        if (!Bitree.bitree_is_eob(node)) {
+        if (!Bitree.isEob(node)) {
             result.add(node.data());
-            if (!Bitree.bitree_is_eob(node.left())) Bitree.preorder(node.left() , result);
-            if (!Bitree.bitree_is_eob(node.right())) Bitree.preorder(node.right() , result);
+            if (!Bitree.isEob(node.left())) Bitree.preorder(node.left() , result);
+            if (!Bitree.isEob(node.right())) Bitree.preorder(node.right() , result);
         }
 
         return result;
@@ -269,7 +269,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
      *             empty.
      * @throws TreeOperationException others operation exception of the action's
      */
-    public BitreeNode<D> bitree_ins_left(BitreeNode<D> node , D data) throws TreeOperationException;
+    public BitreeNode<D> insLeft(BitreeNode<D> node , D data) throws TreeOperationException;
 
     /**
      * add a right child for node<br>
@@ -282,7 +282,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
      *             not empty.
      * @throws TreeOperationException other operation exception of the action's
      */
-    public BitreeNode<D> bitree_ins_right(BitreeNode<D> node , D data) throws TreeOperationException;
+    public BitreeNode<D> insRight(BitreeNode<D> node , D data) throws TreeOperationException;
 
     /**
      * remove the left child of node's.
@@ -291,7 +291,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
      * @throws TreeIsEmptyException if the tree is empty
      * @throws TreeOperationException others exception of action'
      */
-    public void bitree_rem_left(BitreeNode<D> node) throws TreeOperationException;
+    public void remLeft(BitreeNode<D> node) throws TreeOperationException;
 
     /**
      * remove the right child of node's.
@@ -300,14 +300,14 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
      * @throws TreeIsEmptyException if the tree is empty
      * @throws TreeOperationException other exception of action'
      */
-    public void bitree_rem_right(BitreeNode<D> node) throws TreeOperationException;
+    public void remRight(BitreeNode<D> node) throws TreeOperationException;
 
     public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
 
     @Override
     public default void clear() {
         //Remove all the nodes from the tree.
-        this.bitree_rem_left(null);
+        this.remLeft(null);
     }
 
     public Supplier<BitreeNode<D>> getTreeNodeFactory();

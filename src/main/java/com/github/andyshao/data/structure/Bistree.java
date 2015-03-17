@@ -108,19 +108,19 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
         @Override
         public void destroy_left(Bitree.BitreeNode<Bistree.AvlNode<D>> node) {
-            this.bitree.bitree_rem_left(node);
+            this.bitree.remLeft(node);
         }
 
         @Override
         public void destroy_right(Bitree.BitreeNode<Bistree.AvlNode<D>> node) {
-            this.bitree.bitree_rem_right(node);
+            this.bitree.remRight(node);
         }
 
         public Ret<D> hide(BitreeNode<AvlNode<D>> node , final D data) {
             Ret<D> result = null;
             int cmpval;
 
-            if (Bitree.bitree_is_eob(node)) throw new TreeOperationException("the node is not allowed to be null.");
+            if (Bitree.isEob(node)) throw new TreeOperationException("the node is not allowed to be null.");
 
             cmpval = this.comparator.compare(data , node.data().data());
             if (cmpval < 0) //Move to the left.
@@ -146,7 +146,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             result.balance = 0;
 
             //Insert the data into the tree.
-            if (Bitree.bitree_is_eob(node)) {
+            if (Bitree.isEob(node)) {
                 //Handle insertion into an empty tree.
                 avl_data = this.avlNodeFactory.build();
 
@@ -155,7 +155,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                 avl_data.date(data);
 
                 result.balance = 1;
-                result.elmt = this.bitree.bitree_ins_left(node , avl_data);
+                result.elmt = this.bitree.insLeft(node , avl_data);
                 return result;
             } else {
                 //Handle insertion into a tree that is not empty.
@@ -163,14 +163,14 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
                 if (cmpval < 0) {
                     //Move to the left.
-                    if (Bitree.bitree_is_eob(node.left())) {
+                    if (Bitree.isEob(node.left())) {
                         avl_data = this.avlNodeFactory.build();
 
                         avl_data.factor(Bistree.AVL_BALANCED);
                         avl_data.hidden(false);
                         avl_data.date(data);
 
-                        result.elmt = this.bitree.bitree_ins_left(node , avl_data);
+                        result.elmt = this.bitree.insLeft(node , avl_data);
                         result.balance = 0;
                         return result;
                     } else result = this.insert(node.left() , data);
@@ -191,14 +191,14 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                     }
                 } else if (cmpval > 0) {
                     //Move to the right
-                    if (Bitree.bitree_is_eob(node.right())) {
+                    if (Bitree.isEob(node.right())) {
                         avl_data = this.avlNodeFactory.build();
 
                         avl_data.factor(Bistree.AVL_BALANCED);
                         avl_data.hidden(false);
                         avl_data.date(data);
 
-                        result.elmt = this.bitree.bitree_ins_right(node , avl_data);
+                        result.elmt = this.bitree.insRight(node , avl_data);
                         result.balance = 0;
                     } else result = this.insert(node.right() , data);
 
@@ -234,7 +234,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
             Ret<D> result = null;
             int cmpval;
 
-            if (Bitree.bitree_is_eob(node)) throw new TreeOperationException("node is not allowed to be null.");
+            if (Bitree.isEob(node)) throw new TreeOperationException("node is not allowed to be null.");
 
             cmpval = this.comparator.compare(data , node.data().data());
             if (cmpval < 0) //Move to the left.

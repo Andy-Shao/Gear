@@ -22,7 +22,7 @@ public class DoubleLinkedTest {
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(0));
 
         for (int i = 0 ; i < this.data.length ; i++)
-            this.doubleLinked.list_ins_next(this.doubleLinked.head() , this.data[i]);
+            this.doubleLinked.insNext(this.doubleLinked.head() , this.data[i]);
 
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(2));
     }

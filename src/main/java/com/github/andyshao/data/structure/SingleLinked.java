@@ -61,7 +61,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
                 this.tail = null;
                 this.size = 0;
                 return;
-            } else this.list_rem_next(this.head);
+            } else this.remNext(this.head);
         while (this.size != 0);
     }
 
@@ -97,7 +97,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
     }
 
     @Override
-    public void list_ins_next(CycleLinkedElmt<D> element , final D data) {
+    public void insNext(CycleLinkedElmt<D> element , final D data) {
         CycleLinkedElmt<D> new_element = this.cycleLinkedElmt.apply(data);
 
         if (element == null) {
@@ -120,7 +120,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
     }
 
     @Override
-    public D list_rem_next(CycleLinkedElmt<D> element) {
+    public D remNext(CycleLinkedElmt<D> element) {
         CycleLinkedElmt<D> old_element = this.cycleLinkedElmt.apply(null);
         D data = null;
 

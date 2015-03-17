@@ -65,13 +65,13 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             }
 
             @Override
-            public void list_ins_next(CycleLinkedElmt<DATA> element , DATA data) {
-                linked.list_ins_next(element , data);
+            public void insNext(CycleLinkedElmt<DATA> element , DATA data) {
+                linked.insNext(element , data);
             }
 
             @Override
-            public DATA list_rem_next(CycleLinkedElmt<DATA> element) {
-                return linked.list_rem_next(element);
+            public DATA remNext(CycleLinkedElmt<DATA> element) {
+                return linked.remNext(element);
             }
 
             @Override
@@ -80,7 +80,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
                 if (this.set_is_member(data)) return;
 
                 //Insert the data.
-                linked.list_ins_next(linked.tail() , data);
+                linked.insNext(linked.tail() , data);
             }
 
             @Override
@@ -123,7 +123,7 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
                 if (member == null) return;
 
                 //Remove the member
-                linked.list_rem_next(prev);
+                linked.remNext(prev);
             }
 
             @Override

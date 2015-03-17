@@ -167,12 +167,12 @@ public class HuffmanCompress implements Compress {
     }
 
     public void buildTable(BitreeNode<HuffNode> node , final short code , final int size , HuffCode[] table) {
-        if (!Bitree.bitree_is_eob(node)) {
-            if (!Bitree.bitree_is_eob(node.left())) this.buildTable(node.left() , (short) (code << 1) , size + 1 ,
+        if (!Bitree.isEob(node)) {
+            if (!Bitree.isEob(node.left())) this.buildTable(node.left() , (short) (code << 1) , size + 1 ,
                 table);
-            if (!Bitree.bitree_is_eob(node.right())) this.buildTable(node.right() , (short) ((code << 1) | 0x01) ,
+            if (!Bitree.isEob(node.right())) this.buildTable(node.right() , (short) ((code << 1) | 0x01) ,
                 size + 1 , table);
-            if (Bitree.bitree_is_eob(node.left()) && Bitree.bitree_is_eob(node.right())) {
+            if (Bitree.isEob(node.left()) && Bitree.isEob(node.right())) {
                 int symbol = node.data().symbol();
                 if (table[symbol] == null) table[symbol] = this.getHuffCodeFactory().get();
                 table[symbol].used(1);
@@ -194,7 +194,7 @@ public class HuffmanCompress implements Compress {
                 data.symbol(c);
                 data.freq(freqs[c]);
 
-                init.bitree_ins_left(null , data);
+                init.insLeft(null , data);
                 pqueue.offer(init);
             }
 

@@ -37,12 +37,12 @@ public interface Stack<D> extends Cleanable , Iterable<D> {
 
             @Override
             public DATA pop() {
-                return linked.list_rem_next(null);
+                return linked.remNext(null);
             }
 
             @Override
             public void push(DATA data) {
-                linked.list_ins_next(null , data);
+                linked.insNext(null , data);
             }
 
             @Override

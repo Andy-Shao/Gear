@@ -49,13 +49,13 @@ public class GraphTest {
         } , () -> {
             return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
         });
-        graph.graph_ins_vertex(node1);
-        graph.graph_ins_vertex(node2);
-        graph.graph_ins_vertex(node3);
-        graph.graph_ins_vertex(node4);
-        graph.graph_ins_vertex(node5);
-        graph.graph_ins_vertex(node6);
-        Assert.assertThat(graph.graph_vcount() , Matchers.is(6));
+        graph.insVertex(node1);
+        graph.insVertex(node2);
+        graph.insVertex(node3);
+        graph.insVertex(node4);
+        graph.insVertex(node5);
+        graph.insVertex(node6);
+        Assert.assertThat(graph.vcount() , Matchers.is(6));
 
         Graph.addUntowardEdge(graph , node1 , node2);
         Graph.addUntowardEdge(graph , node1 , node3);
@@ -64,7 +64,7 @@ public class GraphTest {
         Graph.addUntowardEdge(graph , node3 , node5);
         Graph.addUntowardEdge(graph , node4 , node5);
         Graph.addUntowardEdge(graph , node5 , node6);
-        Assert.assertThat(graph.graph_ecount() , Matchers.is(14));
+        Assert.assertThat(graph.ecount() , Matchers.is(14));
 
         Queue<BfsVertex<String>> queue = new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> {
             return Integer.compare(obj1.hops() , obj2.hops());
@@ -86,13 +86,13 @@ public class GraphTest {
         final String node4 = "node4";
         final String node5 = "node5";
         final String node6 = "node6";
-        this.graph.graph_ins_vertex(node1);
-        this.graph.graph_ins_vertex(node2);
-        this.graph.graph_ins_vertex(node3);
-        this.graph.graph_ins_vertex(node4);
-        this.graph.graph_ins_vertex(node5);
-        this.graph.graph_ins_vertex(node6);
-        Assert.assertThat(this.graph.graph_vcount() , Matchers.is(6));
+        this.graph.insVertex(node1);
+        this.graph.insVertex(node2);
+        this.graph.insVertex(node3);
+        this.graph.insVertex(node4);
+        this.graph.insVertex(node5);
+        this.graph.insVertex(node6);
+        Assert.assertThat(this.graph.vcount() , Matchers.is(6));
 
         Graph.addUntowardEdge(this.graph , node1 , node2);
         Graph.addUntowardEdge(this.graph , node1 , node3);
@@ -101,7 +101,7 @@ public class GraphTest {
         Graph.addUntowardEdge(this.graph , node3 , node5);
         Graph.addUntowardEdge(this.graph , node4 , node5);
         Graph.addUntowardEdge(this.graph , node5 , node6);
-        Assert.assertThat(this.graph.graph_ecount() , Matchers.is(14));
+        Assert.assertThat(this.graph.ecount() , Matchers.is(14));
 
     }
 
@@ -118,22 +118,22 @@ public class GraphTest {
         Graph<DfsVertex<String>> graph =
             Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
                 () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
-        graph.graph_ins_vertex(cs100);
-        graph.graph_ins_vertex(cs200);
-        graph.graph_ins_vertex(cs300);
-        graph.graph_ins_vertex(ma100);
-        graph.graph_ins_vertex(ma200);
-        graph.graph_ins_vertex(ma300);
-        Assert.assertThat(graph.graph_vcount() , Matchers.is(6));
+        graph.insVertex(cs100);
+        graph.insVertex(cs200);
+        graph.insVertex(cs300);
+        graph.insVertex(ma100);
+        graph.insVertex(ma200);
+        graph.insVertex(ma300);
+        Assert.assertThat(graph.vcount() , Matchers.is(6));
 
-        graph.graph_ins_edge(cs100 , cs200);
-        graph.graph_ins_edge(cs200 , cs300);
-        graph.graph_ins_edge(ma100 , cs300);
-        graph.graph_ins_vertex(cs150);
-        graph.graph_ins_edge(cs300 , ma300);
-        graph.graph_ins_edge(ma100 , ma200);
-        graph.graph_ins_edge(ma200 , ma300);
-        Assert.assertThat(graph.graph_ecount() , Matchers.is(6));
+        graph.insEdge(cs100 , cs200);
+        graph.insEdge(cs200 , cs300);
+        graph.insEdge(ma100 , cs300);
+        graph.insVertex(cs150);
+        graph.insEdge(cs300 , ma300);
+        graph.insEdge(ma100 , ma200);
+        graph.insEdge(ma200 , ma300);
+        Assert.assertThat(graph.ecount() , Matchers.is(6));
 
         Queue<DfsVertex<String>> queue = new SimpleQueue<>();
         Graph.dfs(graph , queue);

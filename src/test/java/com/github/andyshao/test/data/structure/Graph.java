@@ -215,7 +215,7 @@ public interface Graph<D> extends Cleanable {
             adjlist = this.adjListFactory.get();
 
             adjlist.vertex(data);
-            this.adjlists.list_ins_next(this.adjlists.tail() , adjlist);
+            this.adjlists.insNext(this.adjlists.tail() , adjlist);
 
             //Adjust the vertex count to account for the inserted vertex.
             this.vcount++;
@@ -278,7 +278,7 @@ public interface Graph<D> extends Cleanable {
             if (element.data().adjacent().size() > 0) throw new GraphOperationException(
                 "Do not allow removal of the vertex if its adjacency list is not emtpy.");
             //Remove the vertex.
-            adjList = this.adjlists.list_rem_next(prev);
+            adjList = this.adjlists.remNext(prev);
             result = adjList.vertex();
             adjList.free();
             //Adjust the vertex count to account for the removed vertex.

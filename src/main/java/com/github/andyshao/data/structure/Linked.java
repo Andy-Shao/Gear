@@ -44,7 +44,7 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
 
     public T head();
 
-    public void list_ins_next(T element , final D data);
+    public void insNext(T element , final D data);
 
     /**
      * Remove the next element.<br>
@@ -54,7 +54,7 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
      * @return if something is removed return data. If it doesn't return null.
      * @throws LinkedOperationException the operation of remove node
      */
-    public D list_rem_next(T element);
+    public D remNext(T element);
 
     public int size();
 
@@ -65,7 +65,7 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
 
             @Override
             public boolean add(D e) {
-                Linked.this.list_ins_next(Linked.this.tail() , e);
+                Linked.this.insNext(Linked.this.tail() , e);
                 return true;
             }
 
@@ -84,7 +84,7 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
                 T prev = null;
                 for (T element = Linked.this.head() ; element != null ; element = element.next()) {
                     if (Objects.equals(element.data() , o)) {
-                        Linked.this.list_rem_next(prev);
+                        Linked.this.remNext(prev);
                         break;
                     }
                     prev = element;
@@ -96,7 +96,7 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
             public boolean retainAll(Collection<?> c) {
                 T prev = null;
                 for (T element = Linked.this.head() ; element != null ; element = element.next())
-                    if (!c.contains(element.data())) Linked.this.list_rem_next(prev);
+                    if (!c.contains(element.data())) Linked.this.remNext(prev);
                     else prev = element;
                 return true;
             }
