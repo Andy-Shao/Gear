@@ -304,7 +304,7 @@ public final class ArrayOperation {
     public static <T> T[] toArray(T... targets) {
         return targets;
     }
-
+    
     private ArrayOperation() {
         throw new AssertionError("No ArrayTools instances for you!");
     }
