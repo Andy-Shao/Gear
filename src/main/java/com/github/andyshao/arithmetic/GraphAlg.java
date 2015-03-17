@@ -21,16 +21,17 @@ import com.github.andyshao.data.structure.Graph.VertexColor;
  */
 public final class GraphAlg {
     public static class MstVertex<DATA> {
-        public VertexColor color;
-        public DATA data;
-        public double key;
-        public MstVertex<DATA> parent;
-        public final Map<MstVertex<DATA> , Double> weight = new HashMap<>();
-
         public static final <DATA> void setUntowardWeight(MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             one.weight.put(two , weight);
             two.weight.put(one , weight);
         }
+
+        public VertexColor color;
+        public DATA data;
+        public double key;
+        public MstVertex<DATA> parent;
+
+        public final Map<MstVertex<DATA> , Double> weight = new HashMap<>();
     }
 
     public static class PathVertex<DATA> {
@@ -104,12 +105,11 @@ public final class GraphAlg {
             result.add(adjlist.vertex());
 
             //Traverse each vertex adjacent to the selected vertex.
-            for (MstVertex<DATA> adj_vertex : adjlist.adjacent()) {
+            for (MstVertex<DATA> adj_vertex : adjlist.adjacent())
                 if (adj_vertex.color == VertexColor.WHITE && adj_vertex.weight.get(adjlist.vertex()) < adj_vertex.key) {
                     adj_vertex.key = adj_vertex.weight.get(adjlist.vertex());
                     adj_vertex.parent = adjlist.vertex();
                 }
-            }
         }
 
         return result;

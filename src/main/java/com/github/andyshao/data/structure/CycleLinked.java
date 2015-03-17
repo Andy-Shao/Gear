@@ -118,7 +118,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
             element.setNext(element.next().next());
             if (old_element == this.head) this.head = old_element.next();
         }
-        
+
         old_element.free();
 
         //Adjust the size of the list to account for the removed element.

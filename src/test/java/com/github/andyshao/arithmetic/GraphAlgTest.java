@@ -17,6 +17,12 @@ import com.github.andyshao.lang.StringOperation;
 
 public class GraphAlgTest {
 
+    static <DATA> MstVertex<DATA> buildMstVertex(DATA data) {
+        MstVertex<DATA> mstVertex = new MstVertex<>();
+        mstVertex.data = data;
+        return mstVertex;
+    }
+
     @Test
     public void testMst() {
         Comparator<MstVertex<String>> mstVertexComparator =
@@ -25,12 +31,12 @@ public class GraphAlgTest {
         final Graph<MstVertex<String>> graph =
             Graph.defaultGraph(mstVertexComparator ,
                 () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
-        final MstVertex<String> a = buildMstVertex("a");
-        final MstVertex<String> b = buildMstVertex("b");
-        final MstVertex<String> c = buildMstVertex("c");
-        final MstVertex<String> d = buildMstVertex("d");
-        final MstVertex<String> e = buildMstVertex("e");
-        final MstVertex<String> f = buildMstVertex("f");
+        final MstVertex<String> a = GraphAlgTest.buildMstVertex("a");
+        final MstVertex<String> b = GraphAlgTest.buildMstVertex("b");
+        final MstVertex<String> c = GraphAlgTest.buildMstVertex("c");
+        final MstVertex<String> d = GraphAlgTest.buildMstVertex("d");
+        final MstVertex<String> e = GraphAlgTest.buildMstVertex("e");
+        final MstVertex<String> f = GraphAlgTest.buildMstVertex("f");
         graph.graph_ins_vertex(a);
         graph.graph_ins_vertex(b);
         graph.graph_ins_vertex(c);
@@ -66,11 +72,5 @@ public class GraphAlgTest {
         Assert.assertThat(iterator.next() , Matchers.is(d));
         Assert.assertThat(iterator.next() , Matchers.is(f));
         Assert.assertThat(iterator.next() , Matchers.is(e));
-    }
-
-    static <DATA> MstVertex<DATA> buildMstVertex(DATA data) {
-        MstVertex<DATA> mstVertex = new MstVertex<>();
-        mstVertex.data = data;
-        return mstVertex;
     }
 }
