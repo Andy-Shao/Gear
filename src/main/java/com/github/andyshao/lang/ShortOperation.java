@@ -28,8 +28,8 @@ public final class ShortOperation {
 
     public static final short valueOf(byte[] bs) {
         short s = 0x0000;
+        s = (short) ((s | bs[1]) << 8);
         s |= bs[0];
-        s |= bs[1] << 8;
         return s;
     }
 

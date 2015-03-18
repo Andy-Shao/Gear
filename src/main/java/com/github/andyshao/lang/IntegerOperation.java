@@ -30,17 +30,17 @@ public final class IntegerOperation {
 
     public static final int valueOf(byte[] bs) {
         int i = 0x00000000;
+        i = (i | bs[3]) << 8;
+        i = (i | bs[2]) << 8;
+        i = (i | bs[1]) << 8;
         i |= bs[0];
-        i |= bs[1] << 8;
-        i |= bs[2] << 16;
-        i |= bs[3] << 24;
         return i;
     }
 
     public static final int valueOf(short[] s) {
         int i = 0x00000000;
+        i = (i |s[1]) << 16;
         i |= s[0];
-        i |= s[1] << 16;
         return i;
     }
 
