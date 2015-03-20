@@ -11,6 +11,12 @@ package com.github.andyshao.lang;
  *
  */
 public final class LongOperation {
+    public static final int bitGet(int pos , final long... ls) {
+        if (pos < 0) throw new IllegalArgumentException("pos is less than 0");
+        long value = 0x01L << (pos - (pos >> 6 << 6));
+        return (ls[pos >> 6] & value) != 0x00 ? 1 : 0;
+    }
+
     public static final byte getByte(long l , int pos) {
         byte result = 0x00;
         switch (pos) {
@@ -18,22 +24,30 @@ public final class LongOperation {
             result = (byte) (0x00000000000000ffL & l);
             break;
         case 1:
+            result = (byte) ((0xff00L & l) >> 8);
+            break;
         case 2:
+            result = (byte) ((0xff0000L & l) >> 16);
+            break;
         case 3:
+            result = (byte) ((0xff000000 & l) >> 24);
+            break;
         case 4:
+            result = (byte) ((0xff00000000L & l) >> 32);
+            break;
         case 5:
+            result = (byte) ((0xff0000000000L & l) >> 40);
+            break;
         case 6:
+            result = (byte) ((0xff000000000000L & l) >> 48);
+            break;
         case 7:
+            result = (byte) ((0xff00000000000000L & l) >> 56);
+            break;
         default:
             throw new IllegalArgumentException();
         }
         return result;
-    }
-
-    public static final int bitGet(int pos , final long... ls) {
-        if (pos < 0) throw new IllegalArgumentException("pos is less than 0");
-        long value = 0x01L << (pos - (pos >> 6 << 6));
-        return (ls[pos >> 6] & value) != 0x00 ? 1 : 0;
     }
 
     public static final long valueOf(byte[] bs) {

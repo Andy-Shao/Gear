@@ -48,6 +48,61 @@ public final class GraphAlg {
         public double x , y;
     }
 
+    public static final <DATA> void relax(PathVertex<DATA> u , PathVertex<DATA> v , double weight) {
+        //Relax an edge between two vertices u and v.
+        if (v.d > u.d + weight) {
+            v.d = u.d + weight;
+            v.parent = u;
+        }
+    }
+
+    public static final <DATA> Collection<PathVertex<DATA>> shortest(
+        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , Collection<PathVertex<DATA>> result ,
+        Comparator<PathVertex<DATA>> comparator) {
+        //Initialize all of the vertices in the graph.
+        boolean found = false;
+        for(AdjList<PathVertex<DATA>> element : graph.adjlists()){
+            PathVertex<DATA> pth_vertex = element.vertex();
+            if(comparator.compare(pth_vertex , start) == 0){
+                //Initialize the start vertex.
+                pth_vertex.color = VertexColor.WHITE;
+                pth_vertex.d = 0;
+                pth_vertex.parent = null;
+                found = true;
+            } else {
+                //Initialize vertices other than the start vertex.
+                pth_vertex.color = VertexColor.WHITE;
+                pth_vertex.d = Double.MAX_VALUE;
+                pth_vertex.parent = null;
+            }
+        }
+        
+        if(!found) throw new GraphAlgException("The start point doesn't exist in graph!");
+        
+        for(int i=0; i<graph.vcount(); i++){
+            //Select the white vertex with the smallest shortest-path estimate.
+            double minimum = Double.MAX_VALUE;
+            
+            AdjList<PathVertex<DATA>> adjlist = null;
+            for(AdjList<PathVertex<DATA>> element : graph.adjlists()){
+                PathVertex<DATA> pth_vertex = element.vertex();
+                if(pth_vertex.color == VertexColor.WHITE && pth_vertex.d < minimum){
+                    minimum = pth_vertex.d;
+                    adjlist = element;
+                }
+            }
+            
+            //Color the selected vertex black.
+            adjlist.vertex().color = VertexColor.BLACK;
+            
+            //Traverse each vertex adjacent to the selected vertex.
+            for(PathVertex<DATA> member : adjlist.adjacent()){
+                DATA adj_vertex = member.data;
+            }
+        }
+        return result;
+    }
+
     /**
      * (最小生成树)<br>
      * all the answers will store in the 'result'.In the 'result', the root note
