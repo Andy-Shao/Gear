@@ -21,6 +21,12 @@ import com.github.andyshao.data.structure.Graph.VertexColor;
  */
 public final class GraphAlg {
     public static class MstVertex<DATA> {
+        public static final <DATA> void setUntowardEdge(
+            Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
+            Graph.addUntowardEdge(graph , one , two);
+            MstVertex.setUntowardWeight(one , two , weight);
+        }
+
         public static final <DATA> void setUntowardWeight(MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             one.weight.put(two , weight);
             two.weight.put(one , weight);
@@ -30,77 +36,35 @@ public final class GraphAlg {
         public DATA data;
         public double key;
         public MstVertex<DATA> parent;
-
         public final Map<MstVertex<DATA> , Double> weight = new HashMap<>();
     }
 
     public static class PathVertex<DATA> {
+        public static final <DATA> void setDoubleEdge(
+            Graph<PathVertex<DATA>> graph , PathVertex<DATA> one , PathVertex<DATA> two , double one2two ,
+            double two2one) {
+            Graph.addUntowardEdge(graph , one , two);
+            one.weight.put(two , one2two);
+            two.weight.put(one , two2one);
+        }
+
+        public static final <DATA> void setEdge(
+            Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , PathVertex<DATA> end , double weight) {
+            graph.insEdge(start , end);
+            start.weight.put(end , weight);
+        }
+
         public VertexColor color;
         public double d;
         public DATA data;
         public PathVertex<DATA> parent;
-        public double weight;
+        public final Map<PathVertex<DATA> , Double> weight = new HashMap<>();
     }
 
     public static class TspVertex<DATA> {
         public VertexColor color;
         public DATA data;
         public double x , y;
-    }
-
-    public static final <DATA> void relax(PathVertex<DATA> u , PathVertex<DATA> v , double weight) {
-        //Relax an edge between two vertices u and v.
-        if (v.d > u.d + weight) {
-            v.d = u.d + weight;
-            v.parent = u;
-        }
-    }
-
-    public static final <DATA> Collection<PathVertex<DATA>> shortest(
-        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , Collection<PathVertex<DATA>> result ,
-        Comparator<PathVertex<DATA>> comparator) {
-        //Initialize all of the vertices in the graph.
-        boolean found = false;
-        for(AdjList<PathVertex<DATA>> element : graph.adjlists()){
-            PathVertex<DATA> pth_vertex = element.vertex();
-            if(comparator.compare(pth_vertex , start) == 0){
-                //Initialize the start vertex.
-                pth_vertex.color = VertexColor.WHITE;
-                pth_vertex.d = 0;
-                pth_vertex.parent = null;
-                found = true;
-            } else {
-                //Initialize vertices other than the start vertex.
-                pth_vertex.color = VertexColor.WHITE;
-                pth_vertex.d = Double.MAX_VALUE;
-                pth_vertex.parent = null;
-            }
-        }
-        
-        if(!found) throw new GraphAlgException("The start point doesn't exist in graph!");
-        
-        for(int i=0; i<graph.vcount(); i++){
-            //Select the white vertex with the smallest shortest-path estimate.
-            double minimum = Double.MAX_VALUE;
-            
-            AdjList<PathVertex<DATA>> adjlist = null;
-            for(AdjList<PathVertex<DATA>> element : graph.adjlists()){
-                PathVertex<DATA> pth_vertex = element.vertex();
-                if(pth_vertex.color == VertexColor.WHITE && pth_vertex.d < minimum){
-                    minimum = pth_vertex.d;
-                    adjlist = element;
-                }
-            }
-            
-            //Color the selected vertex black.
-            adjlist.vertex().color = VertexColor.BLACK;
-            
-            //Traverse each vertex adjacent to the selected vertex.
-            for(PathVertex<DATA> member : adjlist.adjacent()){
-                DATA adj_vertex = member.data;
-            }
-        }
-        return result;
     }
 
     /**
@@ -165,6 +129,75 @@ public final class GraphAlg {
                     adj_vertex.key = adj_vertex.weight.get(adjlist.vertex());
                     adj_vertex.parent = adjlist.vertex();
                 }
+        }
+
+        return result;
+    }
+
+    /**
+     * (最短路径)<br>
+     * all of the answer will store in 'result'. the parent note of the start
+     * note of 'result''s is null. the others' parent note is the previous
+     * position in 'result'.
+     * 
+     * @param graph {@link Graph} is a toward graph
+     * @param start the start vertex
+     * @param result the collection which should return to.
+     * @param comparator {@link Comparator}
+     * @return result
+     */
+    public static final <DATA> Collection<PathVertex<DATA>> shortest(
+        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , Collection<PathVertex<DATA>> result ,
+        Comparator<PathVertex<DATA>> comparator) {
+        //Initialize all of the vertices in the graph.
+        {
+            boolean found = false;
+            for (AdjList<PathVertex<DATA>> element : graph.adjlists()) {
+                PathVertex<DATA> pth_vertex = element.vertex();
+                if (comparator.compare(pth_vertex , start) == 0) {
+                    //Initialize the start vertex.
+                    pth_vertex.color = VertexColor.WHITE;
+                    pth_vertex.d = 0;
+                    pth_vertex.parent = null;
+                    found = true;
+                } else {
+                    //Initialize vertices other than the start vertex.
+                    pth_vertex.color = VertexColor.WHITE;
+                    pth_vertex.d = Double.MAX_VALUE;
+                    pth_vertex.parent = null;
+                }
+            }
+            if (!found) throw new GraphAlgException("The start point doesn't exist in graph!");
+        }
+
+        for (int i = 0 ; i < graph.vcount() ; i++) {
+            AdjList<PathVertex<DATA>> adjlist = null;
+            //Select the white vertex with the smallest shortest-path estimate.
+            {
+                double minimum = Double.MAX_VALUE;
+                for (AdjList<PathVertex<DATA>> element : graph.adjlists()) {
+                    PathVertex<DATA> pth_vertex = element.vertex();
+                    if (pth_vertex.color == VertexColor.WHITE && pth_vertex.d < minimum) {
+                        minimum = pth_vertex.d;
+                        adjlist = element;
+                    }
+                }
+            }
+
+            //Color the selected vertex black.
+            adjlist.vertex().color = VertexColor.BLACK;
+            result.add(adjlist.vertex());
+
+            //Traverse each vertex adjacent to the selected vertex.
+            for (PathVertex<DATA> adj_vertex : adjlist.adjacent()) {
+                PathVertex<DATA> u = adjlist.vertex();
+                double weight1 = adjlist.vertex().weight.get(adj_vertex);
+                //Relax an edge between two vertices u and v.
+                if (adj_vertex.d > u.d + weight1) {
+                    adj_vertex.d = u.d + weight1;
+                    adj_vertex.parent = u;
+                }
+            }
         }
 
         return result;

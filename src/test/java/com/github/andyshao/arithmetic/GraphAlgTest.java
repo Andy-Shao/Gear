@@ -10,6 +10,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.github.andyshao.arithmetic.GraphAlg.MstVertex;
+import com.github.andyshao.arithmetic.GraphAlg.PathVertex;
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.SingleLinked;
@@ -24,12 +25,60 @@ public class GraphAlgTest {
     }
 
     @Test
+    public void testShortest() {
+        final Comparator<PathVertex<String>> comparator =
+            (PathVertex<String> one , PathVertex<String> two) -> StringOperation.getComparator().compare(one.data ,
+                two.data);
+        final Graph<PathVertex<String>> graph =
+            Graph.defaultGraph(comparator ,
+                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+        final PathVertex<String> a = buildPathVertex("a");
+        final PathVertex<String> b = buildPathVertex("b");
+        final PathVertex<String> c = buildPathVertex("c");
+        final PathVertex<String> d = buildPathVertex("d");
+        final PathVertex<String> e = buildPathVertex("e");
+        final PathVertex<String> f = buildPathVertex("f");
+        
+        graph.insVertex(a);
+        graph.insVertex(b);
+        graph.insVertex(c);
+        graph.insVertex(d);
+        graph.insVertex(e);
+        graph.insVertex(f);
+        PathVertex.setEdge(graph , a , b , 8);
+        PathVertex.setEdge(graph , a , c , 4);
+        PathVertex.setEdge(graph , b , c , 6);
+        PathVertex.setEdge(graph , b , d , 2);
+        PathVertex.setEdge(graph , c , f , 1);
+        PathVertex.setEdge(graph , c , e , 4);
+        PathVertex.setEdge(graph , e , f , 5);
+        PathVertex.setEdge(graph , f , b , 2);
+        PathVertex.setEdge(graph , f , d , 7);
+        
+        List<PathVertex<String>> list = new ArrayList<>();
+        GraphAlg.shortest(graph , a , list , comparator);
+        Iterator<PathVertex<String>> iterator = list.iterator();
+        Assert.assertThat(iterator.next() , Matchers.is(a));
+        Assert.assertThat(iterator.next() , Matchers.is(c));
+        Assert.assertThat(iterator.next() , Matchers.is(f));
+        Assert.assertThat(iterator.next() , Matchers.is(b));
+        Assert.assertThat(iterator.next() , Matchers.is(e));
+        Assert.assertThat(iterator.next() , Matchers.is(d));
+    }
+
+    public static final <DATA> PathVertex<DATA> buildPathVertex(DATA data) {
+        PathVertex<DATA> pathVertex = new PathVertex<DATA>();
+        pathVertex.data = data;
+        return pathVertex;
+    }
+
+    @Test
     public void testMst() {
-        Comparator<MstVertex<String>> mstVertexComparator =
+        final Comparator<MstVertex<String>> comparator =
             (MstVertex<String> one , MstVertex<String> two) -> StringOperation.getComparator().compare(one.data ,
                 two.data);
         final Graph<MstVertex<String>> graph =
-            Graph.defaultGraph(mstVertexComparator ,
+            Graph.defaultGraph(comparator ,
                 () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         final MstVertex<String> a = GraphAlgTest.buildMstVertex("a");
         final MstVertex<String> b = GraphAlgTest.buildMstVertex("b");
@@ -44,27 +93,18 @@ public class GraphAlgTest {
         graph.insVertex(e);
         graph.insVertex(f);
 
-        MstVertex.setUntowardWeight(a , b , 7);
-        MstVertex.setUntowardWeight(a , c , 4);
-        MstVertex.setUntowardWeight(b , c , 6);
-        MstVertex.setUntowardWeight(b , d , 2);
-        MstVertex.setUntowardWeight(b , f , 4);
-        MstVertex.setUntowardWeight(c , f , 8);
-        MstVertex.setUntowardWeight(c , e , 9);
-        MstVertex.setUntowardWeight(d , f , 7);
-        MstVertex.setUntowardWeight(e , f , 1);
-        Graph.addUntowardEdge(graph , a , b);
-        Graph.addUntowardEdge(graph , a , c);
-        Graph.addUntowardEdge(graph , b , c);
-        Graph.addUntowardEdge(graph , b , d);
-        Graph.addUntowardEdge(graph , b , f);
-        Graph.addUntowardEdge(graph , c , f);
-        Graph.addUntowardEdge(graph , c , e);
-        Graph.addUntowardEdge(graph , d , f);
-        Graph.addUntowardEdge(graph , e , f);
+        MstVertex.setUntowardEdge(graph , a , b , 7);
+        MstVertex.setUntowardEdge(graph , a , c , 4);
+        MstVertex.setUntowardEdge(graph , b , c , 6);
+        MstVertex.setUntowardEdge(graph , b , d , 2);
+        MstVertex.setUntowardEdge(graph , b , f , 4);
+        MstVertex.setUntowardEdge(graph , c , f , 8);
+        MstVertex.setUntowardEdge(graph , c , e , 9);
+        MstVertex.setUntowardEdge(graph , d , f , 7);
+        MstVertex.setUntowardEdge(graph , e , f , 1);
 
         List<MstVertex<String>> list = new ArrayList<>();
-        GraphAlg.mst(graph , a , list , mstVertexComparator);
+        GraphAlg.mst(graph , a , list , comparator);
         Iterator<MstVertex<String>> iterator = list.iterator();
         Assert.assertThat(iterator.next() , Matchers.is(a));
         Assert.assertThat(iterator.next() , Matchers.is(c));
