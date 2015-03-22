@@ -142,24 +142,24 @@ public final class GraphAlg {
     static final <DATA> void scam(
         List<PathVertex<DATA>> shortest , PathVertex<DATA> end , Collection<PathVertex<DATA>> result ,
         Comparator<PathVertex<DATA>> comparator) {
-        int index = 0;
+        int index = shortest.size() - 1;
         boolean found = false;
 
-        while (index >= 0) {
-            if (comparator.compare(shortest.get(index) , end) == 0) {
+        while (index >= 0)
+            if (comparator.compare(shortest.get(index--) , end) == 0) {
                 found = true;
                 break;
             }
-            index--;
-        }
         if (!found) return;
-        while (index >= 0)
-            VERTEX: for (PathVertex<DATA> vertex : shortest.get(index).weight.keySet())
+        while (index >= 0) {
+            PathVertex<DATA> parent = shortest.get(index--);
+            VERTEX: for (PathVertex<DATA> vertex : parent.weight.keySet())
                 if (comparator.compare(vertex , end) == 0) {
-                    result.add(vertex);
-                    GraphAlg.scam(shortest , vertex , result , comparator);
+                    result.add(parent);
+                    end = parent;
                     break VERTEX;
                 }
+        }
     }
 
     /**

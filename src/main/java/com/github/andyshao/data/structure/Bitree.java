@@ -91,6 +91,22 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
+        public Bitree<DATA> bitreeMeger(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+            return new MyBitree<DATA>(this.getTreeNodeFactory() , left , right , data);
+        }
+
+        @Override
+        public void clear() {
+            this.root = null;
+            this.size = 0;
+        }
+
+        @Override
+        public Supplier<BitreeNode<DATA>> getTreeNodeFactory() {
+            return this.treeNodeFactory;
+        }
+
+        @Override
         public BitreeNode<DATA> insLeft(BitreeNode<DATA> node , DATA data) throws TreeOperationException {
             BitreeNode<DATA> new_node;
 
@@ -186,22 +202,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         @Override
-        public Bitree<DATA> bitreeMeger(Bitree<DATA> left , Bitree<DATA> right , DATA data) {
-            return new MyBitree<DATA>(this.getTreeNodeFactory() , left , right , data);
-        }
-
-        @Override
-        public void clear() {
-            this.root = null;
-            this.size = 0;
-        }
-
-        @Override
-        public Supplier<BitreeNode<DATA>> getTreeNodeFactory() {
-            return this.treeNodeFactory;
-        }
-
-        @Override
         public BitreeNode<DATA> root() {
             return this.root;
         }
@@ -211,14 +211,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
             return this.size;
         }
 
-    }
-
-    public static <DATA> boolean isEob(BitreeNode<DATA> node) {
-        return node == null;
-    }
-
-    public static <DATA> boolean isLeaf(BitreeNode<DATA> node) {
-        return node.left() == null && node.right() == null;
     }
 
     public static <DATA> Bitree<DATA> defaultBitTree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
@@ -234,6 +226,14 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         return result;
+    }
+
+    public static <DATA> boolean isEob(BitreeNode<DATA> node) {
+        return node == null;
+    }
+
+    public static <DATA> boolean isLeaf(BitreeNode<DATA> node) {
+        return node.left() == null && node.right() == null;
     }
 
     public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
@@ -257,6 +257,16 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
         return result;
     }
+
+    public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
+
+    @Override
+    public default void clear() {
+        //Remove all the nodes from the tree.
+        this.remLeft(null);
+    }
+
+    public Supplier<BitreeNode<D>> getTreeNodeFactory();
 
     /**
      * add a left for node<br>
@@ -301,16 +311,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
      * @throws TreeOperationException other exception of action'
      */
     public void remRight(BitreeNode<D> node) throws TreeOperationException;
-
-    public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
-
-    @Override
-    public default void clear() {
-        //Remove all the nodes from the tree.
-        this.remLeft(null);
-    }
-
-    public Supplier<BitreeNode<D>> getTreeNodeFactory();
 
     @Override
     public BitreeNode<D> root();

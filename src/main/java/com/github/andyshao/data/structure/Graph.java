@@ -208,19 +208,6 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
-        public void clear() {
-            this.vcount = 0;
-            this.ecount = 0;
-            this.adjlists.clear();
-            this.actionAcount++;
-        }
-
-        @Override
-        public Supplier<AdjList<DATA>> getAdjListFactory() {
-            return this.adjListFactory;
-        }
-
-        @Override
         public Graph.AdjList<DATA> adjlist(DATA data) {
             CycleLinkedElmt<AdjList<DATA>> element;
 
@@ -241,8 +228,21 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
+        public void clear() {
+            this.vcount = 0;
+            this.ecount = 0;
+            this.adjlists.clear();
+            this.actionAcount++;
+        }
+
+        @Override
         public int ecount() {
             return this.ecount;
+        }
+
+        @Override
+        public Supplier<AdjList<DATA>> getAdjListFactory() {
+            return this.adjListFactory;
         }
 
         @Override
@@ -300,6 +300,12 @@ public interface Graph<D> extends Cleanable {
         }
 
         @Override
+        public boolean match(DATA data1 , DATA data2) {
+            if (this.comparator.compare(data1 , data2) == 0) return true;
+            else return false;
+        }
+
+        @Override
         public void remEdge(DATA data1 , DATA data2) {
             CycleLinkedElmt<AdjList<DATA>> element;
 
@@ -351,17 +357,6 @@ public interface Graph<D> extends Cleanable {
             return result;
         }
 
-        @Override
-        public int vcount() {
-            return this.vcount;
-        }
-
-        @Override
-        public boolean match(DATA data1 , DATA data2) {
-            if (this.comparator.compare(data1 , data2) == 0) return true;
-            else return false;
-        }
-
         /**
          * search {@link CycleLinkedElmt} by data.
          * 
@@ -388,6 +383,11 @@ public interface Graph<D> extends Cleanable {
         public void setAdjListFactory(Supplier<Graph.AdjList<DATA>> adjListFactory) {
             if (this.actionAcount != 0) throw new SecurityException("Only could set field before insert & remove.");
             this.adjListFactory = adjListFactory;
+        }
+
+        @Override
+        public int vcount() {
+            return this.vcount;
         }
     }
 
@@ -517,8 +517,6 @@ public interface Graph<D> extends Cleanable {
         return result;
     }
 
-    public Supplier<AdjList<D>> getAdjListFactory();
-
     /**
      * find the {@link AdjList} by data
      * 
@@ -531,19 +529,21 @@ public interface Graph<D> extends Cleanable {
 
     public int ecount();
 
+    public Supplier<AdjList<D>> getAdjListFactory();
+
     public void insEdge(final D data1 , final D data2);
 
     public void insVertex(final D data);
 
     public boolean isAdjacent(final D data1 , final D data2);
 
+    public boolean match(D data1 , D data2);
+
     public void remEdge(final D data1 , final D data2);
 
     public D remVertex(D data);
 
-    public int vcount();
-
-    public boolean match(D data1 , D data2);
-
     public void setAdjListFactory(Supplier<AdjList<D>> adjListFactory);
+
+    public int vcount();
 }

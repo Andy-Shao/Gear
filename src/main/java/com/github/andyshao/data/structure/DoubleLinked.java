@@ -182,28 +182,6 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             }
 
             @Override
-            public Iterator<DATA> iterator() {
-                // TODO Auto-generated method stub
-                return new Iterator<DATA>() {
-                    private DoubleLinked.DoubleLinkedElmt<DATA> index = head;
-                    private final long myActioncount = actionCount;
-
-                    @Override
-                    public boolean hasNext() {
-                        if (this.myActioncount != actionCount) throw new ConcurrentModificationException();
-                        return this.index != null;
-                    }
-
-                    @Override
-                    public DATA next() {
-                        DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
-                        this.index = this.index.next();
-                        return result.data();
-                    }
-                };
-            }
-
-            @Override
             public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
                 //Do not allow a NULL element unless the list is empty.
                 if (element == null && this.size() != 0) throw new LinkedOperationException(
@@ -233,6 +211,28 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                 this.size++;
                 this.actionCount++;
 
+            }
+
+            @Override
+            public Iterator<DATA> iterator() {
+                // TODO Auto-generated method stub
+                return new Iterator<DATA>() {
+                    private DoubleLinked.DoubleLinkedElmt<DATA> index = head;
+                    private final long myActioncount = actionCount;
+
+                    @Override
+                    public boolean hasNext() {
+                        if (this.myActioncount != actionCount) throw new ConcurrentModificationException();
+                        return this.index != null;
+                    }
+
+                    @Override
+                    public DATA next() {
+                        DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
+                        this.index = this.index.next();
+                        return result.data();
+                    }
+                };
             }
 
             @Override

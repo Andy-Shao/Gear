@@ -92,11 +92,6 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
     }
 
     @Override
-    public Iterator<D> iterator() {
-        return this.new MyIterator();
-    }
-
-    @Override
     public void insNext(CycleLinkedElmt<D> element , final D data) {
         CycleLinkedElmt<D> new_element = this.cycleLinkedElmt.apply(data);
 
@@ -117,6 +112,11 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
         //Adjust the size of the list to account for the inserted element.
         this.size++;
         this.actionCount++;
+    }
+
+    @Override
+    public Iterator<D> iterator() {
+        return this.new MyIterator();
     }
 
     @Override

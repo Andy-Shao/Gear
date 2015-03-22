@@ -39,7 +39,7 @@ public final class IntegerOperation {
 
     public static final int valueOf(short[] s) {
         int i = 0x00000000;
-        i = (i |s[1]) << 16;
+        i = (i | s[1]) << 16;
         i |= s[0];
         return i;
     }

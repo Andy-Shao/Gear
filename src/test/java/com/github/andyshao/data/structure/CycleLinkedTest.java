@@ -26,8 +26,8 @@ public class CycleLinkedTest {
         Assert.assertThat(this.linked.size() , Matchers.is(0));
 
         this.fill();
-        
-        for(String str : this.linked)
+
+        for (String str : this.linked)
             System.out.println(str);
 
         Assert.assertThat(this.linked.size() , Matchers.is(2));

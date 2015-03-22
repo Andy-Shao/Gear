@@ -19,6 +19,24 @@ import com.github.andyshao.util.CollectionModel;
  */
 public interface Stack<D> extends CollectionModel<D> {
     public class MyStack<DATA , E extends Linked.LinkedElmt<DATA , E>> implements Stack<DATA> {
+        class MyIterator implements Iterator<DATA> {
+            @SuppressWarnings("unchecked")
+            private final DATA[] data = MyStack.this.linked.toArray((DATA[]) Array.newInstance(MyStack.this.linked
+                .head().data().getClass() , MyStack.this.linked.size()));
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return this.index < MyStack.this.linked.size();
+            }
+
+            @Override
+            public DATA next() {
+                return this.data[this.index++];
+            }
+
+        }
+
         private final Linked<DATA , E> linked;
 
         public MyStack(Linked<DATA , E> linked) {
@@ -34,23 +52,6 @@ public interface Stack<D> extends CollectionModel<D> {
         @Override
         public void clear() {
             this.linked.clear();
-        }
-        
-        class MyIterator implements Iterator<DATA>{
-            private int index = 0;
-            @SuppressWarnings("unchecked")
-            private final DATA[] data = linked.toArray((DATA[]) Array.newInstance(linked.head().data().getClass() , linked.size()));
-
-            @Override
-            public boolean hasNext() {
-                return this.index < linked.size();
-            }
-
-            @Override
-            public DATA next() {
-                return this.data[this.index++];
-            }
-            
         }
 
         @Override

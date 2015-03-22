@@ -60,13 +60,13 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             }
 
             @Override
-            public Iterator<DATA> iterator() {
-                return linked.iterator();
+            public void insNext(CycleLinkedElmt<DATA> element , DATA data) {
+                linked.insNext(element , data);
             }
 
             @Override
-            public void insNext(CycleLinkedElmt<DATA> element , DATA data) {
-                linked.insNext(element , data);
+            public Iterator<DATA> iterator() {
+                return linked.iterator();
             }
 
             @Override
