@@ -1,11 +1,9 @@
 package com.github.andyshao.data.structure;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Function;
 
-import com.github.andyshao.lang.Cleanable;
 import com.github.andyshao.util.CollectionModel;
 
 /**
@@ -22,7 +20,7 @@ import com.github.andyshao.util.CollectionModel;
  * @param <D> data
  * @param <T> element type
  */
-public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanable , Iterable<D> {
+public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends CollectionModel<D> {
 
     public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> {
 
@@ -38,6 +36,12 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
         public abstract void setData(DATA data);
 
         public abstract void setNext(T next);
+    }
+
+    @Override
+    public default boolean add(D e) {
+        Linked.this.insNext(Linked.this.tail() , e);
+        return true;
     }
 
     public Function<D , T> getElmtFactory(D data);
@@ -56,55 +60,31 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Cleanabl
      */
     public D remNext(T element);
 
+    @Override
+    public default boolean remove(Object o) {
+        T prev = null;
+        for (T element = Linked.this.head() ; element != null ; element = element.next()) {
+            if (Objects.equals(element.data() , o)) {
+                Linked.this.remNext(prev);
+                break;
+            }
+            prev = element;
+        }
+        return true;
+    }
+
+    @Override
+    public default boolean retainAll(Collection<?> c) {
+        T prev = null;
+        for (T element = Linked.this.head() ; element != null ; element = element.next())
+            if (!c.contains(element.data())) Linked.this.remNext(prev);
+            else prev = element;
+        return true;
+    }
+
+    @Override
     public int size();
 
     public T tail();
 
-    public default Collection<D> toCollection() {
-        return new CollectionModel<D>() {
-
-            @Override
-            public boolean add(D e) {
-                Linked.this.insNext(Linked.this.tail() , e);
-                return true;
-            }
-
-            @Override
-            public void clear() {
-                Linked.this.clear();
-            }
-
-            @Override
-            public Iterator<D> iterator() {
-                return Linked.this.iterator();
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                T prev = null;
-                for (T element = Linked.this.head() ; element != null ; element = element.next()) {
-                    if (Objects.equals(element.data() , o)) {
-                        Linked.this.remNext(prev);
-                        break;
-                    }
-                    prev = element;
-                }
-                return true;
-            }
-
-            @Override
-            public boolean retainAll(Collection<?> c) {
-                T prev = null;
-                for (T element = Linked.this.head() ; element != null ; element = element.next())
-                    if (!c.contains(element.data())) Linked.this.remNext(prev);
-                    else prev = element;
-                return true;
-            }
-
-            @Override
-            public int size() {
-                return Linked.this.size();
-            }
-        };
-    }
 }

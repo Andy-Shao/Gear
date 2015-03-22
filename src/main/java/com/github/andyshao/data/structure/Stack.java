@@ -1,8 +1,9 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Collection;
 import java.util.Iterator;
 
-import com.github.andyshao.lang.Cleanable;
+import com.github.andyshao.util.CollectionModel;
 
 /**
  * 
@@ -15,10 +16,16 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Stack<D> extends Cleanable , Iterable<D> {
+public interface Stack<D> extends CollectionModel<D> {
 
     public static <DATA , E extends Linked.LinkedElmt<DATA , E>> Stack<DATA> defaultStack(Linked<DATA , E> linked) {
         return new Stack<DATA>() {
+
+            @Override
+            public boolean add(DATA e) {
+                this.push(e);
+                return true;
+            }
 
             @Override
             public void clear() {
@@ -46,6 +53,16 @@ public interface Stack<D> extends Cleanable , Iterable<D> {
             }
 
             @Override
+            public boolean remove(Object o) {
+                return linked.remove(o);
+            }
+
+            @Override
+            public boolean retainAll(Collection<?> c) {
+                return linked.retainAll(c);
+            }
+
+            @Override
             public int size() {
                 return linked.size();
             }
@@ -58,6 +75,7 @@ public interface Stack<D> extends Cleanable , Iterable<D> {
 
     public void push(final D data);
 
+    @Override
     public int size();
 
 }
