@@ -1,13 +1,18 @@
 package com.github.andyshao.arithmetic;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.Graph.AdjList;
 import com.github.andyshao.data.structure.Graph.VertexColor;
+import com.github.andyshao.data.structure.SingleLinked;
+import com.github.andyshao.data.structure.Stack;
 
 /**
  * 
@@ -134,6 +139,29 @@ public final class GraphAlg {
         return result;
     }
 
+    static final <DATA> void scam(
+        List<PathVertex<DATA>> shortest , PathVertex<DATA> end , Collection<PathVertex<DATA>> result ,
+        Comparator<PathVertex<DATA>> comparator) {
+        int index = 0;
+        boolean found = false;
+
+        while (index >= 0) {
+            if (comparator.compare(shortest.get(index) , end) == 0) {
+                found = true;
+                break;
+            }
+            index--;
+        }
+        if (!found) return;
+        while (index >= 0)
+            VERTEX: for (PathVertex<DATA> vertex : shortest.get(index).weight.keySet())
+                if (comparator.compare(vertex , end) == 0) {
+                    result.add(vertex);
+                    GraphAlg.scam(shortest , vertex , result , comparator);
+                    break VERTEX;
+                }
+    }
+
     /**
      * (最短路径)<br>
      * all of the answer will store in 'result'. the parent note of the start
@@ -144,6 +172,7 @@ public final class GraphAlg {
      * @param start the start vertex
      * @param result the collection which should return to.
      * @param comparator {@link Comparator}
+     * @param <DATA> data type
      * @return result
      */
     public static final <DATA> Collection<PathVertex<DATA>> shortest(
@@ -200,6 +229,23 @@ public final class GraphAlg {
             }
         }
 
+        return result;
+    }
+
+    public static final <DATA> Map<PathVertex<DATA> , Collection<PathVertex<DATA>>> shortest2end(
+        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , Collection<PathVertex<DATA>> ends ,
+        Comparator<PathVertex<DATA>> comparator) {
+        final Map<PathVertex<DATA> , Collection<PathVertex<DATA>>> result = new HashMap<>();
+        final List<PathVertex<DATA>> answer = new ArrayList<>();
+        GraphAlg.shortest(graph , start , answer , comparator);
+
+        for (PathVertex<DATA> end : ends) {
+            final Stack<PathVertex<DATA>> temp =
+                Stack.defaultStack(SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+            temp.add(end);
+            GraphAlg.scam(answer , end , temp , comparator);
+            result.put(end , temp);
+        }
         return result;
     }
 

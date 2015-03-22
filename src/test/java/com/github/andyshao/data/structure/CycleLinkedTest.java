@@ -5,7 +5,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-@Deprecated
 public class CycleLinkedTest {
     private final String[] data = new String[] {
         "Andy" , "Shao"
@@ -27,6 +26,9 @@ public class CycleLinkedTest {
         Assert.assertThat(this.linked.size() , Matchers.is(0));
 
         this.fill();
+        
+        for(String str : this.linked)
+            System.out.println(str);
 
         Assert.assertThat(this.linked.size() , Matchers.is(2));
     }

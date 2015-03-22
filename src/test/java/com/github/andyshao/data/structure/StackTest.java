@@ -2,6 +2,7 @@ package com.github.andyshao.data.structure;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -32,6 +33,18 @@ public class StackTest {
 
     public StackTest(Stack<String> stack) {
         this.stack = stack;
+    }
+
+    @Test
+    public void testIterator() {
+        for (int i = 0 ; i < this.data.length ; i++)
+            this.stack.push(this.data[i]);
+
+        Iterator<String> iterator = this.stack.iterator();
+        Assert.assertThat(iterator.next() , Matchers.is(this.data[this.data.length - 1]));
+
+        this.stack.clear();
+        Assert.assertThat(this.stack.size() , Matchers.is(0));
     }
 
     @Test

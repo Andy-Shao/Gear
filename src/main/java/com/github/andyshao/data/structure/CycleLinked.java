@@ -16,14 +16,33 @@ import java.util.function.Function;
  * @param <DATA> data
  */
 public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
+    class MyIterator implements Iterator<DATA> {
+        private final long actionCount = CycleLinked.this.actionAcount;
+        private volatile CycleLinkedElmt<DATA> index = CycleLinked.this.head();
+        private volatile int position = 0;
 
-    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
-        return new CycleLinked<DATA>() {
+        @Override
+        public boolean hasNext() {
+            if (this.actionCount != CycleLinked.this.actionAcount) throw new ConcurrentModificationException();
+            return this.position < CycleLinked.this.size();
+        }
 
-        };
+        @Override
+        public DATA next() {
+            CycleLinkedElmt<DATA> result = this.index;
+            this.index = this.index.next();
+            this.position++;
+            return result.data();
+        }
+
     }
 
-    private long actionAccount = 0;
+    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
+        return new CycleLinked<DATA>();
+    }
+
+    private long actionAcount = 0;
+
     private CycleLinkedElmt<DATA> head;
 
     private int size;
@@ -35,6 +54,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
             else if (this.size == 1) {
                 this.head.free();
                 this.head = null;
+                this.size = 0;
                 return;
             } else this.remNext(this.head);
         while (this.size != 0);
@@ -49,30 +69,6 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
     @Override
     public CycleLinkedElmt<DATA> head() {
         return this.head;
-    }
-
-    @Override
-    public Iterator<DATA> iterator() {
-        return new Iterator<DATA>() {
-            private volatile boolean asked = false;
-            private volatile CycleLinkedElmt<DATA> index;
-            private final long linkedActionAccount = CycleLinked.this.actionAccount;
-
-            @Override
-            public boolean hasNext() {
-                if (this.linkedActionAccount != CycleLinked.this.actionAccount) throw new ConcurrentModificationException();
-                else if (this.asked && this.index.equals(CycleLinked.this.head)) return false;
-                else if (!this.asked) this.asked = true;
-                return this.index != null;
-            }
-
-            @Override
-            public DATA next() {
-                CycleLinkedElmt<DATA> result = this.index;
-                this.index = this.index.next();
-                return result.data();
-            }
-        };
     }
 
     @Override
@@ -94,7 +90,12 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
         //Adjust the size of the list to account for the inserted element.
         this.size++;
-        this.actionAccount++;
+        this.actionAcount++;
+    }
+
+    @Override
+    public Iterator<DATA> iterator() {
+        return new MyIterator();
     }
 
     @Override
@@ -123,7 +124,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
         //Adjust the size of the list to account for the removed element.
         this.size--;
-        this.actionAccount++;
+        this.actionAcount++;
 
         return data;
     }
