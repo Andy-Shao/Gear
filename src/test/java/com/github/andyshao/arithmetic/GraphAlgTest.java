@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.junit.Test;
 
 import com.github.andyshao.arithmetic.GraphAlg.MstVertex;
 import com.github.andyshao.arithmetic.GraphAlg.PathVertex;
+import com.github.andyshao.arithmetic.GraphAlg.TspVertex;
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.SingleLinked;
@@ -30,6 +32,14 @@ public class GraphAlgTest {
         PathVertex<DATA> pathVertex = new PathVertex<DATA>();
         pathVertex.data = data;
         return pathVertex;
+    }
+
+    public static final <DATA> TspVertex<DATA> buildTspVertex(DATA data , double x , double y) {
+        TspVertex<DATA> result = new TspVertex<DATA>();
+        result.data = data;
+        result.x = x;
+        result.y = y;
+        return result;
     }
 
     @Test
@@ -102,18 +112,38 @@ public class GraphAlgTest {
         PathVertex.setEdge(graph , f , d , 7);
 
         List<PathVertex<String>> list = new ArrayList<>();
-        GraphAlg.shortest(graph , a , list , comparator);
+        GraphAlg.findShortest(graph , a , list , comparator);
         Assert.assertThat(list.toArray() , Matchers.is(new Object[] {
             a , c , f , b , e , d
         }));
 
-        Map<PathVertex<String> , Collection<PathVertex<String>>> answer =
-            GraphAlg.shortest2end(graph , a , Arrays.asList(e , d) , comparator);
+        Map<PathVertex<String> , Collection<PathVertex<String>>> answer = new HashMap<>();
+        GraphAlg.shortest(graph , a , Arrays.asList(e , d) , answer , comparator);
         Assert.assertThat(answer.get(d).toArray() , Matchers.is(new Object[] {
             a , c , f , b , d
         }));
         Assert.assertThat(answer.get(e).toArray() , Matchers.is(new Object[] {
             a , c , e
+        }));
+    }
+
+    @Test
+    public void testTsp() {
+        final Comparator<TspVertex<String>> comparator =
+            (one , two) -> StringOperation.getComparator().compare(one.data , two.data);
+        final TspVertex<String> a = GraphAlgTest.buildTspVertex("a" , 2 , 1);
+        final TspVertex<String> b = GraphAlgTest.buildTspVertex("b" , 5 , 2);
+        final TspVertex<String> c = GraphAlgTest.buildTspVertex("c" , 1 , 3);
+        final TspVertex<String> d = GraphAlgTest.buildTspVertex("d" , 4 , 3);
+        final TspVertex<String> e = GraphAlgTest.buildTspVertex("e" , 6 , 3);
+        final TspVertex<String> f = GraphAlgTest.buildTspVertex("f" , 2 , 4);
+        final TspVertex<String> g = GraphAlgTest.buildTspVertex("g" , 5 , 5);
+        final List<TspVertex<String>> list = Arrays.asList(a , b , c , d , e , f , g);
+
+        final List<TspVertex<String>> result = new ArrayList<>();
+        GraphAlg.tsp(list , a , result , comparator);
+        Assert.assertThat(result.toArray() , Matchers.is(new Object[] {
+            a , c , f , d , b , e , g , a
         }));
     }
 }
