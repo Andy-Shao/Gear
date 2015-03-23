@@ -17,7 +17,7 @@ import com.github.andyshao.data.structure.Stack;
 /**
  * 
  * Title:<br>
- * Descript:<br>
+ * Descript:图算法<br>
  * Copyright: Copryright(c) Mar 15, 2015<br>
  * Encoding:UNIX UTF-8
  * 
