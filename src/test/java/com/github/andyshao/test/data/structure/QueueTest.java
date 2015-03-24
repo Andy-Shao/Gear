@@ -27,7 +27,7 @@ public class QueueTest {
             } ,
             {
                 Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked
-                    .defaultCycleLinked())
+                    .defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
             }
         });
     }

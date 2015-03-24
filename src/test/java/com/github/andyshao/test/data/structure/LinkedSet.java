@@ -42,8 +42,8 @@ public interface LinkedSet<D> extends Linked<D , CycleLinkedElmt<D>> , Set<D> {
             }
 
             @Override
-            public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
-                return linked.getElmtFactory(data);
+            public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory() {
+                return linked.getElmtFactory();
             }
 
             @Override

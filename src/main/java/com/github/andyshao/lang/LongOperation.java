@@ -11,43 +11,35 @@ package com.github.andyshao.lang;
  *
  */
 public final class LongOperation {
-    public static final int bitGet(int pos , final long... ls) {
-        if (pos < 0) throw new IllegalArgumentException("pos is less than 0");
-        long value = 0x01L << (pos - (pos >> 6 << 6));
-        return (ls[pos >> 6] & value) != 0x00 ? 1 : 0;
-    }
-
     public static final byte getByte(long l , int pos) {
-        byte result = 0x00;
         switch (pos) {
         case 0:
-            result = (byte) (0x00000000000000ffL & l);
-            break;
+            return (byte) (0x00000000000000ffL & l);
         case 1:
-            result = (byte) ((0xff00L & l) >> 8);
-            break;
+            return (byte) ((0xff00L & l) >> 8);
         case 2:
-            result = (byte) ((0xff0000L & l) >> 16);
-            break;
+            return (byte) ((0xff0000L & l) >> 16);
         case 3:
-            result = (byte) ((0xff000000 & l) >> 24);
-            break;
+            return (byte) ((0xff000000 & l) >> 24);
         case 4:
-            result = (byte) ((0xff00000000L & l) >> 32);
-            break;
+            return (byte) ((0xff00000000L & l) >> 32);
         case 5:
-            result = (byte) ((0xff0000000000L & l) >> 40);
-            break;
+            return (byte) ((0xff0000000000L & l) >> 40);
         case 6:
-            result = (byte) ((0xff000000000000L & l) >> 48);
-            break;
+            return (byte) ((0xff000000000000L & l) >> 48);
         case 7:
-            result = (byte) ((0xff00000000000000L & l) >> 56);
-            break;
+            return (byte) ((0xff00000000000000L & l) >> 56);
         default:
             throw new IllegalArgumentException();
         }
-        return result;
+    }
+
+    public static final byte[] toByte(long l) {
+        return new byte[] {
+            LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) ,
+            LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) , LongOperation.getByte(l , 5) ,
+            LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7)
+        };
     }
 
     public static final long valueOf(byte[] bs) {
@@ -61,16 +53,6 @@ public final class LongOperation {
         l = (l | bs[1]) << 8;
         l |= bs[0];
         return l;
-    }
-
-    public static final long valueOf(int[] is) {
-        //TODO
-        return 0L;
-    }
-
-    public static final long valueOf(short[] s) {
-        //TODO
-        return 0L;
     }
 
     public LongOperation() {

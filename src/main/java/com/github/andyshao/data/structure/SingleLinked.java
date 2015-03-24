@@ -41,14 +41,14 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
     }
 
     private long actionCount = 0;
-    private final Function<D , CycleLinkedElmt<D>> cycleLinkedElmt;
+    private final Function<D , CycleLinkedElmt<D>> cycleLinkedElmtFactory;
     private CycleLinkedElmt<D> head;
     private int size = 0;
 
     private CycleLinkedElmt<D> tail;
 
-    public SingleLinked(Function<D , CycleLinkedElmt<D>> cycleLinkedElmt) {
-        this.cycleLinkedElmt = cycleLinkedElmt;
+    public SingleLinked(Function<D , CycleLinkedElmt<D>> cycleLinkedElmtFactory) {
+        this.cycleLinkedElmtFactory = cycleLinkedElmtFactory;
     }
 
     @Override
@@ -77,8 +77,8 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
     }
 
     @Override
-    public Function<D , CycleLinkedElmt<D>> getElmtFactory(D data) {
-        return this.cycleLinkedElmt;
+    public Function<D , CycleLinkedElmt<D>> getElmtFactory() {
+        return this.cycleLinkedElmtFactory;
     }
 
     @Override
@@ -93,7 +93,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
 
     @Override
     public void insNext(CycleLinkedElmt<D> element , final D data) {
-        CycleLinkedElmt<D> new_element = this.cycleLinkedElmt.apply(data);
+        CycleLinkedElmt<D> new_element = this.cycleLinkedElmtFactory.apply(data);
 
         if (element == null) {
             //Handle insertion at the head of the list.
@@ -121,7 +121,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
 
     @Override
     public D remNext(CycleLinkedElmt<D> element) {
-        CycleLinkedElmt<D> old_element = this.cycleLinkedElmt.apply(null);
+        CycleLinkedElmt<D> old_element = this.cycleLinkedElmtFactory.apply(null);
         D data = null;
 
         if (this.size() == 0) throw new LinkedOperationException("Do not allow removal from an empty list.");

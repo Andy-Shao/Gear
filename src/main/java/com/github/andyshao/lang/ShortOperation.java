@@ -12,9 +12,20 @@ package com.github.andyshao.lang;
  */
 public final class ShortOperation {
 
+    public static final byte getByte(short s , int position) {
+        switch (position) {
+        case 0:
+            return (byte) (0x00ff & s);
+        case 1:
+            return (byte) ((0xff00 & s) >> 8);
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     public static final byte[] toByte(short s) {
         return new byte[] {
-            (byte) (0x00ff & s) , (byte) ((0xff00 & s) >> 8)
+            ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1)
         };
     }
 

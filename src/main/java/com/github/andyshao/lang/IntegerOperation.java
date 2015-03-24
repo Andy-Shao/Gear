@@ -11,16 +11,25 @@ package com.github.andyshao.lang;
  *
  */
 public final class IntegerOperation {
-    public static final byte[] toByte(int i) {
-        return new byte[] {
-            (byte) (0x000000ff & i) , (byte) ((0x0000ff00 & i) >> 8) , (byte) ((0x00ff0000 & i) >> 16) ,
-            (byte) ((0xff000000 & i) >> 24)
-        };
+    public static final byte getByte(int i , int position) {
+        switch (position) {
+        case 0:
+            return (byte) (0x000000ff & i);
+        case 1:
+            return (byte) ((0x0000ff00 & i) >> 8);
+        case 2:
+            return (byte) ((0x00ff0000 & i) >> 16);
+        case 3:
+            return (byte) ((0xff000000 & i) >> 24);
+        default:
+            throw new IllegalArgumentException();
+        }
     }
 
-    public static final short[] toShort(int i) {
-        return new short[] {
-            (short) (0x0000ffff & i) , (short) ((0xffff0000 & i) >> 16)
+    public static final byte[] toByte(int i) {
+        return new byte[] {
+            IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) ,
+            IntegerOperation.getByte(i , 3)
         };
     }
 
@@ -34,13 +43,6 @@ public final class IntegerOperation {
         i = (i | bs[2]) << 8;
         i = (i | bs[1]) << 8;
         i |= bs[0];
-        return i;
-    }
-
-    public static final int valueOf(short[] s) {
-        int i = 0x00000000;
-        i = (i | s[1]) << 16;
-        i |= s[0];
         return i;
     }
 

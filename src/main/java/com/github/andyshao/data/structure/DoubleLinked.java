@@ -80,181 +80,213 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         public void setPrev(DoubleLinkedElmt<DATA> prev);
     }
 
-    public static <DATA> DoubleLinked<DATA> defaultDoubleLinked() {
-        return new DoubleLinked<DATA>() {
-            private long actionCount = 0;
-            private DoubleLinked.DoubleLinkedElmt<DATA> head;
-            private int size;
-            private DoubleLinked.DoubleLinkedElmt<DATA> tail;
+    public class MyDoubleLinked<DATA> implements DoubleLinked<DATA> {
+        private long actionCount = 0;
+        private final Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory;
+        private DoubleLinked.DoubleLinkedElmt<DATA> head;
+        private int size;
 
-            @Override
-            public void clear() {
-                do
-                    this.dlist_remove(this.head);
-                while (this.size != 0);
+        private DoubleLinked.DoubleLinkedElmt<DATA> tail;
+
+        public MyDoubleLinked(Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
+            this.elmtFactory = elmtFactory;
+        }
+
+        @Override
+        public void clear() {
+            do
+                this.remove(this.head);
+            while (this.size != 0);
+        }
+
+        @SuppressWarnings("unchecked")
+        @Override
+        public boolean equals(Object obj) {
+            DoubleLinked<DATA> that;
+            if (obj instanceof DoubleLinked) {
+                that = (DoubleLinked<DATA>) obj;
+                return this.size == that.size() && Objects.equals(this.head() , that.head())
+                    && Objects.equals(this.tail() , that.tail());
+            } else return false;
+        }
+
+        @Override
+        public Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> getElmtFactory() {
+            return this.elmtFactory;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.head , this.size , this.tail);
+        }
+
+        @Override
+        public DoubleLinked.DoubleLinkedElmt<DATA> head() {
+            return this.head;
+        }
+
+        @Override
+        public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
+            //Do not allow a NULL element unless the list is empty.
+            if (element == null && this.size() != 0) throw new LinkedOperationException(
+                "Do not allow a NULL element unless the list is empty.");
+
+            DoubleLinked.DoubleLinkedElmt<DATA> new_element = this.getElmtFactory().apply(data);
+
+            if (this.size() == 0) {
+                //Handle insertion when the list is empty.
+                this.head = new_element;
+                this.head.setPrev(null);
+                this.head.setNext(null);
+                this.tail = new_element;
+            } else {
+                //Handle insertion when the list is not empty.
+                new_element.setNext(element.next());
+                new_element.setPrev(element);
+
+                if (element.next() == null) this.tail = new_element;
+                else element.next().setPrev(new_element);
+
+                element.setNext(new_element);
             }
 
-            @Override
-            public void dlist_ins_prev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
-                //Do not allowed a NULL element unless the list is empty.
-                if (element == null && this.size() != 0) throw new LinkedOperationException(
-                    "Do not allowed a NULL element unless the list is empty.");
+            //Adjust the size of the list to account for the inserted element.
+            this.size++;
+            this.actionCount++;
 
-                DoubleLinked.DoubleLinkedElmt<DATA> new_element =
-                    DoubleLinked.DoubleLinkedElmt.<DATA> defaultElmt(data);
+        }
 
-                if (this.size() == 0) {
-                    //Handle insertion when the list is empty.
-                    this.head = new_element;
-                    this.head.setPrev(null);
-                    this.head.setNext(null);
-                    this.tail = new_element;
-                } else {
-                    //Handle insertion when the list is not empty.
-                    new_element.setNext(element);
-                    new_element.setPrev(element.getPrev());
+        @Override
+        public void insPrev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
+            //Do not allowed a NULL element unless the list is empty.
+            if (element == null && this.size() != 0) throw new LinkedOperationException(
+                "Do not allowed a NULL element unless the list is empty.");
 
-                    if (element.getPrev() == null) this.head = new_element;
-                    else element.getPrev().setNext(new_element);
+            DoubleLinked.DoubleLinkedElmt<DATA> new_element = this.getElmtFactory().apply(data);
 
-                    element.setPrev(new_element);
+            if (this.size() == 0) {
+                //Handle insertion when the list is empty.
+                this.head = new_element;
+                this.head.setPrev(null);
+                this.head.setNext(null);
+                this.tail = new_element;
+            } else {
+                //Handle insertion when the list is not empty.
+                new_element.setNext(element);
+                new_element.setPrev(element.getPrev());
+
+                if (element.getPrev() == null) this.head = new_element;
+                else element.getPrev().setNext(new_element);
+
+                element.setPrev(new_element);
+            }
+
+            //Adjust the size of list to accoutn for the element.
+            this.size++;
+            this.actionCount++;
+        }
+
+        @Override
+        public Iterator<DATA> iterator() {
+            return new Iterator<DATA>() {
+                private DoubleLinked.DoubleLinkedElmt<DATA> index = MyDoubleLinked.this.head;
+                private final long myActioncount = MyDoubleLinked.this.actionCount;
+
+                @Override
+                public boolean hasNext() {
+                    if (this.myActioncount != MyDoubleLinked.this.actionCount) throw new ConcurrentModificationException();
+                    return this.index != null;
                 }
 
-                //Adjust the size of list to accoutn for the element.
-                this.size++;
-                this.actionCount++;
-            }
-
-            @Override
-            public DATA dlist_remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
-                DATA data = null;
-
-                //Do not allow a NULL element or removal from an empty list.
-                if (element == null || this.size() == 0) throw new LinkedOperationException(
-                    "Do not allow a NULL element or removal from an empty list.");
-
-                //Remove the element from the list.
-                data = element.data();
-
-                if (element.equals(this.head)) {
-                    //Handle removal from the head of the list.
-                    this.head = element.next();
-
-                    if (this.head == null) this.tail = null;
-                    else element.next().setPrev(null);
+                @Override
+                public DATA next() {
+                    DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
+                    this.index = this.index.next();
+                    return result.data();
                 }
+            };
+        }
 
-                //Free the storage allocated by the abstract datatype.
-                element.free();
+        @Override
+        public DATA remNext(DoubleLinkedElmt<DATA> element) {
+            DoubleLinkedElmt<DATA> old_element = this.getElmtFactory().apply(null);
+            DATA data = null;
 
-                //Adjust the size of the list to account for the removed element.
-                this.size--;
-                this.actionCount++;
+            if (this.size() == 0) throw new LinkedOperationException("Do not allow removal from an empty list.");
 
-                return data;
+            //Remove the element from the list.
+            if (element == null) {
+                //Handle removal from the head of the list.
+                data = this.head.data();
+                old_element = this.head;
+                this.head = this.head.next();
+
+                if (this.size() == 1) this.tail = null;
+            } else {
+                if (element.next() == null) return null;
+
+                data = element.next().data();
+                old_element = element.next();
+                element.setNext(element.next().next());
+
+                if (element.next() == null) this.tail = element;
             }
 
-            @SuppressWarnings("unchecked")
-            @Override
-            public boolean equals(Object obj) {
-                DoubleLinked<DATA> that;
-                if (obj instanceof DoubleLinked) {
-                    that = (DoubleLinked<DATA>) obj;
-                    return this.size == that.size() && Objects.equals(this.head() , that.head())
-                        && Objects.equals(this.tail() , that.tail());
-                } else return false;
+            old_element.free();
+
+            //Adjust the size of the list of account for the removed element.
+            this.size--;
+            this.actionCount++;
+
+            return data;
+        }
+
+        @Override
+        public DATA remove(DoubleLinked.DoubleLinkedElmt<DATA> element) {
+            DATA data = null;
+
+            //Do not allow a NULL element or removal from an empty list.
+            if (element == null || this.size() == 0) throw new LinkedOperationException(
+                "Do not allow a NULL element or removal from an empty list.");
+
+            //Remove the element from the list.
+            data = element.data();
+
+            if (element.equals(this.head)) {
+                //Handle removal from the head of the list.
+                this.head = element.next();
+
+                if (this.head == null) this.tail = null;
+                else element.next().setPrev(null);
             }
 
-            @Override
-            public Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> getElmtFactory(DATA data) {
-                // TODO Auto-generated method stub
-                return null;
-            }
+            //Free the storage allocated by the abstract datatype.
+            element.free();
 
-            @Override
-            public int hashCode() {
-                return Objects.hash(this.head , this.size , this.tail);
-            }
+            //Adjust the size of the list to account for the removed element.
+            this.size--;
+            this.actionCount++;
 
-            @Override
-            public DoubleLinked.DoubleLinkedElmt<DATA> head() {
-                return this.head;
-            }
+            return data;
+        }
 
-            @Override
-            public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
-                //Do not allow a NULL element unless the list is empty.
-                if (element == null && this.size() != 0) throw new LinkedOperationException(
-                    "Do not allow a NULL element unless the list is empty.");
+        @Override
+        public int size() {
+            return this.size;
+        }
 
-                DoubleLinked.DoubleLinkedElmt<DATA> new_element =
-                    DoubleLinked.DoubleLinkedElmt.<DATA> defaultElmt(data);
-
-                if (this.size() == 0) {
-                    //Handle insertion when the list is empty.
-                    this.head = new_element;
-                    this.head.setPrev(null);
-                    this.head.setNext(null);
-                    this.tail = new_element;
-                } else {
-                    //Handle insertion when the list is not empty.
-                    new_element.setNext(element.next());
-                    new_element.setPrev(element);
-
-                    if (element.next() == null) this.tail = new_element;
-                    else element.next().setPrev(new_element);
-
-                    element.setNext(new_element);
-                }
-
-                //Adjust the size of the list to account for the inserted element.
-                this.size++;
-                this.actionCount++;
-
-            }
-
-            @Override
-            public Iterator<DATA> iterator() {
-                // TODO Auto-generated method stub
-                return new Iterator<DATA>() {
-                    private DoubleLinked.DoubleLinkedElmt<DATA> index = head;
-                    private final long myActioncount = actionCount;
-
-                    @Override
-                    public boolean hasNext() {
-                        if (this.myActioncount != actionCount) throw new ConcurrentModificationException();
-                        return this.index != null;
-                    }
-
-                    @Override
-                    public DATA next() {
-                        DoubleLinked.DoubleLinkedElmt<DATA> result = this.index;
-                        this.index = this.index.next();
-                        return result.data();
-                    }
-                };
-            }
-
-            @Override
-            public DATA remNext(DoubleLinkedElmt<DATA> element) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
-            public int size() {
-                return this.size;
-            }
-
-            @Override
-            public DoubleLinked.DoubleLinkedElmt<DATA> tail() {
-                return this.tail;
-            }
-
-        };
+        @Override
+        public DoubleLinked.DoubleLinkedElmt<DATA> tail() {
+            return this.tail;
+        }
     }
 
-    public void dlist_ins_prev(DoubleLinkedElmt<D> element , final D data);
+    public static <DATA> DoubleLinked<DATA> defaultDoubleLinked(
+        Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
+        return new MyDoubleLinked<>(elmtFactory);
+    }
 
-    public D dlist_remove(DoubleLinkedElmt<D> element);
+    public void insPrev(DoubleLinkedElmt<D> element , final D data);
+
+    public D remove(DoubleLinkedElmt<D> element);
 }

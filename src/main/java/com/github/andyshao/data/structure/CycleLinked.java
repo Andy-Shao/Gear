@@ -37,15 +37,21 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
     }
 
-    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
-        return new CycleLinked<DATA>();
+    public static <DATA> CycleLinked<DATA> defaultCycleLinked(Function<DATA , CycleLinkedElmt<DATA>> elmtFactory) {
+        return new CycleLinked<DATA>(elmtFactory);
     }
 
     private long actionAcount = 0;
 
+    private final Function<DATA , CycleLinkedElmt<DATA>> elmtFactory;
+
     private CycleLinkedElmt<DATA> head;
 
     private int size;
+
+    public CycleLinked(Function<DATA , CycleLinkedElmt<DATA>> elmtFactory) {
+        this.elmtFactory = elmtFactory;
+    }
 
     @Override
     public void clear() {
@@ -61,9 +67,8 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
     }
 
     @Override
-    public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory(DATA data) {
-        // TODO Auto-generated method stub
-        return null;
+    public Function<DATA , CycleLinkedElmt<DATA>> getElmtFactory() {
+        return this.elmtFactory;
     }
 
     @Override
@@ -73,7 +78,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
     @Override
     public void insNext(CycleLinkedElmt<DATA> element , final DATA data) {
-        CycleLinkedElmt<DATA> new_element = CycleLinkedElmt.<DATA> defaultElmt(data);
+        CycleLinkedElmt<DATA> new_element = this.getElmtFactory().apply(data);
 
         if (this.size == 0) {
             //Handle insertion when the list is empty.
@@ -100,7 +105,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
     @Override
     public DATA remNext(CycleLinkedElmt<DATA> element) {
-        CycleLinkedElmt<DATA> old_element = CycleLinkedElmt.<DATA> defaultElmt(null);
+        CycleLinkedElmt<DATA> old_element = this.getElmtFactory().apply(null);
         DATA data = null;
 
         //Do not allow removal from an empty list.

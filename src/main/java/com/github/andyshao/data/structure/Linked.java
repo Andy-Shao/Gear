@@ -44,7 +44,7 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Collecti
         return true;
     }
 
-    public Function<D , T> getElmtFactory(D data);
+    public Function<D , T> getElmtFactory();
 
     public T head();
 

@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Iterator;
+
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,12 +15,12 @@ public class CycleLinkedTest {
 
     @Before
     public void before() {
-        this.linked = CycleLinked.defaultCycleLinked();
+        this.linked = CycleLinked.defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
     }
 
     private void fill() {
         for (int i = 0 ; i < this.data.length ; i++)
-            this.linked.insNext(null , this.data[i]);
+            this.linked.insNext(this.linked.tail() , this.data[i]);
     }
 
     @Test
@@ -27,8 +29,9 @@ public class CycleLinkedTest {
 
         this.fill();
 
-        for (String str : this.linked)
-            System.out.println(str);
+        Iterator<String> iterator = this.linked.iterator();
+        Assert.assertThat(iterator.next() , Matchers.is(this.data[0]));
+        Assert.assertThat(iterator.next() , Matchers.is(this.data[1]));
 
         Assert.assertThat(this.linked.size() , Matchers.is(2));
     }

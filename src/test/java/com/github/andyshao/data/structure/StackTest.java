@@ -19,8 +19,10 @@ public class StackTest {
             {
                 Stack.<String , CycleLinkedElmt<String>> defaultStack(SingleLinked
                     .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
-            } , {
-                Stack.<String , CycleLinkedElmt<String>> defaultStack(CycleLinked.defaultCycleLinked())
+            } ,
+            {
+                Stack.<String , CycleLinkedElmt<String>> defaultStack(CycleLinked
+                    .defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
             }
         });
     }

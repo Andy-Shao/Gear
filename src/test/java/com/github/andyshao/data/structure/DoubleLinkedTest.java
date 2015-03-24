@@ -1,9 +1,13 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Iterator;
+
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import com.github.andyshao.data.structure.DoubleLinked.DoubleLinkedElmt;
 
 public class DoubleLinkedTest {
 
@@ -14,7 +18,7 @@ public class DoubleLinkedTest {
 
     @Before
     public void before() {
-        this.doubleLinked = DoubleLinked.<String> defaultDoubleLinked();
+        this.doubleLinked = DoubleLinked.<String> defaultDoubleLinked((data) -> DoubleLinkedElmt.defaultElmt(data));
     }
 
     @Test
@@ -25,6 +29,14 @@ public class DoubleLinkedTest {
             this.doubleLinked.insNext(this.doubleLinked.head() , this.data[i]);
 
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(2));
+    }
+
+    @Test
+    public void testIterator() {
+        this.testInsert();
+        Iterator<String> iterator = this.doubleLinked.iterator();
+        Assert.assertThat(iterator.next() , Matchers.is(this.data[0]));
+        Assert.assertThat(iterator.next() , Matchers.is(this.data[1]));
     }
 
     @Test
@@ -39,9 +51,17 @@ public class DoubleLinkedTest {
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(2));
 
         do
-            this.doubleLinked.dlist_remove(this.doubleLinked.head());
+            this.doubleLinked.remove(this.doubleLinked.head());
         while (this.doubleLinked.size() != 0);
         Assert.assertThat(this.doubleLinked.size() , Matchers.is(0));
+    }
+
+    @Test
+    public void testRemoveNext() {
+        this.testInsert();
+
+        String str = this.doubleLinked.remNext(this.doubleLinked.head());
+        Assert.assertThat(str , Matchers.is(this.data[this.data.length - 1]));
     }
 
     @Test
