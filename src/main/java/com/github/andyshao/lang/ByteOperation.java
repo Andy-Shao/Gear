@@ -1,5 +1,6 @@
 package com.github.andyshao.lang;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -48,7 +49,7 @@ public final class ByteOperation {
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
 
-    public static final int bitGet(int pos , final ByteWrapper bs) {
+    public static final int bitGet(BigInteger pos , final ByteWrapper bs) {
         //TODO
         return 0;
     }
@@ -66,6 +67,11 @@ public final class ByteOperation {
         for (int i = 0 ; i < size ; i++)
             if (ByteOperation.bitGet(i , b1) != ByteOperation.bitGet(i , b2)) ByteOperation.bitSet(i , 1 , result);
             else ByteOperation.bitSet(i , 0 , result);
+        return result;
+    }
+    
+    public static final ByteWrapper bitOxr(final ByteWrapper b1, final ByteWrapper b2, int size, final ByteWrapper result){
+        //TODO
         return result;
     }
 
@@ -148,7 +154,7 @@ public final class ByteOperation {
         return b;
     }
 
-    public static final ByteWrapper bitSet(int pos , int state , final ByteWrapper bs) {
+    public static final ByteWrapper bitSet(BigInteger pos , int state , final ByteWrapper bs) {
         //TODO
         return bs;
     }
@@ -197,6 +203,14 @@ public final class ByteOperation {
 
     public static final short toUnsignedShort(byte unsignedByte) {
         return (short) (0x00ff & unsignedByte);
+    }
+    
+    public static final ByteWrapper wrap(byte[] bs){
+        return new ByteByteWrapper(bs);
+    }
+    
+    public static final ByteWrapper wrap(byte[] bs, int start, int end){
+        return new ByteByteWrapper(bs , start , end);
     }
 
     private ByteOperation() {

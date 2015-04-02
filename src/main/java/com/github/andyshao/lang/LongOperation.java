@@ -11,6 +11,10 @@ package com.github.andyshao.lang;
  *
  */
 public final class LongOperation {
+    public static final long[] bitOxr(final long[] b1 , final long[] b2 , int size) {
+        //TODO
+        return null;
+    }
     public static final byte getByte(long l , int pos) {
         switch (pos) {
         case 0:
