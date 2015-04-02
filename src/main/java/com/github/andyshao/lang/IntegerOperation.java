@@ -11,6 +11,11 @@ package com.github.andyshao.lang;
  *
  */
 public final class IntegerOperation {
+    public static final int[] bitOxr(final int[] b1 , final int[] b2 , int size) {
+        //TODO
+        return null;
+    }
+
     public static final byte getByte(int i , int position) {
         switch (position) {
         case 0:
@@ -68,6 +73,10 @@ public final class IntegerOperation {
 
     public static final ByteWrapper wrap(final int[] data) {
         return new IntegerByteWrapper(data);
+    }
+
+    public static final ByteWrapper wrap(final int[] data , int start , int end) {
+        return new IntegerByteWrapper(data , start , end);
     }
 
     private IntegerOperation() {

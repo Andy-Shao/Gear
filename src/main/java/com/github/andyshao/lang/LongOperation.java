@@ -34,6 +34,38 @@ public final class LongOperation {
         }
     }
 
+    public static final long setByte(long l , int pos , byte b) {
+        long temp = ByteOperation.toUnsignedLong(b);
+        switch (pos) {
+        case 0:
+            break;
+        case 1:
+            temp <<= 8;
+            break;
+        case 2:
+            temp <<= 16;
+            break;
+        case 3:
+            temp <<= 24;
+            break;
+        case 4:
+            temp <<= 32;
+            break;
+        case 5:
+            temp <<= 40;
+            break;
+        case 6:
+            temp <<= 48;
+            break;
+        case 7:
+            temp <<= 56;
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
+        return l | temp;
+    }
+
     public static final byte[] toByte(long l) {
         return new byte[] {
             LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) ,
@@ -53,6 +85,14 @@ public final class LongOperation {
         l = (l | bs[1]) << 8;
         l |= bs[0];
         return l;
+    }
+
+    public static final ByteWrapper wrap(long[] ls) {
+        return new LongByteWrapper(ls);
+    }
+
+    public static final ByteWrapper wrap(long[] ls , int start , int end) {
+        return new LongByteWrapper(ls , start , end);
     }
 
     public LongOperation() {

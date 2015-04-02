@@ -48,6 +48,11 @@ public final class ByteOperation {
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
 
+    public static final int bitGet(int pos , final ByteWrapper bs) {
+        //TODO
+        return 0;
+    }
+
     /**
      * 
      * @param b1 byte array 1
@@ -100,6 +105,11 @@ public final class ByteOperation {
         return b;
     }
 
+    public static final ByteWrapper bitRotLeft(int count , final ByteWrapper bs) {
+        //TODO
+        return bs;
+    }
+
     public static final byte[] bitRotRight(int count , final byte... bs) {
         int size = bs.length << 3;
         if (size > 0) for (int j = 0 ; j < count ; j++) {
@@ -113,6 +123,11 @@ public final class ByteOperation {
             ByteOperation.bitSet(7 , fbit , bs);
         }
 
+        return bs;
+    }
+
+    public static final ByteWrapper bitRotRight(int count , final ByteWrapper bs) {
+        //TODO
         return bs;
     }
 
@@ -133,12 +148,22 @@ public final class ByteOperation {
         return b;
     }
 
-    public static final byte[] fill(int state , int startPos , int endPos , byte... bs) {
+    public static final ByteWrapper bitSet(int pos , int state , final ByteWrapper bs) {
+        //TODO
+        return bs;
+    }
+
+    public static final byte[] fill(int state , int startPos , int endPos , final byte... bs) {
         if (state != 0 && state != 1) throw new IllegalArgumentException();
         if (startPos >= endPos) throw new IllegalArgumentException();
 
         for (int i = startPos ; i < endPos ; i++)
             ByteOperation.bitSet(i , state , bs);
+        return bs;
+    }
+
+    public static final ByteWrapper fill(int state , int startPos , int endPos , final ByteWrapper bs) {
+        //TODO
         return bs;
     }
 
@@ -155,6 +180,11 @@ public final class ByteOperation {
         for (byte b : bs)
             str += ByteOperation.toString(b) + ",";
         return str.substring(0 , str.length() - 1);
+    }
+
+    public static final String toString(ByteWrapper bs) {
+        //TODO
+        return "";
     }
 
     public static final int toUnsignedInt(byte unsignedByte) {
