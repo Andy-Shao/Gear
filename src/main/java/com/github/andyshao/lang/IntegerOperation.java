@@ -26,6 +26,26 @@ public final class IntegerOperation {
         }
     }
 
+    public static final int setByte(int i , int position , byte b) {
+        int temp = ByteOperation.toUnsignedInt(b);
+        switch (position) {
+        case 0:
+            break;
+        case 1:
+            temp <<= 8;
+            break;
+        case 2:
+            temp <<= 16;
+            break;
+        case 3:
+            temp <<= 24;
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
+        return i | temp;
+    }
+
     public static final byte[] toByte(int i) {
         return new byte[] {
             IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) ,
@@ -44,6 +64,10 @@ public final class IntegerOperation {
         i = (i | bs[1]) << 8;
         i |= bs[0];
         return i;
+    }
+
+    public static final ByteWrapper wrap(final int[] data) {
+        return new IntegerByteWrapper(data);
     }
 
     private IntegerOperation() {

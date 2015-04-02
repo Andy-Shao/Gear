@@ -126,7 +126,7 @@ public final class NumberMeths {
             //Determine whether the desired approximation has been obtained.
             if (x.get(i + 1).subtract(x.get(i)).abs().compareTo(delta) < 0) satisfied = 1;
         }
-        return x.toArray();
+        return x.toArray(new BigDecimal[x.size()]);
     }
 
     /**
@@ -152,7 +152,7 @@ public final class NumberMeths {
             //Determine whether the desired approximation has been obtained.
             if (Math.abs(x.get(i + 1) - x.get(i)) < delta) satisfied = 1;
         }
-        return x.toArray();
+        return x.toArray(new Double[x.size()]);
     }
 
     public NumberMeths() {

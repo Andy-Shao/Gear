@@ -20,7 +20,7 @@ import com.github.andyshao.util.CollectionModel;
  *
  * @param <D> data
  */
-public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
+public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
 
     private long actionAccount;
     private D[] array;
@@ -39,6 +39,12 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.start = this.end;
         this.actionAccount = 0;
         this.size = 0;
+    }
+
+    @Override
+    public boolean add(D e) {
+        AutoIncreaseArray.this.addTail(e);
+        return true;
     }
 
     /**
@@ -90,12 +96,12 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.start = this.end;
         this.array = null;
         this.size = 0;
-    }
+    };
 
     public D get(int index) {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
         return this.array[index + this.start];
-    };
+    }
 
     @Override
     public Iterator<D> iterator() {
@@ -131,6 +137,16 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         return result;
     }
 
+    @Override
+    public boolean remove(Object o) {
+        for (int i = 0 ; i < this.size() ; i++)
+            if (Objects.equals(o , AutoIncreaseArray.this.get(i))) {
+                AutoIncreaseArray.this.remove(i);
+                break;
+            }
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     private void replaceSpace(Class<? extends Object> data_type) {
         int arraySize = this.newSize(this.array.length);
@@ -141,6 +157,13 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         this.arraySize = arraySize;
         this.start = new_start;
         this.end = this.start + this.size - 1;
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        for (int i = 0 ; i < this.size() ; i++)
+            if (!c.contains(AutoIncreaseArray.this.get(i))) AutoIncreaseArray.this.remove(i);
+        return true;
     }
 
     public D set(D data , int index) {
@@ -158,75 +181,26 @@ public class AutoIncreaseArray<D> implements Iterable<D> , Cleanable {
         return result;
     }
 
+    @Override
     public int size() {
         return this.size;
     }
 
-    @SuppressWarnings("unchecked")
-    public D[] toArray() {
-        D[] result = (D[]) Array.newInstance(this.array.getClass().getComponentType() , this.size());
-        System.arraycopy(this.array , this.start , result , 0 , result.length);
-        return result;
+    @Override
+    public Object[] toArray() {
+        Object[] array = new Object[this.size()];
+        System.arraycopy(AutoIncreaseArray.this.array , 0 , array , 0 , array.length);
+        return array;
     }
 
-    public Collection<D> toCollection() {
-        return new CollectionModel<D>() {
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T[] toArray(T[] a) {
+        T[] result = null;
+        if (a.length >= this.size()) result = a;
+        else result = (T[]) Array.newInstance(a.getClass().getComponentType() , this.size());
 
-            @Override
-            public boolean add(D e) {
-                AutoIncreaseArray.this.addTail(e);
-                return true;
-            }
-
-            @Override
-            public void clear() {
-                AutoIncreaseArray.this.clear();
-            }
-
-            @Override
-            public Iterator<D> iterator() {
-                return AutoIncreaseArray.this.iterator();
-            }
-
-            @Override
-            public boolean remove(Object o) {
-                for (int i = 0 ; i < this.size() ; i++)
-                    if (Objects.equals(o , AutoIncreaseArray.this.get(i))) {
-                        AutoIncreaseArray.this.remove(i);
-                        break;
-                    }
-                return true;
-            }
-
-            @Override
-            public boolean retainAll(Collection<?> c) {
-                for (int i = 0 ; i < this.size() ; i++)
-                    if (!c.contains(AutoIncreaseArray.this.get(i))) AutoIncreaseArray.this.remove(i);
-                return true;
-            }
-
-            @Override
-            public int size() {
-                return AutoIncreaseArray.this.size();
-            }
-
-            @Override
-            public Object[] toArray() {
-                Object[] array = new Object[this.size()];
-                System.arraycopy(AutoIncreaseArray.this.array , 0 , array , 0 , array.length);
-                return array;
-            }
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public <T> T[] toArray(T[] a) {
-                T[] result = null;
-                if (a.length >= this.size()) result = a;
-                else result = (T[]) Array.newInstance(a.getClass().getComponentType() , this.size());
-
-                System.arraycopy(AutoIncreaseArray.this.array , 0 , result , 0 , result.length);
-                return result;
-            }
-        };
+        System.arraycopy(AutoIncreaseArray.this.array , 0 , result , 0 , result.length);
+        return result;
     }
 }
