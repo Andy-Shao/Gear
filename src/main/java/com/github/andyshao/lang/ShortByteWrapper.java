@@ -13,6 +13,12 @@ import java.util.Iterator;
  *
  */
 public class ShortByteWrapper implements ByteWrapper {
+    public ShortByteWrapper(short[] s, int start, int end) {
+    }
+    
+    public ShortByteWrapper(short[] s) {
+        this(s, 0, s.length);
+    }
 
     @Override
     public Iterator<Byte> iterator() {

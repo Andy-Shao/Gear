@@ -23,6 +23,28 @@ public final class ShortOperation {
         }
     }
 
+    public static final short setByte(short s , int position , byte b) {
+        short temp = ByteOperation.toUnsignedShort(b);
+        switch (position) {
+        case 0:
+            break;
+        case 1:
+            temp <<= 8;
+            break;
+        default:
+            throw new IllegalArgumentException();
+        }
+        return (short) (s | temp);
+    }
+
+    public static final ByteWrapper wrap(short[] s) {
+        return new ShortByteWrapper(s);
+    }
+
+    public static final ByteWrapper wrap(short[] s , int start , int end) {
+        return new ShortByteWrapper(s , start , end);
+    }
+
     public static final byte[] toByte(short s) {
         return new byte[] {
             ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1)
