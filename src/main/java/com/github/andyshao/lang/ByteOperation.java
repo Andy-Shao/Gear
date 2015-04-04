@@ -36,6 +36,11 @@ public final class ByteOperation {
         dest[destStart + length_] |= tailTemp;
     }
 
+    static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> bs) {
+        //TODO
+        return 0;
+    }
+
     /**
      * get the binary value.
      * 
@@ -49,9 +54,10 @@ public final class ByteOperation {
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
 
-    public static final int bitGet(BigInteger pos , final ByteWrapper bs) {
+    static final <ARRAY> ARRAY bitOxr(
+        final ARRAY b1 , final ARRAY b2 , int size , final ARRAY result , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return 0;
+        return result;
     }
 
     /**
@@ -69,10 +75,10 @@ public final class ByteOperation {
             else ByteOperation.bitSet(i , 0 , result);
         return result;
     }
-    
-    public static final ByteWrapper bitOxr(final ByteWrapper b1, final ByteWrapper b2, int size, final ByteWrapper result){
+
+    static final <ARRAY> ARRAY bitRotLeft(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return result;
+        return array;
     }
 
     /**
@@ -111,9 +117,9 @@ public final class ByteOperation {
         return b;
     }
 
-    public static final ByteWrapper bitRotLeft(int count , final ByteWrapper bs) {
+    static final <ARRAY> ARRAY bitRotRight(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return bs;
+        return array;
     }
 
     public static final byte[] bitRotRight(int count , final byte... bs) {
@@ -132,9 +138,9 @@ public final class ByteOperation {
         return bs;
     }
 
-    public static final ByteWrapper bitRotRight(int count , final ByteWrapper bs) {
+    static final <ARRAY> ARRAY bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return bs;
+        return array;
     }
 
     /**
@@ -154,9 +160,10 @@ public final class ByteOperation {
         return b;
     }
 
-    public static final ByteWrapper bitSet(BigInteger pos , int state , final ByteWrapper bs) {
+    static final <ARRAY> ARRAY fill(
+        int state , int startPos , int endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return bs;
+        return array;
     }
 
     public static final byte[] fill(int state , int startPos , int endPos , final byte... bs) {
@@ -168,9 +175,9 @@ public final class ByteOperation {
         return bs;
     }
 
-    public static final ByteWrapper fill(int state , int startPos , int endPos , final ByteWrapper bs) {
+    static final <ARRAY> String toString(ARRAY array , ByteWrapper<ARRAY> bs) {
         //TODO
-        return bs;
+        return "";
     }
 
     public static final String toString(byte b) {
@@ -188,11 +195,6 @@ public final class ByteOperation {
         return str.substring(0 , str.length() - 1);
     }
 
-    public static final String toString(ByteWrapper bs) {
-        //TODO
-        return "";
-    }
-
     public static final int toUnsignedInt(byte unsignedByte) {
         return 0x000000ff & unsignedByte;
     }
@@ -203,14 +205,6 @@ public final class ByteOperation {
 
     public static final short toUnsignedShort(byte unsignedByte) {
         return (short) (0x00ff & unsignedByte);
-    }
-    
-    public static final ByteWrapper wrap(byte[] bs){
-        return new ByteByteWrapper(bs);
-    }
-    
-    public static final ByteWrapper wrap(byte[] bs, int start, int end){
-        return new ByteByteWrapper(bs , start , end);
     }
 
     private ByteOperation() {

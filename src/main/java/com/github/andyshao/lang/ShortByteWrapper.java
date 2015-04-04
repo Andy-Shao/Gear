@@ -9,15 +9,16 @@ import java.util.Iterator;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 3, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class ShortByteWrapper implements ByteWrapper {
-    public ShortByteWrapper(short[] s, int start, int end) {
-    }
-    
-    public ShortByteWrapper(short[] s) {
-        this(s, 0, s.length);
+public class ShortByteWrapper implements ByteWrapper<short[]> {
+
+    @Override
+    public byte getByte(short[] array , BigInteger index) {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
     @Override
@@ -27,21 +28,14 @@ public class ShortByteWrapper implements ByteWrapper {
     }
 
     @Override
-    public byte getByte(BigInteger index) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void setByte(BigInteger index , byte b) {
+    public void setByte(short[] array , BigInteger index , byte b) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public BigInteger size() {
+    public BigInteger size(short[] array) {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

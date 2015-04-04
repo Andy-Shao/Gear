@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import java.math.BigInteger;
+
 /**
  * 
  * Title:<br>
@@ -11,9 +13,29 @@ package com.github.andyshao.lang;
  *
  */
 public final class IntegerOperation {
+    public static final int bitGet(BigInteger pos , final int[] array) {
+        return ByteOperation.bitGet(pos , array , ByteWrapper.INT_BYTE_WRAPPER);
+    }
+
     public static final int[] bitOxr(final int[] b1 , final int[] b2 , int size) {
         //TODO
         return null;
+    }
+
+    public static final int[] bitRotLeft(int count , final int[] array) {
+        return ByteOperation.bitRotLeft(count , array , ByteWrapper.INT_BYTE_WRAPPER);
+    }
+
+    public static final int[] bitRotRight(int count , final int[] array) {
+        return ByteOperation.bitRotRight(count , array , ByteWrapper.INT_BYTE_WRAPPER);
+    }
+
+    public static final int[] bitSet(BigInteger pos , int state , final int[] array) {
+        return ByteOperation.bitSet(pos , state , array , ByteWrapper.INT_BYTE_WRAPPER);
+    }
+
+    public static final int[] fill(int state , int startPos , int endPos , final int[] array) {
+        return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.INT_BYTE_WRAPPER);
     }
 
     public static final byte getByte(int i , int position) {
@@ -58,6 +80,10 @@ public final class IntegerOperation {
         };
     }
 
+    public static final String toString(int[] array) {
+        return ByteOperation.toString(array , ByteWrapper.INT_BYTE_WRAPPER);
+    }
+
     public static final long toUnsingedLong(int unsingedInt) {
         return 0x00000000ffffffffL & unsingedInt;
     }
@@ -69,14 +95,6 @@ public final class IntegerOperation {
         i = (i | bs[1]) << 8;
         i |= bs[0];
         return i;
-    }
-
-    public static final ByteWrapper wrap(final int[] data) {
-        return new IntegerByteWrapper(data);
-    }
-
-    public static final ByteWrapper wrap(final int[] data , int start , int end) {
-        return new IntegerByteWrapper(data , start , end);
     }
 
     private IntegerOperation() {

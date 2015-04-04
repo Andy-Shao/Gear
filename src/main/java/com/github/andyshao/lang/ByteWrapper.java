@@ -11,12 +11,18 @@ import java.math.BigInteger;
  * 
  * @author Andy.Shao
  *
+ * @param <ARRAY> the array type
  */
-public interface ByteWrapper extends Iterable<Byte> {
+public interface ByteWrapper<ARRAY> extends Iterable<Byte> {
+    public static final ByteWrapper<byte[]> BYTE_BYTE_WRAPPER = new ByteByteWrapper();
+    public static final ByteWrapper<char[]> CHAR_BYTE_WRAPPER = new CharByteWrapper();
+    public static final ByteWrapper<int[]> INT_BYTE_WRAPPER = new IntegerByteWrapper();
+    public static final ByteWrapper<long[]> LONG_BYTE_WRAPPER = new LongByteWrapper();
+    public static final ByteWrapper<short[]> SHORT_BYTE_WRAPPER = new ShortByteWrapper();
 
-    public byte getByte(BigInteger index);
+    public byte getByte(final ARRAY array , BigInteger index);
 
-    public void setByte(BigInteger index , byte b);
+    public void setByte(final ARRAY array , BigInteger index , byte b);
 
-    public BigInteger size();
+    public BigInteger size(final ARRAY array);
 }

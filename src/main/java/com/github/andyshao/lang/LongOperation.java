@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import java.math.BigInteger;
+
 /**
  * 
  * Title:<br>
@@ -11,10 +13,31 @@ package com.github.andyshao.lang;
  *
  */
 public final class LongOperation {
+    public static final int bitGet(BigInteger pos , final long[] array) {
+        return ByteOperation.bitGet(pos , array , ByteWrapper.LONG_BYTE_WRAPPER);
+    }
+
     public static final long[] bitOxr(final long[] b1 , final long[] b2 , int size) {
         //TODO
         return null;
     }
+
+    public static final long[] bitRotLeft(int count , final long[] array) {
+        return ByteOperation.bitRotLeft(count , array , ByteWrapper.LONG_BYTE_WRAPPER);
+    }
+
+    public static final long[] bitRotRight(int count , final long[] array) {
+        return ByteOperation.bitRotRight(count , array , ByteWrapper.LONG_BYTE_WRAPPER);
+    }
+
+    public static final long[] bitSet(BigInteger pos , int state , final long[] array) {
+        return ByteOperation.bitSet(pos , state , array , ByteWrapper.LONG_BYTE_WRAPPER);
+    }
+
+    public static final long[] fill(int state , int startPos , int endPos , final long[] array) {
+        return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.LONG_BYTE_WRAPPER);
+    }
+
     public static final byte getByte(long l , int pos) {
         switch (pos) {
         case 0:
@@ -78,6 +101,10 @@ public final class LongOperation {
         };
     }
 
+    public static final String toString(long[] array) {
+        return ByteOperation.toString(array , ByteWrapper.LONG_BYTE_WRAPPER);
+    }
+
     public static final long valueOf(byte[] bs) {
         long l = 0x00L;
         l = (l | bs[7]) << 8;
@@ -89,14 +116,6 @@ public final class LongOperation {
         l = (l | bs[1]) << 8;
         l |= bs[0];
         return l;
-    }
-
-    public static final ByteWrapper wrap(long[] ls) {
-        return new LongByteWrapper(ls);
-    }
-
-    public static final ByteWrapper wrap(long[] ls , int start , int end) {
-        return new LongByteWrapper(ls , start , end);
     }
 
     public LongOperation() {

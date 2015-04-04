@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import java.math.BigInteger;
+
 /**
  * 
  * Title:<br>
@@ -11,6 +13,30 @@ package com.github.andyshao.lang;
  *
  */
 public final class ShortOperation {
+    public static final int bitGet(BigInteger pos , final short[] array) {
+        return ByteOperation.bitGet(pos , array , ByteWrapper.SHORT_BYTE_WRAPPER);
+    }
+
+    public static final short[] bitOxr(final short[] b1 , final short[] b2 , int size) {
+        //TODO
+        return null;
+    }
+
+    public static final short[] bitRotLeft(int count , final short[] array) {
+        return ByteOperation.bitRotLeft(count , array , ByteWrapper.SHORT_BYTE_WRAPPER);
+    }
+
+    public static final short[] bitRotRight(int count , final short[] array) {
+        return ByteOperation.bitRotRight(count , array , ByteWrapper.SHORT_BYTE_WRAPPER);
+    }
+
+    public static final short[] bitSet(BigInteger pos , int state , final short[] array) {
+        return ByteOperation.bitSet(pos , state , array , ByteWrapper.SHORT_BYTE_WRAPPER);
+    }
+
+    public static final short[] fill(int state , int startPos , int endPos , final short[] array) {
+        return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.SHORT_BYTE_WRAPPER);
+    }
 
     public static final byte getByte(short s , int position) {
         switch (position) {
@@ -37,18 +63,14 @@ public final class ShortOperation {
         return (short) (s | temp);
     }
 
-    public static final ByteWrapper wrap(short[] s) {
-        return new ShortByteWrapper(s);
-    }
-
-    public static final ByteWrapper wrap(short[] s , int start , int end) {
-        return new ShortByteWrapper(s , start , end);
-    }
-
     public static final byte[] toByte(short s) {
         return new byte[] {
             ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1)
         };
+    }
+
+    public static final String toString(short[] array) {
+        return ByteOperation.toString(array , ByteWrapper.SHORT_BYTE_WRAPPER);
     }
 
     public static final int toUnsingedInt(short unsignedShort) {

@@ -7,16 +7,16 @@ import java.util.Iterator;
  * 
  * Title:<br>
  * Descript:<br>
- * Copyright: Copryright(c) Apr 3, 2015<br>
+ * Copyright: Copryright(c) Apr 5, 2015<br>
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
  *
  */
-public class ByteByteWrapper implements ByteWrapper<byte[]> {
+public class CharByteWrapper implements ByteWrapper<char[]> {
 
     @Override
-    public byte getByte(byte[] array , BigInteger index) {
+    public byte getByte(char[] array , BigInteger index) {
         // TODO Auto-generated method stub
         return 0;
     }
@@ -28,13 +28,13 @@ public class ByteByteWrapper implements ByteWrapper<byte[]> {
     }
 
     @Override
-    public void setByte(byte[] array , BigInteger index , byte b) {
+    public void setByte(char[] array , BigInteger index , byte b) {
         // TODO Auto-generated method stub
 
     }
 
     @Override
-    public BigInteger size(byte[] array) {
+    public BigInteger size(char[] array) {
         // TODO Auto-generated method stub
         return null;
     }
