@@ -28,17 +28,17 @@ you can do the bit operation for them.
 **What the newest plugins for v2.0**
 
 *rewrite & adjust the old project structure*<br>
-ArrayTools move to ArrayOperation
-ByteBufferTools move to ByteBufferOperaion
-StringTools move to StringOperation
-Chang the Convert' package
+ArrayTools move to ArrayOperation<br>
+ByteBufferTools move to ByteBufferOperaion<br>
+StringTools move to StringOperation<br>
+Chang the Convert' package<br>
 ...
 
 *Add the classic data structure*<br>
 You can use the graph or others more difficult data structure, now.
 
 *Add the classic aritmetic*<br>
-Graph arithmetic & Bit tree arithmetic
+Graph arithmetic & Bit tree arithmetic<br>
 Never add the compress & security arithmetic
 
 **What the newest plugins for v1.0**
