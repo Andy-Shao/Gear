@@ -18,12 +18,28 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 
+**What the newest plugins for v2.1**
+
+*Add the new operation of int[], byte[], short[], long[], char[]*<br>
+you can do the bit operation for them.
+
+*AutoIcreatArray is the subclass of Collection' now*<br>
+
 **What the newest plugins for v2.0**
 
-*Add the classic data structure*<br>
-You could use the graph or others more difficult data structure, now.
+*rewrite & adjust the old project structure*<br>
+ArrayTools move to ArrayOperation
+ByteBufferTools move to ByteBufferOperaion
+StringTools move to StringOperation
+Chang the Convert' package
+...
 
-*Add the classic aritmatic*
+*Add the classic data structure*<br>
+You can use the graph or others more difficult data structure, now.
+
+*Add the classic aritmetic*<br>
+Graph arithmetic & Bit tree arithmetic
+Never add the compress & security arithmetic
 
 **What the newest plugins for v1.0**
 
