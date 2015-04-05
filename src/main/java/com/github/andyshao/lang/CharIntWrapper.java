@@ -8,22 +8,21 @@ import java.math.BigInteger;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 5, 2015<br>
  * Encoding:UNIX UTF-8
- * 
  * @author Andy.Shao
  *
  */
-public class CharByteWrapper implements ByteWrapper<char[]> {
+public class CharIntWrapper implements IntWrapper<char[]>{
 
     @Override
-    public byte getByte(char[] array , BigInteger index) {
+    public int getInt(char[] array , BigInteger position) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public void setByte(char[] array , BigInteger index , byte b) {
+    public void setInt(char[] array , BigInteger position , int i) {
         // TODO Auto-generated method stub
-
+        
     }
 
     @Override

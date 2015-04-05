@@ -39,18 +39,15 @@ public class CharOperation {
     }
 
     public static final byte getByte(char c , int pos) {
-        //TODO
-        return 0;
+        return ShortOperation.getByte((short) c , pos);
     }
 
     public static final long setByte(char c , int pos , byte b) {
-        //TODO
-        return 0;
+        return ShortOperation.setByte((short) c , pos , b);
     }
 
     public static final byte[] toByte(char c) {
-        //TODO
-        return null;
+        return ShortOperation.toByte((short) c);
     }
 
     public static final String toString(char[] array) {
@@ -58,8 +55,7 @@ public class CharOperation {
     }
 
     public static final char valueOf(byte[] bs) {
-        //TODO
-        return 0;
+        return (char) ShortOperation.valueOf(bs);
     }
 
     private CharOperation() {

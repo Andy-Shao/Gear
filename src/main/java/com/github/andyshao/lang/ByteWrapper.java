@@ -13,10 +13,10 @@ import java.math.BigInteger;
  *
  * @param <ARRAY> the array type
  */
-public interface ByteWrapper<ARRAY> extends Iterable<Byte> {
+public interface ByteWrapper<ARRAY> {
     public static final ByteWrapper<byte[]> BYTE_BYTE_WRAPPER = new ByteByteWrapper();
     public static final ByteWrapper<char[]> CHAR_BYTE_WRAPPER = new CharByteWrapper();
-    public static final ByteWrapper<int[]> INT_BYTE_WRAPPER = new IntegerByteWrapper();
+    public static final ByteWrapper<int[]> INT_BYTE_WRAPPER = new IntByteWrapper();
     public static final ByteWrapper<long[]> LONG_BYTE_WRAPPER = new LongByteWrapper();
     public static final ByteWrapper<short[]> SHORT_BYTE_WRAPPER = new ShortByteWrapper();
 

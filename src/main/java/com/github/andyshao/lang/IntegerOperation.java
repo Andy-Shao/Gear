@@ -53,6 +53,17 @@ public final class IntegerOperation {
         }
     }
 
+    public static final short getShort(int i , int position) {
+        switch (position) {
+        case 0:
+            return (short) (0xffff & i);
+        case 1:
+            return (short) ((0xffff0000 & i) >> 16);
+        default:
+            throw new IllegalArgumentException();
+        }
+    }
+
     public static final int setByte(int i , int position , byte b) {
         int temp = ByteOperation.toUnsignedInt(b);
         switch (position) {
@@ -71,6 +82,11 @@ public final class IntegerOperation {
             throw new IllegalArgumentException();
         }
         return i | temp;
+    }
+
+    public static final int setShort(int i , int position , short s) {
+        //TODO
+        return 0;
     }
 
     public static final byte[] toByte(int i) {

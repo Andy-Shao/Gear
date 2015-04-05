@@ -61,6 +61,16 @@ public final class LongOperation {
         }
     }
 
+    public static final int getInt(long l , int pos) {
+        //TODO
+        return 0;
+    }
+
+    public static final short getShort(long l , int pos) {
+        //TODO
+        return 0;
+    }
+
     public static final long setByte(long l , int pos , byte b) {
         long temp = ByteOperation.toUnsignedLong(b);
         switch (pos) {
@@ -91,6 +101,16 @@ public final class LongOperation {
             throw new IllegalArgumentException();
         }
         return l | temp;
+    }
+
+    public static final long setInt(long l , int pos , int i) {
+        //TODO
+        return 0;
+    }
+
+    public static final long setShort(long l , int pos , short s) {
+        //TODO
+        return 0;
     }
 
     public static final byte[] toByte(long l) {

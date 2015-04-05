@@ -1,7 +1,6 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
-import java.util.Iterator;
 
 /**
  * 
@@ -19,12 +18,6 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
     public byte getByte(short[] array , BigInteger index) {
         // TODO Auto-generated method stub
         return 0;
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

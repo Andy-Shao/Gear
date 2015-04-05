@@ -1,7 +1,6 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
-import java.util.Iterator;
 
 /**
  * 
@@ -17,26 +16,17 @@ public class ByteByteWrapper implements ByteWrapper<byte[]> {
 
     @Override
     public byte getByte(byte[] array , BigInteger index) {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public Iterator<Byte> iterator() {
-        // TODO Auto-generated method stub
-        return null;
+        return array[index.intValue()];
     }
 
     @Override
     public void setByte(byte[] array , BigInteger index , byte b) {
-        // TODO Auto-generated method stub
-
+        array[index.intValue()] = b;
     }
 
     @Override
     public BigInteger size(byte[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length);
     }
 
 }
