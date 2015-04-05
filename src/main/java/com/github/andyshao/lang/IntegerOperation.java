@@ -49,7 +49,7 @@ public final class IntegerOperation {
         case 3:
             return (byte) ((0xff000000 & i) >> 24);
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(position + " less than 0 or bigger than 3");
         }
     }
 
@@ -60,7 +60,7 @@ public final class IntegerOperation {
         case 1:
             return (short) ((0xffff0000 & i) >> 16);
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(position + " less than 0 or bigger than 1");
         }
     }
 
@@ -68,18 +68,22 @@ public final class IntegerOperation {
         int temp = ByteOperation.toUnsignedInt(b);
         switch (position) {
         case 0:
+            i &= 0xffffff00;
             break;
         case 1:
+            i &= 0xffff00ff;
             temp <<= 8;
             break;
         case 2:
+            i &= 0xff00ffff;
             temp <<= 16;
             break;
         case 3:
+            i &= 0x00ffffff;
             temp <<= 24;
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(position + " less than 0 or bigger than 3");
         }
         return i | temp;
     }

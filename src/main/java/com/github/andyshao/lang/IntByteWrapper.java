@@ -14,21 +14,31 @@ import java.math.BigInteger;
  */
 public class IntByteWrapper implements ByteWrapper<int[]> {
 
+    private static final BigInteger BASE = BigInteger.valueOf(4);
+
     @Override
     public byte getByte(int[] array , BigInteger index) {
-        // TODO Auto-generated method stub
-        return 0;
+        BigInteger[] indexs = index.divideAndRemainder(BASE);
+        try {
+            return IntegerOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
+        } catch (IllegalArgumentException e) {
+            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
+        }
     }
 
     @Override
     public void setByte(int[] array , BigInteger index , byte b) {
-        // TODO Auto-generated method stub
-
+        BigInteger[] indexs = index.divideAndRemainder(BASE);
+        try {
+            array[indexs[0].intValue()] = IntegerOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
+        } catch (IllegalArgumentException e) {
+            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
+        }
     }
 
     @Override
     public BigInteger size(int[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        BigInteger length = BigInteger.valueOf(array.length);
+        return length.multiply(BASE);
     }
 }

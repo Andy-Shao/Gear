@@ -23,7 +23,6 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
     @Override
     public void setByte(short[] array , BigInteger index , byte b) {
         // TODO Auto-generated method stub
-
     }
 
     @Override

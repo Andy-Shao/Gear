@@ -45,7 +45,7 @@ public final class ShortOperation {
         case 1:
             return (byte) ((0xff00 & s) >> 8);
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(position + " less than 0 or bigger than 1");
         }
     }
 
@@ -53,12 +53,14 @@ public final class ShortOperation {
         short temp = ByteOperation.toUnsignedShort(b);
         switch (position) {
         case 0:
+            s &= 0xff00;
             break;
         case 1:
+            s &= 0x00ff;
             temp <<= 8;
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(position + " less than 0 or bigger than 1");
         }
         return (short) (s | temp);
     }

@@ -23,7 +23,6 @@ public class LongByteWrapper implements ByteWrapper<long[]> {
     @Override
     public void setByte(long[] array , BigInteger index , byte b) {
         // TODO Auto-generated method stub
-
     }
 
     @Override

@@ -57,7 +57,7 @@ public final class LongOperation {
         case 7:
             return (byte) ((0xff00000000000000L & l) >> 56);
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(pos + " less than 0 or bigger than 7");
         }
     }
 
@@ -75,30 +75,38 @@ public final class LongOperation {
         long temp = ByteOperation.toUnsignedLong(b);
         switch (pos) {
         case 0:
+            l &= 0xffffffffffffff00L;
             break;
         case 1:
+            l &= 0xffffffffffff00ffL;
             temp <<= 8;
             break;
         case 2:
+            l &= 0xffffffffff00ffffL;
             temp <<= 16;
             break;
         case 3:
+            l &= 0xffffffff00ffffffL;
             temp <<= 24;
             break;
         case 4:
+            l &= 0xffffff00ffffffffL;
             temp <<= 32;
             break;
         case 5:
+            l &= 0xffff00ffffffffffL;
             temp <<= 40;
             break;
         case 6:
+            l &= 0xff00ffffffffffffL;
             temp <<= 48;
             break;
         case 7:
+            l &= 0x00ffffffffffffffL;
             temp <<= 56;
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(pos + " less than 0 or bigger than 7");
         }
         return l | temp;
     }
