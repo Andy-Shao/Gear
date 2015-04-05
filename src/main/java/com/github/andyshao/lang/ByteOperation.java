@@ -37,6 +37,7 @@ public final class ByteOperation {
     }
 
     static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> bs) {
+        if(pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
         //TODO
         return 0;
     }
