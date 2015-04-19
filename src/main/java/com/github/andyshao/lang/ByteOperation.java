@@ -14,6 +14,8 @@ import java.util.Arrays;
  *
  */
 public final class ByteOperation {
+    private static final BigInteger EIGHT = BigInteger.valueOf(8);
+
     public static final int UNCHAR_MAX = 0xff;
 
     public static final void bitCopy(byte[] src , int srcPos , byte[] dest , int destPos , int length) {
@@ -36,10 +38,10 @@ public final class ByteOperation {
         dest[destStart + length_] |= tailTemp;
     }
 
-    static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> bs) {
-        if(pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
-        //TODO
-        return 0;
+    static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+        if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
+        int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();
+        return (byteWrapper.getByte(array , pos.divide(ByteOperation.EIGHT)) & value) != 0x00 ? 1 : 0;
     }
 
     /**
@@ -55,10 +57,10 @@ public final class ByteOperation {
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
 
-    static final <ARRAY> ARRAY bitOxr(
-        final ARRAY b1 , final ARRAY b2 , int size , final ARRAY result , ByteWrapper<ARRAY> byteWrapper) {
+    static final <ARRAY> ARRAY
+        bitOxr(final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return result;
+        return null;
     }
 
     /**
@@ -140,7 +142,12 @@ public final class ByteOperation {
     }
 
     static final <ARRAY> ARRAY bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
-        //TODO
+        if (state != 0 && state != 1) throw new IllegalArgumentException("state neighter 0 nor 1");
+        if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
+        int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();
+        BigInteger index = pos.divide(ByteOperation.EIGHT);
+        if (state == 0) byteWrapper.setByte(array , index , (byte) (byteWrapper.getByte(array , index) & ~value));
+        else byteWrapper.setByte(array , index , (byte) (byteWrapper.getByte(array , index) | value));
         return array;
     }
 
@@ -153,8 +160,8 @@ public final class ByteOperation {
      * @return byte array which has been operated.
      */
     public static final byte[] bitSet(int pos , int state , final byte... b) {
-        if (state != 0 && state != 1) throw new IllegalArgumentException();
-        if (pos < 0) throw new IllegalArgumentException();
+        if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 nor 1");
+        if (pos < 0) throw new IllegalArgumentException("pos less than 0");
         int value = 0x01 << (pos - (pos >> 3 << 3));
         if (state == 0) b[pos >> 3] &= ~value;
         else b[pos >> 3] |= value;

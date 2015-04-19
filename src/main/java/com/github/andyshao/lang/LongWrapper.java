@@ -8,6 +8,7 @@ import java.math.BigInteger;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 5, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  * @param <ARRAY> array type
@@ -15,11 +16,13 @@ import java.math.BigInteger;
 public interface LongWrapper<ARRAY> {
     public static final LongWrapper<byte[]> BYTE_LONG_WRAPPER = new ByteLongWrapper();
     public static final LongWrapper<char[]> CHAR_LONG_WRAPPER = new CharLongWrapper();
-    public static final LongWrapper<short[]> SHORT_LONG_WRAPPER = new ShortLongWrapper();
     public static final LongWrapper<int[]> INT_LONG_WRAPPER = new IntLongWrapper();
     public static final LongWrapper<long[]> LONG_LONG_WRAPPER = new LongLongWrapper();
+    public static final LongWrapper<short[]> SHORT_LONG_WRAPPER = new ShortLongWrapper();
 
-    public long getLong(ARRAY array, BigInteger position);
-    public void setLong(ARRAY array, BigInteger position, long l);
+    public long getLong(ARRAY array , BigInteger position);
+
+    public void setLong(ARRAY array , BigInteger position , long l);
+
     public BigInteger size(ARRAY array);
 }

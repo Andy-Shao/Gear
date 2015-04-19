@@ -8,10 +8,11 @@ import java.math.BigInteger;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 5, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class CharLongWrapper implements LongWrapper<char[]>{
+public class CharLongWrapper implements LongWrapper<char[]> {
 
     @Override
     public long getLong(char[] array , BigInteger position) {
@@ -22,7 +23,7 @@ public class CharLongWrapper implements LongWrapper<char[]>{
     @Override
     public void setLong(char[] array , BigInteger position , long l) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override

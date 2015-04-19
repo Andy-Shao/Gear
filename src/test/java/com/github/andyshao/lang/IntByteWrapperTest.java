@@ -48,11 +48,11 @@ public class IntByteWrapperTest {
         } catch (ArrayIndexOutOfBoundsException e) {
         }
     }
-    
+
     @Test
-    public void setByte(){
+    public void setByte() {
         try {
-            this.ibw.setByte(data , BigInteger.valueOf(-1) , (byte) 0x00);
+            this.ibw.setByte(this.data , BigInteger.valueOf(-1) , (byte) 0x00);
             Assert.fail();
         } catch (ArrayIndexOutOfBoundsException e) {
         }
@@ -60,13 +60,13 @@ public class IntByteWrapperTest {
         Assert.assertThat(this.data[0] , Matchers.is(0x01020300));
         this.ibw.setByte(this.data , BigInteger.ZERO , (byte) 0xff);
         Assert.assertThat(this.data[0] , Matchers.is(0x010203ff));
-        this.ibw.setByte(this.data , BigInteger.ONE, (byte) 0xff);
+        this.ibw.setByte(this.data , BigInteger.ONE , (byte) 0xff);
         Assert.assertThat(this.data[0] , Matchers.is(0x0102ffff));
-        this.ibw.setByte(this.data , BigInteger.ONE, (byte) 0x00);
+        this.ibw.setByte(this.data , BigInteger.ONE , (byte) 0x00);
         Assert.assertThat(this.data[0] , Matchers.is(0x010200ff));
-        
+
         try {
-            this.ibw.setByte(data , BigInteger.valueOf(16) , (byte) 0x00);
+            this.ibw.setByte(this.data , BigInteger.valueOf(16) , (byte) 0x00);
             Assert.fail();
         } catch (ArrayIndexOutOfBoundsException e) {
         }

@@ -8,10 +8,11 @@ import java.math.BigInteger;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 5, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class CharIntWrapper implements IntWrapper<char[]>{
+public class CharIntWrapper implements IntWrapper<char[]> {
 
     @Override
     public int getInt(char[] array , BigInteger position) {
@@ -22,7 +23,7 @@ public class CharIntWrapper implements IntWrapper<char[]>{
     @Override
     public void setInt(char[] array , BigInteger position , int i) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
