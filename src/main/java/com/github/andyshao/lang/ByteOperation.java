@@ -183,24 +183,28 @@ public final class ByteOperation {
         return bs;
     }
 
-    static final <ARRAY> String toString(ARRAY array , ByteWrapper<ARRAY> bs) {
-        //TODO
-        return "";
+    static final <ARRAY> String toString(ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+        StringBuilder result = new StringBuilder();
+        BigInteger length = byteWrapper.size(array);
+        if (array == null || length.compareTo(BigInteger.ZERO) == 0) return "";
+        for (BigInteger i = BigInteger.ZERO ; i.compareTo(length) == -1 ; i = i.add(BigInteger.ONE))
+            result.append(ByteOperation.toString(byteWrapper.getByte(array , i))).append(",");
+        return result.substring(0 , result.length() - 1);
     }
 
     public static final String toString(byte b) {
-        String str = "";
+        StringBuilder result = new StringBuilder();
         for (int i = 7 ; i >= 0 ; i--)
-            str += ByteOperation.bitGet(i , b);
-        return str;
+            result.append(ByteOperation.bitGet(i , b));
+        return result.toString();
     }
 
     public static final String toString(byte... bs) {
-        String str = "";
-        if (bs == null || bs.length == 0) return str;
+        StringBuilder result = new StringBuilder();
+        if (bs == null || bs.length == 0) return "";
         for (byte b : bs)
-            str += ByteOperation.toString(b) + ",";
-        return str.substring(0 , str.length() - 1);
+            result.append(ByteOperation.toString(b)).append(",");
+        return result.substring(0 , result.length() - 1);
     }
 
     public static final int toUnsignedInt(byte unsignedByte) {

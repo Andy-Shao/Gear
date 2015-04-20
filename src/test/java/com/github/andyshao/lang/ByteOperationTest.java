@@ -12,6 +12,7 @@ import com.github.andyshao.reflect.ArrayOperation;
 public class ByteOperationTest {
     private volatile byte b;
     private volatile byte[] bs;
+    private final ByteWrapper<byte[]> byteWrapper = new ByteByteWrapper();
 
     @Before
     public void before() {
@@ -19,13 +20,6 @@ public class ByteOperationTest {
         this.bs = ArrayOperation.pack_unpack(new int[] {
             0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff , 0xa5
         } , byte[].class , (input) -> (byte) ((int) input));
-    }
-
-    @Test
-    public void teatToString() {
-        Assert.assertThat(ByteOperation.toString(this.b) , Matchers.is("10100101"));
-        Assert.assertThat(ByteOperation.toString(this.bs) , Matchers.is("00000000,00000001,00000010,00000100,00001000,"
-            + "00010000,00100000,01000000,10000000,11111111,10100101"));
     }
 
     @Test
@@ -266,22 +260,21 @@ public class ByteOperationTest {
         Assert.assertThat(ByteOperation.bitGet(position++ , this.b) , Matchers.is(1));
 
         BigInteger pos = BigInteger.valueOf(8);
-        ByteWrapper<byte[]> byteWrapper = new ByteByteWrapper();
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(1));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(1));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , byteWrapper) , Matchers.is(0));
+        Assert.assertThat(ByteOperation.bitGet(pos , this.bs , this.byteWrapper) , Matchers.is(0));
     }
 
     @Test
@@ -315,37 +308,62 @@ public class ByteOperationTest {
         Assert.assertThat(ByteOperation.bitSet(position++ , 1 , this.bs)[1] , Matchers.is((byte) 0B11111111));
 
         BigInteger pos = BigInteger.ZERO;
-        ByteWrapper<byte[]> byteWrapper = new ByteByteWrapper();
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B11111110));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B11111110));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B11111100));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B11111100));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B11111000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B11111000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B11110000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B11110000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B11100000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B11100000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B11000000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B11000000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B10000000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B10000000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[0] , Matchers.is((byte) 0B00000000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[0] ,
+            Matchers.is((byte) 0B00000000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B11111110));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B11111110));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B11111100));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B11111100));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B11111000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B11111000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B11110000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B11110000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B11100000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B11100000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B11000000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B11000000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B10000000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B10000000));
         pos = pos.add(BigInteger.ONE);
-        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , byteWrapper)[1] , Matchers.is((byte) 0B00000000));
+        Assert.assertThat(ByteOperation.bitSet(pos , 0 , this.bs , this.byteWrapper)[1] ,
+            Matchers.is((byte) 0B00000000));
+    }
+
+    @Test
+    public void testToString() {
+        Assert.assertThat(ByteOperation.toString(this.b) , Matchers.is("10100101"));
+        Assert.assertThat(ByteOperation.toString(this.bs) , Matchers.is("00000000,00000001,00000010,00000100,00001000,"
+            + "00010000,00100000,01000000,10000000,11111111,10100101"));
+        Assert.assertThat(ByteOperation.toString(this.bs , this.byteWrapper) , Matchers
+            .is("00000000,00000001,00000010,00000100,00001000,"
+                + "00010000,00100000,01000000,10000000,11111111,10100101"));
     }
 }
