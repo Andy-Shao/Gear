@@ -39,7 +39,6 @@ public class IntByteWrapper implements ByteWrapper<int[]> {
 
     @Override
     public BigInteger size(int[] array) {
-        BigInteger length = BigInteger.valueOf(array.length);
-        return length.multiply(IntByteWrapper.BASE);
+        return BigInteger.valueOf(array.length).multiply(IntByteWrapper.BASE);
     }
 }

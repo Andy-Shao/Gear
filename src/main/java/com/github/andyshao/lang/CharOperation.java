@@ -42,8 +42,8 @@ public class CharOperation {
         return ShortOperation.getByte((short) c , pos);
     }
 
-    public static final long setByte(char c , int pos , byte b) {
-        return ShortOperation.setByte((short) c , pos , b);
+    public static final char setByte(char c , int pos , byte b) {
+        return (char) ShortOperation.setByte((short) c , pos , b);
     }
 
     public static final byte[] toByte(char c) {

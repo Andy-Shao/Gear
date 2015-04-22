@@ -13,21 +13,31 @@ import java.math.BigInteger;
  *
  */
 public class ShortByteWrapper implements ByteWrapper<short[]> {
+    private static final BigInteger BASE = BigInteger.valueOf(2);
 
     @Override
     public byte getByte(short[] array , BigInteger index) {
-        // TODO Auto-generated method stub
-        return 0;
+        BigInteger indexs[] = index.divideAndRemainder(BASE);
+        try {
+            return ShortOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
+        } catch (IllegalArgumentException e) {
+            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
+        }
     }
 
     @Override
     public void setByte(short[] array , BigInteger index , byte b) {
-        // TODO Auto-generated method stub
+        BigInteger indexs[] = index.divideAndRemainder(BASE);
+        try {
+            array[indexs[0].intValue()] =
+                ShortOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
+        } catch (IllegalArgumentException e) {
+            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
+        }
     }
 
     @Override
     public BigInteger size(short[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length).multiply(BASE);
     }
 }
