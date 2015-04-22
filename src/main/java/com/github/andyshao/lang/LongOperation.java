@@ -62,8 +62,14 @@ public final class LongOperation {
     }
 
     public static final int getInt(long l , int pos) {
-        //TODO
-        return 0;
+        switch (pos) {
+        case 0:
+            return (int) (0x00000000ffffffffL & l);
+        case 1:
+            return (int) ((0xffffffff00000000L & l) >> 32);
+        default:
+            throw new IllegalArgumentException(pos + " less than o or bigger than 1");
+        }
     }
 
     public static final short getShort(long l , int pos) {
@@ -112,8 +118,19 @@ public final class LongOperation {
     }
 
     public static final long setInt(long l , int pos , int i) {
-        //TODO
-        return 0;
+        long temp = IntegerOperation.toUnsingedLong(i);
+        switch (pos) {
+        case 0:
+            l &= 0xffffffff00000000L;
+            break;
+        case 1:
+            l &= 0x00000000ffffffffL;
+            temp <<= 32;
+            break;
+        default:
+            throw new IllegalArgumentException(pos + " less than 0 ro bigger than 1");
+        }
+        return l | temp;
     }
 
     public static final long setShort(long l , int pos , short s) {

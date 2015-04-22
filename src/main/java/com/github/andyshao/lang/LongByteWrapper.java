@@ -17,7 +17,7 @@ public class LongByteWrapper implements ByteWrapper<long[]> {
 
     @Override
     public byte getByte(long[] array , BigInteger index) {
-        BigInteger indexs[] = index.divideAndRemainder(BASE);
+        BigInteger indexs[] = index.divideAndRemainder(LongByteWrapper.BASE);
         try {
             return LongOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
         } catch (IllegalArgumentException e) {
@@ -27,7 +27,7 @@ public class LongByteWrapper implements ByteWrapper<long[]> {
 
     @Override
     public void setByte(long[] array , BigInteger index , byte b) {
-        BigInteger indexs[] = index.divideAndRemainder(BASE);
+        BigInteger indexs[] = index.divideAndRemainder(LongByteWrapper.BASE);
         try {
             array[indexs[0].intValue()] = LongOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
         } catch (IllegalArgumentException e) {
@@ -37,6 +37,6 @@ public class LongByteWrapper implements ByteWrapper<long[]> {
 
     @Override
     public BigInteger size(long[] array) {
-        return BigInteger.valueOf(array.length).multiply(BASE);
+        return BigInteger.valueOf(array.length).multiply(LongByteWrapper.BASE);
     }
 }

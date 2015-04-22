@@ -17,7 +17,7 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
 
     @Override
     public byte getByte(short[] array , BigInteger index) {
-        BigInteger indexs[] = index.divideAndRemainder(BASE);
+        BigInteger indexs[] = index.divideAndRemainder(ShortByteWrapper.BASE);
         try {
             return ShortOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
         } catch (IllegalArgumentException e) {
@@ -27,7 +27,7 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
 
     @Override
     public void setByte(short[] array , BigInteger index , byte b) {
-        BigInteger indexs[] = index.divideAndRemainder(BASE);
+        BigInteger indexs[] = index.divideAndRemainder(ShortByteWrapper.BASE);
         try {
             array[indexs[0].intValue()] =
                 ShortOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
@@ -38,6 +38,6 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
 
     @Override
     public BigInteger size(short[] array) {
-        return BigInteger.valueOf(array.length).multiply(BASE);
+        return BigInteger.valueOf(array.length).multiply(ShortByteWrapper.BASE);
     }
 }

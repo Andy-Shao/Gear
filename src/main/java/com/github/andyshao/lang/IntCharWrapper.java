@@ -13,23 +13,32 @@ import java.math.BigInteger;
  *
  */
 public class IntCharWrapper implements CharWrapper<int[]> {
+    private static final BigInteger BASE = BigInteger.valueOf(2);
 
     @Override
     public char getChar(int[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        BigInteger indexs[] = position.divideAndRemainder(IntCharWrapper.BASE);
+        try {
+            return (char) IntegerOperation.getShort(array[indexs[0].intValue()] , indexs[1].intValue());
+        } catch (IllegalArgumentException e) {
+            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
+        }
     }
 
     @Override
     public void setChar(int[] array , BigInteger position , char c) {
-        // TODO Auto-generated method stub
-
+        BigInteger indexs[] = position.divideAndRemainder(IntCharWrapper.BASE);
+        try {
+            array[indexs[0].intValue()] =
+                IntegerOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
+        } catch (IllegalArgumentException e) {
+            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
+        }
     }
 
     @Override
     public BigInteger size(int[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length).multiply(IntCharWrapper.BASE);
     }
 
 }
