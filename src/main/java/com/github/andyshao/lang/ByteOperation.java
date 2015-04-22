@@ -137,7 +137,6 @@ public final class ByteOperation {
             }
             ByteOperation.bitSet(7 , fbit , bs);
         }
-
         return bs;
     }
 
@@ -169,13 +168,16 @@ public final class ByteOperation {
     }
 
     static final <ARRAY> ARRAY fill(
-        int state , int startPos , int endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
-        //TODO
+        int state , BigInteger startPos , BigInteger endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+        if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
+        if (startPos.compareTo(endPos) != -1) throw new IllegalArgumentException("startPos should bigger than endPos");
+        for (BigInteger i = startPos ; i.compareTo(endPos) == -1 ; i = i.add(BigInteger.ONE))
+            ByteOperation.bitSet(i , state , array , byteWrapper);
         return array;
     }
 
     public static final byte[] fill(int state , int startPos , int endPos , final byte... bs) {
-        if (state != 0 && state != 1) throw new IllegalArgumentException();
+        if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
         if (startPos >= endPos) throw new IllegalArgumentException();
 
         for (int i = startPos ; i < endPos ; i++)

@@ -34,7 +34,7 @@ public final class ShortOperation {
         return ByteOperation.bitSet(pos , state , array , ByteWrapper.SHORT_BYTE_WRAPPER);
     }
 
-    public static final short[] fill(int state , int startPos , int endPos , final short[] array) {
+    public static final short[] fill(int state , BigInteger startPos , BigInteger endPos , final short[] array) {
         return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.SHORT_BYTE_WRAPPER);
     }
 

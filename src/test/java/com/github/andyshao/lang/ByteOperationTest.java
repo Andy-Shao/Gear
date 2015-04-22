@@ -238,6 +238,20 @@ public class ByteOperationTest {
     }
 
     @Test
+    public void testFill() {
+        ByteOperation.fill(1 , BigInteger.ZERO , BigInteger.ONE , this.bs , this.byteWrapper);
+        Assert.assertThat(this.bs[0] , Matchers.is((byte) 0B00000001));
+        ByteOperation.fill(1 , BigInteger.ZERO , BigInteger.valueOf(2) , this.bs , this.byteWrapper);
+        Assert.assertThat(this.bs[0] , Matchers.is((byte) 0B00000011));
+        ByteOperation.fill(1 , BigInteger.ZERO , BigInteger.valueOf(3) , this.bs , this.byteWrapper);
+        Assert.assertThat(this.bs[0] , Matchers.is((byte) 0B00000111));
+        ByteOperation.fill(1 , BigInteger.ZERO , BigInteger.valueOf(4) , this.bs , this.byteWrapper);
+        Assert.assertThat(this.bs[0] , Matchers.is((byte) 0B00001111));
+        ByteOperation.fill(0 , BigInteger.ZERO , BigInteger.valueOf(4) , this.bs , this.byteWrapper);
+        Assert.assertThat(this.bs[0] , Matchers.is((byte) 0B00000000));
+    }
+
+    @Test
     public void testGet() {
         int position = 8;
         Assert.assertThat(ByteOperation.bitGet(position++ , this.bs) , Matchers.is(1));

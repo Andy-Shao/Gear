@@ -34,7 +34,7 @@ public class CharOperation {
         return ByteOperation.bitSet(pos , state , array , ByteWrapper.CHAR_BYTE_WRAPPER);
     }
 
-    public static final char[] fill(int state , int startPos , int endPos , final char[] array) {
+    public static final char[] fill(int state , BigInteger startPos , BigInteger endPos , final char[] array) {
         return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.CHAR_BYTE_WRAPPER);
     }
 

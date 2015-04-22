@@ -34,7 +34,7 @@ public final class LongOperation {
         return ByteOperation.bitSet(pos , state , array , ByteWrapper.LONG_BYTE_WRAPPER);
     }
 
-    public static final long[] fill(int state , int startPos , int endPos , final long[] array) {
+    public static final long[] fill(int state , BigInteger startPos , BigInteger endPos , final long[] array) {
         return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.LONG_BYTE_WRAPPER);
     }
 

@@ -34,7 +34,7 @@ public final class IntegerOperation {
         return ByteOperation.bitSet(pos , state , array , ByteWrapper.INT_BYTE_WRAPPER);
     }
 
-    public static final int[] fill(int state , int startPos , int endPos , final int[] array) {
+    public static final int[] fill(int state , BigInteger startPos , BigInteger endPos , final int[] array) {
         return ByteOperation.fill(state , startPos , endPos , array , ByteWrapper.INT_BYTE_WRAPPER);
     }
 
