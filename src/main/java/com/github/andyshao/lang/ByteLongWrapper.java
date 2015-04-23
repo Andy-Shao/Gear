@@ -13,23 +13,33 @@ import java.math.BigInteger;
  *
  */
 public class ByteLongWrapper implements LongWrapper<byte[]> {
+    private static final int BASE = 3;
 
     @Override
     public long getLong(byte[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        long result = 0x00;
+        for (int i = 0 , index = position.intValue() << ByteLongWrapper.BASE ; i < 8 ; i++ , index++)
+            if (array.length > index) {
+                if (i != 0) result = LongOperation.setByte(result , index , array[index]);
+                else throw new ArrayIndexOutOfBoundsException(index);
+            } else break;
+        return result;
     }
 
     @Override
     public void setLong(byte[] array , BigInteger position , long l) {
-        // TODO Auto-generated method stub
-
+        for (int i = 0 , index = position.intValue() << ByteLongWrapper.BASE ; i < 8 ; i++ , index++)
+            if (array.length > index) {
+                if (i != 0) array[index] = LongOperation.getByte(l , i);
+                else throw new ArrayIndexOutOfBoundsException(index);
+            } else break;
     }
 
     @Override
     public BigInteger size(byte[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return array.length - (array.length >> ByteLongWrapper.BASE) > 0 ? BigInteger
+            .valueOf((array.length >> ByteLongWrapper.BASE) + 1) : BigInteger
+            .valueOf(array.length >> ByteLongWrapper.BASE);
     }
 
 }

@@ -13,26 +13,33 @@ import java.math.BigInteger;
  *
  */
 public class IntLongWrapper implements LongWrapper<int[]> {
-    private static final BigInteger BASE = BigInteger.valueOf(2);
+    private static final int BASE = 1;
 
     @Override
     public long getLong(int[] array , BigInteger position) {
-        long l = 0x00;
-        l = LongOperation.setInt(l , 0 , array[position.intValue()]);
-        l = LongOperation.setInt(l , 1 , array[position.intValue() + 1]);
-        return l;
+        long result = 0x00;
+        for (int i = 0 , index = position.intValue() << IntLongWrapper.BASE ; i < 2 ; i++ , index++)
+            if (array.length > index) {
+                if (i != 0) result = LongOperation.setInt(result , i , array[index]);
+                else throw new ArrayIndexOutOfBoundsException(index);
+            } else break;
+        return result;
     }
 
     @Override
     public void setLong(int[] array , BigInteger position , long l) {
-        array[position.intValue()] = LongOperation.getInt(l , 0);
-        array[position.intValue() + 1] = LongOperation.getInt(l , 1);
+        for (int i = 0 , index = position.intValue() << IntLongWrapper.BASE ; i < 2 ; i++ , index++)
+            if (array.length > index) {
+                if (i != 0) array[index] = LongOperation.getInt(l , i);
+                else throw new ArrayIndexOutOfBoundsException(index);
+            } else break;
     }
 
     @Override
     public BigInteger size(int[] array) {
-        BigInteger indexs[] = BigInteger.valueOf(array.length).divideAndRemainder(IntLongWrapper.BASE);
-        return indexs[1].intValue() > 0 ? indexs[0].add(BigInteger.ONE) : indexs[0];
+        return array.length - (array.length >> IntLongWrapper.BASE) > 0 ? BigInteger
+            .valueOf((array.length >> IntLongWrapper.BASE) + 1) : BigInteger
+            .valueOf(array.length >> IntLongWrapper.BASE);
     }
 
 }

@@ -68,13 +68,23 @@ public final class LongOperation {
         case 1:
             return (int) ((0xffffffff00000000L & l) >> 32);
         default:
-            throw new IllegalArgumentException(pos + " less than o or bigger than 1");
+            throw new IllegalArgumentException(pos + " less than 0 or bigger than 1");
         }
     }
 
     public static final short getShort(long l , int pos) {
-        //TODO
-        return 0;
+        switch (pos) {
+        case 0:
+            return (short) (0x000000000000ffffL & l);
+        case 1:
+            return (short) (0x00000000ffff0000L & l);
+        case 2:
+            return (short) (0x0000ffff00000000L & l);
+        case 3:
+            return (short) (0xffff000000000000L & l);
+        default:
+            throw new IllegalArgumentException(pos + " less than 0 or bigger than 3");
+        }
     }
 
     public static final long setByte(long l , int pos , byte b) {
@@ -128,14 +138,33 @@ public final class LongOperation {
             temp <<= 32;
             break;
         default:
-            throw new IllegalArgumentException(pos + " less than 0 ro bigger than 1");
+            throw new IllegalArgumentException(pos + " less than 0 or bigger than 1");
         }
         return l | temp;
     }
 
     public static final long setShort(long l , int pos , short s) {
-        //TODO
-        return 0;
+        long temp = ShortOperation.toUnsingedLong(s);
+        switch (pos) {
+        case 0:
+            l &= 0xffffffffffff0000L;
+            break;
+        case 1:
+            l &= 0xffffffff0000ffffL;
+            temp <<= 16;
+            break;
+        case 2:
+            l &= 0xffff0000ffffffffL;
+            temp <<= 32;
+            break;
+        case 3:
+            l &= 0x0000ffffffffffffL;
+            temp <<= 48;
+            break;
+        default:
+            throw new IllegalArgumentException(pos + " less than 0 or bigger than 3");
+        }
+        return l | temp;
     }
 
     public static final byte[] toByte(long l) {
