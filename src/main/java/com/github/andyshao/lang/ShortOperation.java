@@ -77,6 +77,13 @@ public final class ShortOperation {
         });
     }
 
+    public static final String toHexString(short... s) {
+        StringBuilder builder = new StringBuilder();
+        for (short sh : s)
+            builder.append(ShortOperation.toHexString(sh));
+        return builder.toString();
+    }
+
     public static final String toString(short[] array) {
         return ByteOperation.toString(array , ByteWrapper.SHORT_BYTE_WRAPPER);
     }

@@ -183,6 +183,13 @@ public final class LongOperation {
         });
     }
 
+    public static final String toHexString(long... ls) {
+        StringBuilder builder = new StringBuilder();
+        for (long l : ls)
+            builder.append(LongOperation.toHexString(l));
+        return builder.toString();
+    }
+
     public static final String toString(long[] array) {
         return ByteOperation.toString(array , ByteWrapper.LONG_BYTE_WRAPPER);
     }

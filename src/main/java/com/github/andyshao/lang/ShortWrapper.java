@@ -36,8 +36,4 @@ public interface ShortWrapper<ARRAY> {
 
     public BigInteger size(ARRAY array);
 
-    public default String toHexString(ARRAY array) {
-        //TODO
-        return "";
-    }
 }

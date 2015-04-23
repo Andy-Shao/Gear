@@ -31,5 +31,4 @@ public class ShortIntWrapper implements IntWrapper<short[]> {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

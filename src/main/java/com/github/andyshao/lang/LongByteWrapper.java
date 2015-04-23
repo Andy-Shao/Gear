@@ -39,4 +39,5 @@ public class LongByteWrapper implements ByteWrapper<long[]> {
     public BigInteger size(long[] array) {
         return BigInteger.valueOf(array.length).multiply(LongByteWrapper.BASE);
     }
+
 }

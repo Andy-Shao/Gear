@@ -31,5 +31,4 @@ public class CharCharWrapper implements CharWrapper<char[]> {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

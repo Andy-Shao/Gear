@@ -31,5 +31,4 @@ public class ShortLongWrapper implements LongWrapper<short[]> {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

@@ -54,6 +54,13 @@ public class CharOperation {
         return ShortOperation.toHexString((short) c);
     }
 
+    public static final String toHexString(char... cs) {
+        StringBuilder builder = new StringBuilder();
+        for (char c : cs)
+            builder.append(CharOperation.toHexString(c));
+        return builder.toString();
+    }
+
     public static final String toString(char[] array) {
         return ByteOperation.toString(array , ByteWrapper.CHAR_BYTE_WRAPPER);
     }

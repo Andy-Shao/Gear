@@ -31,5 +31,4 @@ public class ByteShortWrapper implements ShortWrapper<byte[]> {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

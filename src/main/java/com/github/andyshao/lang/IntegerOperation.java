@@ -107,6 +107,13 @@ public final class IntegerOperation {
         });
     }
 
+    public static final String toHexString(int... is) {
+        StringBuilder builder = new StringBuilder();
+        for (int i : is)
+            builder.append(IntegerOperation.toHexString(i));
+        return builder.toString();
+    }
+
     public static final String toString(int[] array) {
         return ByteOperation.toString(array , ByteWrapper.INT_BYTE_WRAPPER);
     }

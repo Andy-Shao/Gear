@@ -40,4 +40,5 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
     public BigInteger size(short[] array) {
         return BigInteger.valueOf(array.length).multiply(ShortByteWrapper.BASE);
     }
+
 }

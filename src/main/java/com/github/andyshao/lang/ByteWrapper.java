@@ -49,11 +49,4 @@ public interface ByteWrapper<ARRAY> {
     public void setByte(final ARRAY array , BigInteger index , byte b);
 
     public BigInteger size(final ARRAY array);
-
-    public default String toHexString(ARRAY array) {
-        StringBuilder builder = new StringBuilder();
-        for (Byte b : this.iterable(array))
-            builder.append(Convert.BYTE_2_STR.convert(b));
-        return builder.toString();
-    }
 }

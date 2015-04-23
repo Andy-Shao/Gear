@@ -35,9 +35,4 @@ public interface LongWrapper<ARRAY> {
     public void setLong(ARRAY array , BigInteger position , long l);
 
     public BigInteger size(ARRAY array);
-
-    public default String toHexString(ARRAY array) {
-        //TODO
-        return null;
-    }
 }
