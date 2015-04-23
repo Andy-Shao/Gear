@@ -185,6 +185,10 @@ public final class ByteOperation {
         return bs;
     }
 
+    public static final String toHexString(byte b) {
+        return Convert.BYTE_2_STR.convert(b);
+    }
+
     static final <ARRAY> String toString(ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         StringBuilder result = new StringBuilder();
         BigInteger length = byteWrapper.size(array);

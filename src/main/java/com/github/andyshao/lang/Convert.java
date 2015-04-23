@@ -16,16 +16,17 @@ import java.util.Objects;
  */
 @FunctionalInterface
 public interface Convert<IN , OUT> {
+    public static final Convert<Byte , String> BYTE_2_STR = ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX);
     public static final Convert<Byte[] , String> BYTES_2_HEX = (Byte[] in) -> {
         StringBuilder builder = new StringBuilder();
         for (Byte b : in)
-            builder.append(ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX).convert(b));
+            builder.append(Convert.BYTE_2_STR.convert(b));
         return builder.toString();
     };
     public static final Convert<byte[] , String> BYTES_TO_HEX = (byte[] in) -> {
         StringBuilder builder = new StringBuilder();
         for (Byte b : in)
-            builder.append(ConvertByte2Str.byte2Char(ConvertByte2Str.BYTE_HEX).convert(b));
+            builder.append(Convert.BYTE_2_STR.convert(b));
         return builder.toString();
     };
     public static final Convert<String , Byte[]> HEX_2_BYTES = new ConvertStr2Byte();

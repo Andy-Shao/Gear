@@ -1,6 +1,7 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 
 /**
  * 
@@ -22,7 +23,21 @@ public interface IntWrapper<ARRAY> {
 
     public int getInt(ARRAY array , BigInteger position);
 
+    public default Iterable<Integer> iterable(ARRAY array) {
+        return () -> this.iterator(array);
+    }
+
+    public default Iterator<Integer> iterator(ARRAY array) {
+        //TODO
+        return null;
+    }
+
     public void setInt(ARRAY array , BigInteger position , int i);
 
     public BigInteger size(ARRAY array);
+
+    public default String toHexString(ARRAY array) {
+        //TODO
+        return null;
+    }
 }

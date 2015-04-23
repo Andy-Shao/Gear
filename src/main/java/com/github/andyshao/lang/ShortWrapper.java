@@ -1,6 +1,7 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 
 /**
  * 
@@ -22,7 +23,21 @@ public interface ShortWrapper<ARRAY> {
 
     public short getShort(ARRAY array , BigInteger position);
 
+    public default Iterable<Short> iterable(ARRAY array) {
+        return () -> this.iterator(array);
+    }
+
+    public default Iterator<Short> iterator(ARRAY array) {
+        //TODO
+        return null;
+    }
+
     public void setShort(ARRAY array , BigInteger position , short s);
 
     public BigInteger size(ARRAY array);
+
+    public default String toHexString(ARRAY array) {
+        //TODO
+        return "";
+    }
 }

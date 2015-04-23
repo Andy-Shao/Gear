@@ -71,6 +71,12 @@ public final class ShortOperation {
         };
     }
 
+    public static final String toHexString(short s) {
+        return Convert.BYTES_TO_HEX.convert(new byte[] {
+            ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1)
+        });
+    }
+
     public static final String toString(short[] array) {
         return ByteOperation.toString(array , ByteWrapper.SHORT_BYTE_WRAPPER);
     }

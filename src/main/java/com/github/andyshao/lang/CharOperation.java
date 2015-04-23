@@ -50,6 +50,10 @@ public class CharOperation {
         return ShortOperation.toByte((short) c);
     }
 
+    public static final String toHexString(char c) {
+        return ShortOperation.toHexString((short) c);
+    }
+
     public static final String toString(char[] array) {
         return ByteOperation.toString(array , ByteWrapper.CHAR_BYTE_WRAPPER);
     }

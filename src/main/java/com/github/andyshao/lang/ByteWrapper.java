@@ -1,6 +1,7 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 
 /**
  * Wrap any kinds of object or array. Operate them as a byte array.
@@ -22,7 +23,37 @@ public interface ByteWrapper<ARRAY> {
 
     public byte getByte(final ARRAY array , BigInteger index);
 
+    public default Iterable<Byte> iterable(final ARRAY array) {
+        return () -> this.iterator(array);
+    }
+
+    public default Iterator<Byte> iterator(final ARRAY array) {
+        return new Iterator<Byte>() {
+            private volatile BigInteger index = BigInteger.ZERO;
+            private final BigInteger size = ByteWrapper.this.size(array);
+
+            @Override
+            public boolean hasNext() {
+                return this.index.compareTo(this.size) == -1 ? true : false;
+            }
+
+            @Override
+            public Byte next() {
+                Byte result = ByteWrapper.this.getByte(array , this.index);
+                this.index = this.index.add(BigInteger.ONE);
+                return result;
+            }
+        };
+    }
+
     public void setByte(final ARRAY array , BigInteger index , byte b);
 
     public BigInteger size(final ARRAY array);
+
+    public default String toHexString(ARRAY array) {
+        StringBuilder builder = new StringBuilder();
+        for (Byte b : this.iterable(array))
+            builder.append(Convert.BYTE_2_STR.convert(b));
+        return builder.toString();
+    }
 }
