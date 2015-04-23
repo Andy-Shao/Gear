@@ -18,8 +18,8 @@ public final class IntegerOperation {
     }
 
     public static final int[] bitOxr(final int[] b1 , final int[] b2 , int size) {
-        //TODO
-        return null;
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(4)) ,
+            ByteWrapper.INT_BYTE_WRAPPER);
     }
 
     public static final int[] bitRotLeft(int count , final int[] array) {

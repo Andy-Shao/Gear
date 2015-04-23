@@ -18,8 +18,8 @@ public final class ShortOperation {
     }
 
     public static final short[] bitOxr(final short[] b1 , final short[] b2 , int size) {
-        //TODO
-        return null;
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(2)) ,
+            ByteWrapper.SHORT_BYTE_WRAPPER);
     }
 
     public static final short[] bitRotLeft(int count , final short[] array) {

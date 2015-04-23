@@ -18,8 +18,8 @@ public final class LongOperation {
     }
 
     public static final long[] bitOxr(final long[] b1 , final long[] b2 , int size) {
-        //TODO
-        return null;
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(8)) ,
+            ByteWrapper.LONG_BYTE_WRAPPER);
     }
 
     public static final long[] bitRotLeft(int count , final long[] array) {
