@@ -34,7 +34,7 @@ public interface ByteWrapper<ARRAY> {
 
             @Override
             public boolean hasNext() {
-                return this.index.compareTo(this.size) == -1 ? true : false;
+                return this.index.compareTo(this.size) == -1;
             }
 
             @Override

@@ -28,8 +28,22 @@ public interface LongWrapper<ARRAY> {
     }
 
     public default Iterator<Long> iterator(ARRAY array) {
-        //TODO
-        return null;
+        return new Iterator<Long>() {
+            private volatile BigInteger index = BigInteger.ZERO;
+            private final BigInteger size = LongWrapper.this.size(array);
+
+            @Override
+            public boolean hasNext() {
+                return this.index.compareTo(this.size) == -1;
+            }
+
+            @Override
+            public Long next() {
+                long l = LongWrapper.this.getLong(array , this.index);
+                this.index = this.index.add(BigInteger.ONE);
+                return l;
+            }
+        };
     }
 
     public void setLong(ARRAY array , BigInteger position , long l);

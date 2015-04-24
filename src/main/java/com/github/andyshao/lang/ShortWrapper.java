@@ -27,9 +27,23 @@ public interface ShortWrapper<ARRAY> {
         return () -> this.iterator(array);
     }
 
-    public default Iterator<Short> iterator(ARRAY array) {
-        //TODO
-        return null;
+    public default Iterator<Short> iterator(final ARRAY array) {
+        return new Iterator<Short>() {
+            private volatile BigInteger index = BigInteger.ZERO;
+            private final BigInteger size = ShortWrapper.this.size(array);
+
+            @Override
+            public boolean hasNext() {
+                return this.index.compareTo(this.size) == -1;
+            }
+
+            @Override
+            public Short next() {
+                short s = ShortWrapper.this.getShort(array , this.index);
+                this.index = this.index.add(BigInteger.ONE);
+                return s;
+            }
+        };
     }
 
     public void setShort(ARRAY array , BigInteger position , short s);

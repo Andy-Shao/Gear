@@ -28,8 +28,22 @@ public interface CharWrapper<ARRAY> {
     }
 
     public default Iterator<Character> iterator(final ARRAY array) {
-        //TODO
-        return null;
+        return new Iterator<Character>() {
+            private volatile BigInteger index = BigInteger.ZERO;
+            private final BigInteger size = CharWrapper.this.size(array);
+
+            @Override
+            public boolean hasNext() {
+                return (this.index.compareTo(this.size) == -1);
+            }
+
+            @Override
+            public Character next() {
+                char c = CharWrapper.this.getChar(array , this.index);
+                this.index = this.index.add(BigInteger.ONE);
+                return c;
+            }
+        };
     }
 
     public void setChar(ARRAY array , BigInteger position , char c);

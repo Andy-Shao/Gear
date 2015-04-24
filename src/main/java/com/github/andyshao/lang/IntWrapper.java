@@ -28,8 +28,22 @@ public interface IntWrapper<ARRAY> {
     }
 
     public default Iterator<Integer> iterator(ARRAY array) {
-        //TODO
-        return null;
+        return new Iterator<Integer>() {
+            private volatile BigInteger index = BigInteger.ZERO;
+            private final BigInteger size = IntWrapper.this.size(array);
+
+            @Override
+            public boolean hasNext() {
+                return this.index.compareTo(this.size) == -1;
+            }
+
+            @Override
+            public Integer next() {
+                int i = IntWrapper.this.getInt(array , this.index);
+                this.index = this.index.add(BigInteger.ONE);
+                return i;
+            }
+        };
     }
 
     public void setInt(ARRAY array , BigInteger position , int i);
