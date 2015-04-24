@@ -13,22 +13,32 @@ import java.math.BigInteger;
  *
  */
 public class ShortLongWrapper implements LongWrapper<short[]> {
+    private static final int BASE = 2;
 
     @Override
     public long getLong(short[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        long result = 0x00L;
+        for (int i = 0 , index = position.intValue() << ShortLongWrapper.BASE ; i < 4 ; i++ , index++)
+            if (index < array.length) {
+                if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+                else result = LongOperation.setShort(result , i , array[index]);
+            } else break;
+        return result;
     }
 
     @Override
     public void setLong(short[] array , BigInteger position , long l) {
-        // TODO Auto-generated method stub
-
+        for (int i = 0 , index = position.intValue() << ShortLongWrapper.BASE ; i < 4 ; i++ , index++)
+            if (index < array.length) {
+                if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+                else array[index] = LongOperation.getShort(l , i);
+            } else break;
     }
 
     @Override
     public BigInteger size(short[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return array.length - (array.length >> ShortLongWrapper.BASE) > 0 ? BigInteger
+            .valueOf((array.length >> ShortLongWrapper.BASE) + 1) : BigInteger
+            .valueOf(array.length >> ShortLongWrapper.BASE);
     }
 }

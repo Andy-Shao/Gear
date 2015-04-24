@@ -13,22 +13,28 @@ import java.math.BigInteger;
  *
  */
 public class CharLongWrapper implements LongWrapper<char[]> {
+    private static final int BASE = 2;
 
     @Override
     public long getLong(char[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        long result = 0x00L;
+        for (int i = 0 , index = position.intValue() << CharLongWrapper.BASE ; i < 4 ; i++ , index++)
+            if (index < array.length) if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else result = LongOperation.setShort(result , i , (short) array[index]);
+        return result;
     }
 
     @Override
     public void setLong(char[] array , BigInteger position , long l) {
-        // TODO Auto-generated method stub
-
+        for (int i = 0 , index = position.intValue() << CharLongWrapper.BASE ; i < 4 ; i++ , index++)
+            if (index < array.length) if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else array[index] = (char) LongOperation.getShort(l , i);
     }
 
     @Override
     public BigInteger size(char[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return array.length - (array.length >> CharLongWrapper.BASE) > 0 ? BigInteger
+            .valueOf((array.length >> CharLongWrapper.BASE) + 1) : BigInteger
+            .valueOf(array.length >> CharLongWrapper.BASE);
     }
 }

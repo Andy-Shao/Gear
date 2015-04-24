@@ -16,20 +16,17 @@ public class LongLongWrapper implements LongWrapper<long[]> {
 
     @Override
     public long getLong(long[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        return array[position.intValue()];
     }
 
     @Override
     public void setLong(long[] array , BigInteger position , long l) {
-        // TODO Auto-generated method stub
-
+        array[position.intValue()] = l;
     }
 
     @Override
     public BigInteger size(long[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length);
     }
 
 }
