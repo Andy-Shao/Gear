@@ -19,9 +19,8 @@ public class IntLongWrapper implements LongWrapper<int[]> {
     public long getLong(int[] array , BigInteger position) {
         long result = 0x00;
         for (int i = 0 , index = position.intValue() << IntLongWrapper.BASE ; i < 2 ; i++ , index++)
-            if (array.length > index) {
-                result = LongOperation.setInt(result , i , array[index]);
-            } else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            if (array.length > index) result = LongOperation.setInt(result , i , array[index]);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
             else break;
         return result;
     }
@@ -29,9 +28,8 @@ public class IntLongWrapper implements LongWrapper<int[]> {
     @Override
     public void setLong(int[] array , BigInteger position , long l) {
         for (int i = 0 , index = position.intValue() << IntLongWrapper.BASE ; i < 2 ; i++ , index++)
-            if (array.length > index) {
-                array[index] = LongOperation.getInt(l , i);
-            } else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            if (array.length > index) array[index] = LongOperation.getInt(l , i);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
             else break;
     }
 

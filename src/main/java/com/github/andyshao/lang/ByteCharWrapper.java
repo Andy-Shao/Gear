@@ -13,23 +13,31 @@ import java.math.BigInteger;
  *
  */
 public class ByteCharWrapper implements CharWrapper<byte[]> {
+    private static final int BASE = 1;
 
     @Override
     public char getChar(byte[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        char result = 0x00;
+        for (int i = 0 , index = position.intValue() << ByteCharWrapper.BASE ; i < 2 ; i++ , index++)
+            if (index < array.length) result = CharOperation.setByte(result , i , array[index]);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
+        return result;
     }
 
     @Override
     public void setChar(byte[] array , BigInteger position , char c) {
-        // TODO Auto-generated method stub
-
+        for (int i = 0 , index = position.intValue() << ByteCharWrapper.BASE ; i < 2 ; i++ , index++)
+            if (index < array.length) array[index] = CharOperation.getByte(c , i);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
     }
 
     @Override
     public BigInteger size(byte[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return array.length - (array.length >> ByteCharWrapper.BASE) > 0 ? BigInteger
+            .valueOf((array.length >> ByteCharWrapper.BASE) + 1) : BigInteger
+            .valueOf(array.length >> ByteCharWrapper.BASE);
     }
 
 }
