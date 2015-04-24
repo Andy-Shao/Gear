@@ -16,20 +16,18 @@ public class IntIntWrapper implements IntWrapper<int[]> {
 
     @Override
     public int getInt(int[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        return array[position.intValue()];
     }
+    
 
     @Override
     public void setInt(int[] array , BigInteger position , int i) {
-        // TODO Auto-generated method stub
-
+        array[position.intValue()] = i;
     }
 
     @Override
     public BigInteger size(int[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length);
     }
 
 }

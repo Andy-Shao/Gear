@@ -19,16 +19,18 @@ public class CharLongWrapper implements LongWrapper<char[]> {
     public long getLong(char[] array , BigInteger position) {
         long result = 0x00L;
         for (int i = 0 , index = position.intValue() << CharLongWrapper.BASE ; i < 4 ; i++ , index++)
-            if (index < array.length) if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
-            else result = LongOperation.setShort(result , i , (short) array[index]);
+            if (index < array.length) result = LongOperation.setShort(result , i , (short) array[index]);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
         return result;
     }
 
     @Override
     public void setLong(char[] array , BigInteger position , long l) {
         for (int i = 0 , index = position.intValue() << CharLongWrapper.BASE ; i < 4 ; i++ , index++)
-            if (index < array.length) if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
-            else array[index] = (char) LongOperation.getShort(l , i);
+            if (index < array.length) array[index] = (char) LongOperation.getShort(l , i);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
     }
 
     @Override

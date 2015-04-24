@@ -19,20 +19,18 @@ public class ShortLongWrapper implements LongWrapper<short[]> {
     public long getLong(short[] array , BigInteger position) {
         long result = 0x00L;
         for (int i = 0 , index = position.intValue() << ShortLongWrapper.BASE ; i < 4 ; i++ , index++)
-            if (index < array.length) {
-                if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
-                else result = LongOperation.setShort(result , i , array[index]);
-            } else break;
+            if (index < array.length) result = LongOperation.setShort(result , i , array[index]);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
         return result;
     }
 
     @Override
     public void setLong(short[] array , BigInteger position , long l) {
         for (int i = 0 , index = position.intValue() << ShortLongWrapper.BASE ; i < 4 ; i++ , index++)
-            if (index < array.length) {
-                if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
-                else array[index] = LongOperation.getShort(l , i);
-            } else break;
+            if (index < array.length) array[index] = LongOperation.getShort(l , i);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
     }
 
     @Override

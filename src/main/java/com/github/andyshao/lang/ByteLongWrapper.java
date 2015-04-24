@@ -19,20 +19,18 @@ public class ByteLongWrapper implements LongWrapper<byte[]> {
     public long getLong(byte[] array , BigInteger position) {
         long result = 0x00;
         for (int i = 0 , index = position.intValue() << ByteLongWrapper.BASE ; i < 8 ; i++ , index++)
-            if (array.length > index) {
-                if (i != 0) result = LongOperation.setByte(result , index , array[index]);
-                else throw new ArrayIndexOutOfBoundsException(index);
-            } else break;
+            if (index < array.length) result = LongOperation.setByte(result , index , array[index]);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
         return result;
     }
 
     @Override
     public void setLong(byte[] array , BigInteger position , long l) {
         for (int i = 0 , index = position.intValue() << ByteLongWrapper.BASE ; i < 8 ; i++ , index++)
-            if (array.length > index) {
-                if (i != 0) array[index] = LongOperation.getByte(l , i);
-                else throw new ArrayIndexOutOfBoundsException(index);
-            } else break;
+            if (index < array.length) array[index] = LongOperation.getByte(l , i);
+            else if (i == 0) throw new ArrayIndexOutOfBoundsException(index);
+            else break;
     }
 
     @Override
