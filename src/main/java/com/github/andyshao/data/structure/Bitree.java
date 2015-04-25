@@ -218,6 +218,11 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
+    public static <DATA> Iterator<DATA> inorder(final BitreeNode<DATA> node) {
+        //TODO
+        return null;
+    }
+
     public static <DATA> Collection<DATA> inorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.isEob(node)) {
@@ -228,11 +233,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
         return result;
     }
-    
-    public static <DATA> Iterator<DATA> inorder(final BitreeNode<DATA> node){
-        //TODO
-        return null;
-    }
 
     public static <DATA> boolean isEob(BitreeNode<DATA> node) {
         return node == null;
@@ -240,6 +240,11 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     public static <DATA> boolean isLeaf(BitreeNode<DATA> node) {
         return node.left() == null && node.right() == null;
+    }
+
+    public static <DATA> Iterator<DATA> postorder(final BitreeNode<DATA> node) {
+        //TODO
+        return null;
     }
 
     public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
@@ -252,12 +257,12 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
         return result;
     }
-    
-    public static <DATA> Iterator<DATA> postorder(final BitreeNode<DATA> node){
+
+    public static <DATA> Iterator<DATA> preorder(final BitreeNode<DATA> node) {
         //TODO
         return null;
     }
-    
+
     public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with a preorder listing of the tree.
         if (!Bitree.isEob(node)) {
@@ -267,11 +272,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         return result;
-    }
-    
-    public static <DATA> Iterator<DATA> preorder(final BitreeNode<DATA> node){
-        //TODO
-        return null;
     }
 
     public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
