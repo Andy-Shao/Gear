@@ -23,10 +23,6 @@ public interface CharWrapper<ARRAY> {
 
     public char getChar(ARRAY array , BigInteger position);
 
-    public default Iterable<Character> iterable(final ARRAY array) {
-        return () -> this.iterator(array);
-    }
-
     public default Iterator<Character> iterator(final ARRAY array) {
         return new Iterator<Character>() {
             private volatile BigInteger index = BigInteger.ZERO;

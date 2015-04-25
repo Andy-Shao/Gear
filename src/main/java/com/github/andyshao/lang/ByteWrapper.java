@@ -23,10 +23,6 @@ public interface ByteWrapper<ARRAY> {
 
     public byte getByte(final ARRAY array , BigInteger index);
 
-    public default Iterable<Byte> iterable(final ARRAY array) {
-        return () -> this.iterator(array);
-    }
-
     public default Iterator<Byte> iterator(final ARRAY array) {
         return new Iterator<Byte>() {
             private volatile BigInteger index = BigInteger.ZERO;

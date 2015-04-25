@@ -23,10 +23,6 @@ public interface ShortWrapper<ARRAY> {
 
     public short getShort(ARRAY array , BigInteger position);
 
-    public default Iterable<Short> iterable(ARRAY array) {
-        return () -> this.iterator(array);
-    }
-
     public default Iterator<Short> iterator(final ARRAY array) {
         return new Iterator<Short>() {
             private volatile BigInteger index = BigInteger.ZERO;

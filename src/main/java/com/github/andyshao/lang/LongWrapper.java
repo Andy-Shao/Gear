@@ -23,10 +23,6 @@ public interface LongWrapper<ARRAY> {
 
     public long getLong(ARRAY array , BigInteger position);
 
-    public default Iterable<Long> iterable(ARRAY array) {
-        return () -> this.iterator(array);
-    }
-
     public default Iterator<Long> iterator(ARRAY array) {
         return new Iterator<Long>() {
             private volatile BigInteger index = BigInteger.ZERO;

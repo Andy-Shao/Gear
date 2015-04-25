@@ -23,10 +23,6 @@ public interface IntWrapper<ARRAY> {
 
     public int getInt(ARRAY array , BigInteger position);
 
-    public default Iterable<Integer> iterable(ARRAY array) {
-        return () -> this.iterator(array);
-    }
-
     public default Iterator<Integer> iterator(ARRAY array) {
         return new Iterator<Integer>() {
             private volatile BigInteger index = BigInteger.ZERO;
