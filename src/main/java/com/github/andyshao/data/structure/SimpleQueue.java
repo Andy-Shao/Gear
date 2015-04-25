@@ -1,6 +1,5 @@
 package com.github.andyshao.data.structure;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
@@ -17,7 +16,8 @@ import java.util.Queue;
  * @param <D> data
  */
 public class SimpleQueue<D> implements Queue<D> {
-    private final ArrayList<D> list = new ArrayList<>();
+    private final SingleLinked<D> linked = SingleLinked
+        .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
 
     @Override
     public boolean add(D e) {
@@ -34,17 +34,17 @@ public class SimpleQueue<D> implements Queue<D> {
 
     @Override
     public void clear() {
-        this.list.clear();
+        this.linked.clear();
     }
 
     @Override
     public boolean contains(Object o) {
-        return this.list.contains(o);
+        return this.linked.contains(o);
     }
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        return this.list.containsAll(c);
+        return this.linked.containsAll(c);
     }
 
     @Override
@@ -54,29 +54,29 @@ public class SimpleQueue<D> implements Queue<D> {
 
     @Override
     public boolean isEmpty() {
-        return this.list.isEmpty();
+        return this.linked.isEmpty();
     }
 
     @Override
     public Iterator<D> iterator() {
-        return this.list.iterator();
+        return this.linked.iterator();
     }
 
     @Override
     public boolean offer(D e) {
-        return this.list.add(e);
+        return this.linked.add(e);
     }
 
     @Override
     public D peek() {
         if (this.size() == 0) return null;
-        return this.list.get(0);
+        return this.linked.head().data();
     }
 
     @Override
     public D poll() {
         if (this.size() == 0) return null;
-        return this.list.remove(0);
+        return this.linked.remNext(null);
     }
 
     @Override
@@ -86,32 +86,32 @@ public class SimpleQueue<D> implements Queue<D> {
 
     @Override
     public boolean remove(Object o) {
-        return this.list.remove(o);
+        return this.linked.remove(o);
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        return this.list.removeAll(c);
+        return this.linked.removeAll(c);
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        return this.list.retainAll(c);
+        return this.linked.retainAll(c);
     }
 
     @Override
     public int size() {
-        return this.list.size();
+        return this.linked.size();
     }
 
     @Override
     public Object[] toArray() {
-        return this.list.toArray();
+        return this.linked.toArray();
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        return this.list.toArray(a);
+        return this.linked.toArray(a);
     }
 
 }

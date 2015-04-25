@@ -19,27 +19,17 @@ public interface PriorityQueue<D> extends Cleanable {
     public class MyPriorityQueue<DATA> extends MyHeap<DATA> implements PriorityQueue<DATA> {
 
         @Override
-        public DATA pqueue_extract() {
-            return this.extract();
-        }
-
-        @Override
-        public void pqueue_insert(DATA data) {
-            this.insert(data);
-        }
-
-        @Override
-        public DATA pqueue_peek() {
+        public DATA peek() {
             return this.tree.size() == 0 ? null : this.tree.get(0);
         }
 
     }
 
-    public D pqueue_extract();
+    public D extract();
 
-    public void pqueue_insert(D data);
+    public void insert(D data);
 
-    public D pqueue_peek();
+    public D peek();
 
     public int size();
 }
