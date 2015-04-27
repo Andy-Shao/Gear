@@ -80,7 +80,24 @@ public final class ByteOperation {
     }
 
     static final <ARRAY> ARRAY bitRotLeft(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
-        //TODO
+        final BigInteger length = byteWrapper.size(array);
+        final BigInteger size = length.multiply(ByteOperation.EIGHT);
+        if (size.compareTo(BigInteger.ZERO) == 1) for (int j = 0 ; j < count ; j++) {
+            int fbit = 0;
+            final BigInteger temp = length.subtract(BigInteger.ONE);
+            for (BigInteger i = length.subtract(BigInteger.ONE) ; i.compareTo(BigInteger.ZERO) != -1 ; i =
+                i.subtract(BigInteger.ONE)) {
+                int lbit = ByteOperation.bitGet(7 , byteWrapper.getByte(array , i));
+                if (i.compareTo(temp) == 0) fbit = lbit;
+                else {
+                    BigInteger temp2 = i.add(BigInteger.ONE);
+                    byteWrapper.setByte(array , temp2 ,
+                        ByteOperation.bitSet(0 , lbit , byteWrapper.getByte(array , temp2))[0]);
+                }
+                byteWrapper.setByte(array , i , (byte) (byteWrapper.getByte(array , i) << 1));
+            }
+            ByteOperation.bitSet(BigInteger.ZERO , fbit , array , byteWrapper);
+        }
         return array;
     }
 
@@ -99,7 +116,6 @@ public final class ByteOperation {
             for (int i = b.length - 1 ; i >= 0 ; i--) {
                 //Get the bit about to be shifted off the current byte.
                 int lbit = ByteOperation.bitGet(7 , b[i]);
-
                 //Save the bit shifted off the first byte for later.
                 if (i == b.length - 1) fbit = lbit;
                 /*
@@ -108,15 +124,12 @@ public final class ByteOperation {
                  * bit about to be shifted off the current byte.
                  */
                 else b[i + 1] = ByteOperation.bitSet(0 , lbit , b[i + 1])[0];
-
                 //Shift the current byte to the left.
                 b[i] = (byte) (b[i] << 1);
             }
-
             //Set the rightmost bit of the buffer to the bit shifted off the first byte.
             ByteOperation.bitSet(0 , fbit , b);
         }
-
         return b;
     }
 
