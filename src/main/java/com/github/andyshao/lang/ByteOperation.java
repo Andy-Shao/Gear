@@ -96,25 +96,25 @@ public final class ByteOperation {
         //Rotate the buffer to the left the specified number of bist.
         if (size > 0) for (int j = 0 ; j < count ; j++) {
             int fbit = 0;
-            for (int i = 0 ; i < b.length ; i++) {
+            for (int i = b.length - 1 ; i >= 0 ; i--) {
                 //Get the bit about to be shifted off the current byte.
                 int lbit = ByteOperation.bitGet(7 , b[i]);
 
                 //Save the bit shifted off the first byte for later.
-                if (i == 0) fbit = lbit;
+                if (i == b.length - 1) fbit = lbit;
                 /*
                  * Set the rightmost bit of the previous byte to the
                  * leftmost
                  * bit about to be shifted off the current byte.
                  */
-                else b[i - 1] = ByteOperation.bitSet(0 , lbit , b[i - 1])[0];
+                else b[i + 1] = ByteOperation.bitSet(0 , lbit , b[i + 1])[0];
 
                 //Shift the current byte to the left.
                 b[i] = (byte) (b[i] << 1);
             }
 
             //Set the rightmost bit of the buffer to the bit shifted off the first byte.
-            ByteOperation.bitSet(size - 8 , fbit , b);
+            ByteOperation.bitSet(0 , fbit , b);
         }
 
         return b;
@@ -122,7 +122,7 @@ public final class ByteOperation {
 
     static final <ARRAY> ARRAY bitRotRight(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         //TODO
-        return array;
+        return null;
     }
 
     public static final byte[] bitRotRight(int count , final byte... bs) {
@@ -133,9 +133,9 @@ public final class ByteOperation {
                 int lbit = ByteOperation.bitGet(0 , bs[i]);
                 if (i == 0) fbit = lbit;
                 else bs[i - 1] = ByteOperation.bitSet(7 , lbit , bs[i - 1])[0];
-                bs[i] = (byte) (bs[i] << 1);
+                bs[i] = (byte) (bs[i] >> 1);
             }
-            ByteOperation.bitSet(7 , fbit , bs);
+            ByteOperation.bitSet(size - 1 , fbit , bs);
         }
         return bs;
     }

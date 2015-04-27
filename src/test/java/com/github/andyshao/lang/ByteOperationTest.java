@@ -178,63 +178,125 @@ public class ByteOperationTest {
     @Test
     public void testBitRotLeft() {
         byte[] bs = new byte[] {
-            (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00000000
+            (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00010000
         };
         int count = 1;
 
         ByteOperation.bitRotLeft(0 , bs);
-        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11110000));
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00010000));
         Assert.assertThat(bs[2] , Matchers.is((byte) 0B00001111));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000000));
-
-        ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11110000));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11100000));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00011110));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000001));
 
         ByteOperation.bitRotLeft(count , bs);
-        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11000000));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00111100));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000011));
-
-        ByteOperation.bitRotLeft(count , bs);
-        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B10000000));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B01111000));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000111));
-
-        ByteOperation.bitRotLeft(count , bs);
-        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000000));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11110000));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00001111));
-
-        ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00100000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00011111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11100001));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111110));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000001));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11100000));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00011111));
 
         ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B01000000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11000011));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111100));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000011));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11000000));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00111111));
 
         ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B10000000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B01111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B10000111));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111000));
-        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000111));
-        Assert.assertThat(bs[2] , Matchers.is((byte) 0B10000000));
-        Assert.assertThat(bs[3] , Matchers.is((byte) 0B01111111));
 
         ByteOperation.bitRotLeft(count , bs);
-        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11110000));
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11110001));
+
+        ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000001));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11111110));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00011111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11100010));
+
+        ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000011));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11111100));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00111111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11000100));
+
+        ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00000111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11111000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B01111111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B10001000));
+
+        ByteOperation.bitRotLeft(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11110000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00010000));
+    }
+
+    @Test
+    public void testBitRotRight() {
+        byte[] bs = new byte[] {
+            (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00010000
+        };
+        int count = 1;
+
+        ByteOperation.bitRotRight(0 , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B00010000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11110000));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B10001000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11111000));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B01111111));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B11000100));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000011));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11111100));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00111111));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B11100010));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000001));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11111110));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00011111));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B11110001));
         Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00001111));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B11111000));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B10000000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B01111111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B10000111));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B11111100));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B01000000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00111111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11000011));
+
+        ByteOperation.bitRotRight(count , bs);
+        Assert.assertThat(bs[3] , Matchers.is((byte) 0B11111110));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00100000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00011111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11100001));
+
+        ByteOperation.bitRotRight(count , bs);
         Assert.assertThat(bs[3] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00010000));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11110000));
     }
 
     @Test

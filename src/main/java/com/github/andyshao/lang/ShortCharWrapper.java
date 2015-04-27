@@ -21,7 +21,7 @@ public class ShortCharWrapper implements CharWrapper<short[]> {
 
     @Override
     public void setChar(short[] array , BigInteger position , char c) {
-        array[position.intValue()]  = (short) c;
+        array[position.intValue()] = (short) c;
     }
 
     @Override

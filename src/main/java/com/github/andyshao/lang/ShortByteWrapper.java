@@ -18,14 +18,14 @@ public class ShortByteWrapper implements ByteWrapper<short[]> {
     @Override
     public byte getByte(short[] array , BigInteger index) {
         BigInteger indexs[] = index.divideAndRemainder(ShortByteWrapper.BASE);
-        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(index.toString());
+        if (indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(index.toString());
         return ShortOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setByte(short[] array , BigInteger index , byte b) {
         BigInteger indexs[] = index.divideAndRemainder(ShortByteWrapper.BASE);
-        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(index.toString());
+        if (indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(index.toString());
         array[indexs[0].intValue()] = ShortOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
     }
 

@@ -17,21 +17,22 @@ public class LongCharWrapper implements CharWrapper<long[]> {
 
     @Override
     public char getChar(long[] array , BigInteger position) {
-        BigInteger indexs[] = position.divideAndRemainder(BASE);
-        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        BigInteger indexs[] = position.divideAndRemainder(LongCharWrapper.BASE);
+        if (indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
         return (char) LongOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setChar(long[] array , BigInteger position , char c) {
-        BigInteger indexs[] = position.divideAndRemainder(BASE);
-        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
-        array[indexs[0].intValue()] = LongOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
+        BigInteger indexs[] = position.divideAndRemainder(LongCharWrapper.BASE);
+        if (indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        array[indexs[0].intValue()] =
+            LongOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
     }
 
     @Override
     public BigInteger size(long[] array) {
-        return BigInteger.valueOf(array.length).multiply(BASE);
+        return BigInteger.valueOf(array.length).multiply(LongCharWrapper.BASE);
     }
 
 }
