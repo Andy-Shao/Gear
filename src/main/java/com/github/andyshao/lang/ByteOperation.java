@@ -121,8 +121,23 @@ public final class ByteOperation {
     }
 
     static final <ARRAY> ARRAY bitRotRight(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
-        //TODO
-        return null;
+        final BigInteger length = byteWrapper.size(array);
+        final BigInteger size = length.multiply(ByteOperation.EIGHT);
+        if (size.compareTo(BigInteger.ZERO) == 1) for (int j = 0 ; j < count ; j++) {
+            int fbit = 0;
+            for (BigInteger i = BigInteger.ZERO ; i.compareTo(length) == -1 ; i = i.add(BigInteger.ONE)) {
+                int lbit = ByteOperation.bitGet(0 , byteWrapper.getByte(array , i));
+                if (i.compareTo(BigInteger.ZERO) == 0) fbit = lbit;
+                else {
+                    BigInteger temp = i.subtract(BigInteger.ONE);
+                    byteWrapper.setByte(array , temp ,
+                        ByteOperation.bitSet(7 , lbit , byteWrapper.getByte(array , temp))[0]);
+                }
+                byteWrapper.setByte(array , i , (byte) (byteWrapper.getByte(array , i) >> 1));
+            }
+            ByteOperation.bitSet(size.subtract(BigInteger.ONE) , fbit , array , byteWrapper);
+        }
+        return array;
     }
 
     public static final byte[] bitRotRight(int count , final byte... bs) {
