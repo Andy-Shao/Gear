@@ -13,23 +13,25 @@ import java.math.BigInteger;
  *
  */
 public class LongIntWrapper implements IntWrapper<long[]> {
+    private static final BigInteger BASE = BigInteger.valueOf(2);
 
     @Override
     public int getInt(long[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        BigInteger indexs[] = position.divideAndRemainder(BASE);
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        return LongOperation.getInt(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setInt(long[] array , BigInteger position , int i) {
-        // TODO Auto-generated method stub
-
+        BigInteger indexs[] = position.divideAndRemainder(BASE);
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        array[indexs[0].intValue()] = LongOperation.setInt(array[indexs[0].intValue()] , indexs[1].intValue() , i);
     }
 
     @Override
     public BigInteger size(long[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length).multiply(BASE);
     }
 
 }

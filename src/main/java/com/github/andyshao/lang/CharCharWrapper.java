@@ -16,19 +16,16 @@ public class CharCharWrapper implements CharWrapper<char[]> {
 
     @Override
     public char getChar(char[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        return array[position.intValue()];
     }
 
     @Override
     public void setChar(char[] array , BigInteger position , char c) {
-        // TODO Auto-generated method stub
-
+        array[position.intValue()] = c;
     }
 
     @Override
     public BigInteger size(char[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length);
     }
 }

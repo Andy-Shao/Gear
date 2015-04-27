@@ -18,22 +18,16 @@ public class IntCharWrapper implements CharWrapper<int[]> {
     @Override
     public char getChar(int[] array , BigInteger position) {
         BigInteger indexs[] = position.divideAndRemainder(IntCharWrapper.BASE);
-        try {
-            return (char) IntegerOperation.getShort(array[indexs[0].intValue()] , indexs[1].intValue());
-        } catch (IllegalArgumentException e) {
-            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
-        }
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        return (char) IntegerOperation.getShort(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setChar(int[] array , BigInteger position , char c) {
         BigInteger indexs[] = position.divideAndRemainder(IntCharWrapper.BASE);
-        try {
-            array[indexs[0].intValue()] =
-                IntegerOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
-        } catch (IllegalArgumentException e) {
-            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
-        }
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        array[indexs[0].intValue()] =
+            IntegerOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
     }
 
     @Override

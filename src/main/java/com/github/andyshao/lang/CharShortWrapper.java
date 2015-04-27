@@ -16,20 +16,17 @@ public class CharShortWrapper implements ShortWrapper<char[]> {
 
     @Override
     public short getShort(char[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        return (short) array[position.intValue()];
     }
 
     @Override
     public void setShort(char[] array , BigInteger position , short s) {
-        // TODO Auto-generated method stub
-
+        array[position.intValue()] = (char) s;
     }
 
     @Override
     public BigInteger size(char[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length);
     }
 
 }

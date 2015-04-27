@@ -13,23 +13,25 @@ import java.math.BigInteger;
  *
  */
 public class LongCharWrapper implements CharWrapper<long[]> {
+    private static final BigInteger BASE = BigInteger.valueOf(4);
 
     @Override
     public char getChar(long[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        BigInteger indexs[] = position.divideAndRemainder(BASE);
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        return (char) LongOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setChar(long[] array , BigInteger position , char c) {
-        // TODO Auto-generated method stub
-
+        BigInteger indexs[] = position.divideAndRemainder(BASE);
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        array[indexs[0].intValue()] = LongOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
     }
 
     @Override
     public BigInteger size(long[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length).multiply(BASE);
     }
 
 }

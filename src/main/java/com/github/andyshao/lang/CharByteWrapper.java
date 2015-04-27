@@ -18,21 +18,15 @@ public class CharByteWrapper implements ByteWrapper<char[]> {
     @Override
     public byte getByte(char[] array , BigInteger index) {
         BigInteger indexs[] = index.divideAndRemainder(CharByteWrapper.BASE);
-        try {
-            return CharOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
-        } catch (IllegalArgumentException e) {
-            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
-        }
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(index.toString());
+        return CharOperation.getByte(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setByte(char[] array , BigInteger index , byte b) {
         BigInteger indexs[] = index.divideAndRemainder(CharByteWrapper.BASE);
-        try {
-            array[indexs[0].intValue()] = CharOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
-        } catch (IllegalArgumentException e) {
-            throw new ArrayIndexOutOfBoundsException(indexs[0].intValue());
-        }
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(index.toString());
+        array[indexs[0].intValue()] = CharOperation.setByte(array[indexs[0].intValue()] , indexs[1].intValue() , b);
     }
 
     @Override

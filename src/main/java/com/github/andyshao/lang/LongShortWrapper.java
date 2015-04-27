@@ -13,23 +13,25 @@ import java.math.BigInteger;
  *
  */
 public class LongShortWrapper implements ShortWrapper<long[]> {
+    private static final BigInteger BASE = BigInteger.valueOf(4);
 
     @Override
     public short getShort(long[] array , BigInteger position) {
-        // TODO Auto-generated method stub
-        return 0;
+        BigInteger indexs[] = position.divideAndRemainder(BASE);
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        return LongOperation.getShort(array[indexs[0].intValue()] , indexs[1].intValue());
     }
 
     @Override
     public void setShort(long[] array , BigInteger position , short s) {
-        // TODO Auto-generated method stub
-
+        BigInteger indexs[] = position.divideAndRemainder(BASE);
+        if(indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
+        array[indexs[0].intValue()] = LongOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , s);
     }
 
     @Override
     public BigInteger size(long[] array) {
-        // TODO Auto-generated method stub
-        return null;
+        return BigInteger.valueOf(array.length).multiply(BASE);
     }
 
 }
