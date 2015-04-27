@@ -51,42 +51,82 @@ public class ByteOperationTest {
         };
 
         int size = 0;
+        BigInteger size2 = BigInteger.ZERO;
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs , Matchers.is(new byte[] {}));
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs , Matchers.is(new byte[] {}));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00000001));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00000001));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00000011));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00000011));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00000111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00000111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00001111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00001111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00011111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00011111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00111111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B00111111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B01111111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B01111111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
         Assert.assertThat(bs.length , Matchers.is(1));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(1));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000001));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000001));
@@ -95,8 +135,18 @@ public class ByteOperationTest {
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000011));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000011));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00000111));
@@ -105,8 +155,8 @@ public class ByteOperationTest {
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
-
-        bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
@@ -115,8 +165,8 @@ public class ByteOperationTest {
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
-
-        bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
@@ -125,8 +175,39 @@ public class ByteOperationTest {
         Assert.assertThat(bs.length , Matchers.is(2));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(2));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(3));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
@@ -137,14 +218,32 @@ public class ByteOperationTest {
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
         Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
-
-        bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(3));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
         Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
+
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00000000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(3));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
@@ -155,8 +254,20 @@ public class ByteOperationTest {
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
         Assert.assertThat(bs[2] , Matchers.is((byte) 0B00010000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00010000));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B00110000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(3));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
@@ -167,8 +278,20 @@ public class ByteOperationTest {
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
         Assert.assertThat(bs[2] , Matchers.is((byte) 0B01110000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B01110000));
 
         bs = ByteOperation.bitOxr(bs1 , bs2 , size++);
+        Assert.assertThat(bs.length , Matchers.is(3));
+        Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
+        Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));
+        Assert.assertThat(bs[2] , Matchers.is((byte) 0B11110000));
+        size2 = size2.add(BigInteger.ONE);
+        bs = ByteOperation.bitOxr(bs1 , bs2 , size2 , this.byteWrapper);
         Assert.assertThat(bs.length , Matchers.is(3));
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B11111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B00001111));

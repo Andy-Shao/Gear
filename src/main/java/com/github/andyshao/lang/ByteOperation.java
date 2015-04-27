@@ -1,5 +1,6 @@
 package com.github.andyshao.lang;
 
+import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -57,10 +58,19 @@ public final class ByteOperation {
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
 
+    @SuppressWarnings("unchecked")
     static final <ARRAY> ARRAY
         bitOxr(final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
-        //TODO
-        return null;
+        final BigInteger answers[] = size.divideAndRemainder(ByteOperation.EIGHT);
+        ARRAY result =
+            (ARRAY) Array.newInstance(b1.getClass().getComponentType() ,
+                answers[1].intValue() == 0 ? answers[0].intValue() : answers[0].intValue() + 1);
+        ByteOperation.fill(0 , BigInteger.ZERO , size , result , byteWrapper);
+        for (BigInteger i = BigInteger.ZERO ; i.compareTo(size) == -1 ; i = i.add(BigInteger.ONE))
+            if (ByteOperation.bitGet(i , b1 , byteWrapper) != ByteOperation.bitGet(i , b2 , byteWrapper)) ByteOperation
+                .bitSet(i , 1 , result , byteWrapper);
+            else ByteOperation.bitSet(i , 0 , result , byteWrapper);
+        return result;
     }
 
     /**
@@ -198,7 +208,7 @@ public final class ByteOperation {
     static final <ARRAY> ARRAY fill(
         int state , BigInteger startPos , BigInteger endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
-        if (startPos.compareTo(endPos) != -1) throw new IllegalArgumentException("startPos should bigger than endPos");
+        if (startPos.compareTo(endPos) == 1) throw new IllegalArgumentException("startPos bigger than endPos");
         for (BigInteger i = startPos ; i.compareTo(endPos) == -1 ; i = i.add(BigInteger.ONE))
             ByteOperation.bitSet(i , state , array , byteWrapper);
         return array;
@@ -206,7 +216,7 @@ public final class ByteOperation {
 
     public static final byte[] fill(int state , int startPos , int endPos , final byte... bs) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
-        if (startPos >= endPos) throw new IllegalArgumentException();
+        if (startPos > endPos) throw new IllegalArgumentException("startPos bigger than endPos");
 
         for (int i = startPos ; i < endPos ; i++)
             ByteOperation.bitSet(i , state , bs);
