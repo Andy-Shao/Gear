@@ -1,7 +1,6 @@
 package com.github.andyshao.data.structure;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.function.Supplier;
 
 import com.github.andyshao.lang.Cleanable;
@@ -218,11 +217,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
-    public static <DATA> Iterator<DATA> inorder(final BitreeNode<DATA> node) {
-        //TODO
-        return null;
-    }
-
     public static <DATA> Collection<DATA> inorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.isEob(node)) {
@@ -242,11 +236,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         return node.left() == null && node.right() == null;
     }
 
-    public static <DATA> Iterator<DATA> postorder(final BitreeNode<DATA> node) {
-        //TODO
-        return null;
-    }
-
     public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.isEob(node)) {
@@ -256,11 +245,6 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         return result;
-    }
-
-    public static <DATA> Iterator<DATA> preorder(final BitreeNode<DATA> node) {
-        //TODO
-        return null;
     }
 
     public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
