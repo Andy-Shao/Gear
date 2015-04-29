@@ -1,6 +1,7 @@
 package com.github.andyshao.nio;
 
-import java.util.function.Consumer;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * 
@@ -13,17 +14,30 @@ import java.util.function.Consumer;
  *
  */
 public interface ReadStream {
-    ReadStream endWith(int index);
+    default ReadStream endWith(int index) throws IOException{
+        //TODO
+        return null;
+    }
 
-    ReadStream endWithNext(byte... bs);
+    default ReadStream endWithNext(byte... bs) throws IOException{
+        //TODO
+        return null;
+    }
 
-    ReadStream fixLength(int size);
+    default ReadStream fixLength(int size) throws IOException{
+        //TODO
+        return null;
+    }
 
-    void foreach(Consumer<Byte> consumer);
+    int read(ByteBuffer bs) throws IOException;
 
-    byte[] read();
+    default ReadStream startWith(int index) throws IOException{
+        //TODO
+        return null;
+    }
 
-    ReadStream startWith(int index);
-
-    ReadStream startWithNext(byte... bs);
+    default ReadStream startWithNext(byte... bs) throws IOException{
+        //TODO
+        return null;
+    }
 }
