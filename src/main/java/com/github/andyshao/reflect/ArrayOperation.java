@@ -306,6 +306,6 @@ public final class ArrayOperation {
     }
 
     private ArrayOperation() {
-        throw new AssertionError("No ArrayTools instances for you!");
+        throw new AssertionError("No " + ArrayOperation.class + "  instances for you!");
     }
 }
