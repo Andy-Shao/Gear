@@ -13,7 +13,27 @@ import com.github.andyshao.reflect.ArrayOperation;
  * @author Andy.Shao
  *
  */
-public final class ByteBuffereOperation {
+public final class ByteBufferOperation {
+    public static int indexOf(ByteBuffer buffer , byte... bs) {
+        //TODO
+        return 0;
+    }
+
+    public static int lastIndexOf(ByteBuffer buffer , byte... bs) {
+        //TODO
+        return 0;
+    }
+
+    /**
+     * regress over size steps
+     * 
+     * @param buffer {@link ByteBuffer}
+     * @param overSize the over size
+     */
+    public static void reform(ByteBuffer buffer , int overSize) {
+        //TODO
+    }
+
     /**
      * Only return a space which great than buffer.position() and less than
      * buffer.limit()
@@ -25,7 +45,7 @@ public final class ByteBuffereOperation {
         return ArrayOperation.splitArray(buffer.array() , buffer.position() , buffer.limit());
     }
 
-    private ByteBuffereOperation() {
-        throw new AssertionError("No support instance " + ByteBuffereOperation.class.getName());
+    private ByteBufferOperation() {
+        throw new AssertionError("No support instance " + ByteBufferOperation.class.getName());
     }
 }

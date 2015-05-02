@@ -22,7 +22,7 @@ public class ByteBuffereOperationTest {
         this.buffer.put(before);
         this.buffer.flip();
 
-        byte[] after = ByteBuffereOperation.usedArray(this.buffer);
+        byte[] after = ByteBufferOperation.usedArray(this.buffer);
         Assert.assertThat(before.length , Matchers.is(after.length));
         Assert.assertThat(new String(after) , Matchers.is("Andy-Shao"));
     }

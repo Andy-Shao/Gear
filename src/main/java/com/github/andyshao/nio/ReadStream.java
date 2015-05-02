@@ -1,9 +1,9 @@
 package com.github.andyshao.nio;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.ToIntBiFunction;
 
@@ -22,12 +22,51 @@ public interface ReadStream {
         return (ByteBuffer buffer) -> channel.read(buffer);
     }
 
-    default ReadStream endWith(int index) throws IOException {
+    default ReadStream clip(BigInteger start , BigInteger end) throws IOException {
         //TODO
         return null;
     }
 
-    default ReadStream endWith(Predicate<ByteBuffer> predicate , ToIntBiFunction<Integer , ByteBuffer> function)
+    default ReadStream clip(int start , int end) throws IOException {
+        if (start > end) throw new IllegalArgumentException("start bigger than end");
+        return new ReadStream() {
+            private int position = 0;
+
+            @Override
+            public int read(ByteBuffer buffer) throws IOException {
+                if (this.position < start) return 0;
+                if (this.position > end) return -1;
+                final int readedSize = ReadStream.this.read(buffer);
+                if (readedSize == -1) return readedSize;
+                final int pre_position = this.position;
+                this.position += readedSize;
+                if (this.position < end) return this.position;
+                else {
+                    ByteBufferOperation.reform(buffer , this.position - end);
+                    return end - pre_position;
+                }
+            }
+        };
+    }
+
+    default ReadStream endWithNext(byte... bs) throws IOException {
+        return (ByteBuffer buffer) -> {
+            final int readedSize = ReadStream.this.read(buffer);
+            final int indexOf = ByteBufferOperation.indexOf(buffer , bs);
+            if (indexOf == -1) return readedSize;
+            else return -1;
+        };
+    }
+
+    default ReadStream fixLength(BigInteger size) throws IOException {
+        return this.clip(BigInteger.ZERO , size);
+    }
+
+    default ReadStream fixLength(int size) throws IOException {
+        return this.clip(0 , size);
+    }
+
+    default ReadStream process(Predicate<ByteBuffer> predicate , ToIntBiFunction<Integer , ByteBuffer> function)
         throws IOException {
         return (ByteBuffer buffer) -> {
             if (!predicate.test(buffer)) return function.applyAsInt(ReadStream.this.read(buffer) , buffer);
@@ -35,37 +74,14 @@ public interface ReadStream {
         };
     }
 
-    default ReadStream endWithNext(byte... bs) throws IOException {
-        //TODO
-        return null;
-    }
-
-    default ReadStream fixLength(int size) throws IOException {
-        //TODO
-        return null;
-    }
-
     int read(ByteBuffer buffer) throws IOException;
 
-    default ReadStream startWith(int index) throws IOException {
-        //TODO
-        return null;
-    }
-
-    default ReadStream startWith(Predicate<ByteBuffer> predicate , ToIntBiFunction<Integer , ByteBuffer> function)
-        throws IOException {
-        return (ByteBuffer buffer) -> {
-            if (predicate.test(buffer)) return function.applyAsInt(ReadStream.this.read(buffer) , buffer);
-            return 0;
-        };
-    }
-
     default ReadStream startWithNext(byte... bs) throws IOException {
-        //TODO
-        return null;
-    }
-    
-    default void foreach(Consumer<ByteBuffer> consumer) throws IOException{
-        //TODO
+        return (ByteBuffer buffer) -> {
+            final int readedSize = ReadStream.this.read(buffer);
+            final int indexOf = ByteBufferOperation.indexOf(buffer , bs);
+            if (indexOf == -1) return 0;
+            else return readedSize;
+        };
     }
 }
