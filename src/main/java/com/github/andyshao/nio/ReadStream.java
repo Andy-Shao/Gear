@@ -3,6 +3,7 @@ package com.github.andyshao.nio;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.function.ToIntBiFunction;
 
@@ -62,5 +63,9 @@ public interface ReadStream {
     default ReadStream startWithNext(byte... bs) throws IOException {
         //TODO
         return null;
+    }
+    
+    default void foreach(Consumer<ByteBuffer> consumer) throws IOException{
+        //TODO
     }
 }
