@@ -2,8 +2,6 @@ package com.github.andyshao.nio;
 
 import java.nio.ByteBuffer;
 
-import com.github.andyshao.reflect.ArrayOperation;
-
 /**
  * 
  * Descript:<br>
@@ -25,16 +23,6 @@ public final class ByteBufferOperation {
     }
 
     /**
-     * regress over size steps
-     * 
-     * @param buffer {@link ByteBuffer}
-     * @param overSize the over size
-     */
-    public static void reform(ByteBuffer buffer , int overSize) {
-        //TODO
-    }
-
-    /**
      * Only return a space which great than buffer.position() and less than
      * buffer.limit()
      * 
@@ -42,7 +30,9 @@ public final class ByteBufferOperation {
      * @return return the byte array and the info in it
      */
     public static byte[] usedArray(ByteBuffer buffer) {
-        return ArrayOperation.splitArray(buffer.array() , buffer.position() , buffer.limit());
+        byte[] bs = new byte[buffer.limit() - buffer.position()];
+        buffer.get(bs);
+        return bs;
     }
 
     private ByteBufferOperation() {
