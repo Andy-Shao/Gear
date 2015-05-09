@@ -21,6 +21,15 @@ import com.github.andyshao.util.CollectionModel;
  * @param <D> data
  */
 public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
+    public static final <E> AutoIncreaseArray<E> toAutoIncreaseArray(E[] array) {
+        AutoIncreaseArray<E> autoIncreaseArray = new AutoIncreaseArray<E>();
+        autoIncreaseArray.array = array;
+        autoIncreaseArray.arraySize = array.length;
+        autoIncreaseArray.size = array.length;
+        autoIncreaseArray.start = 0;
+        autoIncreaseArray.end = array.length - 1;
+        return autoIncreaseArray;
+    }
 
     private long actionAccount;
     private D[] array;
