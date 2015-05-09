@@ -39,7 +39,7 @@ public final class ByteOperation {
         dest[destStart + length_] |= tailTemp;
     }
 
-    static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
         int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();
         return (byteWrapper.getByte(array , pos.divide(ByteOperation.EIGHT)) & value) != 0x00 ? 1 : 0;
@@ -59,7 +59,7 @@ public final class ByteOperation {
     }
 
     @SuppressWarnings("unchecked")
-    static final <ARRAY> ARRAY
+    public static final <ARRAY> ARRAY
         bitOxr(final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger answers[] = size.divideAndRemainder(ByteOperation.EIGHT);
         ARRAY result =
@@ -89,7 +89,7 @@ public final class ByteOperation {
         return result;
     }
 
-    static final <ARRAY> ARRAY bitRotLeft(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY bitRotLeft(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger length = byteWrapper.size(array);
         final BigInteger size = length.multiply(ByteOperation.EIGHT);
         if (size.compareTo(BigInteger.ZERO) == 1) for (int j = 0 ; j < count ; j++) {
@@ -143,7 +143,7 @@ public final class ByteOperation {
         return b;
     }
 
-    static final <ARRAY> ARRAY bitRotRight(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY bitRotRight(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger length = byteWrapper.size(array);
         final BigInteger size = length.multiply(ByteOperation.EIGHT);
         if (size.compareTo(BigInteger.ZERO) == 1) for (int j = 0 ; j < count ; j++) {
@@ -178,7 +178,7 @@ public final class ByteOperation {
         return bs;
     }
 
-    static final <ARRAY> ARRAY bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neighter 0 nor 1");
         if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
         int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();
@@ -205,7 +205,7 @@ public final class ByteOperation {
         return b;
     }
 
-    static final <ARRAY> ARRAY fill(
+    public static final <ARRAY> ARRAY fill(
         int state , BigInteger startPos , BigInteger endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
         if (startPos.compareTo(endPos) == 1) throw new IllegalArgumentException("startPos bigger than endPos");
@@ -265,6 +265,28 @@ public final class ByteOperation {
 
     public static final short toUnsignedShort(byte unsignedByte) {
         return (short) (0x00ff & unsignedByte);
+    }
+
+    public static final byte[] unsigedRightShif(int times , byte... bs) {
+        ByteOperation.bitRotRight(times , bs);
+        for (int i = 0 ; i < times ; i++)
+            ByteOperation.bitSet(i , 0 , bs);
+        return bs;
+    }
+
+    public static final <ARRAY> ARRAY unsignedRigthShif(int times , ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+        ByteOperation.bitRotRight(times , array , byteWrapper);
+        for (int i = 0 ; i < times ; i++)
+            ByteOperation.bitSet(BigInteger.valueOf(i) , 0 , array , byteWrapper);
+        return array;
+    }
+
+    public static final byte unsingedRightShift(int times , byte b) {
+        for (int i = 0 ; i < times ; i++) {
+            b >>= b;
+            b |= 0x7F;
+        }
+        return b;
     }
 
     private ByteOperation() {
