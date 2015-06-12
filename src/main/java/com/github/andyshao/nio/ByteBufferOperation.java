@@ -14,12 +14,12 @@ import java.nio.ByteBuffer;
 public final class ByteBufferOperation {
     public static int indexOf(ByteBuffer buffer , byte... bs) {
         //TODO
-        return 0;
+        return -1;
     }
 
     public static int lastIndexOf(ByteBuffer buffer , byte... bs) {
         //TODO
-        return 0;
+        return -1;
     }
 
     /**
