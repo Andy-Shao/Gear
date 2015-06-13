@@ -43,7 +43,7 @@ public class ArrayOperationTest {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 3 , 6 , 7 , 3 , 9
         };
-        Assert.assertThat(ArrayOperation.findFirstItem(array , 4) , Matchers.is(3));
+        Assert.assertThat(ArrayOperation.indexOf(array , 4) , Matchers.is(3));
     }
 
     @Test
@@ -51,7 +51,7 @@ public class ArrayOperationTest {
         int[] array = new int[] {
             1 , 2 , 3 , 4 , 3 , 6 , 7 , 3 , 9
         };
-        Assert.assertThat(ArrayOperation.findFirstItem(array , 4) , Matchers.is(3));
+        Assert.assertThat(ArrayOperation.indexOf(array , 4) , Matchers.is(3));
     }
 
     @Test

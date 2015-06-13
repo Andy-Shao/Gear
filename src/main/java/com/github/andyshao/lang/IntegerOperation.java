@@ -90,7 +90,7 @@ public final class IntegerOperation {
 
     public static final int setShort(int i , int position , short s) {
         int temp = ShortOperation.toUnsingedInt(s);
-        switch(position){
+        switch (position) {
         case 0:
             i &= 0xffff0000;
             break;
@@ -98,8 +98,8 @@ public final class IntegerOperation {
             i &= 0x0000ffff;
             temp <<= 16;
             break;
-         default:
-             throw new IllegalArgumentException(position + " less than 0 or bigger than 3");
+        default:
+            throw new IllegalArgumentException(position + " less than 0 or bigger than 3");
         }
         return i | temp;
     }

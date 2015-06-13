@@ -59,8 +59,8 @@ public final class ByteOperation {
     }
 
     @SuppressWarnings("unchecked")
-    public static final <ARRAY> ARRAY
-        bitOxr(final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY bitOxr(
+        final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger answers[] = size.divideAndRemainder(ByteOperation.EIGHT);
         ARRAY result =
             (ARRAY) Array.newInstance(b1.getClass().getComponentType() ,
@@ -178,7 +178,8 @@ public final class ByteOperation {
         return bs;
     }
 
-    public static final <ARRAY> ARRAY bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY bitSet(
+        BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neighter 0 nor 1");
         if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
         int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();

@@ -21,6 +21,8 @@ You could download from the maven repository, now!<br>
 **What the newest plugins for v2.2**
 
 Move ByteBufereOperation to ByteBufferOperation<br>
+Move ArrayOperation.findFirstItem() to ArrayOperation.indexOf()
+Move ArrayOperation.findLastItem() to ArrayOperation.lastIndexOf()
 ByteBufferOperation add indexOf() and lastIndexOf() methods<br>
 AutoIncreaseArray add method toAutoIncreaseArray()<br>
 

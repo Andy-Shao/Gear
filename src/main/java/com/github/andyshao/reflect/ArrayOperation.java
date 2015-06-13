@@ -35,37 +35,6 @@ public final class ArrayOperation {
     }
 
     /**
-     * find out the location of first item.
-     * 
-     * @param array
-     *            the array which is processed
-     * @param item The item which should be removed
-     * @param <T> the type of array
-     * @return if can't find out anything then return -1
-     */
-    public static <T> int findFirstItem(T array , Object item) {
-        for (int i = 0 ; i < Array.getLength(array) ; i++)
-            if (Array.get(array , i).equals(item)) return i;
-        return -1;
-    }
-
-    /**
-     * find out the location of last item.
-     * 
-     * @param array
-     *            the array which is processed
-     * @param item
-     *            The item which should be removed
-     * @param <T> the type of array
-     * @return if can't find out anything then return -1
-     */
-    public static <T> int findLastItem(T array , Object item) {
-        for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--)
-            if (Array.get(array , i).equals(item)) return i;
-        return -1;
-    }
-
-    /**
      * 
      * @param array the array which is processed.
      * @param <T> the type of array
@@ -97,6 +66,21 @@ public final class ArrayOperation {
     }
 
     /**
+     * find out the location of first item.
+     * 
+     * @param array
+     *            the array which is processed
+     * @param item The item which should be removed
+     * @param <T> the type of array
+     * @return if can't find out anything then return -1
+     */
+    public static <T> int indexOf(T array , Object item) {
+        for (int i = 0 ; i < Array.getLength(array) ; i++)
+            if (Array.get(array , i).equals(item)) return i;
+        return -1;
+    }
+
+    /**
      * 
      * @param array the array which is processed.
      * @param index the address of value
@@ -117,6 +101,22 @@ public final class ArrayOperation {
      */
     public static <T> boolean isEmpty(T array , int index) {
         return ArrayOperation.isAbove(array , index) ? false : Array.get(array , index) == null;
+    }
+
+    /**
+     * find out the location of last item.
+     * 
+     * @param array
+     *            the array which is processed
+     * @param item
+     *            The item which should be removed
+     * @param <T> the type of array
+     * @return if can't find out anything then return -1
+     */
+    public static <T> int lastIndexOf(T array , Object item) {
+        for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--)
+            if (Array.get(array , i).equals(item)) return i;
+        return -1;
     }
 
     /**
@@ -214,7 +214,7 @@ public final class ArrayOperation {
      * @return a array which has been processed.
      */
     public static <T , I> T removeFirstItem(T array , I item) {
-        int index = ArrayOperation.findFirstItem(array , item);
+        int index = ArrayOperation.indexOf(array , item);
         if (index >= 0) array = ArrayOperation.removeItem(array , index);
         return array;
     }
@@ -269,7 +269,7 @@ public final class ArrayOperation {
      * @return a array which has been processed.
      */
     public static <T , I> T removeLastItem(T array , I item) {
-        int index = ArrayOperation.findLastItem(array , item);
+        int index = ArrayOperation.lastIndexOf(array , item);
         if (index >= 0) array = ArrayOperation.removeItem(array , index);
         return array;
     }
