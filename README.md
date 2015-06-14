@@ -17,6 +17,9 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the newest plugins for v2.3**
+
+...<br>
 
 **What the newest plugins for v2.2**
 
@@ -48,17 +51,3 @@ You can use the graph or others more difficult data structure, now.
 *Add the classic aritmetic*<br>
 Graph arithmetic & Bit tree arithmetic<br>
 Never add the compress & security arithmetic
-
-**What the newest plugins for v1.0**
-
-*Support JDK8 interface functional*<br>
-Adjust the com.github.andyshao.convert.Convert &
-com.github.andyshao.proxy.ProxyFactory support the JDK8 interface functional
-
-*Use the interface build ProxyFactory*<br>
-Now, you can use the com.github.andyshao.proxy.DynamicPF &
-com.github.andyshao.proxy.CglibPF interface build the ProxyFactory.
-
-*Improve Java System property*<br>
-The com.github.andyshao.lang.GeneralSystemProperty that can get the Java System
-Property more convenient is a Enum class. 
