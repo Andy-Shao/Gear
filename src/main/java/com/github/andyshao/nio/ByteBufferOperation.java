@@ -12,27 +12,62 @@ import java.nio.ByteBuffer;
  *
  */
 public final class ByteBufferOperation {
+    public static byte[] getBytes(ByteBuffer buffer , int start , int length) {
+        final int end = start + length;
+        final ByteBuffer tempBuffer = buffer.asReadOnlyBuffer();
+        tempBuffer.position(start);
+        tempBuffer.limit(end);
+        return ByteBufferOperation.usedArray(tempBuffer);
+    }
+
     public static int indexOf(ByteBuffer buffer , byte... bs) {
-        //TODO
         if (bs.length == 0) throw new IllegalArgumentException("bs is null");
         if (bs.length > buffer.limit() - buffer.position()) return -1;
         final ByteBuffer tmpByteBuffer = buffer.asReadOnlyBuffer();
         int index = 0;
         int position = -1;
-        while (tmpByteBuffer.position() < tmpByteBuffer.limit())
-            if (Byte.compare(tmpByteBuffer.get() , bs[index++]) == 0) {
+        LOOP: while (tmpByteBuffer.position() < tmpByteBuffer.limit()) {
+            final byte value = tmpByteBuffer.get();
+            if (Byte.compare(value , bs[index++]) == 0) {
                 if (index == 1) position = tmpByteBuffer.position() - 1;
-                else if (index == bs.length) break;
+                if (index == bs.length) break LOOP;
+            } else if (Byte.compare(value , bs[0]) == 0) {
+                index = 1;
+                position = tmpByteBuffer.position() - 1;
+                if (index == bs.length) break LOOP;
             } else {
                 index = 0;
                 position = -1;
             }
+        }
         return position;
     }
 
     public static int lastIndexOf(ByteBuffer buffer , byte... bs) {
-        //TODO
-        return -1;
+        if (bs.length == 0) throw new IllegalArgumentException("bs is null");
+        if (bs.length > buffer.limit() - buffer.position()) return -1;
+        final ByteBuffer tmpByteBuffer = buffer.asReadOnlyBuffer();
+        int index = bs.length;
+        int position = -1;
+        LOOP: for (int i = tmpByteBuffer.limit() - 1 ; i >= tmpByteBuffer.position() ; i--) {
+            final byte value = tmpByteBuffer.get(i);
+            if (Byte.compare(value , bs[--index]) == 0) {
+                if (index == 0) {
+                    position = i;
+                    break LOOP;
+                }
+            } else if (Byte.compare(value , bs[bs.length - 1]) == 0) {
+                index = bs.length - 1;
+                if (index == 0) {
+                    position = i;
+                    break LOOP;
+                }
+            } else {
+                index = bs.length;
+                position = -1;
+            }
+        }
+        return position;
     }
 
     /**
