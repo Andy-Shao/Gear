@@ -4,8 +4,8 @@ I try to repair it with my experience and shall with you.
 If there any problems then send the email to **hj13035952619@126.com**
 ###############################################################################
 
-* Should has JDK1.8 or up.
-* Should has Maven3 or up.
+* must be JDK1.8 or up.
+* must be Maven3 or up.
 
 If you want to let it into the eclipse. Try to use the command:
 mvn eclipse:eclipse
@@ -19,7 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v2.3**
 
-...<br>
+Adding CharBufferOperation, ShortBufferOperation, LongBuffereOperation ...etc<br>
 
 **What the newest plugins for v2.2**
 
