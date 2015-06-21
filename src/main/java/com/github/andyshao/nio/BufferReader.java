@@ -39,5 +39,11 @@ public interface BufferReader<ARRAY> extends Closeable {
         }
     }
 
+    /**
+     * read information
+     * 
+     * @return if reading is finished then return null
+     * @throws IOException The mistake comes from IO operation
+     */
     ARRAY read() throws IOException;
 }

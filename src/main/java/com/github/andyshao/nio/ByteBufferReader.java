@@ -1,6 +1,7 @@
 package com.github.andyshao.nio;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.function.Function;
@@ -21,11 +22,18 @@ public class ByteBufferReader implements BufferReader<byte[]> {
     private ByteBuffer buffer;
     private int bufferSize;
     private final ReadableByteChannel channel;
+    private String encoding = GeneralSystemProperty.FILE_ENCODING.value();
+
     private Function<ByteBuffer , BufferReader.SeparatePoint> findSeparatePoint = (buffer) -> {
-        byte[] key = GeneralSystemProperty.LINE_SEPARATOR.toString().getBytes();
-        int index = ByteBufferOperation.indexOf(buffer , key);
-        return new BufferReader.SeparatePoint(index , key.length + index);
+        try {
+            byte[] key = GeneralSystemProperty.LINE_SEPARATOR.value().getBytes(ByteBufferReader.this.getEncoding());
+            int index = ByteBufferOperation.indexOf(buffer , key);
+            return new BufferReader.SeparatePoint(index , key.length + index);
+        } catch (UnsupportedEncodingException exception) {
+            throw new RuntimeException(exception);
+        }
     };
+
     private int mark = 0;
 
     public ByteBufferReader(ReadableByteChannel channel) {
@@ -41,6 +49,10 @@ public class ByteBufferReader implements BufferReader<byte[]> {
     @Override
     public void close() throws IOException {
         this.channel.close();
+    }
+
+    public String getEncoding() {
+        return this.encoding;
     }
 
     public Function<ByteBuffer , BufferReader.SeparatePoint> getFindSeparatePoint() {
@@ -81,6 +93,10 @@ public class ByteBufferReader implements BufferReader<byte[]> {
         this.buffer.limit(this.buffer.position());
         this.buffer.position(this.mark);
         return ByteBufferOperation.usedArray(this.buffer);
+    }
+
+    public void setEncoding(String encoding) {
+        this.encoding = encoding;
     }
 
     public void setFindSeparatePoint(Function<ByteBuffer , BufferReader.SeparatePoint> findSeparatePoint) {

@@ -37,9 +37,16 @@ public enum GeneralSystemProperty {
         this.keyName = keyName;
     }
 
+    public String key() {
+        return this.keyName;
+    }
+
     @Override
     public String toString() {
         return System.getProperty(this.keyName == null ? super.toString() : this.keyName);
     }
 
+    public String value() {
+        return this.toString();
+    }
 }
