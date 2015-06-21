@@ -20,6 +20,7 @@ You could download from the maven repository, now!<br>
 **What the newest plugins for v2.3**
 
 Adding CharBufferOperation, ShortBufferOperation, LongBuffereOperation ...etc<br>
+Adding com.github.andyshao.nio.BufferReader inteface and some sub classess<br>
 
 **What the newest plugins for v2.2**
 
