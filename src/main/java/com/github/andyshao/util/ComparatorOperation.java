@@ -14,7 +14,6 @@ import java.util.Comparator;
  */
 public final class ComparatorOperation {
     public static Comparator<Byte> BYTE = (x , y) -> Byte.compare(x , y);
-
     public static Comparator<Character> CHARACTER = (x , y) -> Character.compare(x , y);
     public static Comparator<Double> DOUBLE = (x , y) -> Double.compare(x , y);
     public static Comparator<Float> FLOAT = (x , y) -> Float.compare(x , y);
