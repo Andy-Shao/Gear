@@ -19,7 +19,7 @@ public class StringBufferReaderTest {
                 ;
             time = System.currentTimeMillis() - time;
         }
-        System.out.println("BuffereReader read line use " + time + " millis secondes");
+        System.out.println(StringBufferReader.class + " read line use " + time + " millis secondes");
     }
 
     @Test
