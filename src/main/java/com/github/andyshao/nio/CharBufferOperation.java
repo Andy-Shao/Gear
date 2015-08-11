@@ -13,7 +13,7 @@ import java.nio.CharBuffer;
  *
  */
 public final class CharBufferOperation {
-    public static char[] getBytes(CharBuffer buffer , int start , int length) {
+    public static char[] getChars(CharBuffer buffer , int start , int length) {
         final int end = start + length;
         final CharBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
