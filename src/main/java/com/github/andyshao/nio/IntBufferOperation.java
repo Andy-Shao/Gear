@@ -13,9 +13,11 @@ import java.nio.IntBuffer;
  *
  */
 public final class IntBufferOperation {
-    public static byte[] getBytes(IntBuffer buffer , int start , int length) {
-        //TODO
-        return null;
+    public static int[] getInts(IntBuffer buffer , int start , int length) {
+        final IntBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return usedArray(tmp);
     }
 
     public static int indexOf(IntBuffer buffer , char... cs) {
@@ -29,8 +31,9 @@ public final class IntBufferOperation {
     }
 
     public static int[] usedArray(IntBuffer buffer) {
-        //TODO
-        return null;
+        final int[] result = new int[buffer.limit() - buffer.position()];
+        buffer.get(result);
+        return result;
     }
 
     private IntBufferOperation() {
