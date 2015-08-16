@@ -14,9 +14,11 @@ import java.nio.ShortBuffer;
  */
 public final class ShortBufferOperation {
 
-    public static byte[] getBytes(ShortBuffer buffer , int start , int length) {
-        //TODO
-        return null;
+    public static short[] getShorts(ShortBuffer buffer , int start , int length) {
+        final ShortBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return ShortBufferOperation.usedArray(tmp);
     }
 
     public static int indexOf(ShortBuffer buffer , char... cs) {
@@ -30,8 +32,9 @@ public final class ShortBufferOperation {
     }
 
     public static short[] usedArray(ShortBuffer buffer) {
-        //TODO
-        return null;
+        final short[] result = new short[buffer.limit() - buffer.position()];
+        buffer.get(result);
+        return result;
     }
 
     private ShortBufferOperation() {
