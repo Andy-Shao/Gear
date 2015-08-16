@@ -14,9 +14,11 @@ import java.nio.LongBuffer;
  */
 public class LongBufferOperation {
 
-    public static byte[] getBytes(LongBuffer buffer , int start , int length) {
-        //TODO
-        return null;
+    public static long[] getLongs(LongBuffer buffer , int start , int length) {
+        final LongBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return LongBufferOperation.usedArray(tmp);
     }
 
     public static int indexOf(LongBuffer buffer , char... cs) {
@@ -30,8 +32,9 @@ public class LongBufferOperation {
     }
 
     public static long[] usedArray(LongBuffer buffer) {
-        //TODO
-        return null;
+        final long[] result = new long[buffer.limit() - buffer.position()];
+        buffer.get(result);
+        return result;
     }
 
     private LongBufferOperation() {

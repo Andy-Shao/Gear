@@ -17,7 +17,7 @@ public class FloatBufferOperation {
         final FloatBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.position(start + length);
-        return usedArray(tmp);
+        return FloatBufferOperation.usedArray(tmp);
     }
 
     public static int indexOf(FloatBuffer buffer , char... cs) {

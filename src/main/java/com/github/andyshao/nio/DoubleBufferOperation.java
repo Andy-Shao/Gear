@@ -17,7 +17,7 @@ public class DoubleBufferOperation {
         final DoubleBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return usedArray(tmp);
+        return DoubleBufferOperation.usedArray(tmp);
     }
 
     public static int indexOf(DoubleBuffer buffer , char... cs) {

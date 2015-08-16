@@ -17,7 +17,7 @@ public final class CharBufferOperation {
         final CharBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return usedArray(tmp);
+        return CharBufferOperation.usedArray(tmp);
     }
 
     public static int indexOf(CharBuffer buffer , char... cs) {
