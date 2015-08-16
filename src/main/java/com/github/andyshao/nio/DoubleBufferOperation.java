@@ -32,7 +32,7 @@ public class DoubleBufferOperation {
 
     public static double[] usedArray(DoubleBuffer buffer) {
         final double[] result = new double[buffer.limit() - buffer.position()];
-        buffer.asReadOnlyBuffer().get(result);
+        buffer.get(result);
         return result;
     }
 

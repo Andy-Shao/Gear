@@ -13,9 +13,11 @@ import java.nio.FloatBuffer;
  *
  */
 public class FloatBufferOperation {
-    public static byte[] getBytes(FloatBuffer buffer , int start , int length) {
-        //TODO
-        return null;
+    public static float[] getFloats(FloatBuffer buffer , int start , int length) {
+        final FloatBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.position(start + length);
+        return usedArray(tmp);
     }
 
     public static int indexOf(FloatBuffer buffer , char... cs) {
@@ -29,8 +31,9 @@ public class FloatBufferOperation {
     }
 
     public static float[] usedArray(FloatBuffer buffer) {
-        //TODO
-        return null;
+        final float[] result = new float[buffer.limit() - buffer.position()];
+        buffer.get(result);
+        return result;
     }
 
     private FloatBufferOperation() {

@@ -78,7 +78,7 @@ public final class ByteBufferOperation {
      */
     public static byte[] usedArray(ByteBuffer buffer) {
         final byte[] bs = new byte[buffer.limit() - buffer.position()];
-        buffer.asReadOnlyBuffer().get(bs);
+        buffer.get(bs);
         return bs;
     }
 

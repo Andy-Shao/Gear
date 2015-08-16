@@ -32,7 +32,7 @@ public final class CharBufferOperation {
 
     public static char[] usedArray(CharBuffer buffer) {
         final char[] cs = new char[buffer.limit() - buffer.position()];
-        buffer.asReadOnlyBuffer().get(cs);
+        buffer.get(cs);
         return cs;
     }
 
