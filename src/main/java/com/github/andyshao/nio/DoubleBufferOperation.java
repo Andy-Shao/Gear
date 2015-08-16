@@ -13,9 +13,11 @@ import java.nio.DoubleBuffer;
  *
  */
 public class DoubleBufferOperation {
-    public static byte[] getBytes(DoubleBuffer buffer , int start , int length) {
-        //TODO
-        return null;
+    public static double[] getDoubles(DoubleBuffer buffer , int start , int length) {
+        final DoubleBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return usedArray(tmp);
     }
 
     public static int indexOf(DoubleBuffer buffer , char... cs) {
@@ -29,8 +31,9 @@ public class DoubleBufferOperation {
     }
 
     public static double[] usedArray(DoubleBuffer buffer) {
-        //TODO
-        return null;
+        final double[] result = new double[buffer.limit() - buffer.position()];
+        buffer.asReadOnlyBuffer().get(result);
+        return result;
     }
 
     private DoubleBufferOperation() {

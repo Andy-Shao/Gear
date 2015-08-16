@@ -14,10 +14,9 @@ import java.nio.CharBuffer;
  */
 public final class CharBufferOperation {
     public static char[] getChars(CharBuffer buffer , int start , int length) {
-        final int end = start + length;
         final CharBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
-        tmp.limit(end);
+        tmp.limit(start + length);
         return usedArray(tmp);
     }
 
@@ -32,8 +31,8 @@ public final class CharBufferOperation {
     }
 
     public static char[] usedArray(CharBuffer buffer) {
-        char[] cs = new char[buffer.limit() - buffer.position()];
-        buffer.get(cs);
+        final char[] cs = new char[buffer.limit() - buffer.position()];
+        buffer.asReadOnlyBuffer().get(cs);
         return cs;
     }
 

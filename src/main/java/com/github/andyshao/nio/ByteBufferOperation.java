@@ -13,10 +13,9 @@ import java.nio.ByteBuffer;
  */
 public final class ByteBufferOperation {
     public static byte[] getBytes(ByteBuffer buffer , int start , int length) {
-        final int end = start + length;
         final ByteBuffer tempBuffer = buffer.asReadOnlyBuffer();
         tempBuffer.position(start);
-        tempBuffer.limit(end);
+        tempBuffer.limit(start + length);
         return ByteBufferOperation.usedArray(tempBuffer);
     }
 
@@ -78,8 +77,8 @@ public final class ByteBufferOperation {
      * @return return the byte array and the info in it
      */
     public static byte[] usedArray(ByteBuffer buffer) {
-        byte[] bs = new byte[buffer.limit() - buffer.position()];
-        buffer.get(bs);
+        final byte[] bs = new byte[buffer.limit() - buffer.position()];
+        buffer.asReadOnlyBuffer().get(bs);
         return bs;
     }
 
