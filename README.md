@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v2.3**
 
+All of value type operation class add the comparator<T> function. e.g. CharOperation has comparator()<br>
 Adding com.github.andyshao.nio.StringBufferReader<br>
 com.github.andyshao.lang.GeneralSystemProperty add key(), value() option<br>
 Adding com.github.andyshao.nio.BufferReader inteface and some sub classess<br>

@@ -3,6 +3,7 @@ package com.github.andyshao.lang;
 import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * 
@@ -16,8 +17,12 @@ import java.util.Arrays;
  */
 public final class ByteOperation {
     private static final BigInteger EIGHT = BigInteger.valueOf(8);
-
+    private static final Comparator<Byte> COMPARATOR = (b1,b2)-> Byte.compare(b1 , b2);
     public static final int UNCHAR_MAX = 0xff;
+    
+    public static final Comparator<Byte> comparator(){
+        return ByteOperation.COMPARATOR;
+    }
 
     public static final void bitCopy(byte[] src , int srcPos , byte[] dest , int destPos , int length) {
         int srcStart = srcPos >> 3;
