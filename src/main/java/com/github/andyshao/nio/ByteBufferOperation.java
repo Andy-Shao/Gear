@@ -20,7 +20,7 @@ public final class ByteBufferOperation {
     }
 
     public static int indexOf(ByteBuffer buffer , byte... bs) {
-        if (bs.length == 0) throw new IllegalArgumentException("bs is null");
+        if (bs.length == 0) throw new IllegalArgumentException("bs is empty");
         if (bs.length > buffer.limit() - buffer.position()) return -1;
         final ByteBuffer tmpByteBuffer = buffer.asReadOnlyBuffer();
         int index = 0;
@@ -43,7 +43,7 @@ public final class ByteBufferOperation {
     }
 
     public static int lastIndexOf(ByteBuffer buffer , byte... bs) {
-        if (bs.length == 0) throw new IllegalArgumentException("bs is null");
+        if (bs.length == 0) throw new IllegalArgumentException("bs is empty");
         if (bs.length > buffer.limit() - buffer.position()) return -1;
         final ByteBuffer tmpByteBuffer = buffer.asReadOnlyBuffer();
         int index = bs.length;
