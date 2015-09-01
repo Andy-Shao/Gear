@@ -17,19 +17,17 @@ public class ByteBufferOperationTest {
 
     @Test
     public void testIndexOf() {
-        String str = "aaannndddyyyaandyyyyaaannnddd";
-        ByteBuffer buffer = ByteBuffer.wrap(str.getBytes());
+        final ByteBuffer buffer = ByteBuffer.wrap("aaannndddyyyaandyyyyaaannnddd".getBytes());
         final byte[] key = "andy".getBytes();
-        int position = ByteBufferOperation.indexOf(buffer , key);
+        final int position = ByteBufferOperation.indexOf(buffer , key);
         Assert.assertArrayEquals(key , ByteBufferOperation.getBytes(buffer , position , key.length));
     }
 
     @Test
     public void testLastIndexOf() {
-        String str = "aaannndddyyyandyy";
-        ByteBuffer buffer = ByteBuffer.wrap(str.getBytes());
+        final ByteBuffer buffer = ByteBuffer.wrap("aaannndddyyyandyy".getBytes());
         final byte[] key = "andy".getBytes();
-        int position = ByteBufferOperation.lastIndexOf(buffer , key);
+        final int position = ByteBufferOperation.lastIndexOf(buffer , key);
         Assert.assertArrayEquals(key , ByteBufferOperation.getBytes(buffer , position , key.length));
     }
 
