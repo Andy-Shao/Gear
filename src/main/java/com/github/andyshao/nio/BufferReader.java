@@ -28,7 +28,7 @@ public interface BufferReader<ARRAY> extends Closeable {
 
         @Override
         public boolean equals(Object obj) {
-            if (SeparatePoint.class.isInstance(obj)) {
+            if (obj instanceof SeparatePoint) {
                 SeparatePoint that = (SeparatePoint) obj;
                 return Objects.equals(this.separatePoint , that.separatePoint)
                     && Objects.equals(this.nextStartSit , that.nextStartSit);
