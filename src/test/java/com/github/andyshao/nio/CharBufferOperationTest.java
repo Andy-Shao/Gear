@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class CharBufferOperationTest {
     private volatile CharBuffer charBuffer;
-    private final char[] cs = "aaannndddyyyaandyyyyaaannnddd".toCharArray();
+    private final char[] cs = "aaannndddyyyaandyyyyaaannndddaaannndddyyyandyy".toCharArray();
 
     @Before
     public void before() {
@@ -20,6 +20,20 @@ public class CharBufferOperationTest {
     public void testGetChars() {
         Assert.assertThat(CharBufferOperation.getChars(this.charBuffer , 0 , this.charBuffer.limit()) ,
             Matchers.is(this.cs));
+    }
+
+    @Test
+    public void testIndexOf() {
+        final char[] key = "andy".toCharArray();
+        final int position = CharBufferOperation.indexOf(this.charBuffer , key);
+        Assert.assertThat(CharBufferOperation.getChars(this.charBuffer , position , key.length) , Matchers.is(key));
+    }
+
+    @Test
+    public void testLastIndexOf() {
+        final char[] key = "andy".toCharArray();
+        final int position = CharBufferOperation.lastIndexOf(this.charBuffer , key);
+        Assert.assertThat(CharBufferOperation.getChars(this.charBuffer , position , key.length) , Matchers.is(key));
     }
 
     @Test
