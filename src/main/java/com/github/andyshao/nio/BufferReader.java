@@ -2,6 +2,7 @@ package com.github.andyshao.nio;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * 
@@ -25,12 +26,26 @@ public interface BufferReader<ARRAY> extends Closeable {
             this.nextStartSit = nextStartSit;
         }
 
+        @Override
+        public boolean equals(Object obj) {
+            if (SeparatePoint.class.isInstance(obj)) {
+                SeparatePoint that = (SeparatePoint) obj;
+                return Objects.equals(this.separatePoint , that.separatePoint)
+                    && Objects.equals(this.nextStartSit , that.nextStartSit);
+            } else return false;
+        }
+
         public int getNextStartSit() {
             return this.nextStartSit;
         }
 
         public int getSeparatePoint() {
             return this.separatePoint;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.separatePoint , this.nextStartSit);
         }
 
         @Override
