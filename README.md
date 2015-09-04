@@ -17,6 +17,9 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the newest plugins for v2.4**
+Adding SystemPropertiesCheck<br>
+
 **What the newest plugins for v2.3**
 
 All of value type operation class add the comparator<T> function. e.g. CharOperation has comparator()<br>
