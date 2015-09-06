@@ -18,6 +18,7 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 **What the newest plugins for v2.4**
+Fix the bugging of ByteBufferReader and String BufferReader<br>
 Adding SystemPropertiesCheck<br>
 
 **What the newest plugins for v2.3**
