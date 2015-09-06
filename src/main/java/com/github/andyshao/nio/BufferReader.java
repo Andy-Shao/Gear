@@ -21,6 +21,10 @@ public interface BufferReader<ARRAY> extends Closeable {
         private int nextStartSit;
         private int separatePoint;
 
+        public SeparatePoint(int separatePoint) {
+            this(separatePoint , separatePoint + 1);
+        }
+
         public SeparatePoint(int separatePoint , int nextStartSit) {
             this.separatePoint = separatePoint;
             this.nextStartSit = nextStartSit;
