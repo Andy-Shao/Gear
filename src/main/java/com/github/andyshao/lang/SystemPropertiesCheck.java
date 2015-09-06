@@ -18,7 +18,7 @@ public class SystemPropertiesCheck {
         if (args == null || args.length == 0) {
             Properties properties = System.getProperties();
             for (Object key : properties.keySet())
-                System.out.println(key + " : " + properties.get(key));
-        } else System.out.println(args[0] + " : " + System.getProperty(args[0]));
+                System.out.println(key + " = " + properties.get(key));
+        } else System.out.println(args[0] + " = " + System.getProperty(args[0]));
     }
 }
