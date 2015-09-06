@@ -20,9 +20,8 @@ public class LoadClassTest {
                 Thread.currentThread().getContextClassLoader().getResourceAsStream(LoadClassTest.CLASS_PATH);
             ReadableByteChannel channel = Channels.newChannel(inputStream);
             ByteBufferReader reader = new ByteBufferReader(channel);) {
-            while(reader.hasNext()){
+            while (reader.hasNext())
                 System.out.println(new String(reader.read()));
-            }
         }
     }
 
