@@ -15,8 +15,8 @@ public class StringBufferReaderTest {
         try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getBigFilePath());
             StringBufferReader reader = new StringBufferReader(channel);) {
             time = System.currentTimeMillis();
-            while (reader.read() != null)
-                ;
+            while (reader.hasNext())
+                reader.read();
             time = System.currentTimeMillis() - time;
         }
         System.out.println(StringBufferReader.class + " read line use " + time + " millis secondes");
@@ -26,6 +26,7 @@ public class StringBufferReaderTest {
     public void testReader() throws IOException , URISyntaxException {
         try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getFilePath());
             StringBufferReader reader = new StringBufferReader(channel);) {
+            reader.setFindSeparatePoint(new StringBufferReader.SeparateByStr("\n"));
             Assert.assertThat(reader.read() , Matchers.is("[Desktop Entry]"));
             Assert.assertThat(reader.read() , Matchers.is("Version=1.0"));
         }

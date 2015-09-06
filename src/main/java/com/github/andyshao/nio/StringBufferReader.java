@@ -18,14 +18,27 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  *
  */
 public class StringBufferReader implements BufferReader<String> {
+    public static class SeparateByStr implements Function<String , BufferReader.SeparatePoint> {
+        private final String key;
+
+        public SeparateByStr(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public com.github.andyshao.nio.BufferReader.SeparatePoint apply(String t) {
+            int index = t.indexOf(this.key);
+            return new BufferReader.SeparatePoint(index , this.key.length() + index);
+        }
+
+    }
+
     private final ByteBuffer byteBuffer;
     private final ReadableByteChannel channel;
     private String encoding = GeneralSystemProperty.FILE_ENCODING.value();
-    private Function<String , BufferReader.SeparatePoint> findSeparatePoint = (str) -> {
-        String key = GeneralSystemProperty.LINE_SEPARATOR.value();
-        int index = str.indexOf(key);
-        return new BufferReader.SeparatePoint(index , key.length() + index);
-    };
+    private Function<String , BufferReader.SeparatePoint> findSeparatePoint = new StringBufferReader.SeparateByStr(
+        GeneralSystemProperty.LINE_SEPARATOR.value());
+    private volatile boolean hasNext = true;
 
     private String temp = "";
 
@@ -48,9 +61,17 @@ public class StringBufferReader implements BufferReader<String> {
     }
 
     @Override
+    public boolean hasNext() {
+        return this.hasNext;
+    }
+
+    @Override
     public String read() throws IOException {
         if (this.temp.length() == 0) {
-            if (this.channel.read(this.byteBuffer) == -1) return null;
+            if (this.channel.read(this.byteBuffer) == -1) {
+                this.hasNext = false;
+                return null;
+            }
             this.byteBuffer.flip();
             this.temp = new String(ByteBufferOperation.usedArray(this.byteBuffer) , this.encoding);
             this.byteBuffer.clear();
@@ -59,7 +80,10 @@ public class StringBufferReader implements BufferReader<String> {
         LOOP: while (true) {
             BufferReader.SeparatePoint point = this.findSeparatePoint.apply(this.temp);
             if (point.getSeparatePoint() == -1) {
-                if (this.channel.read(this.byteBuffer) == -1) return this.temp;
+                if (this.channel.read(this.byteBuffer) == -1) {
+                    this.hasNext = false;
+                    return this.temp;
+                }
                 this.byteBuffer.flip();
                 this.temp = new String(ByteBufferOperation.usedArray(this.byteBuffer) , this.encoding);
                 this.byteBuffer.clear();

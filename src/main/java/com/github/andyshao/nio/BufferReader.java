@@ -55,9 +55,16 @@ public interface BufferReader<ARRAY> extends Closeable {
     }
 
     /**
+     * reading status.
+     * 
+     * @return if the reading is finishing then return false
+     */
+    public boolean hasNext();
+
+    /**
      * read information
      * 
-     * @return if reading is finished then return null
+     * @return the information
      * @throws IOException The mistake comes from IO operation
      */
     ARRAY read() throws IOException;
