@@ -23,7 +23,6 @@ public class ByteBufferReader implements BufferReader<byte[]> {
     private int bufferSize;
     private final ReadableByteChannel channel;
     private String encoding = GeneralSystemProperty.FILE_ENCODING.value();
-
     private Function<ByteBuffer , BufferReader.SeparatePoint> findSeparatePoint = (buffer) -> {
         try {
             byte[] key = GeneralSystemProperty.LINE_SEPARATOR.value().getBytes(ByteBufferReader.this.getEncoding());
@@ -33,8 +32,21 @@ public class ByteBufferReader implements BufferReader<byte[]> {
             throw new RuntimeException(exception);
         }
     };
-
+    private volatile boolean hasNext = true;
     private int mark = 0;
+    public static class SeparateByBytes implements Function<ByteBuffer , BufferReader.SeparatePoint>{
+        private final byte[] key;
+        
+        public SeparateByBytes(byte[] key) {
+            this.key = key;
+        }
+        
+        @Override
+        public com.github.andyshao.nio.BufferReader.SeparatePoint apply(ByteBuffer t) {
+            int index = ByteBufferOperation.indexOf(t , key);
+            return new BufferReader.SeparatePoint(index , key.length + index);
+        }
+    }
 
     public ByteBufferReader(ReadableByteChannel channel) {
         this(channel , 1024);
@@ -57,6 +69,11 @@ public class ByteBufferReader implements BufferReader<byte[]> {
 
     public Function<ByteBuffer , BufferReader.SeparatePoint> getFindSeparatePoint() {
         return this.findSeparatePoint;
+    }
+
+    @Override
+    public boolean hasNext() {
+        return this.hasNext;
     }
 
     @Override
@@ -89,6 +106,7 @@ public class ByteBufferReader implements BufferReader<byte[]> {
                 return ByteBufferOperation.usedArray(temp);
             }
         }
+        this.hasNext = false;
         if (this.buffer.position() == 0) return null;
         this.buffer.limit(this.buffer.position());
         this.buffer.position(this.mark);
