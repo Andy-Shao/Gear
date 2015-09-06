@@ -8,6 +8,7 @@ import java.util.Properties;
  * Descript:<br>
  * Copyright: Copryright(c) Sep 4, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
