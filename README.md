@@ -18,6 +18,7 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 **What the newest plugins for v2.4**
+
 Reflects add a new newInstance() method<br>
 Adding ClassAssembly<br>
 Fix the bugging of ByteBufferReader and String BufferReader<br>
