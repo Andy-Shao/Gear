@@ -19,6 +19,20 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  *
  */
 public class ByteBufferReader implements BufferReader<byte[]> {
+    public static class SeparateByBytes implements Function<ByteBuffer , BufferReader.SeparatePoint> {
+        private final byte[] key;
+
+        public SeparateByBytes(byte[] key) {
+            this.key = key;
+        }
+
+        @Override
+        public com.github.andyshao.nio.BufferReader.SeparatePoint apply(ByteBuffer t) {
+            int index = ByteBufferOperation.indexOf(t , this.key);
+            return new BufferReader.SeparatePoint(index , this.key.length + index);
+        }
+    }
+
     private ByteBuffer buffer;
     private int bufferSize;
     private final ReadableByteChannel channel;
@@ -34,19 +48,6 @@ public class ByteBufferReader implements BufferReader<byte[]> {
     };
     private volatile boolean hasNext = true;
     private int mark = 0;
-    public static class SeparateByBytes implements Function<ByteBuffer , BufferReader.SeparatePoint>{
-        private final byte[] key;
-        
-        public SeparateByBytes(byte[] key) {
-            this.key = key;
-        }
-        
-        @Override
-        public com.github.andyshao.nio.BufferReader.SeparatePoint apply(ByteBuffer t) {
-            int index = ByteBufferOperation.indexOf(t , key);
-            return new BufferReader.SeparatePoint(index , key.length + index);
-        }
-    }
 
     public ByteBufferReader(ReadableByteChannel channel) {
         this(channel , 1024);

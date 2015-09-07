@@ -1,8 +1,12 @@
 package com.github.andyshao.lang;
 
-public class ClassDemo {
+import java.util.function.Supplier;
 
-    public static void main(String[] args) {
-        System.out.println("Hello,Word!");
+public class ClassDemo implements Supplier<String> {
+
+    @Override
+    public String get() {
+        return "Hello,World!";
     }
+
 }
