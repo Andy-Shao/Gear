@@ -13,5 +13,5 @@ package com.github.andyshao.lang;
 @FunctionalInterface
 public interface ClassAssembly<E> {
 
-    Class<E> assemble(byte[] bs);
+    Class<E> assemble(String name, byte[] bs);
 }
