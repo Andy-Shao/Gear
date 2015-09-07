@@ -202,6 +202,21 @@ public final class Reflects {
 
     /**
      * 
+     * @param clazz the class type
+     * @param <T> the object type
+     * @return the object which come from clazz
+     * @see Class#newInstance()
+     */
+    public static <T> T newInstance(Class<T> clazz) {
+        try {
+            return clazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * 
      * @param constructor the define of class' constructor
      * @param values the values of parameters of constructor's
      * @param <T> the type of return
