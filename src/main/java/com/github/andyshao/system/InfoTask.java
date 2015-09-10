@@ -11,6 +11,7 @@ package com.github.andyshao.system;
  *
  */
 public class InfoTask implements Task {
+    public static final String KEY_WORDS = "-info";
 
     @Override
     public boolean isDuty(String[] args) {

@@ -11,6 +11,7 @@ package com.github.andyshao.system;
  *
  */
 public class HelpTask implements Task {
+    public static final String KEY_WORDS = "-help";
 
     @Override
     public boolean isDuty(String[] args) {

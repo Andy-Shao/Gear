@@ -11,6 +11,7 @@ package com.github.andyshao.system;
  *
  */
 public class JvmTask implements Task {
+    public static final String KEY_WORDS = "-jvm";
 
     @Override
     public boolean isDuty(String[] args) {
