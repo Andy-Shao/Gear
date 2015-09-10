@@ -22,7 +22,7 @@ public class NoArgumentTask implements Task {
     }
 
     @Override
-    public boolean isDuty(int index , String[] args) {
+    public boolean isDuty(String[] args) {
         if (args == null || args.length == 0) return true;
         else return false;
     }
@@ -33,7 +33,7 @@ public class NoArgumentTask implements Task {
     }
 
     @Override
-    public void process(int index , String[] args) {
+    public void process(String[] args) {
     }
 
 }

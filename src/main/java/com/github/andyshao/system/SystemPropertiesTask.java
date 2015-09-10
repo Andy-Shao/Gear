@@ -25,7 +25,7 @@ public class SystemPropertiesTask implements Task {
     }
 
     @Override
-    public boolean isDuty(int index , String[] args) {
+    public boolean isDuty(String[] args) {
         if (args == null || args.length == 0) return false;
         else if (args[0].endsWith(SystemPropertiesTask.KEY_WORDS)) return true;
         return false;
@@ -37,7 +37,7 @@ public class SystemPropertiesTask implements Task {
     }
 
     @Override
-    public void process(int index , String[] args) {
+    public void process(String[] args) {
         if (args.length == 1) {
             Properties properties = System.getProperties();
             for (Object key : properties.keySet())

@@ -18,6 +18,6 @@ public class Main {
 
     public static void main(String[] args) {
         Task myTask = Main.buildTask();
-        myTask.run(0 , args);
+        myTask.run(args);
     }
 }
