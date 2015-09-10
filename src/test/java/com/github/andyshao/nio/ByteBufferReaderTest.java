@@ -30,7 +30,7 @@ public class ByteBufferReaderTest {
         try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getBigFilePath());
             ByteBufferReader reader = new ByteBufferReader(channel);) {
             time = System.currentTimeMillis();
-            while(reader.hasNext())
+            while (reader.hasNext())
                 reader.read();
             time = System.currentTimeMillis() - time;
         }
