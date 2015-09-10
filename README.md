@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v2.4**
 
+Adding com.github.andyshao.system package for information running job<br>
 Reflects add a new newInstance() method<br>
 Adding ClassAssembly<br>
 Fix the bugging of ByteBufferReader and String BufferReader<br>
