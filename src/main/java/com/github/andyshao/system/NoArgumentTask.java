@@ -11,15 +11,7 @@ package com.github.andyshao.system;
  *
  */
 public class NoArgumentTask implements Task {
-    private final Task nextTask;
-
-    public NoArgumentTask() {
-        this(Task.EMTPY_TASK);
-    }
-
-    public NoArgumentTask(Task nextTask) {
-        this.nextTask = nextTask;
-    }
+    private volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
     public boolean isDuty(String[] args) {
@@ -34,6 +26,10 @@ public class NoArgumentTask implements Task {
 
     @Override
     public void process(String[] args) {
+    }
+
+    public void setNextTask(Task nextTask) {
+        this.nextTask = nextTask;
     }
 
 }

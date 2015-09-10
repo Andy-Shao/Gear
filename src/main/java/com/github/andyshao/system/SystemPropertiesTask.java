@@ -14,15 +14,7 @@ import java.util.Properties;
  */
 public class SystemPropertiesTask implements Task {
     public static final String KEY_WORDS = "-sp";
-    public final Task nextTask;
-
-    public SystemPropertiesTask() {
-        this(Task.EMTPY_TASK);
-    }
-
-    public SystemPropertiesTask(Task nextTask) {
-        this.nextTask = nextTask;
-    }
+    public volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
     public boolean isDuty(String[] args) {
@@ -43,6 +35,10 @@ public class SystemPropertiesTask implements Task {
             for (Object key : properties.keySet())
                 System.out.println(key + " = " + properties.get(key));
         } else System.out.println(System.getProperty(args[1]));
+    }
+
+    public void setNextTask(Task nextTask) {
+        this.nextTask = nextTask;
     }
 
 }

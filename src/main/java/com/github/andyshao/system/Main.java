@@ -1,5 +1,9 @@
 package com.github.andyshao.system;
 
+import java.lang.reflect.Field;
+
+import com.github.andyshao.reflect.Reflects;
+
 /**
  * 
  * Title:<br>
@@ -13,11 +17,24 @@ package com.github.andyshao.system;
 public class Main {
 
     private static Task buildTask() {
-        return new NoArgumentTask(new SystemPropertiesTask());
+        Task head = new NoArgumentTask();
+        head = Main.setTask(head , new HelpTask());
+        head = Main.setTask(head , new VersionTask());
+        head = Main.setTask(head , new InfoTask());
+        head = Main.setTask(head , new SystemPropertiesTask());
+        head = Main.setTask(head , new JvmTask());
+        return Main.setTask(head , new NoMatchTask());
     }
 
     public static void main(String[] args) {
         Task myTask = Main.buildTask();
         myTask.run(args);
+    }
+
+    private static final Task setTask(Task head , Task tail) {
+        Field nextTask_field = Reflects.getDeclaredField(head.getClass() , "nextTask");
+        nextTask_field.setAccessible(true);
+        Reflects.setFieldValue(head , nextTask_field , tail);
+        return tail;
     }
 }

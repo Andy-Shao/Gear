@@ -12,6 +12,7 @@ package com.github.andyshao.system;
  */
 public class HelpTask implements Task {
     public static final String KEY_WORDS = "-help";
+    private volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
     public boolean isDuty(String[] args) {
@@ -21,8 +22,7 @@ public class HelpTask implements Task {
 
     @Override
     public Task nextTask() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.nextTask;
     }
 
     @Override

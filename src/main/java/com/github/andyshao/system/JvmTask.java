@@ -12,6 +12,7 @@ package com.github.andyshao.system;
  */
 public class JvmTask implements Task {
     public static final String KEY_WORDS = "-jvm";
+    private volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
     public boolean isDuty(String[] args) {
@@ -21,14 +22,17 @@ public class JvmTask implements Task {
 
     @Override
     public Task nextTask() {
-        // TODO Auto-generated method stub
-        return null;
+        return this.nextTask;
     }
 
     @Override
     public void process(String[] args) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void setNextTask(Task nextTask) {
+        this.nextTask = nextTask;
     }
 
 }
