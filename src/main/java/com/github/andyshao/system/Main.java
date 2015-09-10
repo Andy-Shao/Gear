@@ -1,7 +1,5 @@
 package com.github.andyshao.system;
 
-import com.github.andyshao.lang.SystemPropertiesCheck;
-
 /**
  * 
  * Title:<br>
@@ -14,6 +12,11 @@ import com.github.andyshao.lang.SystemPropertiesCheck;
 public class Main {
 
     public static void main(String[] args) {
-        SystemPropertiesCheck.main(args);
+        Task myTask = buildTask();
+        myTask.run(0 , args);
+    }
+
+    private static Task buildTask() {
+        return new NoArgumentTask(new SystemPropertiesTask());
     }
 }
