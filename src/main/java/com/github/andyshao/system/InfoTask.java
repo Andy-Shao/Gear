@@ -28,7 +28,7 @@ public class InfoTask implements Task {
     @Override
     public void process(String[] args) {
         // TODO Auto-generated method stub
-
+        System.out.println(this.getClass());
     }
 
     public void setNextTask(Task nextTask) {

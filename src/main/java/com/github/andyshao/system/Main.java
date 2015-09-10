@@ -17,13 +17,14 @@ import com.github.andyshao.reflect.Reflects;
 public class Main {
 
     private static Task buildTask() {
-        Task head = new NoArgumentTask();
-        head = Main.setTask(head , new HelpTask());
-        head = Main.setTask(head , new VersionTask());
-        head = Main.setTask(head , new InfoTask());
-        head = Main.setTask(head , new SystemPropertiesTask());
-        head = Main.setTask(head , new JvmTask());
-        return Main.setTask(head , new NoMatchTask());
+        final Task head = new NoArgumentTask();
+        Task tail = Main.setTask(head , new HelpTask());
+        tail = Main.setTask(tail , new VersionTask());
+        tail = Main.setTask(tail , new InfoTask());
+        tail = Main.setTask(tail , new SystemPropertiesTask());
+        tail = Main.setTask(tail , new JvmTask());
+        tail = Main.setTask(tail , new NoMatchTask());
+        return head;
     }
 
     public static void main(String[] args) {
