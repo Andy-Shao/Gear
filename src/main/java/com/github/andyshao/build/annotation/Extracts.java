@@ -1,5 +1,6 @@
 package com.github.andyshao.build.annotation;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,9 +24,20 @@ import com.github.andyshao.reflect.Reflects;
  *
  */
 public final class Extracts {
-    public static final Construction[] extractConstruction(Class<?> clazz) {
-        //TODO
-        return null;
+    public static final Map<Constructor<?> , Construction> extractConstruction(Class<?> clazz) {
+        final Map<Constructor<?> , Construction> result = new HashMap<Constructor<?> , Construction>();
+        final Constructor<?>[] constructors = clazz.getConstructors();
+        for (Constructor<?> constructor : constructors) {
+            final com.github.andyshao.build.annotation.Construction construction =
+                constructor.getAnnotation(com.github.andyshao.build.annotation.Construction.class);
+            if (construction != null) result.put(constructor , new Construction() {
+                @Override
+                public String[] name() {
+                    return construction.name();
+                }
+            });
+        }
+        return result;
     }
 
     public static final Entity extractEntity(Class<?> clazz) {

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * 
  * Title:<br>
- * Descript:<br>
+ * Descript: If both of name and type have values, process name firstly.<br>
  * Copyright: Copryright(c) Sep 11, 2015<br>
  * Encoding:UNIX UTF-8
  * 
@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 public @interface Injection {
     public boolean isEntityFactory() default false;
 
-    public String[] name() default "";
+    public String[] name();
 
     public Class<?> type();
 }

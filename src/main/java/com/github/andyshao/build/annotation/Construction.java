@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
  * Descript:<br>
  * Copyright: Copryright(c) Sep 11, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
@@ -19,5 +20,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Construction {
-    public String[] name() default "";
+    public String[] name();
 }

@@ -22,5 +22,5 @@ import java.lang.annotation.Target;
 public @interface Entity {
     public boolean isSingle() default true;
 
-    public String[] name() default "";
+    public String[] name();
 }
