@@ -16,7 +16,8 @@ public class VersionTask implements Task {
 
     @Override
     public boolean isDuty(String[] args) {
-        // TODO Auto-generated method stub
+        if (args == null || args.length == 0) return false;
+        if(args[0].equals(KEY_WORDS)) return true;
         return false;
     }
 

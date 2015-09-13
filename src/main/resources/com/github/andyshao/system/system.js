@@ -17,8 +17,8 @@ function setNextTask(head, tail){
 //main
 var head = new NoArgumentTask();
 var tail = setNextTask(head, new HelpTask());
-tail = setNextTask(tail, new VersionTask());
 tail = setNextTask(tail, new InfoTask());
+tail = setNextTask(tail, new VersionTask());
 tail = setNextTask(tail, new SystemPropertiesTask());
 tail = setNextTask(tail, new JvmTask());
 tail = setNextTask(tail, new NoMatchTask());
