@@ -1,8 +1,13 @@
 package com.github.andyshao.system;
 
-import java.lang.reflect.Field;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
-import com.github.andyshao.reflect.Reflects;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 
 /**
  * 
@@ -15,27 +20,17 @@ import com.github.andyshao.reflect.Reflects;
  *
  */
 public class Main {
+    public static void main(String[] args) throws IOException , ScriptException {
+        final ScriptEngineManager factory = new ScriptEngineManager();
+        final ScriptEngine engine = factory.getEngineByName("nashorn");
 
-    private static Task buildTask() {
-        final Task head = new NoArgumentTask();
-        Task tail = Main.setTask(head , new HelpTask());
-        tail = Main.setTask(tail , new VersionTask());
-        tail = Main.setTask(tail , new InfoTask());
-        tail = Main.setTask(tail , new SystemPropertiesTask());
-        tail = Main.setTask(tail , new JvmTask());
-        tail = Main.setTask(tail , new NoMatchTask());
-        return head;
-    }
-
-    public static void main(String[] args) {
-        Task myTask = Main.buildTask();
-        myTask.run(args);
-    }
-
-    private static final Task setTask(Task head , Task tail) {
-        Field nextTask_field = Reflects.getDeclaredField(head.getClass() , "nextTask");
-        nextTask_field.setAccessible(true);
-        Reflects.setFieldValue(head , nextTask_field , tail);
-        return tail;
+        try (
+            InputStream inputStream =
+                Thread.currentThread().getContextClassLoader()
+                    .getResourceAsStream("com/github/andyshao/system/system.js");
+            Reader reader = new InputStreamReader(inputStream);) {
+            engine.eval(reader);
+        }
+        ((Task) engine.get("head")).run(args);
     }
 }

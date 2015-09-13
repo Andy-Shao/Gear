@@ -31,4 +31,8 @@ public class HelpTask implements Task {
         System.out.println(this.getClass());
     }
 
+    public void setNextTask(Task nextTask) {
+        this.nextTask = nextTask;
+    }
+
 }
