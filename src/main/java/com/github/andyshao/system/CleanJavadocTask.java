@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 
 import com.github.andyshao.lang.GeneralSystemProperty;
 import com.github.andyshao.nio.ByteBufferOperation;
