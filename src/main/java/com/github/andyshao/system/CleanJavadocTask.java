@@ -2,10 +2,13 @@ package com.github.andyshao.system;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 import com.github.andyshao.lang.GeneralSystemProperty;
+import com.github.andyshao.nio.ByteBufferOperation;
 import com.github.andyshao.reflect.ArrayOperation;
 
 /**
@@ -37,19 +40,22 @@ public class CleanJavadocTask implements Task {
 
     private void myProcess(final File file , String encoding) throws IOException {
         if (file.isFile()) {
+            System.out.println("Process " + file.getPath());
             final Path path = file.toPath();
-            byte[] context = Files.readAllBytes(path);
+            final ByteBuffer context = ByteBuffer.wrap(Files.readAllBytes(path));
             final byte[] head = CleanJavadocTask.HEAD.getBytes(encoding);
             final byte[] tail = CleanJavadocTask.TAIL.getBytes(encoding);
             byte[] tmp = new byte[0];
 
             int index = -1;
-            while ((index = ArrayOperation.indexOfArray(context , head)) != -1) {
-                tmp = ArrayOperation.mergeArray(byte[].class , tmp , ArrayOperation.splitArray(context , 0 , index));
-                context = ArrayOperation.splitArray(context , index , context.length);
-                context =
-                    ArrayOperation.splitArray(context , ArrayOperation.indexOfArray(context , tail) , context.length);
+            while ((index = ByteBufferOperation.indexOf(context , head)) != -1) {
+                tmp =
+                    ArrayOperation.mergeArray(byte[].class , tmp ,
+                        ByteBufferOperation.getBytes(context , context.position() , index - context.position()));
+                context.position(index);
+                context.position(ByteBufferOperation.indexOf(context , tail) + tail.length);
             }
+            tmp = ArrayOperation.mergeArray(byte[].class , tmp , ByteBufferOperation.usedArray(context));
             Files.write(path , tmp);
         } else if (file.isDirectory()) for (File child : file.listFiles())
             this.myProcess(child , encoding);
