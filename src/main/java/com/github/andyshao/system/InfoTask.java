@@ -26,15 +26,14 @@ public class InfoTask implements Task {
     private volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
-    public boolean isDuty(String[] args) {
-        if (args == null || args.length == 0) return false;
-        if (args[0].equals(InfoTask.KEY_WORDS)) return true;
-        return false;
+    public Task getNextTask() {
+        return this.nextTask;
     }
 
     @Override
-    public Task nextTask() {
-        return this.nextTask;
+    public boolean isDuty(String[] args) {
+        if (args == null || args.length == 0) return false;
+        else return args[0].equals(InfoTask.KEY_WORDS);
     }
 
     @Override

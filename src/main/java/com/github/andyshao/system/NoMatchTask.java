@@ -13,13 +13,13 @@ package com.github.andyshao.system;
 public class NoMatchTask implements Task {
 
     @Override
-    public boolean isDuty(String[] args) {
-        return true;
+    public Task getNextTask() {
+        return null;
     }
 
     @Override
-    public Task nextTask() {
-        return null;
+    public boolean isDuty(String[] args) {
+        return true;
     }
 
     @Override

@@ -4,14 +4,14 @@ package com.github.andyshao.system;
  * 
  * Title:<br>
  * Descript:<br>
- * Copyright: Copryright(c) Sep 10, 2015<br>
+ * Copyright: Copryright(c) Sep 20, 2015<br>
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
  *
  */
-public class JvmTask implements Task {
-    public static final String KEY_WORDS = "-jvm";
+public class CleanJavadocTask implements Task {
+    public static final String KEY_WORDS = "-cleanJavadoc";
     private volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
@@ -21,14 +21,14 @@ public class JvmTask implements Task {
 
     @Override
     public boolean isDuty(String[] args) {
-        // TODO Auto-generated method stub
-        return false;
+        if (args == null || args.length == 0) return false;
+        return args[0].equals(KEY_WORDS);
     }
 
     @Override
     public void process(String[] args) {
         // TODO Auto-generated method stub
-        System.out.println(this.getClass());
+
     }
 
     public void setNextTask(Task nextTask) {

@@ -14,13 +14,13 @@ public interface Task {
     public static final Task EMTPY_TASK = new Task() {
 
         @Override
-        public boolean isDuty(String[] args) {
-            return true;
+        public Task getNextTask() {
+            return null;
         }
 
         @Override
-        public Task nextTask() {
-            return null;
+        public boolean isDuty(String[] args) {
+            return true;
         }
 
         @Override
@@ -29,14 +29,14 @@ public interface Task {
         }
     };
 
-    public boolean isDuty(String[] args);
+    public Task getNextTask();
 
-    public Task nextTask();
+    public boolean isDuty(String[] args);
 
     public void process(String[] args);
 
     public default void run(String[] args) {
         if (this.isDuty(args)) this.process(args);
-        else this.nextTask().run(args);
+        else this.getNextTask().run(args);
     }
 }
