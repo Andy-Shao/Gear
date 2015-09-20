@@ -80,11 +80,6 @@ public final class ArrayOperation {
         return -1;
     }
 
-    public static <T> int indexOfArray(T array , T target) {
-        //TODO
-        return -1;
-    }
-
     /**
      * 
      * @param array the array which is processed.
@@ -121,11 +116,6 @@ public final class ArrayOperation {
     public static <T> int lastIndexOf(T array , Object item) {
         for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--)
             if (Array.get(array , i).equals(item)) return i;
-        return -1;
-    }
-
-    public static <T> int lastIndexOfArray(T array , T target) {
-        //TODO
         return -1;
     }
 
