@@ -24,3 +24,4 @@ tail = setNextTask(tail, new SystemPropertiesTask());
 tail = setNextTask(tail, new JvmTask());
 tail = setNextTask(tail, new CleanJavadocTask());
 tail = setNextTask(tail, new NoMatchTask());
+tail.setNextTask(head);

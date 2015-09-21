@@ -1,0 +1,6 @@
+Help for Gear Command
+-cleanJavadoc
+-help
+-info
+-version
+-jvm

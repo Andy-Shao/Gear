@@ -1,5 +1,7 @@
 package com.github.andyshao.system;
 
+import com.github.andyshao.reflect.ArrayOperation;
+
 /**
  * 
  * Title:<br>
@@ -11,10 +13,17 @@ package com.github.andyshao.system;
  *
  */
 public class NoMatchTask implements Task {
+    private Task nextTask;
 
     @Override
     public Task getNextTask() {
-        return null;
+        return this.nextTask;
+    }
+
+    private void goHelp() {
+        this.getNextTask().run(new String[] {
+            HelpTask.KEY_WORDS
+        });
     }
 
     @Override
@@ -24,8 +33,23 @@ public class NoMatchTask implements Task {
 
     @Override
     public void process(String[] args) {
-        // TODO Auto-generated method stub
-        System.out.println(this.getClass());
+        if (args == null || args.length <= 1) {
+            this.goHelp();
+            return;
+        }
+        int position = 0;
+        boolean status = true;
+        do
+            status = !args[++position].startsWith("-");
+        while (status && position < args.length);
+        if (position == args.length - 1 && status) {
+            this.goHelp();
+            return;
+        } else this.getNextTask().run(ArrayOperation.splitArray(args , position , args.length));
+    }
+
+    public void setNextTask(Task nextTask) {
+        this.nextTask = nextTask;
     }
 
 }
