@@ -49,7 +49,7 @@ public class VersionTask implements Task {
             final DocumentBuilder db = factory.newDocumentBuilder();
             final Document xmlDoc = db.parse(zipFile.getInputStream(zipEntry));
             final Element root = xmlDoc.getDocumentElement();
-            
+
             System.out.println("groupId: " + root.getElementsByTagName("groupId").item(0).getTextContent());
             System.out.println("artifactId: " + root.getElementsByTagName("artifactId").item(0).getTextContent());
             System.out.println("version: " + root.getElementsByTagName("version").item(0).getTextContent());
