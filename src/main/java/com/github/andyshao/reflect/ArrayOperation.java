@@ -5,6 +5,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.Convert;
+import com.github.andyshao.nio.ByteBufferOperation;
+import com.github.andyshao.nio.CharBufferOperation;
+import com.github.andyshao.nio.DoubleBufferOperation;
+import com.github.andyshao.nio.FloatBufferOperation;
+import com.github.andyshao.nio.IntBufferOperation;
+import com.github.andyshao.nio.ShortBufferOperation;
 
 /**
  * Some tools of {@link Array}<br>
@@ -81,6 +87,27 @@ public final class ArrayOperation {
     }
 
     /**
+     * Only server for {@link Object}[] or subclass of {@link Object}[]<br>
+     * For other basic array please try to use XXBufferOperation.indexof()
+     * method.
+     * 
+     * @param array the array which should be searched.
+     * @param target the target which should be found out from array
+     * @param <T> the type of the class
+     * @return if can't find out anything from array , return -1
+     * @see IntBufferOperation#indexOf(java.nio.IntBuffer, int...)
+     * @see CharBufferOperation#indexOf(java.nio.CharBuffer, char...)
+     * @see ShortBufferOperation#indexOf(java.nio.ShortBuffer, short...)
+     * @see ByteBufferOperation#indexOf(java.nio.ByteBuffer, byte...)
+     * @see FloatBufferOperation#indexOf(java.nio.FloatBuffer, float...)
+     * @see DoubleBufferOperation#indexOf(java.nio.DoubleBuffer, double...)
+     */
+    public static <T> int indexOfAll(T[] array , T[] target) {
+        //TODO
+        return -1;
+    }
+
+    /**
      * 
      * @param array the array which is processed.
      * @param index the address of value
@@ -116,6 +143,27 @@ public final class ArrayOperation {
     public static <T> int lastIndexOf(T array , Object item) {
         for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--)
             if (Array.get(array , i).equals(item)) return i;
+        return -1;
+    }
+
+    /**
+     * Only server for {@link Object}[] or subclass of {@link Object}[]<br>
+     * For other basic array please try to use XXBufferOperation.lastIndexOf()
+     * method.
+     * 
+     * @param array the array which should be searched.
+     * @param target the target which should be found out from array
+     * @param <T> the type of the class
+     * @return if can't find out anything from array, return -1
+     * @see IntBufferOperation#lastIndexOf(java.nio.IntBuffer, int...)
+     * @see CharBufferOperation#lastIndexOf(java.nio.CharBuffer, char...)
+     * @see ShortBufferOperation#lastIndexOf(java.nio.ShortBuffer, short...)
+     * @see ByteBufferOperation#lastIndexOf(java.nio.ByteBuffer, byte...)
+     * @see FloatBufferOperation#lastIndexOf(java.nio.FloatBuffer, float...)
+     * @see DoubleBufferOperation#lastIndexOf(java.nio.DoubleBuffer, double...)
+     */
+    public static <T> int lastIndexOffAll(T[] array , T[] target) {
+        //TODO
         return -1;
     }
 
