@@ -1,14 +1,11 @@
 package com.github.andyshao.system;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.channels.Channels;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
-import com.github.andyshao.lang.GeneralSystemProperty;
 import com.github.andyshao.nio.BufferReader;
-import com.github.andyshao.nio.StringBufferReader;
+import com.github.andyshao.nio.ByteBufferReader;
 
 /**
  * 
@@ -38,14 +35,12 @@ public class HelpTask implements Task {
 
     @Override
     public void process(String[] args) {
-        try (final ZipFile zipFile = new ZipFile(new File(GeneralSystemProperty.JAVA_CLASS_PATH.value()))) {
-            final ZipEntry zipEntry = zipFile.getEntry(HelpTask.TARGET);
-            try (
-                final StringBufferReader reader =
-                    new StringBufferReader(Channels.newChannel(zipFile.getInputStream(zipEntry)));) {
-                reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
-                System.out.println(reader.read());
-            }
+        try (
+            InputStream inputStream =
+                Thread.currentThread().getContextClassLoader().getResourceAsStream(HelpTask.TARGET);
+            ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));) {
+            reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
+            System.out.println(new String(reader.read()));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
