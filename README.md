@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v2.4**
 
+Adding adjust toArray() in ArrayOperation<br>
 Adding lastIndexofAll() and indexOfAll in ArrayOperation<br>
 Adding com.github.andyshao.system package for information running job<br>
 Reflects add a new newInstance() method<br>

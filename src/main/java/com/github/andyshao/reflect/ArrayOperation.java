@@ -344,12 +344,15 @@ public final class ArrayOperation {
     /**
      * It is a easy way could create a array.
      * 
+     * @param clazz subclass of array
      * @param targets the method what you want to return
      * @param <T> the type of array
      * @return just return the targets
      */
+    @SuppressWarnings("unchecked")
     @SafeVarargs
-    public static <T> T[] toArray(T... targets) {
+    public static <T> T[] toArray(Class<T> clazz, T... targets) {
+        if(targets == null) return (T[]) Array.newInstance(clazz , 0);
         return targets;
     }
 
