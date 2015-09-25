@@ -2,6 +2,7 @@ package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.Convert;
@@ -103,8 +104,23 @@ public final class ArrayOperation {
      * @see DoubleBufferOperation#indexOf(java.nio.DoubleBuffer, double...)
      */
     public static <T> int indexOfAll(T[] array , T[] target) {
-        //TODO
-        return -1;
+        if (array.length == 0 || target.length == 0) throw new IllegalArgumentException("array or target can't empty!");
+        if (target.length > array.length) return -1;
+        int index = 0;
+        int position = -1;
+        LOOP: for (int i = 0 ; i < array.length ; i++)
+            if (Objects.equals(array[i] , target[index++])) {
+                if (index == 1) position = i;
+                if (index == target.length) break LOOP;
+            } else if (Objects.equals(array[i] , target[0])) {
+                index = 1;
+                position = i;
+                if (index == target.length) break LOOP;
+            } else {
+                index = 0;
+                position = -1;
+            }
+        return position;
     }
 
     /**
@@ -163,8 +179,29 @@ public final class ArrayOperation {
      * @see DoubleBufferOperation#lastIndexOf(java.nio.DoubleBuffer, double...)
      */
     public static <T> int lastIndexOffAll(T[] array , T[] target) {
-        //TODO
-        return -1;
+        if (array.length == 0 || target.length == 0) throw new IllegalArgumentException("array or target can't empty!");
+        if (target.length > array.length) return -1;
+        int index = target.length;
+        int position = -1;
+        LOOP: for (int i = array.length - 1 ; i >= 0 ; i--) {
+            final T value = array[i];
+            if (Objects.equals(value , target[--index])) {
+                if (index == 0) {
+                    position = i;
+                    break LOOP;
+                }
+            } else if (Objects.equals(value , target[target.length - 1])) {
+                index = target.length - 1;
+                if (index == 0) {
+                    position = i;
+                    break LOOP;
+                }
+            } else {
+                index = array.length;
+                position = -1;
+            }
+        }
+        return position;
     }
 
     /**
@@ -351,8 +388,8 @@ public final class ArrayOperation {
      */
     @SuppressWarnings("unchecked")
     @SafeVarargs
-    public static <T> T[] toArray(Class<T> clazz, T... targets) {
-        if(targets == null) return (T[]) Array.newInstance(clazz , 0);
+    public static <T> T[] toArray(Class<T> clazz , T... targets) {
+        if (targets == null) return (T[]) Array.newInstance(clazz , 0);
         return targets;
     }
 

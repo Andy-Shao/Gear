@@ -66,6 +66,22 @@ public class ArrayOperationTest {
     }
 
     @Test
+    public void indexOfAll() {
+        final Byte[] bs = ArrayOperation.pack_unpack("aaannndddyyyaandyyyyaaannnddd".getBytes() , Byte[].class);
+        final Byte[] key = ArrayOperation.pack_unpack("andy".getBytes() , Byte[].class);
+        final int position = ArrayOperation.indexOfAll(bs , key);
+        Assert.assertArrayEquals(ArrayOperation.splitArray(bs , position , key.length + position) , key);
+    }
+
+    @Test
+    public void lastIndexOfAll() {
+        final Byte[] bs = ArrayOperation.pack_unpack("aaannndddyyyandyy".getBytes() , Byte[].class);
+        final Byte[] key = ArrayOperation.pack_unpack("andy".getBytes() , Byte[].class);
+        final int position = ArrayOperation.lastIndexOffAll(bs , key);
+        Assert.assertArrayEquals(ArrayOperation.splitArray(bs , position , position + key.length) , key);
+    }
+
+    @Test
     public void mergeArray() {
         {
             int[] array = ArrayOperation.mergeArray(int[].class , new int[] {
