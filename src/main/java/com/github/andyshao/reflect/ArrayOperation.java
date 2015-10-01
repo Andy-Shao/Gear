@@ -72,6 +72,16 @@ public final class ArrayOperation {
         return (T) Array.get(array , index);
     }
 
+    public static <T> int indexOf(ArrayWrapper<T> array , Object item) {
+        for (int i = 0 ; i < array.capacity() ; i++)
+            if (Objects.equals(array.get(i) , item)) return i;
+        return -1;
+    }
+
+    public static int indexOf(int[] array , int item) {
+        return ArrayOperation.indexOf(new IntArrayWrapper(array) , item);
+    }
+
     /**
      * find out the location of first item.
      * 
@@ -151,6 +161,16 @@ public final class ArrayOperation {
      */
     public static <T> boolean isEmpty(T array , int index) {
         return ArrayOperation.isAbove(array , index) ? false : Array.get(array , index) == null;
+    }
+
+    public static <T> int lastIndexOf(ArrayWrapper<T> array , Object item) {
+        for (int i = array.capacity() - 1 ; i >= 0 ; i--)
+            if (Objects.equals(array.get(i) , item)) return i;
+        return -1;
+    }
+
+    public static int lastIndexOf(int[] array , int item) {
+        return ArrayOperation.indexOf(new IntArrayWrapper(array) , item);
     }
 
     /**
@@ -239,6 +259,17 @@ public final class ArrayOperation {
         return result;
     }
 
+    protected static final <IN , OUT> void pack_unpack(
+        ArrayWrapper<IN> in , ArrayWrapper<OUT> out , Function<Object , Object> fun) {
+        if (out.capacity() < in.capacity()) throw new IllegalArgumentException("out is too small");
+        for (int i = 0 ; i < in.capacity() ; i++)
+            out.put(fun.apply(in.get(i)) , i);
+    }
+
+    protected static final <IN , OUT> void pack_unpack(ArrayWrapper<IN> in , OUT[] out , Function<Object , Object> fun) {
+        //TODO
+    }
+
     /**
      * Try to convert the array.<br>
      * eg.<br>
@@ -254,9 +285,7 @@ public final class ArrayOperation {
      * @return output array
      */
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
-        return ArrayOperation.pack_unpack(in , outClazz , (Object input) -> {
-            return input;
-        });
+        return ArrayOperation.pack_unpack(in , outClazz , (Object input) -> input);
     }
 
     /**
@@ -283,6 +312,10 @@ public final class ArrayOperation {
         return result;
     }
 
+    protected static final <IN , OUT> void pack_unpack(IN[] in , ArrayWrapper<OUT> out , Function<Object , Object> fun) {
+        //TODO
+    }
+
     /**
      * Remove all of item which be included in array.
      * 
@@ -294,11 +327,9 @@ public final class ArrayOperation {
      * @return a array which has been processed.
      */
     public static <T , I> T removeAllItem(T array , I item) {
-        ARRAY: for (int i = 0 ; i < Array.getLength(array) ; i++)
-            if (Array.get(array , i).equals(item)) {
-                array = ArrayOperation.removeItem(array , i);
-                continue ARRAY;
-            }
+        int index = -1;
+        while ((index = ArrayOperation.indexOf(array , item)) != -1)
+            array = ArrayOperation.removeItem(array , index);
         return array;
     }
 
