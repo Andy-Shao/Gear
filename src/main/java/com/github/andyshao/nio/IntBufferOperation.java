@@ -43,6 +43,11 @@ public final class IntBufferOperation {
         return position;
     }
 
+    public static int indexOf(IntBuffer buffer , int start , int length , int... is) {
+        //TODO
+        return -1;
+    }
+
     public static int lastIndexOf(IntBuffer buffer , int... is) {
         if (is.length == 0) throw new IllegalArgumentException("is is empty");
         if (is.length > buffer.limit() - buffer.position()) return -1;
@@ -68,6 +73,11 @@ public final class IntBufferOperation {
             }
         }
         return position;
+    }
+
+    public static int lastIndexOf(IntBuffer buffer , int start , int length , int... is) {
+        //TODO
+        return -1;
     }
 
     public static int[] usedArray(IntBuffer buffer) {

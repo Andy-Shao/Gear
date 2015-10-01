@@ -12,13 +12,18 @@ import java.nio.LongBuffer;
  * @author Andy.Shao
  *
  */
-public class LongBufferOperation {
+public final class LongBufferOperation {
 
     public static long[] getLongs(LongBuffer buffer , int start , int length) {
         final LongBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
         return LongBufferOperation.usedArray(tmp);
+    }
+
+    public static int indexOf(LongBuffer buffer , int start , int length , long... ls) {
+        //TODO
+        return -1;
     }
 
     public static int indexOf(LongBuffer buffer , long... ls) {
@@ -42,6 +47,11 @@ public class LongBufferOperation {
             }
         }
         return position;
+    }
+
+    public static int lastIndexOf(LongBuffer buffer , int start , int length , long... ls) {
+        //TODO
+        return -1;
     }
 
     public static int lastIndexOf(LongBuffer buffer , long... ls) {

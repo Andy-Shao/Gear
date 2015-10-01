@@ -87,6 +87,12 @@ public final class ArrayOperation {
         return -1;
     }
 
+    @SafeVarargs
+    public static <T> int indexOfAll(T[] array , int start , int end , T... target) {
+        //TODO
+        return -1;
+    }
+
     /**
      * Only server for {@link Object}[] or subclass of {@link Object}[]<br>
      * For other basic array please try to use XXBufferOperation.indexof()
@@ -103,7 +109,8 @@ public final class ArrayOperation {
      * @see FloatBufferOperation#indexOf(java.nio.FloatBuffer, float...)
      * @see DoubleBufferOperation#indexOf(java.nio.DoubleBuffer, double...)
      */
-    public static <T> int indexOfAll(T[] array , T[] target) {
+    @SafeVarargs
+    public static <T> int indexOfAll(T[] array , T... target) {
         if (array.length == 0 || target.length == 0) throw new IllegalArgumentException("array or target can't empty!");
         if (target.length > array.length) return -1;
         int index = 0;
@@ -162,6 +169,12 @@ public final class ArrayOperation {
         return -1;
     }
 
+    @SafeVarargs
+    public static <T> int lastIndexOfAll(T[] array , int start , int end , T... target) {
+        //TODO
+        return -1;
+    }
+
     /**
      * Only server for {@link Object}[] or subclass of {@link Object}[]<br>
      * For other basic array please try to use XXBufferOperation.lastIndexOf()
@@ -178,7 +191,8 @@ public final class ArrayOperation {
      * @see FloatBufferOperation#lastIndexOf(java.nio.FloatBuffer, float...)
      * @see DoubleBufferOperation#lastIndexOf(java.nio.DoubleBuffer, double...)
      */
-    public static <T> int lastIndexOffAll(T[] array , T[] target) {
+    @SafeVarargs
+    public static <T> int lastIndexOffAll(T[] array , T... target) {
         if (array.length == 0 || target.length == 0) throw new IllegalArgumentException("array or target can't empty!");
         if (target.length > array.length) return -1;
         int index = target.length;

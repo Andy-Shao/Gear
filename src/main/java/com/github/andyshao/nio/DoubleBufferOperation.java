@@ -12,7 +12,7 @@ import java.nio.DoubleBuffer;
  * @author Andy.Shao
  *
  */
-public class DoubleBufferOperation {
+public final class DoubleBufferOperation {
     public static double[] getDoubles(DoubleBuffer buffer , int start , int length) {
         final DoubleBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -43,6 +43,11 @@ public class DoubleBufferOperation {
         return position;
     }
 
+    public static int indexOf(DoubleBuffer buffer , int start , int length , double... ds) {
+        //TODO
+        return -1;
+    }
+
     public static int lastIndexOf(DoubleBuffer buffer , double... ds) {
         if (ds.length == 0) throw new IllegalArgumentException("ds is empty");
         if (ds.length > buffer.limit() - buffer.position()) return -1;
@@ -68,6 +73,11 @@ public class DoubleBufferOperation {
             }
         }
         return position;
+    }
+
+    public static int lastIndexOf(DoubleBuffer buffer , int start , int length , double... ds) {
+        //TODO
+        return -1;
     }
 
     public static double[] usedArray(DoubleBuffer buffer) {

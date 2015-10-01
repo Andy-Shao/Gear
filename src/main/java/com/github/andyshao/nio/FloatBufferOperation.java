@@ -12,7 +12,7 @@ import java.nio.FloatBuffer;
  * @author Andy.Shao
  *
  */
-public class FloatBufferOperation {
+public final class FloatBufferOperation {
     public static float[] getFloats(FloatBuffer buffer , int start , int length) {
         final FloatBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -43,6 +43,11 @@ public class FloatBufferOperation {
         return position;
     }
 
+    public static int indexOf(FloatBuffer buffer , int start , int length , float... fs) {
+        //TODO
+        return -1;
+    }
+
     public static int lastIndexOf(FloatBuffer buffer , float... fs) {
         if (fs.length == 0) throw new IllegalArgumentException("fs is empty");
         if (fs.length > buffer.limit() - buffer.position()) return -1;
@@ -68,6 +73,11 @@ public class FloatBufferOperation {
             }
         }
         return position;
+    }
+
+    public static int lastIndexOf(FloatBuffer buffer , int start , int length , float... fs) {
+        //TODO
+        return -1;
     }
 
     public static float[] usedArray(FloatBuffer buffer) {

@@ -43,6 +43,11 @@ public final class CharBufferOperation {
         return position;
     }
 
+    public static int indexOf(CharBuffer buffer , int start , int length , char... cs) {
+        //TODO
+        return -1;
+    }
+
     public static int lastIndexOf(CharBuffer buffer , char... cs) {
         if (cs.length == 0) throw new IllegalArgumentException("cs is empty");
         if (cs.length > buffer.limit() - buffer.position()) return -1;
@@ -68,6 +73,11 @@ public final class CharBufferOperation {
             }
         }
         return position;
+    }
+
+    public static int lastIndexOf(CharBuffer buffer , int start , int length , char... cs) {
+        //TODO
+        return -1;
     }
 
     public static char[] usedArray(CharBuffer buffer) {

@@ -21,6 +21,11 @@ public final class ShortBufferOperation {
         return ShortBufferOperation.usedArray(tmp);
     }
 
+    public static int indexOf(ShortBuffer buffer , int start , int length , short... ss) {
+        //TODO
+        return -1;
+    }
+
     public static int indexOf(ShortBuffer buffer , short... ss) {
         if (ss.length == 0) throw new IllegalArgumentException("ss is empty");
         if (ss.length > buffer.limit() - buffer.position()) return -1;
@@ -42,6 +47,11 @@ public final class ShortBufferOperation {
             }
         }
         return position;
+    }
+
+    public static int lastIndexOf(ShortBuffer buffer , int start , int length , short... ss) {
+        //TODO
+        return -1;
     }
 
     public static int lastIndexOf(ShortBuffer buffer , short... ss) {
