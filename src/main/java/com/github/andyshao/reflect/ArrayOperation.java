@@ -288,6 +288,7 @@ public final class ArrayOperation {
      * @param <OUT> Ouput array type
      * @return output array
      */
+    @SuppressWarnings("unchecked")
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
         return ArrayOperation.pack_unpack(in , outClazz , (Object input) -> input);
     }

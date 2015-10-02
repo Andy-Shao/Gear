@@ -3,6 +3,8 @@ package com.github.andyshao.lang;
 import java.lang.reflect.Array;
 import java.util.Iterator;
 
+import com.github.andyshao.reflect.ArrayOperation;
+
 /**
  * 
  * Title:<br>
@@ -38,6 +40,13 @@ public interface ArrayWrapper extends Iterable<Object> {
     public ArrayWrapper backup();
 
     public int capacity();
+
+    public default <ARRAY> ARRAY clip(int start , int end , Class<ARRAY> arrayType) {
+        ArrayWrapper tmp = this.duplicate();
+        tmp.position(start);
+        tmp.limit(end);
+        return tmp.usedArray(arrayType);
+    }
 
     public ArrayWrapper duplicate();
 
@@ -79,4 +88,11 @@ public interface ArrayWrapper extends Iterable<Object> {
     public void position(int position);
 
     public Object put(Object value , int index);
+
+    @SuppressWarnings("unchecked")
+    public default <ARRAY> ARRAY usedArray(Class<ARRAY> arrayType) {
+        Object usedArray = ArrayOperation.splitArray(this.array() , this.position() , this.limit());
+        if (arrayType.isInstance(usedArray)) return (ARRAY) usedArray;
+        else return ArrayOperation.pack_unpack(usedArray , arrayType);
+    }
 }
