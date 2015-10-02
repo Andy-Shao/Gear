@@ -20,7 +20,7 @@ public final class IntBufferOperation {
         return IntBufferOperation.usedArray(tmp);
     }
 
-    public static int indexOf(IntBuffer buffer , int... is) {
+    public static int indexOf(IntBuffer buffer , int[] is) {
         if (is.length == 0) throw new IllegalArgumentException("is is empty");
         if (is.length > buffer.limit() - buffer.position()) return -1;
         final IntBuffer tmpByteBuffer = buffer.asReadOnlyBuffer();
