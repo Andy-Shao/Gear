@@ -77,7 +77,7 @@ public class ArrayOperationTest {
     public void lastIndexOfAll() {
         final Byte[] bs = ArrayOperation.pack_unpack("aaannndddyyyandyy".getBytes() , Byte[].class);
         final Byte[] key = ArrayOperation.pack_unpack("andy".getBytes() , Byte[].class);
-        final int position = ArrayOperation.lastIndexOffAll(bs , key);
+        final int position = ArrayOperation.lastIndexOfAll(bs , key);
         Assert.assertArrayEquals(ArrayOperation.splitArray(bs , position , position + key.length) , key);
     }
 

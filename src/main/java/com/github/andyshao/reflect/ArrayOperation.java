@@ -7,12 +7,6 @@ import java.util.function.Function;
 
 import com.github.andyshao.lang.ArrayWrapper;
 import com.github.andyshao.lang.Convert;
-import com.github.andyshao.nio.ByteBufferOperation;
-import com.github.andyshao.nio.CharBufferOperation;
-import com.github.andyshao.nio.DoubleBufferOperation;
-import com.github.andyshao.nio.FloatBufferOperation;
-import com.github.andyshao.nio.IntBufferOperation;
-import com.github.andyshao.nio.ShortBufferOperation;
 
 /**
  * Some tools of {@link Array}<br>
@@ -104,44 +98,41 @@ public final class ArrayOperation {
         return ArrayOperation.indexOf(arrayWrapper , item);
     }
 
-    @SafeVarargs
-    public static <T> int indexOfAll(T[] array , int start , int end , T... target) {
-        //TODO
-        return -1;
+    public static <T> int indexOfAll(T array , int start , int end , T target) {
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        arrayWrapper.position(start);
+        arrayWrapper.limit(end);
+        return ArrayOperation.indexOfAllWrapper(arrayWrapper , ArrayWrapper.wrap(target));
     }
 
     /**
-     * Only server for {@link Object}[] or subclass of {@link Object}[]<br>
-     * For other basic array please try to use XXBufferOperation.indexof()
-     * method.
+     * find out the first time of the target.
      * 
      * @param array the array which should be searched.
      * @param target the target which should be found out from array
      * @param <T> the type of the class
      * @return if can't find out anything from array , return -1
-     * @see IntBufferOperation#indexOf(java.nio.IntBuffer, int...)
-     * @see CharBufferOperation#indexOf(java.nio.CharBuffer, char...)
-     * @see ShortBufferOperation#indexOf(java.nio.ShortBuffer, short...)
-     * @see ByteBufferOperation#indexOf(java.nio.ByteBuffer, byte...)
-     * @see FloatBufferOperation#indexOf(java.nio.FloatBuffer, float...)
-     * @see DoubleBufferOperation#indexOf(java.nio.DoubleBuffer, double...)
      */
-    @SafeVarargs
-    public static <T> int indexOfAll(T[] array , T... target) {
-        if (array.length == 0 || target.length == 0) throw new IllegalArgumentException("array or target can't empty!");
-        if (target.length > array.length) return -1;
-        int index = 0;
+    public static <T> int indexOfAll(T array , T target) {
+        return ArrayOperation.indexOfAllWrapper(ArrayWrapper.wrap(array) , ArrayWrapper.wrap(target));
+    }
+
+    public static int indexOfAllWrapper(ArrayWrapper array , ArrayWrapper target) {
+        if (array.length() == 0 || target.length() == 0) throw new IllegalArgumentException(
+            "array or target can't empty!");
+        if (target.length() > array.length()) return -1;
+        int index = target.position();
         int position = -1;
-        LOOP: for (int i = 0 ; i < array.length ; i++)
-            if (Objects.equals(array[i] , target[index++])) {
+        LOOP: for (int i = array.position() ; i < array.length() ; i++)
+            if (Objects.equals(array.get(i) , target.get(index++))) {
                 if (index == 1) position = i;
-                if (index == target.length) break LOOP;
-            } else if (Objects.equals(array[i] , target[0])) {
-                index = 1;
+                if (index == target.length()) break LOOP;
+            } else if (Objects.equals(array.get(i) , target.get(target.position()))) {
+                index = target.position() + 1;
                 position = i;
-                if (index == target.length) break LOOP;
+                if (index == target.length()) break LOOP;
             } else {
-                index = 0;
+                index = target.position();
                 position = -1;
             }
         return position;
@@ -198,49 +189,46 @@ public final class ArrayOperation {
         return ArrayOperation.lastIndexOf(arrayWrapper , item);
     }
 
-    @SafeVarargs
-    public static <T> int lastIndexOfAll(T[] array , int start , int end , T... target) {
-        //TODO
-        return -1;
+    public static <T> int lastIndexOfAll(T array , int start , int end , T target) {
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        arrayWrapper.position(start);
+        arrayWrapper.limit(end);
+        return ArrayOperation.lastIndexOfAllWrapper(arrayWrapper , ArrayWrapper.wrap(target));
     }
 
     /**
-     * Only server for {@link Object}[] or subclass of {@link Object}[]<br>
-     * For other basic array please try to use XXBufferOperation.lastIndexOf()
-     * method.
+     * find out the last one the target.
      * 
      * @param array the array which should be searched.
      * @param target the target which should be found out from array
      * @param <T> the type of the class
      * @return if can't find out anything from array, return -1
-     * @see IntBufferOperation#lastIndexOf(java.nio.IntBuffer, int...)
-     * @see CharBufferOperation#lastIndexOf(java.nio.CharBuffer, char...)
-     * @see ShortBufferOperation#lastIndexOf(java.nio.ShortBuffer, short...)
-     * @see ByteBufferOperation#lastIndexOf(java.nio.ByteBuffer, byte...)
-     * @see FloatBufferOperation#lastIndexOf(java.nio.FloatBuffer, float...)
-     * @see DoubleBufferOperation#lastIndexOf(java.nio.DoubleBuffer, double...)
      */
-    @SafeVarargs
-    public static <T> int lastIndexOffAll(T[] array , T... target) {
-        if (array.length == 0 || target.length == 0) throw new IllegalArgumentException("array or target can't empty!");
-        if (target.length > array.length) return -1;
-        int index = target.length;
+    public static <T> int lastIndexOfAll(T array , T target) {
+        return ArrayOperation.lastIndexOfAllWrapper(ArrayWrapper.wrap(array) , ArrayWrapper.wrap(target));
+    }
+
+    public static <T> int lastIndexOfAllWrapper(ArrayWrapper array , ArrayWrapper target) {
+        if (array.length() == 0 || target.length() == 0) throw new IllegalArgumentException(
+            "array or target can't empty!");
+        if (target.length() > array.length()) return -1;
+        int index = target.limit();
         int position = -1;
-        LOOP: for (int i = array.length - 1 ; i >= 0 ; i--) {
-            final T value = array[i];
-            if (Objects.equals(value , target[--index])) {
-                if (index == 0) {
+        LOOP: for (int i = array.limit() - 1 ; i >= array.position() ; i--) {
+            final Object value = array.get(i);
+            if (Objects.equals(value , target.get(--index))) {
+                if (index == array.position()) {
                     position = i;
                     break LOOP;
                 }
-            } else if (Objects.equals(value , target[target.length - 1])) {
-                index = target.length - 1;
-                if (index == 0) {
+            } else if (Objects.equals(value , target.get(target.limit() - 1))) {
+                index = target.limit() - 1;
+                if (index == array.position()) {
                     position = i;
                     break LOOP;
                 }
             } else {
-                index = array.length;
+                index = array.limit();
                 position = -1;
             }
         }
@@ -288,7 +276,6 @@ public final class ArrayOperation {
      * @param <OUT> Ouput array type
      * @return output array
      */
-    @SuppressWarnings("unchecked")
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
         return ArrayOperation.pack_unpack(in , outClazz , (Object input) -> input);
     }
