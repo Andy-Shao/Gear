@@ -49,13 +49,13 @@ public final class ArrayOperation {
      */
     @SuppressWarnings("unchecked")
     public static <T> T flipArray(T array) {
-        int length = Array.getLength(array);
-        if (length == 0) return array;
-
-        T temp = (T) Array.newInstance(array.getClass().getComponentType() , length);
-        for (int i = length - 1 , b = 0 ; i >= 0 ; i-- , b++)
-            Array.set(temp , b , Array.get(array , i));
-        return temp;
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        int length = arrayWrapper.length();
+        if(length == 0) return array;
+        ArrayWrapper temp = ArrayWrapper.newInstance(array.getClass() , length);
+        for(int i = length - 1, b = temp.position(); i>= arrayWrapper.position(); i--, b++)
+            temp.put(arrayWrapper.get(i) , b);
+        return (T) temp.array();
     }
 
     /**
