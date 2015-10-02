@@ -1,5 +1,6 @@
 package com.github.andyshao.lang;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -67,6 +68,12 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
 
     @Override
     public String toString() {
-        return this.array().toString();
+        StringBuilder result = new StringBuilder();
+        result.append("[");
+        for(Object obj : this)
+            result.append(obj.toString()).append(", ");
+        result.deleteCharAt(result.length() -1 );
+        result.append("]");
+        return result.toString();
     }
 }
