@@ -14,7 +14,7 @@ package com.github.andyshao.reflect;
 public class ObjectArrayWrapper<T> extends ArrayWrapperModel implements ArrayWrapper {
     private final T[] array;
 
-    public ObjectArrayWrapper(T[] array , int position , int limit , int mark) {
+    public ObjectArrayWrapper(T[] array) {
         this.array = array;
         this.position = 0;
         this.limit = this.array.length;
