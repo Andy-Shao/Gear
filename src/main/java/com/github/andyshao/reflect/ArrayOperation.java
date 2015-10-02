@@ -72,8 +72,8 @@ public final class ArrayOperation {
         return (T) Array.get(array , index);
     }
 
-    public static <T> int indexOf(ArrayWrapper<T> array , Object item) {
-        for (int i = 0 ; i < array.capacity() ; i++)
+    public static int indexOf(ArrayWrapper array , Object item) {
+        for (int i = array.position() ; i < array.limit() ; i++)
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
@@ -163,8 +163,8 @@ public final class ArrayOperation {
         return ArrayOperation.isAbove(array , index) ? false : Array.get(array , index) == null;
     }
 
-    public static <T> int lastIndexOf(ArrayWrapper<T> array , Object item) {
-        for (int i = array.capacity() - 1 ; i >= 0 ; i--)
+    public static int lastIndexOf(ArrayWrapper array , Object item) {
+        for (int i = array.limit() - 1 ; i >= array.position() ; i--)
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
@@ -259,15 +259,8 @@ public final class ArrayOperation {
         return result;
     }
 
-    protected static final <IN , OUT> void pack_unpack(
-        ArrayWrapper<IN> in , ArrayWrapper<OUT> out , Function<Object , Object> fun) {
-        if (out.capacity() < in.capacity()) throw new IllegalArgumentException("out is too small");
-        for (int i = 0 ; i < in.capacity() ; i++)
-            out.put(fun.apply(in.get(i)) , i);
-    }
-
-    protected static final <IN , OUT> void pack_unpack(ArrayWrapper<IN> in , OUT[] out , Function<Object , Object> fun) {
-        //TODO
+    public static final void pack_unpack(ArrayWrapper in , ArrayWrapper out , Function<Object , Object> function) {
+        if(out.length() < in.length()) throw new IllegalArgumentException("out is too small");
     }
 
     /**
@@ -310,10 +303,6 @@ public final class ArrayOperation {
             Array.set(result , i , function.apply(Array.get(in , i)));
 
         return result;
-    }
-
-    protected static final <IN , OUT> void pack_unpack(IN[] in , ArrayWrapper<OUT> out , Function<Object , Object> fun) {
-        //TODO
     }
 
     /**
