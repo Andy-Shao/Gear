@@ -20,6 +20,13 @@ public final class IntBufferOperation {
         return IntBufferOperation.usedArray(tmp);
     }
 
+    public static int indexOf(IntBuffer buffer , int start , int length , int... is) {
+        IntBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return IntBufferOperation.indexOf(tmp , is);
+    }
+
     public static int indexOf(IntBuffer buffer , int[] is) {
         if (is.length == 0) throw new IllegalArgumentException("is is empty");
         if (is.length > buffer.limit() - buffer.position()) return -1;
@@ -41,13 +48,6 @@ public final class IntBufferOperation {
             }
         }
         return position;
-    }
-
-    public static int indexOf(IntBuffer buffer , int start , int length , int... is) {
-        IntBuffer tmp = buffer.asReadOnlyBuffer();
-        tmp.position(start);
-        tmp.limit(start + length);
-        return indexOf(tmp , is);
     }
 
     public static int lastIndexOf(IntBuffer buffer , int... is) {
@@ -81,7 +81,7 @@ public final class IntBufferOperation {
         IntBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return lastIndexOf(tmp , is);
+        return IntBufferOperation.lastIndexOf(tmp , is);
     }
 
     public static int[] usedArray(IntBuffer buffer) {

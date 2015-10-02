@@ -8,9 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class CycleLinkedTest {
-    private final String[] data = new String[] {
-        "Andy" , "Shao"
-    };
+    private final String[] data = new String[] { "Andy" , "Shao" };
     private volatile CycleLinked<String> linked;
 
     @Before

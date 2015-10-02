@@ -13,6 +13,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    private static final long serialVersionUID = 7582951027306249651L;
     private final double[] array;
 
     public DoubleArrayWrapper(double[] array) {

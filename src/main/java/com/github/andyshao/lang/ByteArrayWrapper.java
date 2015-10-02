@@ -13,6 +13,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    private static final long serialVersionUID = 1819607580863945576L;
     private final byte[] array;
 
     public ByteArrayWrapper(byte[] array) {

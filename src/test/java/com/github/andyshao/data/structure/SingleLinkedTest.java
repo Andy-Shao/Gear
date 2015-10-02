@@ -7,9 +7,7 @@ import org.junit.Test;
 
 public class SingleLinkedTest {
 
-    private final String[] data = new String[] {
-        "Andy" , "Shao" , "andy" , "shao"
-    };
+    private final String[] data = new String[] { "Andy" , "Shao" , "andy" , "shao" };
     private SingleLinked<String> linked;
 
     @Before

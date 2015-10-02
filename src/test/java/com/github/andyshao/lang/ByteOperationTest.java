@@ -17,16 +17,14 @@ public class ByteOperationTest {
     @Before
     public void before() {
         this.b = (byte) 0xa5;
-        this.bs = ArrayOperation.pack_unpack(new int[] {
-            0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff , 0xa5
-        } , byte[].class , (input) -> (byte) ((int) input));
+        this.bs =
+            ArrayOperation.pack_unpack(new int[] { 0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff ,
+                0xa5 } , byte[].class , (input) -> (byte) ((int) input));
     }
 
     @Test
     public void testBitCopy() {
-        byte[] bs = new byte[] {
-            (byte) 0B11111111 , (byte) 0B11111111 , (byte) 0B11111111 , (byte) 0B11111111
-        };
+        byte[] bs = new byte[] { (byte) 0B11111111 , (byte) 0B11111111 , (byte) 0B11111111 , (byte) 0B11111111 };
         ByteOperation.bitCopy(this.bs , 0 , bs , 6 , 7);
         Assert.assertThat(bs[0] , Matchers.is((byte) 0B00111111));
         Assert.assertThat(bs[1] , Matchers.is((byte) 0B11100001));
@@ -43,12 +41,8 @@ public class ByteOperationTest {
     @Test
     public void testBitOxr() {
         byte[] bs;
-        byte[] bs1 = new byte[] {
-            0x00 , (byte) 0xa5 , (byte) 0xf0
-        };
-        byte[] bs2 = new byte[] {
-            (byte) 0xff , (byte) 0xaa , 0x00
-        };
+        byte[] bs1 = new byte[] { 0x00 , (byte) 0xa5 , (byte) 0xf0 };
+        byte[] bs2 = new byte[] { (byte) 0xff , (byte) 0xaa , 0x00 };
 
         int size = 0;
         BigInteger size2 = BigInteger.ZERO;
@@ -300,9 +294,7 @@ public class ByteOperationTest {
 
     @Test
     public void testBitRotLeft() {
-        byte[] bs = new byte[] {
-            (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00010000
-        };
+        byte[] bs = new byte[] { (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00010000 };
         int count = 1;
 
         ByteOperation.bitRotLeft(0 , bs);
@@ -416,9 +408,7 @@ public class ByteOperationTest {
 
     @Test
     public void testBitRotRight() {
-        byte[] bs = new byte[] {
-            (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00010000
-        };
+        byte[] bs = new byte[] { (byte) 0B11111111 , (byte) 0B11110000 , 0B00001111 , 0B00010000 };
         int count = 1;
 
         ByteOperation.bitRotRight(0 , bs);

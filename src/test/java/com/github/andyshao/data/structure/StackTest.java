@@ -16,20 +16,13 @@ public class StackTest {
     @Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
-            {
-                Stack.<String , CycleLinkedElmt<String>> defaultStack(SingleLinked
-                    .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
-            } ,
-            {
-                Stack.<String , CycleLinkedElmt<String>> defaultStack(CycleLinked
-                    .defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data)))
-            }
-        });
+            { Stack.<String , CycleLinkedElmt<String>> defaultStack(SingleLinked
+                .defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data))) } ,
+            { Stack.<String , CycleLinkedElmt<String>> defaultStack(CycleLinked
+                .defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data))) } });
     }
 
-    private final String[] data = {
-        "Andy" , "Shao"
-    };
+    private final String[] data = { "Andy" , "Shao" };
 
     private volatile Stack<String> stack;
 

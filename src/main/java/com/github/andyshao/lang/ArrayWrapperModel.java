@@ -13,6 +13,7 @@ import java.util.Objects;
  *
  */
 public abstract class ArrayWrapperModel implements ArrayWrapper {
+    private static final long serialVersionUID = 3637722120786952465L;
     protected int limit;
     protected int mark;
     protected int position;
@@ -23,11 +24,6 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
             ArrayWrapperModel that = (ArrayWrapperModel) obj;
             return Objects.equals(this.array() , that.array());
         } else return false;
-    }
-
-    @Override
-    public int getMark() {
-        return this.mark;
     }
 
     @Override
@@ -45,7 +41,7 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
 
     @Override
     public void limit(int limit) {
-        if (limit < this.position() || limit < 0) throw new IllegalArgumentException();
+        if (limit < this.position() || limit < 0) throw new ArrayIndexOutOfBoundsException();
         this.limit = limit;
     }
 
@@ -55,14 +51,29 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
     }
 
     @Override
+    public void markLimit() {
+        this.mark = this.limit();
+    }
+
+    @Override
     public int position() {
         return this.position;
     }
 
     @Override
     public void position(int position) {
-        if (position < 0 || position > this.limit()) throw new IllegalArgumentException();
+        if (position < 0 || position > this.limit()) throw new ArrayIndexOutOfBoundsException();
         this.position = position;
+    }
+
+    @Override
+    public void reset() {
+        this.position(this.mark);
+    }
+
+    @Override
+    public void resetLimit() {
+        this.limit(this.mark);
     }
 
     @Override

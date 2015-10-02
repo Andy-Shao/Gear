@@ -16,8 +16,7 @@ public class BuffereReaderTest {
         try (FileReader fileReader = new FileReader(ByteBufferReaderTest.getBigFilePath().toFile());
             BufferedReader reader = new BufferedReader(fileReader);) {
             time = System.currentTimeMillis();
-            while (reader.readLine() != null)
-                ;
+            while (reader.readLine() != null);
             time = System.currentTimeMillis() - time;
         }
         System.out.println("BuffereReader read line use " + time + " millis secondes");

@@ -75,9 +75,7 @@ public class GraphAlgTest {
 
         List<MstVertex<String>> list = new ArrayList<>();
         GraphAlg.mst(graph , a , list , comparator);
-        Assert.assertThat(list.toArray() , Matchers.is(new Object[] {
-            a , c , b , d , f , e
-        }));
+        Assert.assertThat(list.toArray() , Matchers.is(new Object[] { a , c , b , d , f , e }));
     }
 
     @Test
@@ -113,18 +111,12 @@ public class GraphAlgTest {
 
         List<PathVertex<String>> list = new ArrayList<>();
         GraphAlg.findShortest(graph , a , list , comparator);
-        Assert.assertThat(list.toArray() , Matchers.is(new Object[] {
-            a , c , f , b , e , d
-        }));
+        Assert.assertThat(list.toArray() , Matchers.is(new Object[] { a , c , f , b , e , d }));
 
         Map<PathVertex<String> , Collection<PathVertex<String>>> answer = new HashMap<>();
         GraphAlg.shortest(graph , a , Arrays.asList(e , d) , answer , comparator);
-        Assert.assertThat(answer.get(d).toArray() , Matchers.is(new Object[] {
-            a , c , f , b , d
-        }));
-        Assert.assertThat(answer.get(e).toArray() , Matchers.is(new Object[] {
-            a , c , e
-        }));
+        Assert.assertThat(answer.get(d).toArray() , Matchers.is(new Object[] { a , c , f , b , d }));
+        Assert.assertThat(answer.get(e).toArray() , Matchers.is(new Object[] { a , c , e }));
     }
 
     @Test
@@ -142,8 +134,6 @@ public class GraphAlgTest {
 
         final List<TspVertex<String>> result = new ArrayList<>();
         GraphAlg.tsp(list , a , result , comparator);
-        Assert.assertThat(result.toArray() , Matchers.is(new Object[] {
-            a , c , f , d , b , e , g , a
-        }));
+        Assert.assertThat(result.toArray() , Matchers.is(new Object[] { a , c , f , d , b , e , g , a }));
     }
 }

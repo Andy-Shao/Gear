@@ -1,5 +1,6 @@
 package com.github.andyshao.lang;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Iterator;
 
@@ -14,7 +15,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  * 
  * @author Andy.Shao
  */
-public interface ArrayWrapper extends Iterable<Object> {
+public interface ArrayWrapper extends Iterable<Object> , Serializable {
     public static <ARRAY> ArrayWrapper newInstance(Class<ARRAY> arrayType , int length) {
         if (!arrayType.isArray()) throw new IllegalArgumentException();
         @SuppressWarnings("unchecked")
@@ -52,8 +53,6 @@ public interface ArrayWrapper extends Iterable<Object> {
 
     public Object get(int index);
 
-    public int getMark();
-
     @Override
     public default Iterator<Object> iterator() {
         return new Iterator<Object>() {
@@ -79,15 +78,21 @@ public interface ArrayWrapper extends Iterable<Object> {
 
     public int limit();
 
-    public void limit(int limit);
+    public void limit(int limit) throws ArrayIndexOutOfBoundsException;
 
     public void mark();
 
+    public void markLimit();
+
     public int position();
 
-    public void position(int position);
+    public void position(int position) throws ArrayIndexOutOfBoundsException;
 
-    public Object put(Object value , int index);
+    public Object put(Object value , int index) throws ArrayIndexOutOfBoundsException;
+
+    public void reset();
+
+    public void resetLimit();
 
     @SuppressWarnings("unchecked")
     public default <ARRAY> ARRAY usedArray(Class<ARRAY> arrayType) {

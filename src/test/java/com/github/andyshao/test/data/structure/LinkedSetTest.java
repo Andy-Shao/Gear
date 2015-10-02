@@ -10,9 +10,7 @@ import com.github.andyshao.data.structure.SingleLinked;
 
 @Deprecated
 public class LinkedSetTest {
-    private final String[] data = new String[] {
-        "Andy" , "shao"
-    };
+    private final String[] data = new String[] { "Andy" , "shao" };
     private volatile LinkedSet<String> set;
 
     @Before

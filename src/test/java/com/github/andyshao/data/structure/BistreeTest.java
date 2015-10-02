@@ -10,9 +10,7 @@ import com.github.andyshao.data.structure.Bistree.AvlNode;
 public class BistreeTest {
 
     private volatile Bistree<Integer> bistree;
-    private final Integer[] data = new Integer[] {
-        4 , 5 , 9 , 0 , 1 , 6 , 7 , 8 , 2 , 3
-    };
+    private final Integer[] data = new Integer[] { 4 , 5 , 9 , 0 , 1 , 6 , 7 , 8 , 2 , 3 };
 
     @Before
     public void before() {

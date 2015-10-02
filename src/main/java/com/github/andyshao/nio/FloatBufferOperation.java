@@ -47,7 +47,7 @@ public final class FloatBufferOperation {
         FloatBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return indexOf(tmp , fs);
+        return FloatBufferOperation.indexOf(tmp , fs);
     }
 
     public static int lastIndexOf(FloatBuffer buffer , float... fs) {
@@ -81,7 +81,7 @@ public final class FloatBufferOperation {
         FloatBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return lastIndexOf(tmp , fs);
+        return FloatBufferOperation.lastIndexOf(tmp , fs);
     }
 
     public static float[] usedArray(FloatBuffer buffer) {

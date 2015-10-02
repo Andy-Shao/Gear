@@ -14,6 +14,10 @@ import com.github.andyshao.reflect.ArrayOperation;
  * @param <T> the element of array's type
  */
 public class ObjectArrayWrapper<T> extends ArrayWrapperModel implements ArrayWrapper {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5377791899938965809L;
     private final T[] array;
 
     public ObjectArrayWrapper(T[] array) {

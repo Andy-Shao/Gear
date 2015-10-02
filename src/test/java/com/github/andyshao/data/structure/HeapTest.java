@@ -9,9 +9,7 @@ import org.junit.Test;
 
 public class HeapTest {
 
-    private final Double[] data = new Double[] {
-        1.23 , 3.21 , 4.56 , 0.37 , 1.11 , 4.23
-    };
+    private final Double[] data = new Double[] { 1.23 , 3.21 , 4.56 , 0.37 , 1.11 , 4.23 };
     private volatile Heap<Double> heap;
 
     @Before

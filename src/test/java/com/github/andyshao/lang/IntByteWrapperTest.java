@@ -14,9 +14,7 @@ public class IntByteWrapperTest {
 
     @Before
     public void before() {
-        this.data = new int[] {
-            0x01020304 , 0x04030201 , 0x10203040 , 0x40302010
-        };
+        this.data = new int[] { 0x01020304 , 0x04030201 , 0x10203040 , 0x40302010 };
     }
 
     @Test

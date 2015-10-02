@@ -13,6 +13,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public class FloatArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    private static final long serialVersionUID = -3301939189721674721L;
     private final float[] array;
 
     public FloatArrayWrapper(float[] array) {

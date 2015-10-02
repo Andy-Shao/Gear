@@ -11,9 +11,7 @@ import com.github.andyshao.data.structure.DoubleLinked.DoubleLinkedElmt;
 
 public class DoubleLinkedTest {
 
-    private String[] data = new String[] {
-        "Andy" , "Shao"
-    };
+    private String[] data = new String[] { "Andy" , "Shao" };
     private DoubleLinked<String> doubleLinked;
 
     @Before

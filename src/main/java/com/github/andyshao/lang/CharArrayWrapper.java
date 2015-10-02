@@ -13,6 +13,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public class CharArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    private static final long serialVersionUID = 2019041095527286099L;
     private final char[] array;
 
     public CharArrayWrapper(char[] array) {

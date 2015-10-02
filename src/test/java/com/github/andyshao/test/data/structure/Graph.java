@@ -252,9 +252,7 @@ public interface Graph<D> extends Cleanable {
             this.ecount--;
         }
 
-        @SuppressWarnings({
-            "unchecked" , "unused"
-        })
+        @SuppressWarnings({ "unchecked" , "unused" })
         @Override
         public DATA graph_rem_vertex(final DATA data) {
             CycleLinkedElmt<AdjList<DATA>> element , prev;

@@ -42,8 +42,6 @@ public class StringOperationTest {
 
     @Test
     public void testsplit() {
-        Assert.assertArrayEquals(StringOperation.split(this.str , "231") , new String[] {
-            "178" , "785178"
-        });
+        Assert.assertArrayEquals(StringOperation.split(this.str , "231") , new String[] { "178" , "785178" });
     }
 }

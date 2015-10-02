@@ -25,7 +25,7 @@ public final class LongBufferOperation {
         LongBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return indexOf(tmp , ls);
+        return LongBufferOperation.indexOf(tmp , ls);
     }
 
     public static int indexOf(LongBuffer buffer , long... ls) {
@@ -55,7 +55,7 @@ public final class LongBufferOperation {
         LongBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(start + length);
-        return lastIndexOf(tmp , ls);
+        return LongBufferOperation.lastIndexOf(tmp , ls);
     }
 
     public static int lastIndexOf(LongBuffer buffer , long... ls) {

@@ -112,17 +112,13 @@ public final class IntegerOperation {
     }
 
     public static final byte[] toByte(int i) {
-        return new byte[] {
-            IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) ,
-            IntegerOperation.getByte(i , 3)
-        };
+        return new byte[] { IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) ,
+            IntegerOperation.getByte(i , 2) , IntegerOperation.getByte(i , 3) };
     }
 
     public static final String toHexString(int i) {
-        return Convert.BYTES_TO_HEX.convert(new byte[] {
-            IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) ,
-            IntegerOperation.getByte(i , 3)
-        });
+        return Convert.BYTES_TO_HEX.convert(new byte[] { IntegerOperation.getByte(i , 0) ,
+            IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) , IntegerOperation.getByte(i , 3) });
     }
 
     public static final String toHexString(int... is) {
