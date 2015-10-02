@@ -261,6 +261,8 @@ public final class ArrayOperation {
 
     public static final void pack_unpack(ArrayWrapper in , ArrayWrapper out , Function<Object , Object> function) {
         if (out.length() < in.length()) throw new IllegalArgumentException("out is too small");
+        for(int i = in.position(); i < in.length(); i++)
+            out.put(function.apply(in.get(i)) , i);
     }
 
     /**
