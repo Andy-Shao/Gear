@@ -2,6 +2,8 @@ package com.github.andyshao.reflect;
 
 import org.junit.Test;
 
+import com.github.andyshao.lang.ArrayWrapper;
+
 public class ArrayWrapperTest {
 
     @Test

@@ -1,4 +1,5 @@
-package com.github.andyshao.reflect;
+package com.github.andyshao.lang;
+
 
 /**
  * 
@@ -10,18 +11,18 @@ package com.github.andyshao.reflect;
  * @author Andy.Shao
  *
  */
-public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
-    private final byte[] array;
+public class CharArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    private final char[] array;
 
-    public ByteArrayWrapper(byte[] array) {
+    public CharArrayWrapper(char[] array) {
         this.array = array;
         this.limit = this.array.length;
-        this.position = 0;
         this.mark = 0;
+        this.position = 0;
     }
 
     @Override
-    public byte[] array() {
+    public char[] array() {
         return this.array;
     }
 
@@ -31,14 +32,14 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
     }
 
     @Override
-    public Byte get(int index) {
+    public Character get(int index) {
         return this.array()[index];
     }
 
     @Override
-    public Byte put(Object value , int index) {
-        Byte result = this.get(index);
-        this.array()[index] = (Byte) value;
+    public Character put(Object value , int index) {
+        Character result = this.get(index);
+        this.array()[index] = Convert.OB_2_CHAR.convert(value);
         return result;
     }
 

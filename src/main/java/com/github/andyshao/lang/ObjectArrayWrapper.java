@@ -1,4 +1,4 @@
-package com.github.andyshao.reflect;
+package com.github.andyshao.lang;
 
 /**
  * 

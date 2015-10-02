@@ -1,6 +1,5 @@
-package com.github.andyshao.reflect;
+package com.github.andyshao.lang;
 
-import com.github.andyshao.lang.Convert;
 
 
 /**

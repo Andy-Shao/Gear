@@ -1,4 +1,6 @@
-package com.github.andyshao.reflect;
+package com.github.andyshao.lang;
+
+import java.util.Objects;
 
 /**
  * 
@@ -16,8 +18,24 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
     protected int position;
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ArrayWrapperModel) {
+            ArrayWrapperModel that = (ArrayWrapperModel) obj;
+            return Objects.equals(this.array() , that.array());
+        } else return false;
+    }
+
+    @Override
     public int getMark() {
         return this.mark;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 0;
+        for (Object element : this)
+            result = 31 * result + (element == null ? 0 : element.hashCode());
+        return result;
     }
 
     @Override
@@ -45,5 +63,10 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
     public void position(int position) {
         if (position < 0 || position > this.limit()) throw new IllegalArgumentException();
         this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return this.array().toString();
     }
 }
