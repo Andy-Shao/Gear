@@ -1,5 +1,6 @@
 package com.github.andyshao.reflect;
 
+import com.github.andyshao.lang.Convert;
 
 /**
  * 
@@ -11,11 +12,14 @@ package com.github.andyshao.reflect;
  * @author Andy.Shao
  *
  */
-public class DoubleArrayWrapper implements ArrayWrapper {
+public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
     private final double[] array;
 
     public DoubleArrayWrapper(double[] array) {
         this.array = array;
+        this.position = 0;
+        this.mark = 0;
+        this.limit = this.array.length;
     }
 
     @Override
@@ -25,56 +29,19 @@ public class DoubleArrayWrapper implements ArrayWrapper {
 
     @Override
     public int capacity() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.array().length;
     }
 
     @Override
     public Double get(int index) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int getMark() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int limit() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void limit(int limit) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mark() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public int position() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void position(int position) {
-        // TODO Auto-generated method stub
-
+        return this.array()[index];
     }
 
     @Override
     public Double put(Object value , int index) {
-        // TODO Auto-generated method stub
-        return null;
+        Double result = this.get(index);
+        this.array()[index] = Convert.OB_2_DOUBLE.convert(value);
+        return result;
     }
 
 }

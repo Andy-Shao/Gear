@@ -1,5 +1,6 @@
 package com.github.andyshao.reflect;
 
+import com.github.andyshao.lang.Convert;
 
 /**
  * 
@@ -11,11 +12,14 @@ package com.github.andyshao.reflect;
  * @author Andy.Shao
  *
  */
-public class CharArrayWrapper implements ArrayWrapper {
+public class CharArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
     private final char[] array;
 
     public CharArrayWrapper(char[] array) {
         this.array = array;
+        this.limit = this.array.length;
+        this.mark = 0;
+        this.position = 0;
     }
 
     @Override
@@ -25,56 +29,19 @@ public class CharArrayWrapper implements ArrayWrapper {
 
     @Override
     public int capacity() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.array().length;
     }
 
     @Override
     public Character get(int index) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int getMark() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int limit() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void limit(int limit) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mark() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public int position() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void position(int position) {
-        // TODO Auto-generated method stub
-
+        return this.array()[index];
     }
 
     @Override
     public Character put(Object value , int index) {
-        // TODO Auto-generated method stub
-        return null;
+        Character result = this.get(index);
+        this.array()[index] = Convert.OB_2_CHAR.convert(value);
+        return result;
     }
 
 }

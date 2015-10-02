@@ -260,7 +260,7 @@ public final class ArrayOperation {
     }
 
     public static final void pack_unpack(ArrayWrapper in , ArrayWrapper out , Function<Object , Object> function) {
-        if(out.length() < in.length()) throw new IllegalArgumentException("out is too small");
+        if (out.length() < in.length()) throw new IllegalArgumentException("out is too small");
     }
 
     /**

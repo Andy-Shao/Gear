@@ -15,6 +15,9 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
 
     public ByteArrayWrapper(byte[] array) {
         this.array = array;
+        this.limit = this.array.length;
+        this.position = 0;
+        this.mark = 0;
     }
 
     @Override
@@ -24,20 +27,19 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
 
     @Override
     public int capacity() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.array().length;
     }
 
     @Override
     public Byte get(int index) {
-        // TODO Auto-generated method stub
-        return null;
+        return this.array()[index];
     }
 
     @Override
     public Byte put(Object value , int index) {
-        // TODO Auto-generated method stub
-        return null;
+        Byte result = this.get(index);
+        this.array()[index] = (Byte) value;
+        return result;
     }
 
 }
