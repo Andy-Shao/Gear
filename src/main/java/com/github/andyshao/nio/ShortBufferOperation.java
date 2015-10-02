@@ -22,8 +22,10 @@ public final class ShortBufferOperation {
     }
 
     public static int indexOf(ShortBuffer buffer , int start , int length , short... ss) {
-        //TODO
-        return -1;
+        ShortBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return indexOf(tmp , ss);
     }
 
     public static int indexOf(ShortBuffer buffer , short... ss) {
@@ -50,8 +52,10 @@ public final class ShortBufferOperation {
     }
 
     public static int lastIndexOf(ShortBuffer buffer , int start , int length , short... ss) {
-        //TODO
-        return -1;
+        ShortBuffer tmp = buffer.asReadOnlyBuffer();
+        buffer.position(start);
+        buffer.limit(start + length);
+        return lastIndexOf(tmp , ss);
     }
 
     public static int lastIndexOf(ShortBuffer buffer , short... ss) {

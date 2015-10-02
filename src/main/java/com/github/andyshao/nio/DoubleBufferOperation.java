@@ -44,8 +44,10 @@ public final class DoubleBufferOperation {
     }
 
     public static int indexOf(DoubleBuffer buffer , int start , int length , double... ds) {
-        //TODO
-        return -1;
+        DoubleBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return indexOf(tmp , ds);
     }
 
     public static int lastIndexOf(DoubleBuffer buffer , double... ds) {
@@ -76,8 +78,10 @@ public final class DoubleBufferOperation {
     }
 
     public static int lastIndexOf(DoubleBuffer buffer , int start , int length , double... ds) {
-        //TODO
-        return -1;
+        DoubleBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return lastIndexOf(tmp , ds);
     }
 
     public static double[] usedArray(DoubleBuffer buffer) {

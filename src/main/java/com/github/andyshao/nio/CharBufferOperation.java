@@ -44,8 +44,10 @@ public final class CharBufferOperation {
     }
 
     public static int indexOf(CharBuffer buffer , int start , int length , char... cs) {
-        //TODO
-        return -1;
+        CharBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return indexOf(tmp , cs);
     }
 
     public static int lastIndexOf(CharBuffer buffer , char... cs) {
@@ -76,8 +78,10 @@ public final class CharBufferOperation {
     }
 
     public static int lastIndexOf(CharBuffer buffer , int start , int length , char... cs) {
-        //TODO
-        return -1;
+        CharBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return lastIndexOf(tmp , cs);
     }
 
     public static char[] usedArray(CharBuffer buffer) {

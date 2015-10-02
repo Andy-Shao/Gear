@@ -44,8 +44,10 @@ public final class IntBufferOperation {
     }
 
     public static int indexOf(IntBuffer buffer , int start , int length , int... is) {
-        //TODO
-        return -1;
+        IntBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return indexOf(tmp , is);
     }
 
     public static int lastIndexOf(IntBuffer buffer , int... is) {
@@ -76,8 +78,10 @@ public final class IntBufferOperation {
     }
 
     public static int lastIndexOf(IntBuffer buffer , int start , int length , int... is) {
-        //TODO
-        return -1;
+        IntBuffer tmp = buffer.asReadOnlyBuffer();
+        tmp.position(start);
+        tmp.limit(start + length);
+        return lastIndexOf(tmp , is);
     }
 
     public static int[] usedArray(IntBuffer buffer) {
