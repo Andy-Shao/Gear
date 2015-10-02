@@ -12,7 +12,7 @@ import java.util.Iterator;
  * @author Andy.Shao
  *
  */
-public class ShortArrayWrapper implements ArrayWrapper<short[]> {
+public class ShortArrayWrapper implements ArrayWrapper {
     private final short[] array;
 
     public ShortArrayWrapper(short[] array) {
@@ -37,9 +37,21 @@ public class ShortArrayWrapper implements ArrayWrapper<short[]> {
     }
 
     @Override
+    public int getMark() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
     public Iterator<Object> iterator() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public int length() {
+        // TODO Auto-generated method stub
+        return 0;
     }
 
     @Override
@@ -55,13 +67,7 @@ public class ShortArrayWrapper implements ArrayWrapper<short[]> {
     }
 
     @Override
-    public int mark() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void mark(int mark) {
+    public void mark() {
         // TODO Auto-generated method stub
 
     }

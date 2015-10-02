@@ -1,6 +1,5 @@
 package com.github.andyshao.reflect;
 
-import java.util.Iterator;
 
 /**
  * 
@@ -12,7 +11,7 @@ import java.util.Iterator;
  * @author Andy.Shao
  *
  */
-public class CharArrayWrapper implements ArrayWrapper<char[]> {
+public class CharArrayWrapper implements ArrayWrapper {
     private final char[] array;
 
     public CharArrayWrapper(char[] array) {
@@ -37,9 +36,9 @@ public class CharArrayWrapper implements ArrayWrapper<char[]> {
     }
 
     @Override
-    public Iterator<Object> iterator() {
+    public int getMark() {
         // TODO Auto-generated method stub
-        return null;
+        return 0;
     }
 
     @Override
@@ -55,13 +54,7 @@ public class CharArrayWrapper implements ArrayWrapper<char[]> {
     }
 
     @Override
-    public int mark() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void mark(int mark) {
+    public void mark() {
         // TODO Auto-generated method stub
 
     }
