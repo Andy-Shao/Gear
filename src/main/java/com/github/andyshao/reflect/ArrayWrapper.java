@@ -13,7 +13,6 @@ import java.util.Iterator;
  * @author Andy.Shao
  */
 public interface ArrayWrapper extends Iterable<Object> {
-
     public static <ARRAY> ArrayWrapper newInstance(Class<ARRAY> arrayType , int length) {
         if (!arrayType.isArray()) throw new IllegalArgumentException();
         @SuppressWarnings("unchecked")
@@ -23,13 +22,14 @@ public interface ArrayWrapper extends Iterable<Object> {
 
     @SuppressWarnings("unchecked")
     public static <ARRAY , E> ArrayWrapper wrap(ARRAY array) {
-        if(!array.getClass().isArray()) throw new IllegalArgumentException();
-        if(int[].class.isInstance(array)) return new IntArrayWrapper((int[]) array);
-        else if(byte[].class.isInstance(array)) return new ByteArrayWrapper((byte[]) array);
-        else if(char[].class.isInstance(array)) return new CharArrayWrapper((char[]) array);
-        else if(short[].class.isInstance(array)) return new ShortArrayWrapper((short[]) array);
-        else if(float[].class.isInstance(array)) return new FloatArrayWrapper((float[]) array);
-        else if(double[].class.isInstance(array)) return new DoubleArrayWrapper((double[]) array);
+        if (!array.getClass().isArray()) throw new IllegalArgumentException();
+        if (int[].class.isInstance(array)) return new IntArrayWrapper((int[]) array);
+        else if (byte[].class.isInstance(array)) return new ByteArrayWrapper((byte[]) array);
+        else if (char[].class.isInstance(array)) return new CharArrayWrapper((char[]) array);
+        else if (short[].class.isInstance(array)) return new ShortArrayWrapper((short[]) array);
+        else if (float[].class.isInstance(array)) return new FloatArrayWrapper((float[]) array);
+        else if (double[].class.isInstance(array)) return new DoubleArrayWrapper((double[]) array);
+        else if (long[].class.isInstance(array)) return new LongArrayWrapper((long[]) array);
         else return new ObjectArrayWrapper<E>((E[]) array);
     }
 

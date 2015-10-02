@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v2.4**
 
+Rewrite the ArrayOperation make it more efficient than before<br>
 Adding ArrayWrapper for array wrap<br>
 Adding adjust toArray() in ArrayOperation<br>
 Adding lastIndexofAll() and indexOfAll in ArrayOperation<br>

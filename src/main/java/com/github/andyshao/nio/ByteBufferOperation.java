@@ -61,10 +61,6 @@ public final class ByteBufferOperation {
 
     public static int indexOf(ByteBuffer buffer , int start , int length , byte... bs) {
         final int end = start + length;
-        if (start < 0 || end < 0) throw new IllegalArgumentException("start or end less than zero");
-        if (start > end) throw new IllegalArgumentException("start > end");
-        if (start < buffer.position()) throw new IllegalArgumentException("start less than buffer position");
-        if (end > buffer.limit()) throw new IllegalArgumentException("end bigger than buffer limit");
         final ByteBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(end);
@@ -109,9 +105,6 @@ public final class ByteBufferOperation {
 
     public static int lastIndexOf(ByteBuffer buffer , int start , int length , byte... bs) {
         final int end = start + length;
-        if (start > end) throw new IllegalArgumentException("start > end");
-        if (start < buffer.position()) throw new IllegalArgumentException("start less than buffer position");
-        if (end > buffer.limit()) throw new IllegalArgumentException("end bigger than buffer limit");
         final ByteBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
         tmp.limit(end);

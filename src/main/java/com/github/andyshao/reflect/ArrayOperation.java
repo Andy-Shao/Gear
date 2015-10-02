@@ -51,9 +51,9 @@ public final class ArrayOperation {
     public static <T> T flipArray(T array) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
         int length = arrayWrapper.length();
-        if(length == 0) return array;
+        if (length == 0) return array;
         ArrayWrapper temp = ArrayWrapper.newInstance(array.getClass() , length);
-        for(int i = length - 1, b = temp.position(); i>= arrayWrapper.position(); i--, b++)
+        for (int i = length - 1 , b = temp.position() ; i >= arrayWrapper.position() ; i-- , b++)
             temp.put(arrayWrapper.get(i) , b);
         return (T) temp.array();
     }
@@ -73,13 +73,16 @@ public final class ArrayOperation {
     }
 
     public static int indexOf(ArrayWrapper array , Object item) {
-        for (int i = array.position() ; i < array.limit() ; i++)
+        for (int i = array.position() ; i < array.length() ; i++)
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
 
-    public static int indexOf(int[] array , int item) {
-        return ArrayOperation.indexOf(new IntArrayWrapper(array) , item);
+    public static <T> int indexOf(T array , int start , int end , Objects item) {
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        arrayWrapper.position(start);
+        arrayWrapper.limit(end);
+        return ArrayOperation.indexOf(array , item);
     }
 
     /**
@@ -92,9 +95,8 @@ public final class ArrayOperation {
      * @return if can't find out anything then return -1
      */
     public static <T> int indexOf(T array , Object item) {
-        for (int i = 0 ; i < Array.getLength(array) ; i++)
-            if (Array.get(array , i).equals(item)) return i;
-        return -1;
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        return ArrayOperation.indexOf(arrayWrapper , item);
     }
 
     @SafeVarargs
@@ -164,13 +166,16 @@ public final class ArrayOperation {
     }
 
     public static int lastIndexOf(ArrayWrapper array , Object item) {
-        for (int i = array.limit() - 1 ; i >= array.position() ; i--)
+        for (int i = array.length() - 1 ; i >= array.position() ; i--)
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
 
-    public static int lastIndexOf(int[] array , int item) {
-        return ArrayOperation.indexOf(new IntArrayWrapper(array) , item);
+    public static <T> int lastIndexOf(T array , int start , int end , Object item) {
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        arrayWrapper.position(start);
+        arrayWrapper.limit(end);
+        return ArrayOperation.lastIndexOf(arrayWrapper , item);
     }
 
     /**
@@ -184,9 +189,8 @@ public final class ArrayOperation {
      * @return if can't find out anything then return -1
      */
     public static <T> int lastIndexOf(T array , Object item) {
-        for (int i = Array.getLength(array) - 1 ; i >= 0 ; i--)
-            if (Array.get(array , i).equals(item)) return i;
-        return -1;
+        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
+        return ArrayOperation.lastIndexOf(arrayWrapper , item);
     }
 
     @SafeVarargs
@@ -261,7 +265,7 @@ public final class ArrayOperation {
 
     public static final void pack_unpack(ArrayWrapper in , ArrayWrapper out , Function<Object , Object> function) {
         if (out.length() < in.length()) throw new IllegalArgumentException("out is too small");
-        for(int i = in.position(); i < in.length(); i++)
+        for (int i = in.position() ; i < in.length() ; i++)
             out.put(function.apply(in.get(i)) , i);
     }
 
@@ -300,11 +304,10 @@ public final class ArrayOperation {
      */
     @SuppressWarnings("unchecked")
     public static final <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz , Function<Object , Object> function) {
-        OUT result = (OUT) Array.newInstance(outClazz.getComponentType() , Array.getLength(in));
-        for (int i = 0 ; i < Array.getLength(in) ; i++)
-            Array.set(result , i , function.apply(Array.get(in , i)));
-
-        return result;
+        ArrayWrapper inWrapper = ArrayWrapper.wrap(in);
+        ArrayWrapper outWrapper = ArrayWrapper.newInstance(outClazz , inWrapper.length());
+        ArrayOperation.pack_unpack(inWrapper , outWrapper , function);
+        return (OUT) outWrapper.array();
     }
 
     /**
