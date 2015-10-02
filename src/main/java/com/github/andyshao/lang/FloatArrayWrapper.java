@@ -1,5 +1,6 @@
 package com.github.andyshao.lang;
 
+import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -27,8 +28,26 @@ public class FloatArrayWrapper extends ArrayWrapperModel implements ArrayWrapper
     }
 
     @Override
+    public ArrayWrapper backup() {
+        ArrayWrapper result = new FloatArrayWrapper(ArrayOperation.backup(this.array()));
+        result.position(this.position());
+        result.limit(this.limit());
+        result.mark();
+        return result;
+    }
+
+    @Override
     public int capacity() {
         return this.array().length;
+    }
+
+    @Override
+    public ArrayWrapper duplicate() {
+        ArrayWrapper result = new FloatArrayWrapper(this.array());
+        result.position(this.position());
+        result.limit(this.limit());
+        result.mark();
+        return result;
     }
 
     @Override

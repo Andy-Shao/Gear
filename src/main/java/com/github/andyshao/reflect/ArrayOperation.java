@@ -23,6 +23,10 @@ import com.github.andyshao.nio.ShortBufferOperation;
  * @author Andy
  */
 public final class ArrayOperation {
+    public static <T> T backup(T array) {
+        return ArrayOperation.splitArray(array , 0 , Array.getLength(array));
+    }
+
     /**
      * Let a Object[][] convert to a Map.
      * Let Object[i][0] is key and Object[i][1] is value.

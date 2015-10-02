@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import com.github.andyshao.reflect.ArrayOperation;
+
 /**
  * 
  * Title:<br>
@@ -26,8 +28,26 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
     }
 
     @Override
+    public ArrayWrapper backup() {
+        ArrayWrapper result = new ByteArrayWrapper(ArrayOperation.backup(this.array()));
+        result.position(this.position());
+        result.limit(this.limit());
+        result.mark();
+        return result;
+    }
+
+    @Override
     public int capacity() {
         return this.array().length;
+    }
+
+    @Override
+    public ArrayWrapper duplicate() {
+        ArrayWrapper result = new ByteArrayWrapper(this.array());
+        result.position(this.position());
+        result.limit(this.limit());
+        result.mark();
+        return result;
     }
 
     @Override

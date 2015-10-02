@@ -35,7 +35,11 @@ public interface ArrayWrapper extends Iterable<Object> {
 
     public Object array();
 
+    public ArrayWrapper backup();
+
     public int capacity();
+
+    public ArrayWrapper duplicate();
 
     public Object get(int index);
 

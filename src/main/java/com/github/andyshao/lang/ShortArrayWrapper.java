@@ -1,6 +1,6 @@
 package com.github.andyshao.lang;
 
-import java.util.Iterator;
+import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -12,11 +12,14 @@ import java.util.Iterator;
  * @author Andy.Shao
  *
  */
-public class ShortArrayWrapper implements ArrayWrapper {
+public class ShortArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
     private final short[] array;
 
     public ShortArrayWrapper(short[] array) {
         this.array = array;
+        this.position = 0;
+        this.limit = this.array.length;
+        this.mark = 0;
     }
 
     @Override
@@ -25,69 +28,37 @@ public class ShortArrayWrapper implements ArrayWrapper {
     }
 
     @Override
+    public ArrayWrapper backup() {
+        ArrayWrapper result = new ShortArrayWrapper(ArrayOperation.backup(this.array()));
+        result.position(this.position());
+        result.limit(this.limit());
+        result.mark();
+        return result;
+    }
+
+    @Override
     public int capacity() {
-        // TODO Auto-generated method stub
-        return 0;
+        return this.array().length;
+    }
+
+    @Override
+    public ArrayWrapper duplicate() {
+        ArrayWrapper result = new ShortArrayWrapper(this.array());
+        result.position(this.position());
+        result.limit(this.limit());
+        result.mark();
+        return result;
     }
 
     @Override
     public Short get(int index) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int getMark() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public Iterator<Object> iterator() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public int length() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public int limit() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void limit(int limit) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void mark() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public int position() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void position(int position) {
-        // TODO Auto-generated method stub
-
+        return this.array()[index];
     }
 
     @Override
     public Short put(Object value , int index) {
-        // TODO Auto-generated method stub
-        return null;
+        Short result = this.get(index);
+        this.array()[index] = Convert.OB_2_SHORT.convert(value);
+        return result;
     }
-
 }
