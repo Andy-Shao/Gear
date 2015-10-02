@@ -39,6 +39,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     private int start;
 
     public AutoIncreaseArray() {
+        //TODO all class need been rewrite
         this(16);
     }
 
