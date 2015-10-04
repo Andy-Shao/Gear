@@ -1,0 +1,39 @@
+-Xmx20M Java堆的最大值为20M
+-Xms20M Java堆的最小值为20M
+-Xmn10M 新生代为10MB
+-Xmns25M 新生代默认值为25MB
+-Xmnx25M 新生代最大值为25MB
+-Xmos75M 老年代默认值为75MB
+-Xmox75M 老年代最大值为75MB
+-Xss:128K       虚拟机栈和本地方法栈的大小为128KB
+-verbose:gc 打印GC过程
+-server 使用Server模式运行
+-Xloggc:go.log 将GC日志保存到go.log文件中
+-Xverify:none 关闭字节码验证过程
+-Xint 禁止编译器运作，强制虚拟机对字节码采用纯解释方式执行
+-target 1.5  编译为兼容1.5版本的.class文件
+-g:none 编译的.class文件不生成LineNumberTable/LocalVariableTable/SourceFile属性表
+-g:lines 编译的.class文件生成LineNumberTable
+-g:vars 编译的.class文件生成LocalVariableTable
+-g:source 编译的.class文件生成SourceFile
+-Xinit 强制虚拟机运行于"解释模式"(Interpreted Mode)
+-Xcomp 强制虚拟机运行于"编译模式"(Compiled Mode)
+-version 显示虚拟机的运行模式"混合模式"(Mixed Mode)/"解释模式"(Interpreted Mode)/"编译模式"(Compiled Mode)
+
+
+
+
+
+-XX:MaxDirectMemorySize=10M     直接内存容量为10M
+-XX:PermSize=10 方法区的默认大小
+-XX:MaxPermSize 方法区的最大大小
+-XX:SurvivorRatio=8     决定了新生代中Eden区与一个Survivor区的空间比例是8比1
+-XX:+PrintGCDetails     告诉虚拟机在发生垃圾收集行为时打印内存回收日志，并且在进程退出的时候输出当前内存各区域的分配情况。
+
+----------------------------------
+        HotSpot虚拟机提供了-Xnoclassgc参数进行控制，
+        还可以使用-verbose:class及-XX:+TraceClassLoading、-XX:+TraceClassUnLoading
+查看类的加载和卸载信息。
+        -verbose:class和-XX:+TraceClassLoading可以在Product版的虚拟机中使用，但是
+-XX:+TraceClassLoading参数需要fastdebug版的虚拟机支持。
+----------------------------------
