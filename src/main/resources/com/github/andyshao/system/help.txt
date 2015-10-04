@@ -1,6 +1,23 @@
-Help for Gear Command
--cleanJavadoc
--help
--info
--version
--jvm
+NAME
+    GearXX.jar - Gear console interface
+
+SYNOPSIS
+    java -jar GearXX.jar [OPTION] [ARGS] [OPTION] [ARGS] ...
+
+DESCRIPTION
+    -cleanJavadoc  clean the java document.
+        java -jar GearXX.jar -cleanJavadoc [FILE_PATH]|[DIRECTORY_PATH]
+
+    -help show the help information
+        java -jar GearXX.jar -help
+
+    -info the information of this Gear jar
+        java -jar GearXX.jar -info
+
+    -version the version of this Gear jar
+        java -jar GearXX.jar -version
+
+    -cp show the java system properties
+        java -jar GearXX.jar -cp|-cp [PROPERTY_NAME]
+
+    -jvm
