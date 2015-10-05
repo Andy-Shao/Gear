@@ -53,11 +53,13 @@ public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrappe
 
     @Override
     public Double get(int index) {
+        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         return this.array()[index];
     }
 
     @Override
     public Double put(Object value , int index) {
+        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         Double result = this.get(index);
         this.array()[index] = Convert.OB_2_DOUBLE.convert(value);
         return result;

@@ -17,6 +17,10 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the newest plugins for v2.5**
+
+Fix the bug of ArrayWrapper<br>
+
 **What the newest plugins for v2.4**
 
 Rewrite the ArrayOperation make it more efficient than before<br>

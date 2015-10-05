@@ -56,11 +56,13 @@ public class LongArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
 
     @Override
     public Long get(int index) {
+        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         return this.array()[index];
     }
 
     @Override
     public Long put(Object value , int index) {
+        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         Long result = this.get(index);
         this.array()[index] = Convert.OB_2_LONG.convert(value);
         return result;

@@ -53,11 +53,13 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
 
     @Override
     public Byte get(int index) {
+        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         return this.array()[index];
     }
 
     @Override
     public Byte put(Object value , int index) {
+        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         Byte result = this.get(index);
         this.array()[index] = (Byte) value;
         return result;
