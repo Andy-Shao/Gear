@@ -9,12 +9,14 @@ import com.github.andyshao.lang.ArrayWrapper;
 import com.github.andyshao.lang.Convert;
 
 /**
- * Some tools of {@link Array}<br>
- * <p style="color:orange;">
- * At least JDK1.8
- * </p>
  * 
- * @author Andy
+ * Title: Some tools of {@link Array}<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Oct 5, 2015<br>
+ * Encoding:UNIX UTF-8
+ * 
+ * @author Andy.Shao
+ *
  */
 public final class ArrayOperation {
     public static <T> T backup(T array) {
@@ -41,6 +43,7 @@ public final class ArrayOperation {
     }
 
     /**
+     * flip array
      * 
      * @param array the array which is processed.
      * @param <T> the type of array
@@ -58,6 +61,7 @@ public final class ArrayOperation {
     }
 
     /**
+     * get the element of array's
      * 
      * @param array the array which is processed.
      * @param index the address of value
@@ -71,12 +75,29 @@ public final class ArrayOperation {
         return (T) Array.get(array , index);
     }
 
+    /**
+     * find out the location of first item.
+     * 
+     * @param array the array which is processed
+     * @param item the item which should be found
+     * @return if can't find out anything then return -1
+     */
     public static int indexOf(ArrayWrapper array , Object item) {
         for (int i = array.position() ; i < array.length() ; i++)
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
 
+    /**
+     * find out the location of first item.
+     * 
+     * @param array the array which is processed
+     * @param start the start position of array
+     * @param end then end position of array(exclude)
+     * @param item the item which should be found
+     * @param <T> the type of array
+     * @return if can't find out anything then return -1
+     */
     public static <T> int indexOf(T array , int start , int end , Objects item) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
         arrayWrapper.position(start);
@@ -89,15 +110,24 @@ public final class ArrayOperation {
      * 
      * @param array
      *            the array which is processed
-     * @param item The item which should be removed
+     * @param item The item which should be found
      * @param <T> the type of array
      * @return if can't find out anything then return -1
      */
     public static <T> int indexOf(T array , Object item) {
-        ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
-        return ArrayOperation.indexOf(arrayWrapper , item);
+        return ArrayOperation.indexOf(ArrayWrapper.wrap(array) , item);
     }
 
+    /**
+     * find out the location of first target
+     * 
+     * @param array the array which is processed
+     * @param start the start position of array
+     * @param end the end position of end(exclude)
+     * @param target the target which should be found
+     * @param <T> the type of the array
+     * @return if it can't find out then return -1
+     */
     public static <T> int indexOfAll(T array , int start , int end , T target) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
         arrayWrapper.position(start);
@@ -110,13 +140,20 @@ public final class ArrayOperation {
      * 
      * @param array the array which should be searched.
      * @param target the target which should be found out from array
-     * @param <T> the type of the class
+     * @param <T> the type of the array
      * @return if can't find out anything from array , return -1
      */
     public static <T> int indexOfAll(T array , T target) {
         return ArrayOperation.indexOfAllWrapper(ArrayWrapper.wrap(array) , ArrayWrapper.wrap(target));
     }
 
+    /**
+     * find out the first time of the target
+     * 
+     * @param array the array which should be searched
+     * @param target the target which should be found out from array
+     * @return if can't find out anything from array then return -1
+     */
     public static int indexOfAllWrapper(ArrayWrapper array , ArrayWrapper target) {
         if (array.length() == 0 || target.length() == 0) throw new IllegalArgumentException(
             "array or target can't empty!");
@@ -139,6 +176,7 @@ public final class ArrayOperation {
     }
 
     /**
+     * check the index, is it out of the array length.
      * 
      * @param array the array which is processed.
      * @param index the address of value
@@ -150,6 +188,7 @@ public final class ArrayOperation {
     }
 
     /**
+     * check the index site of array
      * 
      * @param array the array which is processed.
      * @param index the address of value
@@ -161,12 +200,29 @@ public final class ArrayOperation {
         return ArrayOperation.isAbove(array , index) ? false : Array.get(array , index) == null;
     }
 
+    /**
+     * find out the last time location of item's
+     * 
+     * @param array the array which is processed
+     * @param item the item which should be found
+     * @return if can't find out anything then return -1
+     */
     public static int lastIndexOf(ArrayWrapper array , Object item) {
         for (int i = array.length() - 1 ; i >= array.position() ; i--)
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
 
+    /**
+     * find out the last time location of item's
+     * 
+     * @param array the array which is processed
+     * @param start the start position of array
+     * @param end the end position of array(exclude)
+     * @param item the item which should be found
+     * @param <T> the type of array
+     * @return if can't find out anything then return -1
+     */
     public static <T> int lastIndexOf(T array , int start , int end , Object item) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
         arrayWrapper.position(start);
@@ -175,12 +231,12 @@ public final class ArrayOperation {
     }
 
     /**
-     * find out the location of last item.
+     * find out the last time location of item's
      * 
      * @param array
      *            the array which is processed
      * @param item
-     *            The item which should be removed
+     *            The item which should be found
      * @param <T> the type of array
      * @return if can't find out anything then return -1
      */
@@ -189,6 +245,16 @@ public final class ArrayOperation {
         return ArrayOperation.lastIndexOf(arrayWrapper , item);
     }
 
+    /**
+     * find out the last time location of target
+     * 
+     * @param array the array which is searched
+     * @param start the start position of array
+     * @param end the end position of array (exclude)
+     * @param target the target which should be found from array
+     * @param <T> the type of array
+     * @return if can't find out anything then return -1
+     */
     public static <T> int lastIndexOfAll(T array , int start , int end , T target) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
         arrayWrapper.position(start);
@@ -197,7 +263,7 @@ public final class ArrayOperation {
     }
 
     /**
-     * find out the last one the target.
+     * find out the last time location of target
      * 
      * @param array the array which should be searched.
      * @param target the target which should be found out from array
@@ -208,6 +274,14 @@ public final class ArrayOperation {
         return ArrayOperation.lastIndexOfAllWrapper(ArrayWrapper.wrap(array) , ArrayWrapper.wrap(target));
     }
 
+    /**
+     * find out the last time location of target
+     * 
+     * @param array the array which is searched
+     * @param target the target which should be found from array
+     * @param <T> the type of array
+     * @return if can't find out anything then return -1
+     */
     public static <T> int lastIndexOfAllWrapper(ArrayWrapper array , ArrayWrapper target) {
         if (array.length() == 0 || target.length() == 0) throw new IllegalArgumentException(
             "array or target can't empty!");
@@ -256,6 +330,14 @@ public final class ArrayOperation {
         return result;
     }
 
+    /**
+     * Try to convert the array<br>
+     * 
+     * @param in input array
+     * @param out output array
+     * @param function do some operation
+     * @see ArrayOperation#pack_unpack(Object, Class, Function)
+     */
     public static final void pack_unpack(ArrayWrapper in , ArrayWrapper out , Function<Object , Object> function) {
         if (out.length() < in.length()) throw new IllegalArgumentException("out is too small");
         for (int i = in.position() ; i < in.length() ; i++)
@@ -264,17 +346,13 @@ public final class ArrayOperation {
 
     /**
      * Try to convert the array.<br>
-     * eg.<br>
-     * int[] -- Integer[]<br>
-     * int[] -- long[]<br>
-     * Take Note: long[] can't convert to int[].
-     * It is low efficient. It need use a for loop copy array.
      * 
      * @param in input array
      * @param outClazz output array type
      * @param <IN> Input array type
      * @param <OUT> Ouput array type
      * @return output array
+     * @see ArrayOperation#pack_unpack(Object, Class, Function)
      */
     public static <IN , OUT> OUT pack_unpack(IN in , Class<OUT> outClazz) {
         return ArrayOperation.pack_unpack(in , outClazz , (Object input) -> input);
