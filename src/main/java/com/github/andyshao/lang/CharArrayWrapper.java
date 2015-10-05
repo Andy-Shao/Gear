@@ -53,13 +53,13 @@ public class CharArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
 
     @Override
     public Character get(int index) {
-        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
+        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         return this.array()[index];
     }
 
     @Override
     public Character put(Object value , int index) {
-        if(index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
+        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
         Character result = this.get(index);
         this.array()[index] = Convert.OB_2_CHAR.convert(value);
         return result;

@@ -36,12 +36,36 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
         else return new ObjectArrayWrapper<E>((E[]) array);
     }
 
+    /**
+     * get the array which store in this class
+     * 
+     * @return return array
+     */
     public Object array();
 
+    /**
+     * backup this {@link ArrayWrapper}<br>
+     * mark = 0; position, limit and capacity as same as old class.
+     * the array values is same but rebuild the new array
+     * 
+     * @return return the backup objection
+     */
     public ArrayWrapper backup();
 
+    /**
+     * This value is unchangeable
+     * 
+     * @return The capacity of {@link ArrayWrapper}
+     */
     public int capacity();
 
+    /**
+     * clip and create the new array
+     * 
+     * @param start the start position
+     * @param end the end position(exclude)
+     * @return return the new array
+     */
     public default <ARRAY> ARRAY clip(int start , int end , Class<ARRAY> arrayType) {
         ArrayWrapper tmp = this.duplicate();
         tmp.position(start);
@@ -49,9 +73,23 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
         return tmp.usedArray(arrayType);
     }
 
+    /**
+     * duplicate this {@link ArrayWrapper}<br>
+     * mark = 0; position, limit, capacity and array as same as old class.
+     * the array still the old one and doesn't change.
+     * 
+     * @return return the duplicate objection
+     */
     public ArrayWrapper duplicate();
 
-    public Object get(int index);
+    /**
+     * get the value which position of array's is index
+     * 
+     * @param index the position of value
+     * @return the value
+     * @throws ArrayIndexOutOfBoundsException if index out of array length
+     */
+    public Object get(int index) throws ArrayIndexOutOfBoundsException;
 
     @Override
     public default Iterator<Object> iterator() {
@@ -72,28 +110,81 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
         };
     }
 
+    /**
+     * get the length of used array
+     * 
+     * @return length of used array
+     */
     public default int length() {
         return this.limit() - this.position();
     }
 
+    /**
+     * limit of array
+     * 
+     * @return the limit of this array
+     */
     public int limit();
 
+    /**
+     * set the limit of array
+     * 
+     * @param limit the limit of array
+     * @throws ArrayIndexOutOfBoundsException if limit out of array length
+     */
     public void limit(int limit) throws ArrayIndexOutOfBoundsException;
 
+    /**
+     * mark = position
+     */
     public void mark();
 
+    /**
+     * mark = limit
+     */
     public void markLimit();
 
+    /**
+     * get the position of array
+     * 
+     * @return the position of array
+     */
     public int position();
 
+    /**
+     * set the position of array
+     * 
+     * @param position the position of array
+     * @throws ArrayIndexOutOfBoundsException if limit out of array length
+     */
     public void position(int position) throws ArrayIndexOutOfBoundsException;
 
+    /**
+     * set value of array's which position is index
+     * 
+     * @param value the value which should be processed
+     * @param index the index which position should be processed
+     * @return the last value of index position
+     * @throws ArrayIndexOutOfBoundsException if index out of array length
+     */
     public Object put(Object value , int index) throws ArrayIndexOutOfBoundsException;
 
+    /**
+     * position = mark
+     */
     public void reset();
 
+    /**
+     * limit = mark
+     */
     public void resetLimit();
 
+    /**
+     * the used array which between position and end(exclude) in array
+     * 
+     * @param arrayType the type of array which should be return to
+     * @return the used array
+     */
     @SuppressWarnings("unchecked")
     public default <ARRAY> ARRAY usedArray(Class<ARRAY> arrayType) {
         Object usedArray = ArrayOperation.splitArray(this.array() , this.position() , this.limit());
