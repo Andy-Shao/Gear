@@ -19,6 +19,10 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v2.5**
 
+Moving org.hamcrest from 1.1 to 1.3<br>
+Moving junit from 4.7 to 4.12<br>
+Moving cglib from 2.2 to 3.1<br>
+Moving asm from 3.3.1 to 5.0.4<br>
 Fix the bug of ArrayWrapper<br>
 
 **What the newest plugins for v2.4**
