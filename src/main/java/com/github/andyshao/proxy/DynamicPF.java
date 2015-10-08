@@ -4,18 +4,29 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+/**
+ * 
+ * Title:<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Oct 8, 2015<br>
+ * Encoding:UNIX UTF-8
+ * 
+ * @author Andy.Shao
+ *
+ * @param <T>
+ */
 @FunctionalInterface
 public interface DynamicPF<T> extends ProxyFactory<T> {
-    @SuppressWarnings("unchecked")
-    public default T getProxy(T target , InvocationHandler invocationHandler) {
-        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.proxyInterfaces(target) ,
-            invocationHandler);
-    }
-
     @Override
     public default T getProxy(T target) {
         return this.getProxy(target ,
             (Object proxy , Method method , Object[] args) -> DynamicPF.this.invoke(target , method , args));
+    }
+
+    @SuppressWarnings("unchecked")
+    public default T getProxy(T target , InvocationHandler invocationHandler) {
+        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.proxyInterfaces(target) ,
+            invocationHandler);
     }
 
     /**

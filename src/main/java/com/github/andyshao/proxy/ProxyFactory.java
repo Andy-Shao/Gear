@@ -35,7 +35,7 @@ public interface ProxyFactory<T> {
      * @return the proxy
      */
     T getProxy(T target);
-    
+
     public default Class<?>[] proxyInterfaces(T target) {
         Set<Class<?>> set = new HashSet<>();
         Reflects.superGetInterfaces(target.getClass() , set);
