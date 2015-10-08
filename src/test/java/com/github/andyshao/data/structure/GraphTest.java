@@ -28,14 +28,11 @@ public class GraphTest {
 
     @Before
     public void before() {
-        this.graph = Graph.<String> defaultGraph((obj1 , obj2) -> {
-            return obj1.compareTo(obj2);
-        } , () -> {
-            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
-        });
+        this.graph =
+            Graph.<String> defaultGraph((obj1 , obj2) -> obj1.compareTo(obj2) ,
+                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testBsf() {
         final Graph.BfsVertex<String> node1 = GraphTest.buildBsfvertex("node1");
@@ -44,11 +41,9 @@ public class GraphTest {
         final Graph.BfsVertex<String> node4 = GraphTest.buildBsfvertex("node4");
         final Graph.BfsVertex<String> node5 = GraphTest.buildBsfvertex("node5");
         final Graph.BfsVertex<String> node6 = GraphTest.buildBsfvertex("node6");
-        Graph<Graph.BfsVertex<String>> graph = Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> {
-            return obj1.data().compareTo(obj2.data());
-        } , () -> {
-            return SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
-        });
+        Graph<Graph.BfsVertex<String>> graph =
+            Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
+                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         graph.insVertex(node1);
         graph.insVertex(node2);
         graph.insVertex(node3);
@@ -66,9 +61,8 @@ public class GraphTest {
         Graph.addUntowardEdge(graph , node5 , node6);
         Assert.assertThat(graph.ecount() , Matchers.is(14));
 
-        Queue<BfsVertex<String>> queue = new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> {
-            return Integer.compare(obj1.hops() , obj2.hops());
-        });
+        Queue<BfsVertex<String>> queue =
+            new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> Integer.compare(obj1.hops() , obj2.hops()));
         Graph.bfs(graph , node6 , queue);
         Assert.assertThat(queue.poll() , Matchers.is(node6));
         Assert.assertThat(queue.poll() , Matchers.is(node5));
@@ -105,7 +99,6 @@ public class GraphTest {
 
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testDfs() {
         final DfsVertex<String> cs100 = GraphTest.buildDfsVertex("CS100");
