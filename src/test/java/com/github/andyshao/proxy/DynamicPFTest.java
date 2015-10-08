@@ -1,50 +1,33 @@
 package com.github.andyshao.proxy;
 
-import java.lang.reflect.Method;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.proxy.DynamicProxyFactoryTest.MyInterface;
 import com.github.andyshao.reflect.Reflects;
 
 public class DynamicPFTest {
 
+    static interface MyInterface {
+        boolean isAllow();
+    }
+
     @Test
     public void test() {
-        DynamicProxyFactoryTest.MyInterface myInterface = new DynamicProxyFactoryTest.MyInterface() {
+        final DynamicPFTest.MyInterface myInterface = new DynamicPFTest.MyInterface() {
 
             @Override
             public boolean isAllow() {
                 return false;
             }
         };
-
         Assert.assertFalse(myInterface.isAllow());
+        final String key = ProxyFactory.buildMethodKey(Reflects.getMethod(DynamicPFTest.MyInterface.class , "isAllow"));
 
-        DynamicPF<DynamicProxyFactoryTest.MyInterface> dynamicProxyF =
-            new DynamicPF<DynamicProxyFactoryTest.MyInterface>() {
-                private final String key = ProxyFactory.buildMethodKey(Reflects.getMethod(
-                    DynamicProxyFactoryTest.MyInterface.class , "isAllow"));
+        DynamicPF<MyInterface> dynamicPF = (target , method , args) -> {
+            if (key.equals(ProxyFactory.buildMethodKey(method))) return true;
+            return method.invoke(myInterface , args);
+        };
 
-                @Override
-                public Object invoke(MyInterface target , Method method , Object[] args) throws Throwable {
-                    return true;
-                }
-
-                @Override
-                public Class<?>[] proxyInterfaces(MyInterface target) {
-                    return ProxyFactory.<MyInterface> allInterfaces(target);
-                }
-
-                @Override
-                public boolean proxyMethods(MyInterface target , Method method , Object[] args) {
-                    if (ProxyFactory.buildMethodKey(method).equals(this.key)) return true;
-                    return false;
-                }
-            };
-        myInterface = dynamicProxyF.toProxyFactory().getProxy(myInterface);
-
-        Assert.assertTrue(myInterface.isAllow());
+        Assert.assertTrue(dynamicPF.getProxy(myInterface).isAllow());
     }
 }

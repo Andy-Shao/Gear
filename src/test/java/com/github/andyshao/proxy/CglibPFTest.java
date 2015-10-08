@@ -1,43 +1,30 @@
 package com.github.andyshao.proxy;
 
-import java.lang.reflect.Method;
-
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.proxy.CglibProxyFactoryTest.MyClass;
 import com.github.andyshao.reflect.Reflects;
 
 public class CglibPFTest {
 
+    static class MyClass {
+        public boolean isAllow() {
+            return false;
+        }
+    }
+
     @Test
     public void test() {
-        CglibProxyFactoryTest.MyClass myClass = new CglibProxyFactoryTest.MyClass();
-
+        final CglibPFTest.MyClass myClass = new CglibPFTest.MyClass();
         Assert.assertFalse(myClass.isAllow());
 
-        CglibPF<CglibProxyFactoryTest.MyClass> cglibProxyF = new CglibPF<CglibProxyFactoryTest.MyClass>() {
-            private final String methodName = ProxyFactory
-                .buildMethodKey(Reflects.getMethod(MyClass.class , "isAllow"));
-
-            @Override
-            public Class<?>[] implInterfaces() {
-                return new Class<?>[0];
-            }
-
-            @Override
-            public Object invoke(MyClass target , Method method , Object[] args) throws Throwable {
-                return true;
-            }
-
-            @Override
-            public boolean proxyMethods(MyClass target , Method method , Object[] args) {
-                if (this.methodName.equals(ProxyFactory.buildMethodKey(method))) return true;
-                return false;
-            }
+        final String methodName =
+            ProxyFactory.buildMethodKey(Reflects.getMethod(CglibPFTest.MyClass.class , "isAllow"));
+        CglibPF<CglibPFTest.MyClass> cglibProxyF = (target , method , args) -> {
+            if (methodName.equals(ProxyFactory.buildMethodKey(method))) return true;
+            return method.invoke(myClass , args);
         };
-        myClass = cglibProxyF.toProxyFactroy().getProxy(myClass);
 
-        Assert.assertTrue(myClass.isAllow());
+        Assert.assertTrue(cglibProxyF.getProxy(myClass).isAllow());
     }
 }

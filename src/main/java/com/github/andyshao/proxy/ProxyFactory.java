@@ -20,13 +20,6 @@ import com.github.andyshao.reflect.Reflects;
  */
 @FunctionalInterface
 public interface ProxyFactory<T> {
-
-    public static <T> Class<?>[] allInterfaces(T target) {
-        Set<Class<?>> set = new HashSet<>();
-        Reflects.superGetInterfaces(target.getClass() , set);
-        return set.toArray(new Class<?>[set.size()]);
-    }
-
     public static String buildMethodKey(Method method) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(method.getReturnType()).append(":");
@@ -42,4 +35,10 @@ public interface ProxyFactory<T> {
      * @return the proxy
      */
     T getProxy(T target);
+    
+    public default Class<?>[] proxyInterfaces(T target) {
+        Set<Class<?>> set = new HashSet<>();
+        Reflects.superGetInterfaces(target.getClass() , set);
+        return set.toArray(new Class<?>[set.size()]);
+    }
 }

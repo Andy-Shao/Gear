@@ -17,8 +17,9 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
-**What the newest plugins for v2.5**
+**What the newest plugins for v3.0**
 
+Rewriting the Proxy interfaces<br>
 Moving org.hamcrest from 1.1 to 1.3<br>
 Moving junit from 4.7 to 4.12<br>
 Moving cglib from 2.2 to 3.1<br>
