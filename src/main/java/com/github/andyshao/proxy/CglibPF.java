@@ -14,7 +14,7 @@ import net.sf.cglib.proxy.InvocationHandler;
  * 
  * @author Andy.Shao
  *
- * @param <T>
+ * @param <T> the type of proxied class
  */
 @FunctionalInterface
 public interface CglibPF<T> extends ProxyFactory<T> {

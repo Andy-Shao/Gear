@@ -64,6 +64,8 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
      * 
      * @param start the start position
      * @param end the end position(exclude)
+     * @param arrayType the tye of array
+     * @param <ARRAY> the type of array
      * @return return the new array
      */
     public default <ARRAY> ARRAY clip(int start , int end , Class<ARRAY> arrayType) {

@@ -13,7 +13,7 @@ import java.lang.reflect.Proxy;
  * 
  * @author Andy.Shao
  *
- * @param <T>
+ * @param <T> the type of proxied class
  */
 @FunctionalInterface
 public interface DynamicPF<T> extends ProxyFactory<T> {
