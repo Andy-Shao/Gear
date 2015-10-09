@@ -17,7 +17,9 @@ DESCRIPTION
     -version the version of this Gear jar
         java -jar GearXX.jar -version
 
-    -cp show the java system properties
-        java -jar GearXX.jar -cp|-cp [PROPERTY_NAME]
+    -sp show the java system properties
+        java -jar GearXX.jar -sp|-sp [PROPERTY_NAME]
 
-    -jvm
+    -jvm show the jvm information
+        java -jar GearXX.jar -jvm [--args|] show the jvm args
+        java -jar GearXX.jar -jvm --command show the jvm coding command list

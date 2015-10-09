@@ -35,11 +35,11 @@ public class NoMatchTask implements Task {
             this.goHelp();
             return;
         }
-        int position = 0;
+        int position = 1;
         boolean status = true;
         do
-            status = !args[++position].startsWith("-");
-        while (status && position < args.length);
+            status = !args[position].startsWith("-");
+        while (status && ++position < args.length);
         if (position == args.length - 1 && status) {
             this.goHelp();
             return;

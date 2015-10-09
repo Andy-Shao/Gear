@@ -97,6 +97,7 @@ public final class ArrayOperation {
      * @param item the item which should be found
      * @param <T> the type of array
      * @return if can't find out anything then return -1
+     * @see ArrayOperation#indexOf(ArrayWrapper, Object)
      */
     public static <T> int indexOf(T array , int start , int end , Objects item) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
@@ -113,6 +114,7 @@ public final class ArrayOperation {
      * @param item The item which should be found
      * @param <T> the type of array
      * @return if can't find out anything then return -1
+     * @see ArrayOperation#indexOf(Object, int, int, Objects)
      */
     public static <T> int indexOf(T array , Object item) {
         return ArrayOperation.indexOf(ArrayWrapper.wrap(array) , item);
@@ -127,6 +129,7 @@ public final class ArrayOperation {
      * @param target the target which should be found
      * @param <T> the type of the array
      * @return if it can't find out then return -1
+     * @see ArrayOperation#indexOfAllWrapper(ArrayWrapper, ArrayWrapper)
      */
     public static <T> int indexOfAll(T array , int start , int end , T target) {
         ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
@@ -142,6 +145,7 @@ public final class ArrayOperation {
      * @param target the target which should be found out from array
      * @param <T> the type of the array
      * @return if can't find out anything from array , return -1
+     * @see ArrayOperation#indexOfAllWrapper(ArrayWrapper, ArrayWrapper)
      */
     public static <T> int indexOfAll(T array , T target) {
         return ArrayOperation.indexOfAllWrapper(ArrayWrapper.wrap(array) , ArrayWrapper.wrap(target));

@@ -185,6 +185,7 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
      * the used array which between position and end(exclude) in array
      * 
      * @param arrayType the type of array which should be return to
+     * @param <ARRAY> the type of array
      * @return the used array
      */
     @SuppressWarnings("unchecked")
