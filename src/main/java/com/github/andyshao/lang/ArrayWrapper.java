@@ -14,6 +14,14 @@ import com.github.andyshao.reflect.ArrayOperation;
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
+ * @see ByteArrayWrapper
+ * @see IntArrayWrapper
+ * @see CharArrayWrapper
+ * @see LongArrayWrapper
+ * @see ShortArrayWrapper
+ * @see FloatArrayWrapper
+ * @see DoubleArrayWrapper
+ * @see ObjectArrayWrapper
  */
 public interface ArrayWrapper extends Iterable<Object> , Serializable {
     public static <ARRAY> ArrayWrapper newInstance(Class<ARRAY> arrayType , int length) {
