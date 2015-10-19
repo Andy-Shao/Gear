@@ -11,6 +11,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import com.github.andyshao.lang.GeneralSystemProperty;
@@ -27,7 +29,7 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  */
 public class VersionTask implements Task {
     public static final String KEY_WORDS = "-version";
-    private static final String TARGET = "META-INF/maven/com.github.Andy-Shao/Gear/pom.xml";
+    public static final String TARGET = "META-INF/maven/com.github.Andy-Shao/Gear/pom.xml";
     private volatile Task nextTask = Task.EMTPY_TASK;
 
     @Override
