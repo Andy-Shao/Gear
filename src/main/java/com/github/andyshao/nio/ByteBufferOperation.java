@@ -35,6 +35,7 @@ public final class ByteBufferOperation {
      * @param buffer the {@link ByteBuffer} which you want to find from
      * @param bs the data which you want to find from {@link ByteBuffer}
      * @return if it can't be found out then return -1
+     * @see ByteBufferOperation#indexOf(ByteBuffer, int, int, byte...)
      */
     public static int indexOf(ByteBuffer buffer , byte... bs) {
         if (bs.length == 0) throw new IllegalArgumentException("bs is empty");
@@ -59,6 +60,17 @@ public final class ByteBufferOperation {
         return position;
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link ByteBuffer} which you want to find from
+     * @param start the start position of {@link ByteBuffer}
+     * @param length the length of {@link ByteBuffer} which is allowed
+     * @param bs the data which you want to find from {@link ByteBuffer}
+     * @return if it can't be found out then return -1
+     */
     public static int indexOf(ByteBuffer buffer , int start , int length , byte... bs) {
         final int end = start + length;
         final ByteBuffer tmp = buffer.asReadOnlyBuffer();
@@ -75,6 +87,7 @@ public final class ByteBufferOperation {
      * @param buffer the {@link ByteBuffer} which you want to find from
      * @param bs the data which you want to find from {@link ByteBuffer}
      * @return if it can't be found out then return -1
+     * @see ByteBufferOperation#lastIndexOf(ByteBuffer, int, int, byte...)
      */
     public static int lastIndexOf(ByteBuffer buffer , byte... bs) {
         if (bs.length == 0) throw new IllegalArgumentException("bs is empty");
@@ -103,6 +116,17 @@ public final class ByteBufferOperation {
         return position;
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from end to head.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link ByteBuffer} which you want to find from
+     * @param start the start position of {@link ByteBuffer}
+     * @param length the length of {@link ByteBuffer} which is allowed
+     * @param bs the data which you want to find from {@link ByteBuffer}
+     * @return if it can't be found out then return -1
+     */
     public static int lastIndexOf(ByteBuffer buffer , int start , int length , byte... bs) {
         final int end = start + length;
         final ByteBuffer tmp = buffer.asReadOnlyBuffer();

@@ -5,7 +5,7 @@ import java.io.IOException;
 /**
  * 
  * Title:<br>
- * Descript:<br>
+ * Descript: The Exception of {@link BufferReader}<br>
  * Copyright: Copryright(c) Jun 21, 2015<br>
  * Encoding:UNIX UTF-8
  * 

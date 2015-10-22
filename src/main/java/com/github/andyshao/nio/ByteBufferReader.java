@@ -19,6 +19,16 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  *
  */
 public class ByteBufferReader implements BufferReader<byte[]> {
+    /**
+     * 
+     * Title:<br>
+     * Descript:<br>
+     * Copyright: Copryright(c) Oct 23, 2015<br>
+     * Encoding:UNIX UTF-8
+     * 
+     * @author Andy.Shao
+     *
+     */
     public static class SeparateByBytes implements Function<ByteBuffer , BufferReader.SeparatePoint> {
         private final byte[] key;
 
@@ -49,10 +59,23 @@ public class ByteBufferReader implements BufferReader<byte[]> {
     private volatile boolean hasNext = true;
     private int mark = 0;
 
+    /**
+     * Create the {@link ByteBufferReader}<br>
+     * set the capacity of {@link ByteBuffer} is 1024
+     * 
+     * @param channel the channel which is {@link ReadableByteChannel}
+     * @see ByteBufferReader#ByteBufferReader(ReadableByteChannel, int)
+     */
     public ByteBufferReader(ReadableByteChannel channel) {
         this(channel , 1024);
     }
 
+    /**
+     * Create the {@link ByteBufferReader}
+     * 
+     * @param channel the channel which is {@link ReadableByteChannel}
+     * @param bufferSize the capacity of {@link ByteBuffer}
+     */
     public ByteBufferReader(ReadableByteChannel channel , int bufferSize) {
         this.channel = channel;
         this.bufferSize = bufferSize;
@@ -64,10 +87,20 @@ public class ByteBufferReader implements BufferReader<byte[]> {
         this.channel.close();
     }
 
+    /**
+     * Get the encoding of data
+     * 
+     * @return encoding
+     */
     public String getEncoding() {
         return this.encoding;
     }
 
+    /**
+     * Get the {@link BufferReader.SeparatePoint} converter
+     * 
+     * @return {@link Function}
+     */
     public Function<ByteBuffer , BufferReader.SeparatePoint> getFindSeparatePoint() {
         return this.findSeparatePoint;
     }
@@ -114,10 +147,20 @@ public class ByteBufferReader implements BufferReader<byte[]> {
         return ByteBufferOperation.usedArray(this.buffer);
     }
 
+    /**
+     * Set the encoding of data's
+     * 
+     * @param encoding the encoding of data's
+     */
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
 
+    /**
+     * Set the {@link BufferReader.SeparatePoint} converter
+     * 
+     * @param findSeparatePoint the {@link BufferReader.SeparatePoint} converter
+     */
     public void setFindSeparatePoint(Function<ByteBuffer , BufferReader.SeparatePoint> findSeparatePoint) {
         this.findSeparatePoint = findSeparatePoint;
     }
