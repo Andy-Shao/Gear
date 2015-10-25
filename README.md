@@ -26,10 +26,3 @@ Moving cglib from 2.2 to 3.1<br>
 Moving asm from 3.3.1 to 5.0.4<br>
 Fix the bug of ArrayWrapper<br>
 ...
-
-*Add the classic data structure*<br>
-You can use the graph or others more difficult data structure, now.
-
-*Add the classic aritmetic*<br>
-Graph arithmetic & Bit tree arithmetic<br>
-Never add the compress & security arithmetic
