@@ -20,6 +20,11 @@ public final class ComparatorOperation {
     public static Comparator<Integer> INTEGER = (x , y) -> Integer.compare(x , y);
     public static Comparator<Long> LONG = (x , y) -> Long.compare(x , y);
     public static Comparator<Short> SHORT = (x , y) -> Short.compare(x , y);
+    public static final Comparator<String> STRING = (String str1 , String str2) -> {
+        if (str1 != null) return str1.compareTo(str2);
+        else if (str2 != null) return str2.compareTo(str1);
+        else return 0;
+    };
 
     private ComparatorOperation() {
         throw new AssertionError("No " + ComparatorOperation.class + " installment for you!");

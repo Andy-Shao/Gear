@@ -1,7 +1,6 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
-import java.util.Comparator;
 
 /**
  * 
@@ -14,8 +13,6 @@ import java.util.Comparator;
  *
  */
 public final class IntegerOperation {
-    private static final Comparator<Integer> COMPARATOR = (x , y) -> Integer.compare(x , y);
-
     public static final int bitGet(BigInteger pos , final int[] array) {
         return ByteOperation.bitGet(pos , array , ByteWrapper.INT_BYTE_WRAPPER);
     }
@@ -35,10 +32,6 @@ public final class IntegerOperation {
 
     public static final int[] bitSet(BigInteger pos , int state , final int[] array) {
         return ByteOperation.bitSet(pos , state , array , ByteWrapper.INT_BYTE_WRAPPER);
-    }
-
-    public static final Comparator<Integer> comparator() {
-        return IntegerOperation.COMPARATOR;
     }
 
     public static final int[] fill(int state , BigInteger startPos , BigInteger endPos , final int[] array) {

@@ -1,7 +1,6 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
-import java.util.Comparator;
 
 /**
  * 
@@ -14,8 +13,6 @@ import java.util.Comparator;
  *
  */
 public final class ShortOperation {
-    private static final Comparator<Short> COMPARATOR = (x , y) -> Short.compare(x , y);
-
     public static final int bitGet(BigInteger pos , final short[] array) {
         return ByteOperation.bitGet(pos , array , ByteWrapper.SHORT_BYTE_WRAPPER);
     }
@@ -35,10 +32,6 @@ public final class ShortOperation {
 
     public static final short[] bitSet(BigInteger pos , int state , final short[] array) {
         return ByteOperation.bitSet(pos , state , array , ByteWrapper.SHORT_BYTE_WRAPPER);
-    }
-
-    public static final Comparator<Short> comparator() {
-        return ShortOperation.COMPARATOR;
     }
 
     public static final short[] fill(int state , BigInteger startPos , BigInteger endPos , final short[] array) {
