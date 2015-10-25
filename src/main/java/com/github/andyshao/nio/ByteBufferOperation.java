@@ -15,7 +15,7 @@ public final class ByteBufferOperation {
     /**
      * Get the data by position
      * 
-     * @param buffer the {@link ByteBuffer} which is extract the data
+     * @param buffer the {@link ByteBuffer} which is extracted the data
      * @param start the start point of data
      * @param length the length of data
      * @return the data which you want to
