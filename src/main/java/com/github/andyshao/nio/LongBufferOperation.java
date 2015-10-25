@@ -13,7 +13,14 @@ import java.nio.LongBuffer;
  *
  */
 public final class LongBufferOperation {
-
+    /**
+     * Get by position
+     * 
+     * @param buffer the {@link LongBuffer} which should be extracted
+     * @param start the start position of {@link LongBuffer}
+     * @param length the length of {@link LongBuffer}
+     * @return the data you want to
+     */
     public static long[] getLongs(LongBuffer buffer , int start , int length) {
         final LongBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -21,6 +28,17 @@ public final class LongBufferOperation {
         return LongBufferOperation.usedArray(tmp);
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link LongBuffer} which should be searched
+     * @param start the start position of {@link LongBuffer}
+     * @param length the length of {@link LongBuffer}
+     * @param ls the data which should be found out
+     * @return if can't find out then return -1
+     */
     public static int indexOf(LongBuffer buffer , int start , int length , long... ls) {
         LongBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -28,6 +46,16 @@ public final class LongBufferOperation {
         return LongBufferOperation.indexOf(tmp , ls);
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link LongBuffer} which should be searched
+     * @param ls the data which should be found out
+     * @return if can't find out then return -1
+     * @see LongBufferOperation#indexOf(LongBuffer, int, int, long...)
+     */
     public static int indexOf(LongBuffer buffer , long... ls) {
         if (ls.length == 0) throw new IllegalArgumentException("ls is empty");
         if (ls.length > buffer.limit() - buffer.position()) return -1;
@@ -51,6 +79,17 @@ public final class LongBufferOperation {
         return position;
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link LongBuffer} which should be searched
+     * @param start the start position of {@link LongBuffer}
+     * @param length the length of {@link LongBuffer}
+     * @param ls the data which should be found out
+     * @return if can't find out then return -1
+     */
     public static int lastIndexOf(LongBuffer buffer , int start , int length , long... ls) {
         LongBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -58,6 +97,16 @@ public final class LongBufferOperation {
         return LongBufferOperation.lastIndexOf(tmp , ls);
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link LongBuffer} which should be searched
+     * @param ls the data which should be found out
+     * @return if can't find out then return -1
+     * @see LongBufferOperation#lastIndexOf(LongBuffer, int, int, long...)
+     */
     public static int lastIndexOf(LongBuffer buffer , long... ls) {
         if (ls.length == 0) throw new IllegalArgumentException("ls is empty");
         if (ls.length > buffer.limit() - buffer.position()) return -1;
@@ -85,6 +134,14 @@ public final class LongBufferOperation {
         return position;
     }
 
+    /**
+     * Only return a space which great than buffer.position() and less than
+     * buffer.limit()<br>
+     * <b>NOTE: It is will update the buffer</b>
+     * 
+     * @param buffer the {@link LongBuffer} which should be extrected
+     * @return the data you want to
+     */
     public static long[] usedArray(LongBuffer buffer) {
         final long[] result = new long[buffer.limit() - buffer.position()];
         buffer.get(result);

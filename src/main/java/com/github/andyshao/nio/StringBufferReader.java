@@ -18,6 +18,16 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  *
  */
 public class StringBufferReader implements BufferReader<String> {
+    /**
+     * 
+     * Title:<br>
+     * Descript:<br>
+     * Copyright: Copryright(c) Oct 25, 2015<br>
+     * Encoding:UNIX UTF-8
+     * 
+     * @author Andy.Shao
+     *
+     */
     public static class SeparateByStr implements Function<String , BufferReader.SeparatePoint> {
         private final String key;
 
@@ -42,10 +52,22 @@ public class StringBufferReader implements BufferReader<String> {
 
     private String temp = "";
 
+    /**
+     * Build {@link StringBufferReader}<br>
+     * the capacity of {@link ByteBuffer} is 1024
+     * 
+     * @param channel the channel which could be readed
+     */
     public StringBufferReader(ReadableByteChannel channel) {
         this(channel , 1024);
     }
 
+    /**
+     * Build {@link StringBufferReader}
+     * 
+     * @param channel the channel which could be read
+     * @param bufferSize the capacity of {@link ByteBuffer}
+     */
     public StringBufferReader(ReadableByteChannel channel , int bufferSize) {
         this.channel = channel;
         this.byteBuffer = ByteBuffer.allocate(bufferSize);
@@ -56,6 +78,11 @@ public class StringBufferReader implements BufferReader<String> {
         this.channel.close();
     }
 
+    /**
+     * Get the encoding of channel's
+     * 
+     * @return the encoding
+     */
     public String getEncoding() {
         return this.encoding;
     }
@@ -96,10 +123,20 @@ public class StringBufferReader implements BufferReader<String> {
         }
     }
 
+    /**
+     * Set the encoding of channel's
+     * 
+     * @param encoding the encoding of channel's
+     */
     public void setEncoding(String encoding) {
         this.encoding = encoding;
     }
 
+    /**
+     * Set the {@link BufferReader.SeparatePoint} converter
+     * 
+     * @param findSeparatePoint the {@link BufferReader.SeparatePoint} converter
+     */
     public void setFindSeparatePoint(Function<String , BufferReader.SeparatePoint> findSeparatePoint) {
         this.findSeparatePoint = findSeparatePoint;
     }

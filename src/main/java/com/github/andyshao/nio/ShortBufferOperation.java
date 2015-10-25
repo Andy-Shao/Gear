@@ -13,7 +13,14 @@ import java.nio.ShortBuffer;
  *
  */
 public final class ShortBufferOperation {
-
+    /**
+     * Get the data by position
+     * 
+     * @param buffer the {@link ShortBuffer} which should be extracted
+     * @param start the start position of {@link ShortBuffer}
+     * @param length the length of {@link ShortBuffer}
+     * @return the data you want to
+     */
     public static short[] getShorts(ShortBuffer buffer , int start , int length) {
         final ShortBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -21,6 +28,17 @@ public final class ShortBufferOperation {
         return ShortBufferOperation.usedArray(tmp);
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link ShortBuffer} which should be searched
+     * @param start the start position of {@link ShortBuffer}
+     * @param length the length of {@link ShortBuffer}
+     * @param ss the data which should be found out
+     * @return if can't find out then return -1
+     */
     public static int indexOf(ShortBuffer buffer , int start , int length , short... ss) {
         ShortBuffer tmp = buffer.asReadOnlyBuffer();
         tmp.position(start);
@@ -28,6 +46,16 @@ public final class ShortBufferOperation {
         return ShortBufferOperation.indexOf(tmp , ss);
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link ShortBuffer} which should be searched
+     * @param ss the data which should be found out
+     * @return if can't find out then return -1
+     * @see ShortBufferOperation#indexOf(ShortBuffer, int, int, short...)
+     */
     public static int indexOf(ShortBuffer buffer , short... ss) {
         if (ss.length == 0) throw new IllegalArgumentException("ss is empty");
         if (ss.length > buffer.limit() - buffer.position()) return -1;
@@ -51,6 +79,17 @@ public final class ShortBufferOperation {
         return position;
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link ShortBuffer} which should be searched
+     * @param start the start position of {@link ShortBuffer}
+     * @param length the length of {@link ShortBuffer}
+     * @param ss the data which should be found out
+     * @return if can't find out then return -1
+     */
     public static int lastIndexOf(ShortBuffer buffer , int start , int length , short... ss) {
         ShortBuffer tmp = buffer.asReadOnlyBuffer();
         buffer.position(start);
@@ -58,6 +97,16 @@ public final class ShortBufferOperation {
         return ShortBufferOperation.lastIndexOf(tmp , ss);
     }
 
+    /**
+     * Find the start point of data which you want to find out.
+     * The searching will start from head to end.<br>
+     * <b>NOTE: Only return the position of the first time find out the data</b>
+     * 
+     * @param buffer the {@link ShortBuffer} which should be searched
+     * @param ss the data which should be found out
+     * @return if can't find out then return -1
+     * @see ShortBufferOperation#lastIndexOf(ShortBuffer, int, int, short...)
+     */
     public static int lastIndexOf(ShortBuffer buffer , short... ss) {
         if (ss.length == 0) throw new IllegalArgumentException("ss is empty");
         if (ss.length > buffer.limit() - buffer.position()) return -1;
@@ -85,6 +134,14 @@ public final class ShortBufferOperation {
         return position;
     }
 
+    /**
+     * Only return a space which great than buffer.position() and less than
+     * buffer.limit()<br>
+     * <b>NOTE: It is will update the buffer</b>
+     * 
+     * @param buffer the {@link ShortBuffer} which should be extracted
+     * @return the data which you want to
+     */
     public static short[] usedArray(ShortBuffer buffer) {
         final short[] result = new short[buffer.limit() - buffer.position()];
         buffer.get(result);
