@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.Andy-Shao</groupId>
 	<artifactId>Gear</artifactId>
-	<version>3.0-SNAPSHOT</version>
+	<version>3.0</version>
 	<packaging>jar</packaging>
 	<name>Gear</name>
 	<description>Enhance and formating the coding of JDK</description>
