@@ -18,7 +18,6 @@ import com.github.andyshao.arithmetic.GraphAlg.TspVertex;
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.SingleLinked;
-import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.util.ComparatorOperation;
 
 public class GraphAlgTest {
@@ -46,8 +45,7 @@ public class GraphAlgTest {
     @Test
     public void testMst() {
         final Comparator<MstVertex<String>> comparator =
-            (MstVertex<String> one , MstVertex<String> two) -> ComparatorOperation.STRING.compare(one.data ,
-                two.data);
+            (MstVertex<String> one , MstVertex<String> two) -> ComparatorOperation.STRING.compare(one.data , two.data);
         final Graph<MstVertex<String>> graph =
             Graph.<MstVertex<String>> defaultGraph(comparator ,
                 () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
@@ -82,8 +80,8 @@ public class GraphAlgTest {
     @Test
     public void testShortest() {
         final Comparator<PathVertex<String>> comparator =
-            (PathVertex<String> one , PathVertex<String> two) -> ComparatorOperation.STRING.compare(one.data ,
-                two.data);
+            (PathVertex<String> one , PathVertex<String> two) -> ComparatorOperation.STRING
+                .compare(one.data , two.data);
         final Graph<PathVertex<String>> graph =
             Graph.<PathVertex<String>> defaultGraph(comparator ,
                 () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));

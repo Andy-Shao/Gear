@@ -1,9 +1,6 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
-import java.util.Comparator;
-
-import com.github.andyshao.util.ComparatorOperation;
 
 /**
  * 

@@ -6,9 +6,10 @@ package com.github.andyshao.io;
  * Descript:<br>
  * Copyright: Copryright(c) Nov 4, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class UnblockShortTcpClient {
+public class UnblockingShortTcpClient {
 
 }

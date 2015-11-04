@@ -23,7 +23,7 @@ public interface MessageFactory {
      * @return {@link MessageContext}
      */
     public default MessageContext buildMessageContext() {
-        return new MessageContext() {
+        MessageContext context = new MessageContext() {
             private final Map<String , Object> map = new HashMap<>();
 
             @Override
@@ -86,6 +86,8 @@ public interface MessageFactory {
                 return this.map.values();
             }
         };
+        context.cleanStatus();
+        return context;
     }
 
     /**
