@@ -19,7 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v3.1**
 
-Ading BlokingTcpServer and others serveices<br>
+Ading BlokingTcpServer and others serveices in TCP/IP<br>
 
 **What the newest plugins for v3.0**
 
