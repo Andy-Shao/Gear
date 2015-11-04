@@ -17,6 +17,10 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the newest plugins for v3.1**
+
+Ading BlokingTcpServer and others serveices<br>
+
 **What the newest plugins for v3.0**
 
 Rewriting the Proxy interfaces<br>
