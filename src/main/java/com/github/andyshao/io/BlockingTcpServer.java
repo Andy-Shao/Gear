@@ -1,6 +1,7 @@
 package com.github.andyshao.io;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketException;
@@ -10,6 +11,7 @@ import java.nio.channels.SocketChannel;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import com.github.andyshao.nio.BufferReader;
@@ -45,7 +47,13 @@ public class BlockingTcpServer implements TcpServer {
     @Override
     public void close() throws IOException {
         this.isWaitingForClose = true;
-        if (!this.isProcessing && this.serverSocketChannel != null) this.serverSocketChannel.close();
+        while(this.isProcessing)
+            try {
+                TimeUnit.MICROSECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        if (this.serverSocketChannel != null) this.serverSocketChannel.close();
         this.executorService.shutdown();
     }
 
@@ -86,7 +94,9 @@ public class BlockingTcpServer implements TcpServer {
                         BlockingTcpServer.this.messageFactory.buildMessageEncoder(context).encode(context);
                         context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
                         context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
-                        socket.getOutputStream().write((byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES));
+                        OutputStream outputStream = socket.getOutputStream();
+                        outputStream.write((byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES));
+                        outputStream.flush();
                         context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
                     } catch (Exception e) {
                         context.put(BlockingTcpServer.SOCKET_CHANNEL , socketChannel);
