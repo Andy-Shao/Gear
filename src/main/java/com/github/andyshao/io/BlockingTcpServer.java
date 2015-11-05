@@ -47,7 +47,7 @@ public class BlockingTcpServer implements TcpServer {
     @Override
     public void close() throws IOException {
         this.isWaitingForClose = true;
-        while(this.isProcessing)
+        while (this.isProcessing)
             try {
                 TimeUnit.MICROSECONDS.sleep(10);
             } catch (InterruptedException e) {
@@ -80,9 +80,7 @@ public class BlockingTcpServer implements TcpServer {
                     context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
 
                     try {
-                        ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(socket.getInputStream()));
-                        reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
-                        context.put(MessageContext.INPUT_MESSAGE_BYTES , reader.read());
+                        BlockingTcpServer.this.read(socket , context);
                         context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
                         context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                         BlockingTcpServer.this.messageFactory.buildMessageDecoder(context).decode(context);
@@ -94,9 +92,7 @@ public class BlockingTcpServer implements TcpServer {
                         BlockingTcpServer.this.messageFactory.buildMessageEncoder(context).encode(context);
                         context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
                         context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
-                        OutputStream outputStream = socket.getOutputStream();
-                        outputStream.write((byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES));
-                        outputStream.flush();
+                        BlockingTcpServer.this.write(socket , context);
                         context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
                     } catch (Exception e) {
                         context.put(BlockingTcpServer.SOCKET_CHANNEL , socketChannel);
@@ -123,6 +119,12 @@ public class BlockingTcpServer implements TcpServer {
         });
     }
 
+    protected void read(final Socket socket , final MessageContext context) throws IOException {
+        ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(socket.getInputStream()));
+        reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
+        context.put(MessageContext.INPUT_MESSAGE_BYTES , reader.read());
+    }
+
     public void setErrorProcess(Consumer<MessageContext> errorProcess) {
         this.errorProcess = errorProcess;
     }
@@ -133,5 +135,11 @@ public class BlockingTcpServer implements TcpServer {
 
     public void setPort(int port) {
         this.port = port;
+    }
+
+    protected void write(final Socket socket , final MessageContext context) throws IOException {
+        OutputStream outputStream = socket.getOutputStream();
+        outputStream.write((byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES));
+        outputStream.flush();
     }
 }

@@ -100,7 +100,7 @@ public abstract class UnblockingTcpServer implements TcpServer {
         });
     }
 
-    private void processAcceptable(Selector selector , SelectionKey key) throws IOException {
+    protected void processAcceptable(Selector selector , SelectionKey key) throws IOException {
         MessageContext context = this.messageFactory.buildMessageContext();
         ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
         SocketChannel socketChannel = ssc.accept();
@@ -112,7 +112,7 @@ public abstract class UnblockingTcpServer implements TcpServer {
         socketChannel.register(selector , SelectionKey.OP_READ | SelectionKey.OP_WRITE , context);
     }
 
-    private void processReadable(SelectionKey key) throws IOException {
+    protected void processReadable(SelectionKey key) throws IOException {
         final MessageContext context = (MessageContext) key.attachment();
         if (context.isWaitingForSending()) {
             byte[] writeBytes = (byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES);
@@ -127,7 +127,7 @@ public abstract class UnblockingTcpServer implements TcpServer {
         }
     }
 
-    private void processWritable(SelectionKey key) throws IOException {
+    protected void processWritable(SelectionKey key) throws IOException {
         final MessageContext context = (MessageContext) key.attachment();
         if (context.isWaitingForRecieve()) {
             SocketChannel socketChannel = (SocketChannel) key.channel();

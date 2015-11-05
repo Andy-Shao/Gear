@@ -19,7 +19,7 @@ public interface MessageContext extends Map<String , Object> {
     public static final String INPUT_INET_PORT = "input_inet_port";
     public static final String INPUT_MESSAGE_BYTES = "input_message_bytes";
     public static final String INPUT_MESSAGE_ENCODING = "input_message_encoding";
-    public static final String INPUT_MESSAGE_STRING = "input_message_String";
+    public static final String INPUT_MESSAGE_OBJECT = "input_message_object";
     public static final String IS_WAITING_FOR_DECODE = "is_waiting_for_decode";
     public static final String IS_WAITING_FOR_ENCODE = "is_waiting_for_encode";
     public static final String IS_WAITING_FOR_PROCESS = "is_waiting_for_process";
@@ -29,7 +29,7 @@ public interface MessageContext extends Map<String , Object> {
     public static final String OUTPU_MESSAGE_ENCODING = "output_message_encoding";
     public static final String OUTPUT_INET_ADDRESS = "output_inet_address";
     public static final String OUTPUT_MESSAGE_BYTES = "output_message_bytes";
-    public static final String OUTPUT_MESSAGE_STRING = "output_message_String";
+    public static final String OUTPUT_MESSAGE_OBJECT = "output_message_object";
 
     public default void cleanStatus() {
         String encoding = GeneralSystemProperty.FILE_ENCODING.value();
@@ -41,9 +41,9 @@ public interface MessageContext extends Map<String , Object> {
         this.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
         this.put(MessageContext.IS_WAITING_FOR_PROCESS , false);
         this.put(MessageContext.INPUT_MESSAGE_BYTES , new byte[0]);
-        this.put(MessageContext.INPUT_MESSAGE_STRING , "");
+        this.put(MessageContext.INPUT_MESSAGE_OBJECT , "");
         this.put(MessageContext.OUTPUT_MESSAGE_BYTES , new byte[0]);
-        this.put(MessageContext.OUTPUT_MESSAGE_STRING , "");
+        this.put(MessageContext.OUTPUT_MESSAGE_OBJECT , "");
     }
 
     public default boolean isWaitingForDecode() {

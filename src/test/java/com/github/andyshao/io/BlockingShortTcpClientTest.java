@@ -15,7 +15,7 @@ public class BlockingShortTcpClientTest {
             MessageContext context = messageFactory.buildMessageContext();
             context.put(MessageContext.OUTPUT_INET_ADDRESS , InetAddress.getLocalHost());
             context.put(MessageContext.OUTPU_INET_PORT , 8000);
-            context.put(MessageContext.OUTPUT_MESSAGE_STRING , reader.readLine());
+            context.put(MessageContext.OUTPUT_MESSAGE_OBJECT , reader.readLine());
             tcpClient.send(context);
         }
         System.out.println("FINISHING!!!");

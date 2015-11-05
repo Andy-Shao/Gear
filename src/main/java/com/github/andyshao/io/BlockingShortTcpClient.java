@@ -40,14 +40,20 @@ public class BlockingShortTcpClient implements Closeable {
 
     @Override
     public void close() throws IOException {
-        while (this.isProcessing) {
+        while (this.isProcessing)
             try {
                 TimeUnit.MICROSECONDS.sleep(10);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
         this.socketChannel.close();
+    }
+
+    protected void read(MessageContext context) throws IOException {
+        InputStream inputStream = this.socketChannel.socket().getInputStream();
+        ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));
+        reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
+        context.put(MessageContext.INPUT_MESSAGE_BYTES , reader.read());
     }
 
     public void send(MessageContext context) throws IOException {
@@ -62,20 +68,10 @@ public class BlockingShortTcpClient implements Closeable {
             this.messageFactory.buildMessageEncoder(context).encode(context);
             context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
-            byte[] writeBytes = (byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES);
-            if (writeBytes.length != 0) {
-                OutputStream outputStream = this.socketChannel.socket().getOutputStream();
-                WritableByteChannel channel = Channels.newChannel(outputStream);
-                ByteBuffer writeBuffer = ByteBuffer.wrap(writeBytes);
-                while (writeBuffer.remaining() != 0)
-                    channel.write(writeBuffer);
-            }
+            this.write(context);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
-            InputStream inputStream = this.socketChannel.socket().getInputStream();
-            ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));
-            reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
-            context.put(MessageContext.INPUT_MESSAGE_BYTES , reader.read());
+            this.read(context);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
             context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
             this.messageFactory.buildMessageDecoder(context).decode(context);
@@ -95,5 +91,16 @@ public class BlockingShortTcpClient implements Closeable {
 
     public void setErrorProcess(Consumer<MessageContext> errorProcess) {
         this.errorProcess = errorProcess;
+    }
+
+    protected void write(MessageContext context) throws IOException {
+        byte[] writeBytes = (byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES);
+        if (writeBytes.length != 0) {
+            OutputStream outputStream = this.socketChannel.socket().getOutputStream();
+            WritableByteChannel channel = Channels.newChannel(outputStream);
+            ByteBuffer writeBuffer = ByteBuffer.wrap(writeBytes);
+            while (writeBuffer.remaining() != 0)
+                channel.write(writeBuffer);
+        }
     }
 }
