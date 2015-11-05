@@ -1,5 +1,6 @@
 package com.github.andyshao.io;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,6 +10,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.SocketChannel;
 import java.nio.channels.WritableByteChannel;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import com.github.andyshao.nio.BufferReader;
@@ -24,42 +26,56 @@ import com.github.andyshao.nio.ByteBufferReader;
  * @author Andy.Shao
  *
  */
-public class BlockingShortTcpClient {
+public class BlockingShortTcpClient implements Closeable {
     public static final String EXCEPTION = BlockingShortTcpClient.class.getName() + "_EXCEPTION";
-    public static final String HOST = BlockingShortTcpClient.class.getName() + "_HOST";
-    public static final String PORT = BlockingShortTcpClient.class.getName() + "_PORT";
     protected Consumer<MessageContext> errorProcess = (context) -> {
     };
-
+    protected volatile boolean isProcessing = false;
     protected MessageFactory messageFactory;
+    protected SocketChannel socketChannel = null;
 
     public BlockingShortTcpClient(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
     }
 
+    @Override
+    public void close() throws IOException {
+        while (this.isProcessing) {
+            try {
+                TimeUnit.MICROSECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        this.socketChannel.close();
+    }
+
     public void send(MessageContext context) throws IOException {
-        try (SocketChannel socketChannel = SocketChannel.open();) {
+        try {
+            this.isProcessing = true;
+            this.socketChannel = SocketChannel.open();
             InetSocketAddress isa =
-                new InetSocketAddress((InetAddress) context.get(BlockingShortTcpClient.HOST) ,
-                    (Integer) context.get(BlockingShortTcpClient.PORT));
-            socketChannel.connect(isa);
+                new InetSocketAddress((InetAddress) context.get(MessageContext.OUTPUT_INET_ADDRESS) ,
+                    (Integer) context.get(MessageContext.OUTPU_INET_PORT));
+            this.socketChannel.connect(isa);
+            context.put(MessageContext.IS_WAITING_FOR_ENCODE , true);
             this.messageFactory.buildMessageEncoder(context).encode(context);
             context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
             byte[] writeBytes = (byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES);
-            if (writeBytes.length != 0) try (OutputStream outputStream = socketChannel.socket().getOutputStream();
-                WritableByteChannel channel = Channels.newChannel(outputStream);) {
+            if (writeBytes.length != 0) {
+                OutputStream outputStream = this.socketChannel.socket().getOutputStream();
+                WritableByteChannel channel = Channels.newChannel(outputStream);
                 ByteBuffer writeBuffer = ByteBuffer.wrap(writeBytes);
                 while (writeBuffer.remaining() != 0)
                     channel.write(writeBuffer);
             }
             context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
-            try (InputStream inputStream = socketChannel.socket().getInputStream();
-                ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));) {
-                reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
-                context.put(MessageContext.INPUT_MESSAGE_BYTES , reader.read());
-            }
+            InputStream inputStream = this.socketChannel.socket().getInputStream();
+            ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));
+            reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
+            context.put(MessageContext.INPUT_MESSAGE_BYTES , reader.read());
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
             context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
             this.messageFactory.buildMessageDecoder(context).decode(context);
@@ -72,6 +88,8 @@ public class BlockingShortTcpClient {
             this.errorProcess.accept(context);
             if (e instanceof IOException) throw (IOException) e;
             else throw new RuntimeException(e);
+        } finally {
+            this.isProcessing = false;
         }
     }
 
