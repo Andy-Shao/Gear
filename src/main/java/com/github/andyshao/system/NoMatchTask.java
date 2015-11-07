@@ -21,7 +21,9 @@ public class NoMatchTask implements Task {
     }
 
     private void goHelp() {
-        this.getNextTask().run(new String[] { HelpTask.KEY_WORDS });
+        this.getNextTask().run(new String[] {
+            HelpTask.KEY_WORDS
+        });
     }
 
     @Override

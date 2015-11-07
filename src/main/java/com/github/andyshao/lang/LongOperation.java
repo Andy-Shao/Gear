@@ -168,15 +168,19 @@ public final class LongOperation {
     }
 
     public static final byte[] toByte(long l) {
-        return new byte[] { LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) ,
+        return new byte[] {
+            LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) ,
             LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) , LongOperation.getByte(l , 5) ,
-            LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7) };
+            LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7)
+        };
     }
 
     public static final String toHexString(long l) {
-        return Convert.BYTES_TO_HEX.convert(new byte[] { LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) ,
-            LongOperation.getByte(l , 2) , LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) ,
-            LongOperation.getByte(l , 5) , LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7) });
+        return Convert.BYTES_TO_HEX.convert(new byte[] {
+            LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) ,
+            LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) , LongOperation.getByte(l , 5) ,
+            LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7)
+        });
     }
 
     public static final String toHexString(long... ls) {

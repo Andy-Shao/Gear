@@ -66,12 +66,15 @@ public final class ShortOperation {
     }
 
     public static final byte[] toByte(short s) {
-        return new byte[] { ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1) };
+        return new byte[] {
+            ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1)
+        };
     }
 
     public static final String toHexString(short s) {
-        return Convert.BYTES_TO_HEX
-            .convert(new byte[] { ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1) });
+        return Convert.BYTES_TO_HEX.convert(new byte[] {
+            ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1)
+        });
     }
 
     public static final String toHexString(short... s) {

@@ -113,4 +113,20 @@ public interface MessageFactory {
      * @return {@link MessageProcess}
      */
     public MessageProcess buildMessageProcess(MessageContext context);
+
+    /**
+     * build {@link MessageWritable}
+     * 
+     * @param context {@link MessageContext}
+     * @return {@link MessageProcess}
+     */
+    public MessageWritable buildMessageWritable(MessageContext context);
+
+    /**
+     * build {@link MessageReadable}
+     * 
+     * @param context {@link MessageContext}
+     * @return {@link MessageReadable}
+     */
+    public MessageReadable builMessageReadable(MessageContext context);
 }

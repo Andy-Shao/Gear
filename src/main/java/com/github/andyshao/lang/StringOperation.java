@@ -103,10 +103,14 @@ public final class StringOperation {
     public static String[] split(String str , String separator) {
         String[] result = new String[0];
         for (int index ; (index = str.indexOf(separator)) != -1 ;) {
-            result = ArrayOperation.mergeArray(String[].class , result , new String[] { str.substring(0 , index) });
+            result = ArrayOperation.mergeArray(String[].class , result , new String[] {
+                str.substring(0 , index)
+            });
             str = str.substring(index + separator.length());
         }
-        if (str.length() != 0) result = ArrayOperation.mergeArray(String[].class , result , new String[] { str });
+        if (str.length() != 0) result = ArrayOperation.mergeArray(String[].class , result , new String[] {
+            str
+        });
 
         return result;
     }

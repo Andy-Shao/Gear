@@ -26,7 +26,9 @@ public class NoArgumentTask implements Task {
 
     @Override
     public void process(String[] args) {
-        this.run(new String[] { HelpTask.KEY_WORDS });
+        this.run(new String[] {
+            HelpTask.KEY_WORDS
+        });
     }
 
     public void setNextTask(Task nextTask) {

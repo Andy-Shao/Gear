@@ -130,7 +130,8 @@ public class InfoTask implements Task {
                 System.out.println("dependency.version: "
                     + dependency.getElementsByTagName("version").item(0).getTextContent());
                 final NodeList scope = dependency.getElementsByTagName("scope");
-                if (scope == null || scope.getLength() == 0) ;
+                if (scope == null || scope.getLength() == 0)
+                ;
                 else System.out.println("dependency.scope: "
                     + dependency.getElementsByTagName("scope").item(0).getTextContent());
             }

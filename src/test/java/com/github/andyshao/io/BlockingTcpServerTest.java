@@ -7,7 +7,7 @@ import java.io.InputStreamReader;
 public class BlockingTcpServerTest {
 
     public static void main(String[] args) throws IOException {
-        try(BlockingTcpServer blockingTcpServer = new BlockingTcpServer(new EchoMessageFactory());
+        try(BlockingTcpServer blockingTcpServer = new BlockingTcpServer(new BlockingEchoMessageFactory());
                 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));){
             blockingTcpServer.open();
             System.out.println("Service open!");
