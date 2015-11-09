@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 import com.github.andyshao.nio.ByteBufferOperation;
 
-public class BlockingEchoMessageFactory implements MessageFactory {
+public class BlockingEchoMessageFactory implements BlockingMessageFactory {
 
     @Override
     public MessageDecoder buildMessageDecoder(MessageContext context) {
@@ -47,16 +47,6 @@ public class BlockingEchoMessageFactory implements MessageFactory {
                 String input_message = (String) context.get(MessageContext.INPUT_MESSAGE_OBJECT);
                 context.put(MessageContext.OUTPUT_MESSAGE_OBJECT , input_message);
             }
-        };
-    }
-
-    @Override
-    public MessageWritable buildMessageWritable(MessageContext context) {
-        return (channel , ctxt) -> {
-            byte[] writeBytes = (byte[]) ctxt.get(MessageContext.OUTPUT_MESSAGE_BYTES);
-            if(writeBytes.length == 0) return;
-            ByteBuffer writeBuffer = ByteBuffer.wrap(writeBytes);
-            while(writeBuffer.hasRemaining()) channel.write(writeBuffer);
         };
     }
 
