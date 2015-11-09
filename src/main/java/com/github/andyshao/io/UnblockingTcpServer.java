@@ -2,8 +2,8 @@ package com.github.andyshao.io;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.net.SocketException;
-import java.nio.ByteBuffer;
 import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -16,9 +16,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import com.github.andyshao.nio.ByteBufferOperation;
-import com.github.andyshao.reflect.ArrayOperation;
-
 /**
  * 
  * Title:<br>
@@ -29,10 +26,12 @@ import com.github.andyshao.reflect.ArrayOperation;
  * @author Andy.Shao
  *
  */
-public abstract class UnblockingTcpServer implements TcpServer {
+public class UnblockingTcpServer implements TcpServer {
     public static final String EXCEPTION = UnblockingTcpServer.class.getName() + "_EXCEPTION";
     public static final String SOCKET_CHANNEL = UnblockingTcpServer.class.getName() + "_SOCKET_CHANNEL";
     protected Consumer<MessageContext> errorProcess = (context) -> {
+        Exception e = (Exception) context.get(UnblockingTcpServer.EXCEPTION);
+        e.printStackTrace();
     };
     protected ExecutorService executorService = Executors
         .newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
@@ -101,46 +100,25 @@ public abstract class UnblockingTcpServer implements TcpServer {
     }
 
     protected void processAcceptable(Selector selector , SelectionKey key) throws IOException {
-        MessageContext context = this.messageFactory.buildMessageContext();
-        ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
-        SocketChannel socketChannel = ssc.accept();
+        final MessageContext context = this.messageFactory.buildMessageContext();
+        final ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
+        final SocketChannel socketChannel = ssc.accept();
         context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
         socketChannel.configureBlocking(false);
-        context.put(MessageContext.INPUT_INET_ADDRESS , socketChannel.socket().getInetAddress());
-        context.put(MessageContext.INPUT_INET_PORT , socketChannel.socket().getPort());
+        final Socket socket = socketChannel.socket();
+        context.put(MessageContext.INPUT_INET_ADDRESS , socket.getInetAddress());
+        context.put(MessageContext.INPUT_INET_PORT , socket.getPort());
         context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
         socketChannel.register(selector , SelectionKey.OP_READ | SelectionKey.OP_WRITE , context);
     }
 
     protected void processReadable(SelectionKey key) throws IOException {
         final MessageContext context = (MessageContext) key.attachment();
-        if (context.isWaitingForSending()) {
-            byte[] writeBytes = (byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES);
-            if (writeBytes.length != 0) {
-                SocketChannel socketChannel = (SocketChannel) key.channel();
-                context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
-                ByteBuffer outputBuffer = ByteBuffer.wrap(writeBytes);
-                int writeStatus = socketChannel.write(outputBuffer);
-                if (writeStatus != 0) context.put(MessageContext.OUTPUT_MESSAGE_BYTES ,
-                    ArrayOperation.splitArray(writeStatus , writeStatus , writeBytes.length));
-            } else context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
-        }
-    }
-
-    protected void processWritable(SelectionKey key) throws IOException {
-        final MessageContext context = (MessageContext) key.attachment();
         if (context.isWaitingForRecieve()) {
-            SocketChannel socketChannel = (SocketChannel) key.channel();
+            final SocketChannel socketChannel = (SocketChannel) key.channel();
             context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
-            ByteBuffer readBuff = ByteBuffer.allocate(1024);
-            int readStatus = socketChannel.read(readBuff);
-            readBuff.flip();
-            byte[] info =
-                ArrayOperation.mergeArray(byte[].class , (byte[]) context.get(MessageContext.INPUT_MESSAGE_BYTES) ,
-                    ByteBufferOperation.usedArray(readBuff));
-            context.put(MessageContext.INPUT_MESSAGE_BYTES , info);
-            if (readStatus == -1) {
-                context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
+            this.messageFactory.builMessageReadable(context).read(socketChannel , context);
+            if (!context.isWaitingForRecieve()) {
                 context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                 this.executorService.submit(new Callable<Void>() {
                     @Override
@@ -158,6 +136,15 @@ public abstract class UnblockingTcpServer implements TcpServer {
                     }
                 });
             }
+        }
+    }
+
+    protected void processWritable(SelectionKey key) throws IOException {
+        final MessageContext context = (MessageContext) key.attachment();
+        if (context.isWaitingForSending()) {
+            final SocketChannel socketChannel = (SocketChannel) key.channel();
+            context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
+            this.messageFactory.buildMessageWritable(context).write(socketChannel , context);
         }
     }
 

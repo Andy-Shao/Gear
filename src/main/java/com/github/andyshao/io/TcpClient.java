@@ -9,11 +9,13 @@ import java.io.IOException;
  * Descript:<br>
  * Copyright: Copryright(c) Nov 9, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public interface TcpClient extends Closeable{
+public interface TcpClient extends Closeable {
 
+    @Override
     public abstract void close() throws IOException;
 
     public abstract void open(MessageContext context) throws IOException;

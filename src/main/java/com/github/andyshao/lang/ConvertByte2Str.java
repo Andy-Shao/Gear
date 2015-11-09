@@ -11,9 +11,8 @@ package com.github.andyshao.lang;
  */
 public class ConvertByte2Str implements Convert<Byte , String> {
 
-    public static final String[] BYTE_HEX = new String[] {
-        "0" , "1" , "2" , "3" , "4" , "5" , "6" , "7" , "8" , "9" , "a" , "b" , "c" , "d" , "e" , "f"
-    };
+    public static final String[] BYTE_HEX = new String[] { "0" , "1" , "2" , "3" , "4" , "5" , "6" , "7" , "8" , "9" ,
+        "a" , "b" , "c" , "d" , "e" , "f" };
 
     public static Convert<Byte , String> byte2Char(final String[] format) {
         return (Byte in) -> {
