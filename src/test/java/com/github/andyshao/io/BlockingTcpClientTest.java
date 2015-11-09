@@ -10,8 +10,8 @@ public class BlockingTcpClientTest {
     public static void main(String[] args) throws IOException {
         System.out.println("Input message what you want to send: ");
         final BlockingEchoMessageFactory messageFactory = new BlockingEchoMessageFactory();
-        try(TcpClient tcpClient = new BlockingTcpClient(messageFactory);
-                BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));){
+        try (TcpClient tcpClient = new BlockingTcpClient(messageFactory);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));) {
             MessageContext context = messageFactory.buildMessageContext();
             context.put(MessageContext.OUTPUT_INET_ADDRESS , InetAddress.getLocalHost());
             context.put(MessageContext.OUTPU_INET_PORT , 8000);

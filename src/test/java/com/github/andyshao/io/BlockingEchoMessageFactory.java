@@ -8,6 +8,10 @@ import com.github.andyshao.nio.ByteBufferOperation;
 
 public class BlockingEchoMessageFactory implements BlockingMessageFactory {
 
+    static String addMessageHead(String messageBody) {
+        return String.format("%08d" , messageBody.length()) + messageBody;
+    }
+
     @Override
     public MessageDecoder buildMessageDecoder(MessageContext context) {
         return new MessageDecoder() {
@@ -29,7 +33,7 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
             @Override
             public void encode(MessageContext context) throws IOException , UnsupportedEncodingException {
                 String output_message = (String) context.get(MessageContext.OUTPUT_MESSAGE_OBJECT);
-                output_message = addMessageHead(output_message);
+                output_message = BlockingEchoMessageFactory.addMessageHead(output_message);
                 context.put(MessageContext.OUTPUT_MESSAGE_BYTES ,
                     output_message.getBytes((String) context.get(MessageContext.OUTPU_MESSAGE_ENCODING)));
                 System.out.println("Encode Message: " + output_message);
@@ -63,9 +67,5 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
             bodyBuffer.flip();
             ctxt.put(MessageContext.INPUT_MESSAGE_BYTES , ByteBufferOperation.usedArray(bodyBuffer));
         };
-    }
-
-    static String addMessageHead(String messageBody) {
-        return String.format("%08d" , messageBody.length()) + messageBody;
     }
 }
