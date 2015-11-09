@@ -14,6 +14,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
@@ -35,9 +36,12 @@ public class UnblockingTcpServer implements TcpServer {
     };
     protected ExecutorService executorService = Executors
         .newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    protected volatile boolean isProcessing = false;
     protected volatile boolean isWaitingForClose = false;
     protected MessageFactory messageFactory;
     protected int port = 8000;
+    protected Selector selector = null;
+    protected ServerSocketChannel serverSocketChannel = null;
 
     public UnblockingTcpServer(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
@@ -46,42 +50,50 @@ public class UnblockingTcpServer implements TcpServer {
     @Override
     public void close() throws IOException {
         this.isWaitingForClose = true;
+        while (this.isProcessing)
+            try {
+                TimeUnit.MICROSECONDS.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        this.selector.close();
+        this.serverSocketChannel.close();
+        this.executorService.shutdown();
     }
 
     private void myOpen() throws IOException , SocketException , ClosedChannelException {
         this.isWaitingForClose = false;
-        try (final Selector selector = Selector.open();
-            final ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();) {
-            serverSocketChannel.socket().setReuseAddress(true);
-            serverSocketChannel.configureBlocking(false);
-            serverSocketChannel.socket().bind(new InetSocketAddress(this.port));
+        this.selector = Selector.open();
+        this.serverSocketChannel = ServerSocketChannel.open();
+        this.serverSocketChannel.socket().setReuseAddress(true);
+        this.serverSocketChannel.configureBlocking(false);
+        this.serverSocketChannel.socket().bind(new InetSocketAddress(this.port));
 
-            serverSocketChannel.register(selector , SelectionKey.OP_ACCEPT);
-            while (selector.select() > 0 && !this.isWaitingForClose) {
-                Set<SelectionKey> readyKeys = selector.selectedKeys();
-                Iterator<SelectionKey> it = readyKeys.iterator();
-                while (it.hasNext()) {
-                    SelectionKey key = null;
-                    try {
-                        key = it.next();
-                        it.remove();
-                        if (key.isAcceptable()) this.processAcceptable(selector , key);
-                        else if (key.isReadable()) this.processReadable(key);
-                        else if (key.isWritable()) this.processWritable(key);
-                    } catch (Exception e) {
-                        if (key != null) {
-                            Object attachment = key.attachment();
-                            if (attachment != null) {
-                                MessageContext context = (MessageContext) attachment;
-                                context.put(UnblockingTcpServer.EXCEPTION , e);
-                                this.errorProcess.accept(context);
-                            }
-                            key.cancel();
-                            key.channel().close();
+        this.serverSocketChannel.register(this.selector , SelectionKey.OP_ACCEPT);
+        while (this.selector.select() > 0 && !this.isWaitingForClose) {
+            Set<SelectionKey> readyKeys = this.selector.selectedKeys();
+            Iterator<SelectionKey> it = readyKeys.iterator();
+            while (it.hasNext()) {
+                SelectionKey key = null;
+                try {
+                    key = it.next();
+                    it.remove();
+                    if (key.isAcceptable()) this.processAcceptable(this.selector , key);
+                    else if (key.isReadable()) this.processReadable(key);
+                    else if (key.isWritable()) this.processWritable(key);
+                } catch (Exception e) {
+                    if (key != null) {
+                        Object attachment = key.attachment();
+                        if (attachment != null) {
+                            MessageContext context = (MessageContext) attachment;
+                            context.put(UnblockingTcpServer.EXCEPTION , e);
+                            this.errorProcess.accept(context);
                         }
-                        if (e instanceof IOException) throw e;
-                        else throw new RuntimeException(e);
+                        key.cancel();
+                        key.channel().close();
                     }
+                    if (e instanceof IOException) throw e;
+                    else throw new RuntimeException(e);
                 }
             }
         }
