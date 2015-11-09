@@ -1,6 +1,5 @@
 package com.github.andyshao.io;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
@@ -20,15 +19,15 @@ import java.util.function.Consumer;
  * @author Andy.Shao
  *
  */
-public class BlockingShortTcpClient implements Closeable {
-    public static final String EXCEPTION = BlockingShortTcpClient.class.getName() + "_EXCEPTION";
+public class BlockingTcpClient implements TcpClient {
+    public static final String EXCEPTION = BlockingTcpClient.class.getName() + "_EXCEPTION";
     protected Consumer<MessageContext> errorProcess = (context) -> {
     };
     protected volatile boolean isProcessing = false;
     protected MessageFactory messageFactory;
     protected SocketChannel socketChannel = null;
 
-    public BlockingShortTcpClient(MessageFactory messageFactory) {
+    public BlockingTcpClient(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
     }
 
@@ -45,6 +44,7 @@ public class BlockingShortTcpClient implements Closeable {
         }
     }
 
+    @Override
     public void open(MessageContext context) throws IOException {
         this.socketChannel = SocketChannel.open();
         InetSocketAddress isa =
@@ -53,7 +53,13 @@ public class BlockingShortTcpClient implements Closeable {
         this.socketChannel.connect(isa);
     }
 
+    @Override
     public void send(MessageContext context) throws IOException {
+        this.send(context , this.messageFactory.buildMessageProcess(context));
+    }
+
+    @Override
+    public void send(MessageContext context , MessageProcess process) throws IOException {
         try {
             this.isProcessing = true;
             Socket socket = this.socketChannel.socket();
@@ -72,10 +78,10 @@ public class BlockingShortTcpClient implements Closeable {
             this.messageFactory.buildMessageDecoder(context).decode(context);
             context.put(MessageContext.IS_WAITING_FOR_DECODE , false);
             context.put(MessageContext.IS_WAITING_FOR_PROCESS , true);
-            this.messageFactory.buildMessageProcess(context).process(context);
+            process.process(context);
             context.put(MessageContext.IS_WAITING_FOR_PROCESS , false);
         } catch (Exception e) {
-            context.put(BlockingShortTcpClient.EXCEPTION , e);
+            context.put(BlockingTcpClient.EXCEPTION , e);
             this.errorProcess.accept(context);
             if (e instanceof IOException) throw (IOException) e;
             else throw new RuntimeException(e);
