@@ -135,15 +135,22 @@ public class UnblockingTcpServer implements TcpServer {
                 this.executorService.submit(new Callable<Void>() {
                     @Override
                     public Void call() throws Exception {
-                        UnblockingTcpServer.this.messageFactory.buildMessageDecoder(context).decode(context);
-                        context.put(MessageContext.IS_WAITING_FOR_DECODE , false);
-                        context.put(MessageContext.IS_WAITING_FOR_PROCESS , true);
-                        UnblockingTcpServer.this.messageFactory.buildMessageProcess(context).process(context);
-                        context.put(MessageContext.IS_WAITING_FOR_PROCESS , false);
-                        context.put(MessageContext.IS_WAITING_FOR_ENCODE , true);
-                        UnblockingTcpServer.this.messageFactory.buildMessageEncoder(context).encode(context);
-                        context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
-                        context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
+                        try {
+                            UnblockingTcpServer.this.messageFactory.buildMessageDecoder(context).decode(context);
+                            context.put(MessageContext.IS_WAITING_FOR_DECODE , false);
+                            context.put(MessageContext.IS_WAITING_FOR_PROCESS , true);
+                            UnblockingTcpServer.this.messageFactory.buildMessageProcess(context).process(context);
+                            context.put(MessageContext.IS_WAITING_FOR_PROCESS , false);
+                            context.put(MessageContext.IS_WAITING_FOR_ENCODE , true);
+                            UnblockingTcpServer.this.messageFactory.buildMessageEncoder(context).encode(context);
+                            context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
+                            context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
+                        } catch (Exception e) {
+                            context.put(UnblockingTcpServer.EXCEPTION , e);
+                            context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
+                            UnblockingTcpServer.this.errorProcess.accept(context);
+                            throw e;
+                        }
                         return null;
                     }
                 });
