@@ -10,6 +10,9 @@ package com.github.andyshao.io;
  * @author Andy.Shao
  *
  */
-public class HttpServer {
+public class UnblockingHttpServer {
 
+    public void open(MessageContext context){
+        //TODO
+    }
 }
