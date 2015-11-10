@@ -12,7 +12,7 @@ import java.nio.ByteBuffer;
  * @author Andy.Shao
  *
  */
-public interface BlockingMessageFactory extends MessageFactory {
+public interface BlockingTcpMessageFactory extends MessageFactory {
 
     @Override
     public default MessageWritable buildMessageWritable(MessageContext context) {

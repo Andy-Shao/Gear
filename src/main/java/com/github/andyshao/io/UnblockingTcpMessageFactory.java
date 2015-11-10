@@ -14,7 +14,7 @@ import com.github.andyshao.nio.ByteBufferOperation;
  * @author Andy.Shao
  *
  */
-public interface UnblockingMessageFactory extends MessageFactory {
+public interface UnblockingTcpMessageFactory extends MessageFactory {
 
     @Override
     public default MessageWritable buildMessageWritable(MessageContext context) {

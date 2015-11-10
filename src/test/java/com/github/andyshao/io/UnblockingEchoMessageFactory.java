@@ -7,7 +7,7 @@ import java.nio.channels.ReadableByteChannel;
 import com.github.andyshao.nio.ByteBufferOperation;
 import com.github.andyshao.reflect.ArrayOperation;
 
-public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
+public class UnblockingEchoMessageFactory implements UnblockingTcpMessageFactory {
     class MyMessageReadable implements MessageReadable {
         private static final String HEAD_BYTE = "HEAD_BYTE";
         private volatile boolean isReceiveBody = false;

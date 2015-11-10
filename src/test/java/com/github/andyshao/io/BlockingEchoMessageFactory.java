@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 import com.github.andyshao.nio.ByteBufferOperation;
 
-public class BlockingEchoMessageFactory implements BlockingMessageFactory {
+public class BlockingEchoMessageFactory implements BlockingTcpMessageFactory {
 
     static String addMessageHead(String messageBody) {
         return String.format("%08d" , messageBody.length()) + messageBody;
