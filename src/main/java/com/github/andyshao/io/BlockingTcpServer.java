@@ -73,8 +73,8 @@ public class BlockingTcpServer implements TcpServer {
                 public Void call() throws Exception {
                     final Socket socket = socketChannel.socket();
                     final MessageContext context = BlockingTcpServer.this.messageFactory.buildMessageContext();
-                    context.put(MessageContext.INPUT_INET_ADDRESS , socket.getInetAddress());
-                    context.put(MessageContext.INPUT_INET_PORT , socket.getPort());
+                    context.put(TcpMessageContext.INPUT_INET_ADDRESS , socket.getInetAddress());
+                    context.put(TcpMessageContext.INPUT_INET_PORT , socket.getPort());
                     context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
 
                     try {

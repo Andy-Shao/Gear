@@ -91,8 +91,8 @@ public class UnblockingTcpClient implements TcpClient {
     public void open(MessageContext context) throws IOException {
         this.isWaitingForClose = false;
         this.socketChannel = SocketChannel.open();
-        InetAddress is = (InetAddress) context.get(MessageContext.OUTPUT_INET_ADDRESS);
-        InetSocketAddress isa = new InetSocketAddress(is , (Integer) context.get(MessageContext.OUTPU_INET_PORT));
+        InetAddress is = (InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS);
+        InetSocketAddress isa = new InetSocketAddress(is , (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
         this.socketChannel.connect(isa);
         this.socketChannel.configureBlocking(false);
         this.selector = Selector.open();

@@ -15,8 +15,6 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  *
  */
 public interface MessageContext extends Map<String , Object> {
-    public static final String INPUT_INET_ADDRESS = "input_inet_address";
-    public static final String INPUT_INET_PORT = "input_inet_port";
     public static final String INPUT_MESSAGE_BYTES = "input_message_bytes";
     public static final String INPUT_MESSAGE_ENCODING = "input_message_encoding";
     public static final String INPUT_MESSAGE_OBJECT = "input_message_object";
@@ -25,9 +23,7 @@ public interface MessageContext extends Map<String , Object> {
     public static final String IS_WAITING_FOR_PROCESS = "is_waiting_for_process";
     public static final String IS_WAITING_FOR_RECEIVE = "is_waiting_for_receive";
     public static final String IS_WAITING_FOR_SENDING = "is_waiting_for_sending";
-    public static final String OUTPU_INET_PORT = "output_inet_port";
     public static final String OUTPU_MESSAGE_ENCODING = "output_message_encoding";
-    public static final String OUTPUT_INET_ADDRESS = "output_inet_address";
     public static final String OUTPUT_MESSAGE_BYTES = "output_message_bytes";
     public static final String OUTPUT_MESSAGE_OBJECT = "output_message_object";
 

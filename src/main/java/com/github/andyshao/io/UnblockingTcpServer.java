@@ -118,8 +118,8 @@ public class UnblockingTcpServer implements TcpServer {
         context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
         socketChannel.configureBlocking(false);
         final Socket socket = socketChannel.socket();
-        context.put(MessageContext.INPUT_INET_ADDRESS , socket.getInetAddress());
-        context.put(MessageContext.INPUT_INET_PORT , socket.getPort());
+        context.put(TcpMessageContext.INPUT_INET_ADDRESS , socket.getInetAddress());
+        context.put(TcpMessageContext.INPUT_INET_PORT , socket.getPort());
         context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
         socketChannel.register(selector , SelectionKey.OP_READ | SelectionKey.OP_WRITE , context);
     }
