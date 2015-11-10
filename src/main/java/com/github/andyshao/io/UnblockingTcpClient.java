@@ -81,8 +81,6 @@ public class UnblockingTcpClient implements TcpClient {
             while (it.hasNext()) {
                 SelectionKey key = it.next();
                 it.remove();
-                MessageContext context = (MessageContext) key.attachment();
-                context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
                 if (key.isWritable()) this.processWrite(key);
                 else if (key.isReadable()) this.processRead(key);
             }
@@ -93,8 +91,8 @@ public class UnblockingTcpClient implements TcpClient {
     public void open(MessageContext context) throws IOException {
         this.isWaitingForClose = false;
         this.socketChannel = SocketChannel.open();
-        InetAddress is = (InetAddress) context.get(MessageContext.INPUT_INET_ADDRESS);
-        InetSocketAddress isa = new InetSocketAddress(is , (Integer) context.get(MessageContext.INPUT_INET_PORT));
+        InetAddress is = (InetAddress) context.get(MessageContext.OUTPUT_INET_ADDRESS);
+        InetSocketAddress isa = new InetSocketAddress(is , (Integer) context.get(MessageContext.OUTPU_INET_PORT));
         this.socketChannel.connect(isa);
         this.socketChannel.configureBlocking(false);
         this.selector = Selector.open();
@@ -120,7 +118,7 @@ public class UnblockingTcpClient implements TcpClient {
         if (this.sendTasks.size() == 0) return;
         MessageContext context = this.sendTasks.getLast().messageContext;
         if (context.isWaitingForRecieve()) {
-            this.messageFactory.builMessageReadable(context).read(this.socketChannel , context);
+            this.messageFactory.builMessageReadable(context).read((SocketChannel) key.channel() , context);
             if (!context.isWaitingForRecieve()) {
                 context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                 this.executorService.submit(new Callable<Void>() {
@@ -136,7 +134,7 @@ public class UnblockingTcpClient implements TcpClient {
                             context.put(MessageContext.IS_WAITING_FOR_PROCESS , false);
                         } catch (Exception e) {
                             context.put(UnblockingTcpClient.EXCEPTION , e);
-                            context.put(UnblockingTcpClient.SOCKET_CHANNEL , UnblockingTcpClient.this.socketChannel);
+                            context.put(UnblockingTcpClient.SOCKET_CHANNEL , key.channel());
                             UnblockingTcpClient.this.errorProcess.accept(context);
                             throw e;
                         }
@@ -156,8 +154,8 @@ public class UnblockingTcpClient implements TcpClient {
             context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
         }
-        if (context.isWaitingForSending()) this.messageFactory.buildMessageWritable(context).write(this.socketChannel ,
-            context);
+        if (context.isWaitingForSending()) this.messageFactory.buildMessageWritable(context).write(
+            (SocketChannel) key.channel() , context);
     }
 
     @Override
