@@ -3,7 +3,6 @@ package com.github.andyshao.reflect;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Set;
@@ -65,8 +64,8 @@ public final class Reflects {
     public static <T> Class<T> forName(String className) {
         try {
             return (Class<T>) Class.forName(className);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.ClassNotFoundException e) {
+            throw new ClassNotFoundException(e);
         }
     }
 
@@ -81,8 +80,9 @@ public final class Reflects {
     public static <T> Constructor<T> getConstructor(Class<T> clazz , Class<?>... parameterTypes) {
         try {
             return clazz.getConstructor(parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
+            if (e instanceof java.lang.NoSuchMethodException) throw new NoSuchFieldException(e);
+            else throw new SecurityException(e);
         }
     }
 
@@ -97,8 +97,9 @@ public final class Reflects {
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> clazz , Class<?>... parameterTypes) {
         try {
             return clazz.getDeclaredConstructor(parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
+            if (e instanceof java.lang.NoSuchMethodException) throw new NoSuchFieldException(e);
+            else throw new SecurityException(e);
         }
     }
 
@@ -112,8 +113,9 @@ public final class Reflects {
     public static Field getDeclaredField(Class<?> clazz , String field_name) {
         try {
             return clazz.getDeclaredField(field_name);
-        } catch (NoSuchFieldException | SecurityException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.NoSuchFieldException | java.lang.SecurityException e) {
+            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
+            else throw new NoSuchFieldException(e);
         }
     }
 
@@ -128,8 +130,9 @@ public final class Reflects {
     public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
+            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
+            else throw new NoSuchFieldException(e);
         }
     }
 
@@ -143,8 +146,9 @@ public final class Reflects {
     public static Field getField(Class<?> clazz , String field_name) {
         try {
             return clazz.getField(field_name);
-        } catch (NoSuchFieldException | SecurityException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.NoSuchFieldException | java.lang.SecurityException e) {
+            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
+            else throw new NoSuchFieldException(e);
         }
     }
 
@@ -160,8 +164,8 @@ public final class Reflects {
     public static <T> T getFieldValue(Object target , Field field) {
         try {
             return (T) field.get(target);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.IllegalAccessException e) {
+            throw new IllegalAccessException(e);
         }
     }
 
@@ -177,8 +181,9 @@ public final class Reflects {
     public static Method getMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
             return clazz.getMethod(method_name , parameterTypes);
-        } catch (NoSuchMethodException | SecurityException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
+            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
+            else throw new NoSuchFieldException(e);
         }
     }
 
@@ -195,8 +200,9 @@ public final class Reflects {
     public static <T> T invoked(Object target , Method method , Object... values) {
         try {
             return (T) method.invoke(target , values);
-        } catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.IllegalAccessException | java.lang.reflect.InvocationTargetException e) {
+            if (e instanceof java.lang.IllegalAccessException) throw new IllegalAccessException(e);
+            else throw new InvocationTargetException(e);
         }
     }
 
@@ -210,8 +216,9 @@ public final class Reflects {
     public static <T> T newInstance(Class<T> clazz) {
         try {
             return clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.InstantiationException | java.lang.IllegalAccessException e) {
+            if (e instanceof java.lang.InstantiationException) throw new InstantiationException(e);
+            else throw new IllegalAccessException(e);
         }
     }
 
@@ -226,8 +233,11 @@ public final class Reflects {
     public static <T> T newInstance(Constructor<T> constructor , Object... values) {
         try {
             return constructor.newInstance(values);
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.InstantiationException | java.lang.IllegalAccessException
+            | java.lang.reflect.InvocationTargetException e) {
+            if (e instanceof java.lang.InstantiationException) throw new InstantiationException(e);
+            else if (e instanceof java.lang.IllegalAccessException) throw new IllegalAccessException(e);
+            else throw new InvocationTargetException(e);
         }
     }
 
@@ -241,8 +251,8 @@ public final class Reflects {
     public static void setFieldValue(Object target , Field field , Object value) {
         try {
             field.set(target , value);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException(e);
+        } catch (java.lang.IllegalAccessException e) {
+            throw new IllegalAccessException(e);
         }
     }
 
@@ -292,12 +302,12 @@ public final class Reflects {
     public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
         try {
             return clazz.getDeclaredField(field_name);
-        } catch (NoSuchFieldException e) {
+        } catch (java.lang.NoSuchFieldException e) {
             if (clazz.getSuperclass() != null) return Reflects
                 .superGetDeclaredField(clazz.getSuperclass() , field_name);
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
+            throw new NoSuchFieldException(e);
+        } catch (java.lang.SecurityException e) {
+            throw new SecurityException(e);
         }
     }
 
@@ -331,12 +341,12 @@ public final class Reflects {
     public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
-        } catch (NoSuchMethodException e) {
+        } catch (java.lang.NoSuchMethodException e) {
             if (clazz.getSuperclass() != null) return Reflects.superGetDeclaredMethod(clazz.getSuperclass() ,
                 method_name , parameterTypes);
-            throw new RuntimeException(e);
-        } catch (SecurityException e) {
-            throw new RuntimeException(e);
+            throw new NoSuchFieldException(e);
+        } catch (java.lang.SecurityException e) {
+            throw new SecurityException(e);
         }
     }
 
