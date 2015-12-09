@@ -19,7 +19,8 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v3.1**
 
-Ading BlokingTcpServer and others serveices in TCP/IP<br>
+Adding HttpTask in system package<br>
+Adding BlokingTcpServer and others services in TCP/IP<br>
 
 **What the newest plugins for v3.0**
 

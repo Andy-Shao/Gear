@@ -8,6 +8,7 @@ var NoMatchTask = Java.type(System_Package_Name + ".NoMatchTask");
 var SystemPropertiesTask = Java.type(System_Package_Name + ".SystemPropertiesTask");
 var VersionTask = Java.type(System_Package_Name + ".VersionTask");
 var CleanJavadocTask = Java.type(System_Package_Name + ".CleanJavadocTask");
+var HttpTask = Java.type(System_Package_Name + ".HttpTask");
 
 //setNextTask
 function setNextTask(head, tail){
@@ -23,5 +24,6 @@ tail = setNextTask(tail, new VersionTask());
 tail = setNextTask(tail, new SystemPropertiesTask());
 tail = setNextTask(tail, new JvmTask());
 tail = setNextTask(tail, new CleanJavadocTask());
+tail = setNextTask(tail, new HttpTask());
 tail = setNextTask(tail, new NoMatchTask());
 tail.setNextTask(head);
