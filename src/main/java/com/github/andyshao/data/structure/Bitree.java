@@ -78,7 +78,8 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
             this.treeNodeFactory = treeNodeFactory;
         }
 
-        public MyBitree(Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
+        public MyBitree(
+            Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
             this.treeNodeFactory = treeNodeFactory;
             this.insLeft(null , data);
 
@@ -139,8 +140,8 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
             if (node == null) {
                 if (this.size > 0) throw new TreeOperationException("node is null & the size of tree bigger than 0.");
-            } else if (node.right() != null) throw new TreeChildNodeNotEmptyException(
-                "the right child of node's is not null");
+            } else if (node.right() != null)
+                throw new TreeChildNodeNotEmptyException("the right child of node's is not null");
 
             //Allocate storage for the node.
             new_node = this.treeNodeFactory.get();

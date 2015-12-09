@@ -198,7 +198,8 @@ public interface Graph<D> extends Cleanable {
         protected int vcount;
 
         public MyGraph(
-            Comparator<DATA> comparator , Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory) {
+            Comparator<DATA> comparator ,
+            Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory) {
             this.linkedFactory = linkedFactory;
             this.comparator = comparator;
             this.adjlists = this.linkedFactory.get();
@@ -252,13 +253,13 @@ public interface Graph<D> extends Cleanable {
             //Do not allow insertion of an edge without both its vertices in the graph.
             element = this.search(data2 , (elmt) -> {
             });
-            if (element == null) throw new GraphOperationException("Can't find out the data2 (" + data2
-                + ") in the graph.");
+            if (element == null)
+                throw new GraphOperationException("Can't find out the data2 (" + data2 + ") in the graph.");
 
             element = this.search(data1 , (elmt) -> {
             });
-            if (element == null) throw new GraphOperationException("Can't find out the data1 (" + data1
-                + ") in the graph.");
+            if (element == null)
+                throw new GraphOperationException("Can't find out the data1 (" + data1 + ") in the graph.");
 
             //Insert the second vertex into the adjacency list of the first vertex.
             element.data().adjacent().add(data2);
@@ -339,8 +340,8 @@ public interface Graph<D> extends Cleanable {
                 });
                 prev = (CycleLinkedElmt<Graph.AdjList<DATA>>) object[0];
             }
-            if (element.data().adjacent().contains(data)) throw new GraphOperationException(
-                "Do not allow removal of the vertex if it is an adjecency list.");
+            if (element.data().adjacent().contains(data))
+                throw new GraphOperationException("Do not allow removal of the vertex if it is an adjecency list.");
             //Return if the vertex was not found.
             if (element == null) return result;
             if (element.data().adjacent().size() > 0) throw new GraphOperationException(
@@ -407,8 +408,8 @@ public interface Graph<D> extends Cleanable {
      * @param <DATA> data type
      * @return the result
      */
-    public static <DATA> Collection<BfsVertex<DATA>> bfs(
-        Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , Collection<BfsVertex<DATA>> result) {
+    public static <DATA> Collection<BfsVertex<DATA>>
+        bfs(Graph<BfsVertex<DATA>> graph , BfsVertex<DATA> start , Collection<BfsVertex<DATA>> result) {
         Queue<AdjList<BfsVertex<DATA>>> queue = new SimpleQueue<>();
         //Initialize the queue with the adjacency list of the start vertex.
         AdjList<BfsVertex<DATA>> clr_adjlist = graph.adjlist(start);
@@ -471,8 +472,8 @@ public interface Graph<D> extends Cleanable {
         return new MyGraph<DATA>(comparator , singleLinkedFactory);
     }
 
-    public static <DATA> Collection<DfsVertex<DATA>> dfs(
-        Graph<DfsVertex<DATA>> graph , Collection<DfsVertex<DATA>> result) {
+    public static <DATA> Collection<DfsVertex<DATA>>
+        dfs(Graph<DfsVertex<DATA>> graph , Collection<DfsVertex<DATA>> result) {
         DfsVertex<DATA> vertex;
         CycleLinkedElmt<AdjList<DfsVertex<DATA>>> element;
 
@@ -493,8 +494,8 @@ public interface Graph<D> extends Cleanable {
         return result;
     }
 
-    public static <DATA> Collection<DfsVertex<DATA>> dfsMain(
-        Graph<DfsVertex<DATA>> graph , AdjList<DfsVertex<DATA>> adjlist , Collection<DfsVertex<DATA>> result) {
+    public static <DATA> Collection<DfsVertex<DATA>>
+        dfsMain(Graph<DfsVertex<DATA>> graph , AdjList<DfsVertex<DATA>> adjlist , Collection<DfsVertex<DATA>> result) {
         //Color the vertex gray and traverse its adjacency list.
         adjlist.vertex().color(VertexColor.GRAY);
 

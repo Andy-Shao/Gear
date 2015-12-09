@@ -26,8 +26,8 @@ import com.github.andyshao.data.structure.Stack;
  */
 public final class GraphAlg {
     public static class MstVertex<DATA> {
-        public static final <DATA> void setUntowardEdge(
-            Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
+        public static final <DATA> void
+            setUntowardEdge(Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             Graph.addUntowardEdge(graph , one , two);
             MstVertex.setUntowardWeight(one , two , weight);
         }
@@ -53,8 +53,8 @@ public final class GraphAlg {
             two.weight.put(one , two2one);
         }
 
-        public static final <DATA> void setEdge(
-            Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , PathVertex<DATA> end , double weight) {
+        public static final <DATA> void
+            setEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , PathVertex<DATA> end , double weight) {
             graph.insEdge(start , end);
             start.weight.put(end , weight);
         }

@@ -35,9 +35,9 @@ public class ByteIntWrapper implements IntWrapper<byte[]> {
 
     @Override
     public BigInteger size(byte[] array) {
-        return array.length - (array.length >> ByteIntWrapper.BASE) > 0 ? BigInteger
-            .valueOf((array.length >> ByteIntWrapper.BASE) + 1) : BigInteger
-            .valueOf(array.length >> ByteIntWrapper.BASE);
+        return array.length - (array.length >> ByteIntWrapper.BASE) > 0
+            ? BigInteger.valueOf((array.length >> ByteIntWrapper.BASE) + 1)
+            : BigInteger.valueOf(array.length >> ByteIntWrapper.BASE);
     }
 
 }

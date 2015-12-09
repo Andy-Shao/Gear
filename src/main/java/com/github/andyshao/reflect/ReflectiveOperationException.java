@@ -1,6 +1,5 @@
 package com.github.andyshao.reflect;
 
-
 /**
  * 
  * Title:<br>

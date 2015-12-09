@@ -76,11 +76,11 @@ public class HttpTask implements Task {
                 Properties properties = new Properties();
                 properties.load(inputStream);
                 String message = properties.getProperty(args[2]);
-                if(message != null) System.out.println(args[2] + " : " + message);
+                if (message != null) System.out.println(args[2] + " : " + message);
                 else {
                     message = properties.getProperty("DEFINITION");
                     int index = message.indexOf(args[2].substring(0 , 1));
-                    if(index != -1) {
+                    if (index != -1) {
                         message = message.substring(index , message.length());
                         index = message.indexOf(",");
                         message = message.substring(0 , index);

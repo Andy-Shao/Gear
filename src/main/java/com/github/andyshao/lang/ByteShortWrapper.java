@@ -35,8 +35,8 @@ public class ByteShortWrapper implements ShortWrapper<byte[]> {
 
     @Override
     public BigInteger size(byte[] array) {
-        return array.length - (array.length >> ByteShortWrapper.BASE) > 0 ? BigInteger
-            .valueOf((array.length >> ByteShortWrapper.BASE) + 1) : BigInteger
-            .valueOf(array.length >> ByteShortWrapper.BASE);
+        return array.length - (array.length >> ByteShortWrapper.BASE) > 0
+            ? BigInteger.valueOf((array.length >> ByteShortWrapper.BASE) + 1)
+            : BigInteger.valueOf(array.length >> ByteShortWrapper.BASE);
     }
 }

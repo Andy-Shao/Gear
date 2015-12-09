@@ -26,8 +26,8 @@ public interface UnblockingMessageFactory extends MessageFactory {
             }
             final ByteBuffer writeBuffer = ByteBuffer.wrap(writeBytes);
             channel.write(writeBuffer);
-            if (writeBuffer.hasRemaining()) ctxt.put(MessageContext.OUTPUT_MESSAGE_BYTES ,
-                ByteBufferOperation.usedArray(writeBuffer));
+            if (writeBuffer.hasRemaining())
+                ctxt.put(MessageContext.OUTPUT_MESSAGE_BYTES , ByteBufferOperation.usedArray(writeBuffer));
             else ctxt.put(MessageContext.IS_WAITING_FOR_SENDING , false);
         };
     }

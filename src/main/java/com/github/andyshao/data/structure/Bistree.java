@@ -124,9 +124,9 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
             cmpval = this.comparator.compare(data , node.data().data());
             if (cmpval < 0) //Move to the left.
-            result = this.hide(node.left() , data);
+                result = this.hide(node.left() , data);
             else if (cmpval > 0) //Move to the right.
-            result = this.hide(node.right() , data);
+                result = this.hide(node.right() , data);
             else {
                 //Mark the node as hidden.
                 node.data().hidden(true);
@@ -238,9 +238,9 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
             cmpval = this.comparator.compare(data , node.data().data());
             if (cmpval < 0) //Move to the left.
-            result = this.lookup(node.left() , data);
+                result = this.lookup(node.left() , data);
             else if (cmpval > 0) //Move to the right.
-            result = this.lookup(node.right() , data);
+                result = this.lookup(node.right() , data);
             else if (!node.data().hidden()) {
                 result = new Ret<D>();
                 result.data = node.data().data();

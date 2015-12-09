@@ -35,8 +35,8 @@ public class ShortIntWrapper implements IntWrapper<short[]> {
 
     @Override
     public BigInteger size(short[] array) {
-        return array.length - (array.length >> ShortIntWrapper.BASE) > 0 ? BigInteger
-            .valueOf((array.length >> ShortIntWrapper.BASE) + 1) : BigInteger
-            .valueOf(array.length >> ShortIntWrapper.BASE);
+        return array.length - (array.length >> ShortIntWrapper.BASE) > 0
+            ? BigInteger.valueOf((array.length >> ShortIntWrapper.BASE) + 1)
+            : BigInteger.valueOf(array.length >> ShortIntWrapper.BASE);
     }
 }

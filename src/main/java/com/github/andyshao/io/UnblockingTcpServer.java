@@ -34,8 +34,8 @@ public class UnblockingTcpServer implements TcpServer {
         Exception e = (Exception) context.get(UnblockingTcpServer.EXCEPTION);
         e.printStackTrace();
     };
-    protected ExecutorService executorService = Executors
-        .newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    protected ExecutorService executorService =
+        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
     protected volatile boolean isProcessing = false;
     protected volatile boolean isWaitingForClose = false;
     protected MessageFactory messageFactory;

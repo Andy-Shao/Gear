@@ -303,8 +303,8 @@ public final class Reflects {
         try {
             return clazz.getDeclaredField(field_name);
         } catch (java.lang.NoSuchFieldException e) {
-            if (clazz.getSuperclass() != null) return Reflects
-                .superGetDeclaredField(clazz.getSuperclass() , field_name);
+            if (clazz.getSuperclass() != null)
+                return Reflects.superGetDeclaredField(clazz.getSuperclass() , field_name);
             throw new NoSuchFieldException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);
@@ -342,8 +342,8 @@ public final class Reflects {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
         } catch (java.lang.NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null) return Reflects.superGetDeclaredMethod(clazz.getSuperclass() ,
-                method_name , parameterTypes);
+            if (clazz.getSuperclass() != null)
+                return Reflects.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
             throw new NoSuchFieldException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);

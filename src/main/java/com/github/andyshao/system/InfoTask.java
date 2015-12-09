@@ -46,13 +46,12 @@ public class InfoTask implements Task {
         else return args[0].equals(InfoTask.KEY_WORDS);
     }
 
-    private void localProcess(String[] args) throws ZipException , IOException , ParserConfigurationException ,
-        SAXException {
+    private void localProcess(String[] args)
+        throws ZipException , IOException , ParserConfigurationException , SAXException {
         try (final ZipFile zipFile = new ZipFile(new File(GeneralSystemProperty.JAVA_CLASS_PATH.value()))) {
             final ZipEntry manifest = zipFile.getEntry(InfoTask.TARGET);
-            try (
-                final StringBufferReader reader =
-                    new StringBufferReader(Channels.newChannel(zipFile.getInputStream(manifest)));) {
+            try (final StringBufferReader reader =
+                new StringBufferReader(Channels.newChannel(zipFile.getInputStream(manifest)));) {
                 reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
                 System.out.println(reader.read());
             }
@@ -76,8 +75,8 @@ public class InfoTask implements Task {
                 final Element license = (Element) licenses.item(i);
                 System.out.println("license.name: " + license.getElementsByTagName("name").item(0).getTextContent());
                 System.out.println("license.url: " + license.getElementsByTagName("url").item(0).getTextContent());
-                System.out.println("license.distribution: "
-                    + license.getElementsByTagName("distribution").item(0).getTextContent());
+                System.out.println(
+                    "license.distribution: " + license.getElementsByTagName("distribution").item(0).getTextContent());
             }
 
             final NodeList developers =
@@ -86,8 +85,8 @@ public class InfoTask implements Task {
                 final Element developer = (Element) developers.item(i);
                 System.out
                     .println("developer.name: " + developer.getElementsByTagName("name").item(0).getTextContent());
-                System.out.println("developer.email: "
-                    + developer.getElementsByTagName("email").item(0).getTextContent());
+                System.out
+                    .println("developer.email: " + developer.getElementsByTagName("email").item(0).getTextContent());
                 System.out.println("developer.organization: "
                     + developer.getElementsByTagName("organization").item(0).getTextContent());
                 System.out.println("developer.organizationUrl: "
@@ -96,13 +95,13 @@ public class InfoTask implements Task {
 
             final Element scm = (Element) root.getElementsByTagName("scm").item(0);
             System.out.println("scm.connection: " + scm.getElementsByTagName("connection").item(0).getTextContent());
-            System.out.println("scm.developerConnection: "
-                + scm.getElementsByTagName("developerConnection").item(0).getTextContent());
+            System.out.println(
+                "scm.developerConnection: " + scm.getElementsByTagName("developerConnection").item(0).getTextContent());
             System.out.println("scm.url: " + scm.getElementsByTagName("url").item(0).getTextContent());
 
             final Element issueManagement = (Element) root.getElementsByTagName("issueManagement").item(0);
-            System.out.println("issueManagement.system: "
-                + issueManagement.getElementsByTagName("system").item(0).getTextContent());
+            System.out.println(
+                "issueManagement.system: " + issueManagement.getElementsByTagName("system").item(0).getTextContent());
             System.out.println("system.url: " + issueManagement.getElementsByTagName("url").item(0).getTextContent());
 
             final Element distributionManagement =
@@ -123,16 +122,16 @@ public class InfoTask implements Task {
                 ((Element) root.getElementsByTagName("dependencies").item(0)).getElementsByTagName("dependency");
             for (int i = 0 ; i < dependencies.getLength() ; i++) {
                 final Element dependency = (Element) dependencies.item(i);
-                System.out.println("dependency.groupId: "
-                    + dependency.getElementsByTagName("groupId").item(0).getTextContent());
-                System.out.println("dependency.artifactId: "
-                    + dependency.getElementsByTagName("artifactId").item(0).getTextContent());
-                System.out.println("dependency.version: "
-                    + dependency.getElementsByTagName("version").item(0).getTextContent());
+                System.out.println(
+                    "dependency.groupId: " + dependency.getElementsByTagName("groupId").item(0).getTextContent());
+                System.out.println(
+                    "dependency.artifactId: " + dependency.getElementsByTagName("artifactId").item(0).getTextContent());
+                System.out.println(
+                    "dependency.version: " + dependency.getElementsByTagName("version").item(0).getTextContent());
                 final NodeList scope = dependency.getElementsByTagName("scope");
                 if (scope == null || scope.getLength() == 0) ;
-                else System.out.println("dependency.scope: "
-                    + dependency.getElementsByTagName("scope").item(0).getTextContent());
+                else System.out
+                    .println("dependency.scope: " + dependency.getElementsByTagName("scope").item(0).getTextContent());
             }
         }
     }

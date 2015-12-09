@@ -46,8 +46,8 @@ public class StringBufferReader implements BufferReader<String> {
     private final ByteBuffer byteBuffer;
     private final ReadableByteChannel channel;
     private String encoding = GeneralSystemProperty.FILE_ENCODING.value();
-    private Function<String , BufferReader.SeparatePoint> findSeparatePoint = new StringBufferReader.SeparateByStr(
-        GeneralSystemProperty.LINE_SEPARATOR.value());
+    private Function<String , BufferReader.SeparatePoint> findSeparatePoint =
+        new StringBufferReader.SeparateByStr(GeneralSystemProperty.LINE_SEPARATOR.value());
     private volatile boolean hasNext = true;
 
     private String temp = "";

@@ -120,7 +120,8 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
 
             @Override
             public boolean hasNext() {
-                if (this.actionAcount != AutoIncreaseArray.this.actionAccount) throw new ConcurrentModificationException();
+                if (this.actionAcount != AutoIncreaseArray.this.actionAccount)
+                    throw new ConcurrentModificationException();
                 return this.index < AutoIncreaseArray.this.size;
             }
 

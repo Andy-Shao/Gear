@@ -31,8 +31,8 @@ public final class ByteOperation {
         System.arraycopy(src , srcStart , dest , destStart , length_ + 1);
 
         dest[destStart] = ByteOperation.fill(0 , 0 , destPos - (destPos >> 3 << 3) , dest[destStart])[0];
-        dest[destStart + length_] =
-            ByteOperation.fill(0 , (destPos + length) - ((destPos + length) >> 3 << 3) , 8 , dest[destStart + length_])[0];
+        dest[destStart + length_] = ByteOperation.fill(0 , (destPos + length) - ((destPos + length) >> 3 << 3) , 8 ,
+            dest[destStart + length_])[0];
 
         dest[destStart] |= headTemp;
         dest[destStart + length_] |= tailTemp;
@@ -58,16 +58,15 @@ public final class ByteOperation {
     }
 
     @SuppressWarnings("unchecked")
-    public static final <ARRAY> ARRAY bitOxr(
-        final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY
+        bitOxr(final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger answers[] = size.divideAndRemainder(ByteOperation.EIGHT);
-        ARRAY result =
-            (ARRAY) Array.newInstance(b1.getClass().getComponentType() ,
-                answers[1].intValue() == 0 ? answers[0].intValue() : answers[0].intValue() + 1);
+        ARRAY result = (ARRAY) Array.newInstance(b1.getClass().getComponentType() ,
+            answers[1].intValue() == 0 ? answers[0].intValue() : answers[0].intValue() + 1);
         ByteOperation.fill(0 , BigInteger.ZERO , size , result , byteWrapper);
         for (BigInteger i = BigInteger.ZERO ; i.compareTo(size) == -1 ; i = i.add(BigInteger.ONE))
-            if (ByteOperation.bitGet(i , b1 , byteWrapper) != ByteOperation.bitGet(i , b2 , byteWrapper)) ByteOperation
-                .bitSet(i , 1 , result , byteWrapper);
+            if (ByteOperation.bitGet(i , b1 , byteWrapper) != ByteOperation.bitGet(i , b2 , byteWrapper))
+                ByteOperation.bitSet(i , 1 , result , byteWrapper);
             else ByteOperation.bitSet(i , 0 , result , byteWrapper);
         return result;
     }
@@ -177,8 +176,8 @@ public final class ByteOperation {
         return bs;
     }
 
-    public static final <ARRAY> ARRAY bitSet(
-        BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY
+        bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neighter 0 nor 1");
         if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
         int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();
@@ -205,8 +204,8 @@ public final class ByteOperation {
         return b;
     }
 
-    public static final <ARRAY> ARRAY fill(
-        int state , BigInteger startPos , BigInteger endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
+    public static final <ARRAY> ARRAY
+        fill(int state , BigInteger startPos , BigInteger endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
         if (startPos.compareTo(endPos) == 1) throw new IllegalArgumentException("startPos bigger than endPos");
         for (BigInteger i = startPos ; i.compareTo(endPos) == -1 ; i = i.add(BigInteger.ONE))

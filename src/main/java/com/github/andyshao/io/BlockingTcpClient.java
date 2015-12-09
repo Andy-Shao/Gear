@@ -47,9 +47,8 @@ public class BlockingTcpClient implements TcpClient {
     @Override
     public void open(MessageContext context) throws IOException {
         this.socketChannel = SocketChannel.open();
-        InetSocketAddress isa =
-            new InetSocketAddress((InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS) ,
-                (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
+        InetSocketAddress isa = new InetSocketAddress((InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS) ,
+            (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
         this.socketChannel.connect(isa);
     }
 

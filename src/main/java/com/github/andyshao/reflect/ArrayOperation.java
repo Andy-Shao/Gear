@@ -159,8 +159,8 @@ public final class ArrayOperation {
      * @return if can't find out anything from array then return -1
      */
     public static int indexOfAllWrapper(ArrayWrapper array , ArrayWrapper target) {
-        if (array.length() == 0 || target.length() == 0) throw new IllegalArgumentException(
-            "array or target can't empty!");
+        if (array.length() == 0 || target.length() == 0)
+            throw new IllegalArgumentException("array or target can't empty!");
         if (target.length() > array.length()) return -1;
         int index = target.position();
         int position = -1;
@@ -287,8 +287,8 @@ public final class ArrayOperation {
      * @return if can't find out anything then return -1
      */
     public static <T> int lastIndexOfAllWrapper(ArrayWrapper array , ArrayWrapper target) {
-        if (array.length() == 0 || target.length() == 0) throw new IllegalArgumentException(
-            "array or target can't empty!");
+        if (array.length() == 0 || target.length() == 0)
+            throw new IllegalArgumentException("array or target can't empty!");
         if (target.length() > array.length()) return -1;
         int index = target.limit();
         int position = -1;
@@ -442,16 +442,14 @@ public final class ArrayOperation {
      */
     @SuppressWarnings("unchecked")
     public static <T> T removeItem(T array , int start , int end) {
-        if (start < 0 || end < 0 || end <= start) throw new IllegalArgumentException(
-            "The argument that start or end is not right.");
+        if (start < 0 || end < 0 || end <= start)
+            throw new IllegalArgumentException("The argument that start or end is not right.");
         if (start >= Array.getLength(array)) return array;
 
-        T head =
-            start == 0 ? ArrayOperation.splitArray(array , end , Array.getLength(array)) : ArrayOperation.splitArray(
-                array , 0 , start);
-        T tail =
-            start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0) : ArrayOperation.splitArray(
-                array , end , Array.getLength(array));
+        T head = start == 0 ? ArrayOperation.splitArray(array , end , Array.getLength(array))
+            : ArrayOperation.splitArray(array , 0 , start);
+        T tail = start == 0 ? (T) Array.newInstance(array.getClass().getComponentType() , 0)
+            : ArrayOperation.splitArray(array , end , Array.getLength(array));
         array = ArrayOperation.mergeArray((Class<T>) array.getClass() , head , tail);
 
         return array;

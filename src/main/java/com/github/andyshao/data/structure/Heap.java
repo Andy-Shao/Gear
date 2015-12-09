@@ -8,7 +8,8 @@ import com.github.andyshao.lang.Cleanable;
 /**
  * 
  * Title:<br>
- * Descript: the default sequence is from the smallest item to the biggest item.<br>
+ * Descript: the default sequence is from the smallest item to the biggest item.
+ * <br>
  * Copyright: Copryright(c) Feb 17, 2015<br>
  * Encoding:UNIX UTF-8
  * 
@@ -60,12 +61,12 @@ public interface Heap<D> extends Cleanable {
                 lpos = Heap.left(ipos);
                 rpos = Heap.right(ipos);
 
-                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) mpos =
-                    lpos;
+                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0)
+                    mpos = lpos;
                 else mpos = ipos;
 
-                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0) mpos =
-                    rpos;
+                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0)
+                    mpos = rpos;
 
                 //When mpos is ipos, the heap property has been restored.
                 if (mpos == ipos) break;
