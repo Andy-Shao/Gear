@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the newest plugins for v3.1**
 
+Adding getMethodParamNames() in Reflects<br>
 Adding HttpTask in system package<br>
 Adding BlokingTcpServer and others services in TCP/IP<br>
 
