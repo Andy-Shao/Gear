@@ -214,7 +214,7 @@ public final class Reflects {
         try {
             cr = new ClassReader(n);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new ClassNotFoundException(e);
         }
         cr.accept(new ClassVisitor(Opcodes.ASM4 , cw) {
             @Override
