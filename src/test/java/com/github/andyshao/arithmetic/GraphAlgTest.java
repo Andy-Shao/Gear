@@ -18,7 +18,7 @@ import com.github.andyshao.arithmetic.GraphAlg.TspVertex;
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.SingleLinked;
-import com.github.andyshao.util.ComparatorOperation;
+import com.github.andyshao.lang.StringOperation;
 
 public class GraphAlgTest {
 
@@ -45,7 +45,7 @@ public class GraphAlgTest {
     @Test
     public void testMst() {
         final Comparator<MstVertex<String>> comparator =
-            (MstVertex<String> one , MstVertex<String> two) -> ComparatorOperation.STRING.compare(one.data , two.data);
+            (MstVertex<String> one , MstVertex<String> two) -> StringOperation.STRING.compare(one.data , two.data);
         final Graph<MstVertex<String>> graph = Graph.<MstVertex<String>> defaultGraph(comparator ,
             () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         final MstVertex<String> a = GraphAlgTest.buildMstVertex("a");
@@ -79,7 +79,7 @@ public class GraphAlgTest {
     @Test
     public void testShortest() {
         final Comparator<PathVertex<String>> comparator =
-            (PathVertex<String> one , PathVertex<String> two) -> ComparatorOperation.STRING.compare(one.data ,
+            (PathVertex<String> one , PathVertex<String> two) -> StringOperation.STRING.compare(one.data ,
                 two.data);
         final Graph<PathVertex<String>> graph = Graph.<PathVertex<String>> defaultGraph(comparator ,
             () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
@@ -119,7 +119,7 @@ public class GraphAlgTest {
     @Test
     public void testTsp() {
         final Comparator<TspVertex<String>> comparator =
-            (one , two) -> ComparatorOperation.STRING.compare(one.data , two.data);
+            (one , two) -> StringOperation.STRING.compare(one.data , two.data);
         final TspVertex<String> a = GraphAlgTest.buildTspVertex("a" , 2 , 1);
         final TspVertex<String> b = GraphAlgTest.buildTspVertex("b" , 5 , 2);
         final TspVertex<String> c = GraphAlgTest.buildTspVertex("c" , 1 , 3);
