@@ -13,7 +13,7 @@ public class CycleLinkedTest {
 
     @Before
     public void before() {
-        this.linked = CycleLinked.defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
+        this.linked = CycleLinked.defaultCycleLinked(CycleLinkedElmt::defaultElmt);
     }
 
     private void fill() {

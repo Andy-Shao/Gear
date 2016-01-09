@@ -46,9 +46,8 @@ public class GraphAlgTest {
     public void testMst() {
         final Comparator<MstVertex<String>> comparator =
             (MstVertex<String> one , MstVertex<String> two) -> ComparatorOperation.STRING.compare(one.data , two.data);
-        final Graph<MstVertex<String>> graph =
-            Graph.<MstVertex<String>> defaultGraph(comparator ,
-                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+        final Graph<MstVertex<String>> graph = Graph.<MstVertex<String>> defaultGraph(comparator ,
+            () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         final MstVertex<String> a = GraphAlgTest.buildMstVertex("a");
         final MstVertex<String> b = GraphAlgTest.buildMstVertex("b");
         final MstVertex<String> c = GraphAlgTest.buildMstVertex("c");
@@ -80,11 +79,10 @@ public class GraphAlgTest {
     @Test
     public void testShortest() {
         final Comparator<PathVertex<String>> comparator =
-            (PathVertex<String> one , PathVertex<String> two) -> ComparatorOperation.STRING
-                .compare(one.data , two.data);
-        final Graph<PathVertex<String>> graph =
-            Graph.<PathVertex<String>> defaultGraph(comparator ,
-                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+            (PathVertex<String> one , PathVertex<String> two) -> ComparatorOperation.STRING.compare(one.data ,
+                two.data);
+        final Graph<PathVertex<String>> graph = Graph.<PathVertex<String>> defaultGraph(comparator ,
+            () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         final PathVertex<String> a = GraphAlgTest.buildPathVertex("a");
         final PathVertex<String> b = GraphAlgTest.buildPathVertex("b");
         final PathVertex<String> c = GraphAlgTest.buildPathVertex("c");

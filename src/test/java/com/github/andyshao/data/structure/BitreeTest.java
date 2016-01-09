@@ -16,7 +16,7 @@ public class BitreeTest {
 
     @Before
     public void before() {
-        this.bitree = Bitree.<String> defaultBitTree(() -> BitreeNode.<String> defaultBitreeNode());
+        this.bitree = Bitree.<String> defaultBitTree(BitreeNode::defaultBitreeNode);
     }
 
     @Test
@@ -92,8 +92,8 @@ public class BitreeTest {
 
     @Test
     public void testMeger() {
-        Bitree<String> left = Bitree.<String> defaultBitTree(() -> BitreeNode.<String> defaultBitreeNode());
-        Bitree<String> right = Bitree.<String> defaultBitTree(() -> BitreeNode.<String> defaultBitreeNode());
+        Bitree<String> left = Bitree.<String> defaultBitTree(BitreeNode::defaultBitreeNode);
+        Bitree<String> right = Bitree.<String> defaultBitTree(BitreeNode::defaultBitreeNode);
 
         left.insLeft(null , "left");
         right.insLeft(null , "right");

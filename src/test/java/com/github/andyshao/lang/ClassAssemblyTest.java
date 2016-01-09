@@ -26,9 +26,8 @@ public class ClassAssemblyTest {
             reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
             classInfo = reader.read();
         }
-        Class<Supplier<String>> clazz =
-            ClassAssembly.DEFAULT.<Supplier<String>> assemble(
-                ClassAssemblyTest.CLASS_PATH.replace("/" , ".").replace(".class" , "") , classInfo);
+        Class<Supplier<String>> clazz = ClassAssembly.DEFAULT.<Supplier<String>> assemble(
+            ClassAssemblyTest.CLASS_PATH.replace("/" , ".").replace(".class" , "") , classInfo);
         String answer = Reflects.<String> invoked(Reflects.newInstance(clazz) , Reflects.getMethod(clazz , "get"));
         Assert.assertThat(answer , Matchers.is("Hello,World!"));
     }

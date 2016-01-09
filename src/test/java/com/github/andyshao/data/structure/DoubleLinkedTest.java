@@ -16,7 +16,7 @@ public class DoubleLinkedTest {
 
     @Before
     public void before() {
-        this.doubleLinked = DoubleLinked.<String> defaultDoubleLinked((data) -> DoubleLinkedElmt.defaultElmt(data));
+        this.doubleLinked = DoubleLinked.<String> defaultDoubleLinked(DoubleLinkedElmt::defaultElmt);
     }
 
     @Test

@@ -14,13 +14,12 @@ public class BistreeTest {
 
     @Before
     public void before() {
-        this.bistree =
-            Bistree.<Integer> defaultBistree(
-                Bitree.<AvlNode<Integer>> defaultBitTree(() -> Bitree.BitreeNode.defaultBitreeNode()) ,
-                () -> Bistree.AvlNode.DEFAULT_AVL_NODE() , (int1 , int2) -> int1.compareTo(int2));
+        this.bistree = Bistree.<Integer> defaultBistree(
+            Bitree.<AvlNode<Integer>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode) ,
+            Bistree.AvlNode::DEFAULT_AVL_NODE , (int1 , int2) -> int1.compareTo(int2));
 
         {
-            Bitree.<AvlNode<Integer>> defaultBitTree(() -> Bitree.BitreeNode.defaultBitreeNode());
+            Bitree.<AvlNode<Integer>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode);
         }
     }
 

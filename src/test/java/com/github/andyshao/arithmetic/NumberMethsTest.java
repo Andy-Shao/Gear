@@ -27,9 +27,7 @@ public class NumberMethsTest {
         Assert.assertThat(pz , Matchers.is(new double[] { -49.10041666666666 , -4.49 , 12.370416666666667 }));
 
         BigDecimal[] pzX = NumberMeths.interpol(xX , fxX , zX , 20 , RoundingMode.HALF_EVEN);
-        Assert.assertThat(
-            pzX ,
-            Matchers.is(ArrayOperation.pack_unpack(new String[] { "-49.10041666666666666722125" ,
-                "-4.49000000000000000009000" , "12.37041666666666666666625" } , BigDecimal[].class , function)));
+        Assert.assertThat(pzX , Matchers.is(ArrayOperation.pack_unpack(new String[] { "-49.10041666666666666722125" ,
+            "-4.49000000000000000009000" , "12.37041666666666666666625" } , BigDecimal[].class , function)));
     }
 }

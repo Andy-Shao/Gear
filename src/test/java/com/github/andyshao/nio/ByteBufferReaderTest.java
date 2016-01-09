@@ -18,9 +18,8 @@ public class ByteBufferReaderTest {
     }
 
     public static Path getFilePath() throws URISyntaxException {
-        URI uri =
-            Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples")
-                .toURI();
+        URI uri = Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples")
+            .toURI();
         return Paths.get(uri);
     }
 

@@ -17,9 +17,9 @@ public class ByteOperationTest {
     @Before
     public void before() {
         this.b = (byte) 0xa5;
-        this.bs =
-            ArrayOperation.pack_unpack(new int[] { 0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff ,
-                0xa5 } , byte[].class , (input) -> (byte) ((int) input));
+        this.bs = ArrayOperation.pack_unpack(
+            new int[] { 0x00 , 0x01 , 0x02 , 0x04 , 0x08 , 0x10 , 0x20 , 0x40 , 0x80 , 0xff , 0xa5 } , byte[].class ,
+            (input) -> (byte) ((int) input));
     }
 
     @Test
@@ -657,10 +657,9 @@ public class ByteOperationTest {
     @Test
     public void testToString() {
         Assert.assertThat(ByteOperation.toString(this.b) , Matchers.is("10100101"));
-        Assert.assertThat(ByteOperation.toString(this.bs) , Matchers.is("00000000,00000001,00000010,00000100,00001000,"
-            + "00010000,00100000,01000000,10000000,11111111,10100101"));
-        Assert.assertThat(ByteOperation.toString(this.bs , this.byteWrapper) , Matchers
-            .is("00000000,00000001,00000010,00000100,00001000,"
-                + "00010000,00100000,01000000,10000000,11111111,10100101"));
+        Assert.assertThat(ByteOperation.toString(this.bs) , Matchers.is(
+            "00000000,00000001,00000010,00000100,00001000," + "00010000,00100000,01000000,10000000,11111111,10100101"));
+        Assert.assertThat(ByteOperation.toString(this.bs , this.byteWrapper) , Matchers.is(
+            "00000000,00000001,00000010,00000100,00001000," + "00010000,00100000,01000000,10000000,11111111,10100101"));
     }
 }

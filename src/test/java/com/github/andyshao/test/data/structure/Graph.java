@@ -188,13 +188,13 @@ public interface Graph<D> extends Cleanable {
             //Do not allow insertion of an edge without both its vertices in the graph.
             element = this.search(data2 , (elmt) -> {
             });
-            if (element == null) throw new GraphOperationException("Can't find out the data2 (" + data2
-                + ") in the graph.");
+            if (element == null)
+                throw new GraphOperationException("Can't find out the data2 (" + data2 + ") in the graph.");
 
             element = this.search(data1 , (elmt) -> {
             });
-            if (element == null) throw new GraphOperationException("Can't find out the data1 (" + data1
-                + ") in the graph.");
+            if (element == null)
+                throw new GraphOperationException("Can't find out the data1 (" + data1 + ") in the graph.");
 
             //Insert the second vertex into the adjacency list of the first vertex.
             element.data().adjacent().set_insert(data2);
@@ -269,8 +269,8 @@ public interface Graph<D> extends Cleanable {
                 });
                 prev = (CycleLinkedElmt<Graph.AdjList<DATA>>) object[0];
             }
-            if (element.data().adjacent().set_is_member(data)) throw new GraphOperationException(
-                "Do not allow removal of the vertex if it is an adjecency list.");
+            if (element.data().adjacent().set_is_member(data))
+                throw new GraphOperationException("Do not allow removal of the vertex if it is an adjecency list.");
             //Return if the vertex was not found.
             if (element == null) return result;
             if (element.data().adjacent().size() > 0) throw new GraphOperationException(
@@ -334,8 +334,8 @@ public interface Graph<D> extends Cleanable {
         graph.graph_ins_edge(data2 , data1);
     }
 
-    public static <DATA> Graph<DATA> DEFAULT_GRAPH(
-        Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
+    public static <DATA> Graph<DATA>
+        DEFAULT_GRAPH(Comparator<DATA> comparator , Supplier<SingleLinked<AdjList<DATA>>> singleLinkedFactory) {
         return new MyGraph<DATA>(comparator , singleLinkedFactory);
     }
 

@@ -16,9 +16,8 @@ public class HuffmanCompressTest {
 
     @Before
     public void before() throws IOException , URISyntaxException {
-        Path path =
-            Paths.get(Thread.currentThread().getContextClassLoader()
-                .getResource("com/github/andyshao/arithmetic/examples").toURI());
+        Path path = Paths.get(Thread.currentThread().getContextClassLoader()
+            .getResource("com/github/andyshao/arithmetic/examples").toURI());
         this.context = Files.readAllBytes(path);
         this.huffmanCompress = new HuffmanCompress();
     }

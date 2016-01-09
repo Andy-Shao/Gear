@@ -154,8 +154,9 @@ public class HuffmanCompress implements Compress {
     private final Supplier<HuffNode> huffNodeFactory;
 
     public HuffmanCompress() {
-        this(() -> HuffCode.defaultHuffCode() , () -> HuffNode.defaultHuffNode() , () -> Bitree
-            .defaultBitTree(() -> BitreeNode.defaultBitreeNode()));
+        this(
+            () -> HuffCode.defaultHuffCode() , () -> HuffNode.defaultHuffNode() ,
+            () -> Bitree.defaultBitTree(() -> BitreeNode.defaultBitreeNode()));
     }
 
     public HuffmanCompress(
@@ -169,8 +170,8 @@ public class HuffmanCompress implements Compress {
     public void buildTable(BitreeNode<HuffNode> node , final short code , final int size , HuffCode[] table) {
         if (!Bitree.isEob(node)) {
             if (!Bitree.isEob(node.left())) this.buildTable(node.left() , (short) (code << 1) , size + 1 , table);
-            if (!Bitree.isEob(node.right())) this.buildTable(node.right() , (short) ((code << 1) | 0x01) , size + 1 ,
-                table);
+            if (!Bitree.isEob(node.right()))
+                this.buildTable(node.right() , (short) ((code << 1) | 0x01) , size + 1 , table);
             if (Bitree.isEob(node.left()) && Bitree.isEob(node.right())) {
                 int symbol = node.data().symbol();
                 if (table[symbol] == null) table[symbol] = this.getHuffCodeFactory().get();
@@ -245,9 +246,8 @@ public class HuffmanCompress implements Compress {
         }
 
         int hsize = (ByteOperation.UNCHAR_MAX + 2);
-        byte[] comp =
-            ArrayOperation.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
-                ArrayOperation.pack_unpack(freqs , byte[].class , (input) -> (byte) ((int) input)));
+        byte[] comp = ArrayOperation.mergeArray(byte[].class , IntegerOperation.toByte(original.length) ,
+            ArrayOperation.pack_unpack(freqs , byte[].class , (input) -> (byte) ((int) input)));
 
         int opos = hsize << 3;
         for (int ipos = 0 ; ipos < original.length ; ipos++) {

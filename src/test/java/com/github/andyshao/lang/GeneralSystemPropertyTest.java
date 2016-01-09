@@ -8,8 +8,8 @@ public class GeneralSystemPropertyTest {
 
     @Test
     public void checkValues() {
-        Assert
-            .assertThat(GeneralSystemProperty.AWT_TOOLKIT.toString() , Matchers.is(System.getProperty("awt.toolkit")));
+        Assert.assertThat(GeneralSystemProperty.AWT_TOOLKIT.toString() ,
+            Matchers.is(System.getProperty("awt.toolkit")));
         Assert.assertThat(GeneralSystemProperty.FILE_ENCODING.toString() ,
             Matchers.is(System.getProperty("file.encoding")));
         Assert.assertThat(GeneralSystemProperty.FILE_ENCODING_PKG.toString() ,
@@ -43,8 +43,8 @@ public class GeneralSystemPropertyTest {
             Matchers.is(System.getProperty("java.specification.vendor")));
         Assert.assertThat(GeneralSystemProperty.JAVA_SPECIFICATION_VERSION.toString() ,
             Matchers.is(System.getProperty("java.specification.version")));
-        Assert
-            .assertThat(GeneralSystemProperty.JAVA_VENDOR.toString() , Matchers.is(System.getProperty("java.vendor")));
+        Assert.assertThat(GeneralSystemProperty.JAVA_VENDOR.toString() ,
+            Matchers.is(System.getProperty("java.vendor")));
         Assert.assertThat(GeneralSystemProperty.JAVA_VENDOR_URL.toString() ,
             Matchers.is(System.getProperty("java.vendor.url")));
         Assert.assertThat(GeneralSystemProperty.JAVA_VENDOR_URL_BUG.toString() ,
@@ -79,8 +79,8 @@ public class GeneralSystemPropertyTest {
         Assert.assertThat(GeneralSystemProperty.USER_LANGUAGE.toString() ,
             Matchers.is(System.getProperty("user.language")));
         Assert.assertThat(GeneralSystemProperty.USER_NAME.toString() , Matchers.is(System.getProperty("user.name")));
-        Assert
-            .assertThat(GeneralSystemProperty.USER_SCRIPT.toString() , Matchers.is(System.getProperty("user.script")));
+        Assert.assertThat(GeneralSystemProperty.USER_SCRIPT.toString() ,
+            Matchers.is(System.getProperty("user.script")));
         Assert.assertThat(GeneralSystemProperty.USER_TIMEZONE.toString() ,
             Matchers.is(System.getProperty("user.timezone")));
         Assert.assertThat(GeneralSystemProperty.USER_VARIANT.toString() ,

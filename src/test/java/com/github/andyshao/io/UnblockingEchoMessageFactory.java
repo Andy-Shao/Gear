@@ -15,9 +15,8 @@ public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
         @Override
         public void read(ReadableByteChannel channel , MessageContext context) throws IOException {
             if (this.isReceiveBody) {
-                int bodyLength =
-                    Integer.valueOf(new String((byte[]) context.get(MyMessageReadable.HEAD_BYTE) , (String) context
-                        .get(MessageContext.INPUT_MESSAGE_ENCODING)));
+                int bodyLength = Integer.valueOf(new String((byte[]) context.get(MyMessageReadable.HEAD_BYTE) ,
+                    (String) context.get(MessageContext.INPUT_MESSAGE_ENCODING)));
                 byte[] bodyBytes = (byte[]) context.get(MessageContext.INPUT_MESSAGE_BYTES);
                 ByteBuffer bodyBuffer = ByteBuffer.allocate(bodyLength - bodyBytes.length);
                 channel.read(bodyBuffer);
@@ -43,8 +42,8 @@ public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
         }
     }
 
-    public static final String MESSAGE_READABLE_OBJECT = UnblockingEchoMessageFactory.class.getName()
-        + "_message_readable_object";
+    public static final String MESSAGE_READABLE_OBJECT =
+        UnblockingEchoMessageFactory.class.getName() + "_message_readable_object";
 
     @Override
     public MessageDecoder buildMessageDecoder(MessageContext context) {

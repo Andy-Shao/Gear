@@ -28,9 +28,8 @@ public class GraphTest {
 
     @Before
     public void before() {
-        this.graph =
-            Graph.<String> defaultGraph((obj1 , obj2) -> obj1.compareTo(obj2) ,
-                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+        this.graph = Graph.<String> defaultGraph((obj1 , obj2) -> obj1.compareTo(obj2) ,
+            () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
     }
 
     @Test
@@ -43,7 +42,7 @@ public class GraphTest {
         final Graph.BfsVertex<String> node6 = GraphTest.buildBsfvertex("node6");
         Graph<Graph.BfsVertex<String>> graph =
             Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
-                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+                () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
         graph.insVertex(node1);
         graph.insVertex(node2);
         graph.insVertex(node3);
@@ -110,7 +109,7 @@ public class GraphTest {
         final DfsVertex<String> ma300 = GraphTest.buildDfsVertex("MA300");
         Graph<DfsVertex<String>> graph =
             Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
-                () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+                () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
         graph.insVertex(cs100);
         graph.insVertex(cs200);
         graph.insVertex(cs300);

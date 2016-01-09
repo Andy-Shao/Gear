@@ -12,7 +12,7 @@ public class SingleLinkedTest {
 
     @Before
     public void before() {
-        this.linked = SingleLinked.<String> defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
+        this.linked = SingleLinked.<String> defaultSingleLinked(CycleLinkedElmt::defaultElmt);
     }
 
     @Test

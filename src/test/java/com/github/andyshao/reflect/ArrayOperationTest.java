@@ -18,10 +18,9 @@ public class ArrayOperationTest {
 
     @Test
     public void convertToMap() {
-        Map<String , String> target =
-            ArrayOperation
-                .<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new HashMap<String , String>() ,
-                    new Object[][] { { "i" , "2" } , { "I" , "3" } , { "key" , "value" } });
+        Map<String , String> target = ArrayOperation.<String , String> convertToMap(Convert.OB_2_STR ,
+            Convert.OB_2_STR , new HashMap<String , String>() ,
+            new Object[][] { { "i" , "2" } , { "I" , "3" } , { "key" , "value" } });
 
         Map<String , String> answer = new HashMap<>();
         answer.put("i" , "2");
