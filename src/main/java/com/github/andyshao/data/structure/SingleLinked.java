@@ -36,6 +36,10 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
 
     }
 
+    public static <DATA> SingleLinked<DATA> defaultSingleLinked() {
+        return SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt);
+    }
+
     public static <DATA> SingleLinked<DATA>
         defaultSingleLinked(Function<DATA , CycleLinkedElmt<DATA>> cycleLinkedElmt) {
         return new SingleLinked<DATA>(cycleLinkedElmt);

@@ -18,7 +18,7 @@ import com.github.andyshao.lang.Cleanable;
  */
 public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
     public interface AvlNode<D> {
-        public static <DATA> AvlNode<DATA> DEFAULT_AVL_NODE() {
+        public static <DATA> AvlNode<DATA> defaultAvlNode() {
             return new AvlNode<DATA>() {
                 private volatile DATA data;
                 private volatile int factor;
@@ -287,6 +287,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
         Bistree<D> bistree = new Bistree.MyBistree<>(bitree , avlNodeFactory);
         bistree.setComparator(comparator);
         return bistree;
+    }
+
+    public static <D> Bistree<D> defaultBistree(Comparator<D> comparator) {
+        return Bistree.defaultBistree(Bitree.<AvlNode<D>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode) ,
+            Bistree.AvlNode::defaultAvlNode , comparator);
     }
 
     public static <D> BitreeNode<AvlNode<D>> rotate_left(BitreeNode<AvlNode<D>> node) {

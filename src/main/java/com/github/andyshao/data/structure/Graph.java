@@ -466,6 +466,11 @@ public interface Graph<D> extends Cleanable {
         return result;
     }
 
+    public static <DATA> Graph<DATA> defaultGraph(Comparator<DATA> comparator) {
+        return Graph.defaultGraph(comparator ,
+            () -> SingleLinked.<AdjList<DATA>> defaultSingleLinked(CycleLinkedElmt::defaultElmt));
+    }
+
     public static <DATA> Graph<DATA> defaultGraph(
         Comparator<DATA> comparator ,
         Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> singleLinkedFactory) {

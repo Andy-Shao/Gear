@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import com.github.andyshao.data.structure.Graph.BfsVertex;
 import com.github.andyshao.data.structure.Graph.DfsVertex;
+import com.github.andyshao.lang.StringOperation;
 
 public class GraphTest {
     static final <DATA> Graph.BfsVertex<DATA> buildBsfvertex(DATA data) {
@@ -28,7 +29,7 @@ public class GraphTest {
 
     @Before
     public void before() {
-        this.graph = Graph.<String> defaultGraph((obj1 , obj2) -> obj1.compareTo(obj2) ,
+        this.graph = Graph.<String> defaultGraph(StringOperation.COMPARATOR ,
             () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
     }
 

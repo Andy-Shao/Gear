@@ -90,6 +90,10 @@ public interface Stack<D> extends CollectionModel<D> {
         }
     }
 
+    public static <DATA , E extends Linked.LinkedElmt<DATA , E>> Stack<DATA> defaultStack() {
+        return Stack.defaultStack(SingleLinked.defaultSingleLinked());
+    }
+
     public static <DATA , E extends Linked.LinkedElmt<DATA , E>> Stack<DATA> defaultStack(Linked<DATA , E> linked) {
         return new MyStack<>(linked);
     }

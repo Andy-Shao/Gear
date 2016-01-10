@@ -37,6 +37,10 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
     }
 
+    public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
+        return CycleLinked.defaultCycleLinked(CycleLinkedElmt::defaultElmt);
+    }
+
     public static <DATA> CycleLinked<DATA> defaultCycleLinked(Function<DATA , CycleLinkedElmt<DATA>> elmtFactory) {
         return new CycleLinked<DATA>(elmtFactory);
     }

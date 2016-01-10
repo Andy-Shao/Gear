@@ -282,6 +282,10 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         }
     }
 
+    public static <DATA> DoubleLinked<DATA> defaultDoubleLinked() {
+        return DoubleLinked.defaultDoubleLinked(DoubleLinkedElmt::defaultElmt);
+    }
+
     public static <DATA> DoubleLinked<DATA>
         defaultDoubleLinked(Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
         return new MyDoubleLinked<>(elmtFactory);

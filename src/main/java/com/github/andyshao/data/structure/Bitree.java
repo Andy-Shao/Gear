@@ -214,6 +214,10 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
 
     }
 
+    public static <DATA> Bitree<DATA> defaultBitTree() {
+        return Bitree.defaultBitTree(BitreeNode::defaultBitreeNode);
+    }
+
     public static <DATA> Bitree<DATA> defaultBitTree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
