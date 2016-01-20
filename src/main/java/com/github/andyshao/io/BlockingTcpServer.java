@@ -55,10 +55,6 @@ public class BlockingTcpServer implements TcpServer {
         this.executorService.shutdown();
     }
 
-    public int getPort() {
-        return this.port;
-    }
-
     private void myOpen() throws SocketException , IOException {
         this.isWaitingForClose = false;
         this.serverSocketChannel = ServerSocketChannel.open();
