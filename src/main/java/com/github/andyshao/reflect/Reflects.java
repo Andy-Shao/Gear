@@ -209,16 +209,15 @@ public final class Reflects {
      */
     public static String[] getMethodParamNames(final Method m) {
         final String[] paramNames = new String[m.getParameterTypes().length];
-        final String path = m.getDeclaringClass().getName().replace('.' , '/')+".class";
+        final String path = m.getDeclaringClass().getName().replace('.' , '/') + ".class";
         final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         ClassReader cr = null;
-        try (@SuppressWarnings("static-access")
-        InputStream inputStream = m.getDeclaringClass().getClassLoader().getSystemResourceAsStream(path)){
+        try (InputStream inputStream = m.getDeclaringClass().getClassLoader().getResourceAsStream(path)) {
             cr = new ClassReader(inputStream);
         } catch (IOException e) {
             throw new ClassNotFoundException(path);
         }
-        cr.accept(new ClassVisitor(Opcodes.ASM4 , cw) {
+        cr.accept(new ClassVisitor(Opcodes.ASM5 , cw) {
             @Override
             public MethodVisitor visitMethod(
                 final int access , final String name , final String desc , final String signature ,
@@ -228,7 +227,7 @@ public final class Reflects {
                 if (!name.equals(m.getName()) || !Reflects.sameType(args , m.getParameterTypes()))
                     return super.visitMethod(access , name , desc , signature , exceptions);
                 MethodVisitor v = this.cv.visitMethod(access , name , desc , signature , exceptions);
-                return new MethodVisitor(Opcodes.ASM4 , v) {
+                return new MethodVisitor(Opcodes.ASM5 , v) {
                     @Override
                     public void visitLocalVariable(
                         String name , String desc , String signature , Label start , Label end , int index) {
