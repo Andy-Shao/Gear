@@ -17,18 +17,19 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
-**What the newest plugins for v3.2**
+**What the updating in v3.2**
 
+Fix bug in Reflects.getMethodParamNames()<br>
 Rewriting ArrayOperation.getValue()<br>
 
-**What the newest plugins for v3.1**
+**What the updating in v3.1**
 
 Removing src/main/java/com/github/andyshao/util/ComparatorOperation.java<br>
 Adding getMethodParamNames() in Reflects<br>
 Adding HttpTask in system package<br>
 Adding BlokingTcpServer and others services in TCP/IP<br>
 
-**What the newest plugins for v3.0**
+**What the updating in v3.0**
 
 Rewriting the Proxy interfaces<br>
 Moving org.hamcrest from 1.1 to 1.3<br>

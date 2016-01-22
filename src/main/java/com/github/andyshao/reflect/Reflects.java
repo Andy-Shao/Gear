@@ -1,6 +1,7 @@
 package com.github.andyshao.reflect;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -208,13 +209,14 @@ public final class Reflects {
      */
     public static String[] getMethodParamNames(final Method m) {
         final String[] paramNames = new String[m.getParameterTypes().length];
-        final String n = m.getDeclaringClass().getName();
+        final String path = m.getDeclaringClass().getName().replace('.' , '/')+".class";
         final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         ClassReader cr = null;
-        try {
-            cr = new ClassReader(n);
+        try (@SuppressWarnings("static-access")
+        InputStream inputStream = m.getDeclaringClass().getClassLoader().getSystemResourceAsStream(path)){
+            cr = new ClassReader(inputStream);
         } catch (IOException e) {
-            throw new ClassNotFoundException(e);
+            throw new ClassNotFoundException(path);
         }
         cr.accept(new ClassVisitor(Opcodes.ASM4 , cw) {
             @Override

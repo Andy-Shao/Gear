@@ -1,5 +1,7 @@
 package com.github.andyshao.reflect;
 
+import java.io.IOException;
+
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +14,7 @@ public class ReflectsTest {
     }
 
     @Test
-    public void getParameterNameTest() {
+    public void getParameterNameTest() throws IOException {
         String[] names = Reflects
             .getMethodParamNames(Reflects.getDeclaredMethod(MyClass.class , "myMethod" , String.class , String.class));
         Assert.assertThat(names , Matchers.is(new String[] { "myStr" , "myStr2" }));
