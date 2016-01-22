@@ -70,8 +70,8 @@ public final class ArrayOperation {
      * @return the value which index is index.
      */
     @SuppressWarnings("unchecked")
-    public static <T> T getValue(T array , int index , T nullDefault) {
-        if (ArrayOperation.isAbove(array , index)) return nullDefault;
+    public static <T> T getValue(T array , int index , Object nullDefault) {
+        if (ArrayOperation.isAbove(array , index)) return (T) nullDefault;
         return (T) Array.get(array , index);
     }
 

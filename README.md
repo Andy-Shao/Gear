@@ -17,6 +17,10 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the newest plugins for v3.2**
+
+Rewriting ArrayOperation.getValue()<br>
+
 **What the newest plugins for v3.1**
 
 Removing src/main/java/com/github/andyshao/util/ComparatorOperation.java<br>
