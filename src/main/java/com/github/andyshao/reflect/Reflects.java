@@ -1,22 +1,10 @@
 package com.github.andyshao.reflect;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
 import java.util.Set;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
 
 /**
  * 
@@ -71,13 +59,8 @@ public final class Reflects {
      * @return the type of class
      * @see Class#forName(String)
      */
-    @SuppressWarnings("unchecked")
     public static <T> Class<T> forName(String className) {
-        try {
-            return (Class<T>) Class.forName(className);
-        } catch (java.lang.ClassNotFoundException e) {
-            throw new ClassNotFoundException(e);
-        }
+        return ClassOperation.forName(className);
     }
 
     /**
@@ -89,12 +72,7 @@ public final class Reflects {
      * @see Class#getConstructor(Class...)
      */
     public static <T> Constructor<T> getConstructor(Class<T> clazz , Class<?>... parameterTypes) {
-        try {
-            return clazz.getConstructor(parameterTypes);
-        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
-            if (e instanceof java.lang.NoSuchMethodException) throw new NoSuchFieldException(e);
-            else throw new SecurityException(e);
-        }
+        return ConstructorOperation.getConstructor(clazz , parameterTypes);
     }
 
     /**
@@ -106,12 +84,7 @@ public final class Reflects {
      * @see Class#getDeclaredConstructor(Class...)
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> clazz , Class<?>... parameterTypes) {
-        try {
-            return clazz.getDeclaredConstructor(parameterTypes);
-        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
-            if (e instanceof java.lang.NoSuchMethodException) throw new NoSuchFieldException(e);
-            else throw new SecurityException(e);
-        }
+        return ConstructorOperation.getDeclaredConstructor(clazz , parameterTypes);
     }
 
     /**
@@ -122,12 +95,7 @@ public final class Reflects {
      * @see Class#getDeclaredField(String)
      */
     public static Field getDeclaredField(Class<?> clazz , String field_name) {
-        try {
-            return clazz.getDeclaredField(field_name);
-        } catch (java.lang.NoSuchFieldException | java.lang.SecurityException e) {
-            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
-            else throw new NoSuchFieldException(e);
-        }
+        return FieldOperation.getDeclaredField(clazz , field_name);
     }
 
     /**
@@ -139,12 +107,7 @@ public final class Reflects {
      * @see Class#getDeclaredMethod(String, Class...)
      */
     public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
-        try {
-            return clazz.getDeclaredMethod(method_name , parameterTypes);
-        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
-            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
-            else throw new NoSuchFieldException(e);
-        }
+        return MethodOperation.getDeclaredMethod(clazz , method_name , parameterTypes);
     }
 
     /**
@@ -155,12 +118,7 @@ public final class Reflects {
      * @see Class#getField(String)
      */
     public static Field getField(Class<?> clazz , String field_name) {
-        try {
-            return clazz.getField(field_name);
-        } catch (java.lang.NoSuchFieldException | java.lang.SecurityException e) {
-            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
-            else throw new NoSuchFieldException(e);
-        }
+        return FieldOperation.getField(clazz , field_name);
     }
 
     /**
@@ -171,13 +129,8 @@ public final class Reflects {
      * @return the value of field
      * @see Field#get(Object)
      */
-    @SuppressWarnings("unchecked")
     public static <T> T getFieldValue(Object target , Field field) {
-        try {
-            return (T) field.get(target);
-        } catch (java.lang.IllegalAccessException e) {
-            throw new IllegalAccessException(e);
-        }
+        return FieldOperation.getFieldValue(target , field);
     }
 
     /**
@@ -190,12 +143,7 @@ public final class Reflects {
      * @see Class#getMethod(String, Class...)
      */
     public static Method getMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
-        try {
-            return clazz.getMethod(method_name , parameterTypes);
-        } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
-            if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
-            else throw new NoSuchFieldException(e);
-        }
+        return MethodOperation.getMethod(clazz , method_name , parameterTypes);
     }
 
     /**
@@ -208,41 +156,7 @@ public final class Reflects {
      * @return the parameter name list
      */
     public static String[] getMethodParamNames(final Method m) {
-        final String[] paramNames = new String[m.getParameterTypes().length];
-        final String path = m.getDeclaringClass().getName().replace('.' , '/') + ".class";
-        final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-        ClassReader cr = null;
-        try (InputStream inputStream = m.getDeclaringClass().getClassLoader().getResourceAsStream(path)) {
-            cr = new ClassReader(inputStream);
-        } catch (IOException e) {
-            throw new ClassNotFoundException(path);
-        }
-        cr.accept(new ClassVisitor(Opcodes.ASM5 , cw) {
-            @Override
-            public MethodVisitor visitMethod(
-                final int access , final String name , final String desc , final String signature ,
-                final String[] exceptions) {
-                final Type[] args = Type.getArgumentTypes(desc);
-                //Same method name and parameter number
-                if (!name.equals(m.getName()) || !Reflects.sameType(args , m.getParameterTypes()))
-                    return super.visitMethod(access , name , desc , signature , exceptions);
-                MethodVisitor v = this.cv.visitMethod(access , name , desc , signature , exceptions);
-                return new MethodVisitor(Opcodes.ASM5 , v) {
-                    @Override
-                    public void visitLocalVariable(
-                        String name , String desc , String signature , Label start , Label end , int index) {
-                        int i = index - 1;
-                        //If it is static method then it is the first one.
-                        //If it is not static method then the first one is 'this' and next is parameter of method's
-                        if (Modifier.isStatic(m.getModifiers())) i = index;
-                        if (i >= 0 && i < paramNames.length) paramNames[i] = name;
-                        super.visitLocalVariable(name , desc , signature , start , end , index);
-                    }
-
-                };
-            }
-        } , 0);
-        return paramNames;
+        return ParameterOperation.getMethodParamNames(m);
     }
 
     /**
@@ -254,14 +168,8 @@ public final class Reflects {
      * @return the result of method's
      * @see Method#invoke(Object, Object...)
      */
-    @SuppressWarnings("unchecked")
     public static <T> T invoked(Object target , Method method , Object... values) {
-        try {
-            return (T) method.invoke(target , values);
-        } catch (java.lang.IllegalAccessException | java.lang.reflect.InvocationTargetException e) {
-            if (e instanceof java.lang.IllegalAccessException) throw new IllegalAccessException(e);
-            else throw new InvocationTargetException(e);
-        }
+        return MethodOperation.invoked(target , method , values);
     }
 
     /**
@@ -272,12 +180,7 @@ public final class Reflects {
      * @see Class#newInstance()
      */
     public static <T> T newInstance(Class<T> clazz) {
-        try {
-            return clazz.newInstance();
-        } catch (java.lang.InstantiationException | java.lang.IllegalAccessException e) {
-            if (e instanceof java.lang.InstantiationException) throw new InstantiationException(e);
-            else throw new IllegalAccessException(e);
-        }
+        return ConstructorOperation.newInstance(clazz);
     }
 
     /**
@@ -289,32 +192,7 @@ public final class Reflects {
      * @see Constructor#newInstance(Object...)
      */
     public static <T> T newInstance(Constructor<T> constructor , Object... values) {
-        try {
-            return constructor.newInstance(values);
-        } catch (java.lang.InstantiationException | java.lang.IllegalAccessException
-            | java.lang.reflect.InvocationTargetException e) {
-            if (e instanceof java.lang.InstantiationException) throw new InstantiationException(e);
-            else if (e instanceof java.lang.IllegalAccessException) throw new IllegalAccessException(e);
-            else throw new InvocationTargetException(e);
-        }
-    }
-
-    /**
-     * 
-     * <p>
-     * Comparing the parameters' types
-     * </p>
-     *
-     * @param types ASM type({@link Type})
-     * @param clazzes java type({@link Class})
-     * @return if it is equals then return true
-     */
-    private static boolean sameType(Type[] types , Class<?>[] clazzes) {
-        if (types.length != clazzes.length) return false;
-
-        for (int i = 0 ; i < types.length ; i++)
-            if (!Type.getType(clazzes[i]).equals(types[i])) return false;
-        return true;
+        return ConstructorOperation.newInstance(constructor , values);
     }
 
     /**
@@ -325,11 +203,7 @@ public final class Reflects {
      * @see Field#set(Object, Object)
      */
     public static void setFieldValue(Object target , Field field , Object value) {
-        try {
-            field.set(target , value);
-        } catch (java.lang.IllegalAccessException e) {
-            throw new IllegalAccessException(e);
-        }
+        FieldOperation.setFieldValue(target , field , value);
     }
 
     /**
@@ -341,30 +215,7 @@ public final class Reflects {
      * @see Class#getAnnotation(Class)
      */
     public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
-        T annotation = target.getAnnotation(clazz);
-        if (annotation != null) return annotation;
-
-        if (target.isInterface()) {
-            Class<?>[] interfaces = target.getInterfaces();
-            for (Class<?> _interface : interfaces) {
-                annotation = Reflects.superGetAnnotation(_interface , clazz);
-                if (annotation != null) return annotation;
-            }
-        } else {
-            Class<? extends Object> superClass = target.getSuperclass();
-            if (superClass != null) {
-                annotation = Reflects.superGetAnnotation(superClass , clazz);
-                if (annotation != null) return annotation;
-            }
-
-            Class<?>[] interfaces = target.getInterfaces();
-            for (Class<?> _interface : interfaces) {
-                annotation = Reflects.superGetAnnotation(_interface , clazz);
-                if (annotation != null) return annotation;
-            }
-        }
-
-        return annotation;
+        return AnnotationOperation.superGetAnnotation(target , clazz);
     }
 
     /**
@@ -376,15 +227,7 @@ public final class Reflects {
      * @see Class#getDeclaredField(String)
      */
     public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
-        try {
-            return clazz.getDeclaredField(field_name);
-        } catch (java.lang.NoSuchFieldException e) {
-            if (clazz.getSuperclass() != null)
-                return Reflects.superGetDeclaredField(clazz.getSuperclass() , field_name);
-            throw new NoSuchFieldException(e);
-        } catch (java.lang.SecurityException e) {
-            throw new SecurityException(e);
-        }
+        return FieldOperation.superGetDeclaredField(clazz , field_name);
     }
 
     /**
@@ -394,15 +237,7 @@ public final class Reflects {
      * @see Class#getDeclaredField(String)
      */
     public static Field[] superGetDeclaredFields(Class<?> clazz) {
-        Field[] result = new Field[0];
-        if (clazz.getSuperclass() != null) {
-            Field[] fields = Reflects.superGetDeclaredFields(clazz.getSuperclass());
-            result = ArrayOperation.mergeArray(Field[].class , result , fields);
-        }
-        Field[] fields = clazz.getDeclaredFields();
-        result = ArrayOperation.mergeArray(Field[].class , result , fields);
-
-        return result;
+        return FieldOperation.superGetDeclaredFields(clazz);
     }
 
     /**
@@ -415,15 +250,7 @@ public final class Reflects {
      * @see Class#getDeclaredMethod(String, Class...)
      */
     public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
-        try {
-            return clazz.getDeclaredMethod(method_name , parameterTypes);
-        } catch (java.lang.NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null)
-                return Reflects.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
-            throw new NoSuchFieldException(e);
-        } catch (java.lang.SecurityException e) {
-            throw new SecurityException(e);
-        }
+        return MethodOperation.superGetDeclaredMethod(clazz , method_name , parameterTypes);
     }
 
     /**
@@ -435,8 +262,7 @@ public final class Reflects {
      * @see Class#getInterfaces()
      */
     public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
-        set.addAll(Arrays.asList(clazz.getInterfaces()));
-        if (clazz.getSuperclass() != null) Reflects.superGetInterfaces(clazz.getSuperclass() , set);
+        ClassOperation.superGetInterfaces(clazz , set);
     }
 
     private Reflects() {
