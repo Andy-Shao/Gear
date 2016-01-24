@@ -1,6 +1,7 @@
 package com.github.andyshao.data.structure;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import com.github.andyshao.lang.Cleanable;
@@ -252,6 +253,14 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         return result;
     }
 
+    public static <DATA> void postorder(final BitreeNode<DATA> node , Consumer<DATA> consumer) {
+        if (!Bitree.isEob(node)) {
+            if (!Bitree.isEob(node.left())) Bitree.postorder(node , consumer);
+            if (!Bitree.isEob(node.right())) Bitree.postorder(node , consumer);
+            consumer.accept(node.data());
+        }
+    }
+
     public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         //Load the list with a preorder listing of the tree.
         if (!Bitree.isEob(node)) {
@@ -261,6 +270,14 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         }
 
         return result;
+    }
+
+    public static <DATA> void preorder(BitreeNode<DATA> node , Consumer<DATA> consumer) {
+        if (!Bitree.isEob(node)) {
+            consumer.accept(node.data());
+            if (!Bitree.isEob(node.left())) Bitree.preorder(node.left() , consumer);
+            if (!Bitree.isEob(node.right())) Bitree.preorder(node.right() , consumer);
+        }
     }
 
     public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
