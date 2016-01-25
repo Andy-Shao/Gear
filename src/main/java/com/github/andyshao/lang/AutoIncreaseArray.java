@@ -199,7 +199,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     @Override
     public Object[] toArray() {
         Object[] array = new Object[this.size()];
-        System.arraycopy(AutoIncreaseArray.this.array , 0 , array , 0 , array.length);
+        System.arraycopy(AutoIncreaseArray.this.array , this.start , array , 0 , array.length);
         return array;
     }
 
@@ -210,7 +210,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         if (a.length >= this.size()) result = a;
         else result = (T[]) Array.newInstance(a.getClass().getComponentType() , this.size());
 
-        System.arraycopy(AutoIncreaseArray.this.array , 0 , result , 0 , result.length);
+        System.arraycopy(AutoIncreaseArray.this.array , this.start , result , 0 , result.length);
         return result;
     }
 }
