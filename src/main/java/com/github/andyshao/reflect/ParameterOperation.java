@@ -23,7 +23,7 @@ import org.objectweb.asm.Type;
  * @author Andy.Shao
  *
  */
-public class ParameterOperation {
+public final class ParameterOperation {
     /**
      * 
      * <p>

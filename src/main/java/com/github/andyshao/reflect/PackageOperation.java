@@ -10,8 +10,13 @@ package com.github.andyshao.reflect;
  * @author Andy.Shao
  *
  */
-public class PackageOperation {
+public final class PackageOperation {
     private PackageOperation() {
         throw new AssertionError("No support instance " + PackageOperation.class + " for you!");
+    }
+    
+    public static Class<?>[] getPackageClasses(Package pkg){
+        //TODO
+        return null;
     }
 }

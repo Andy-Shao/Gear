@@ -1,6 +1,7 @@
 package com.github.andyshao.reflect;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 /**
  * 
@@ -62,6 +63,12 @@ public final class FieldOperation {
         }
     }
 
+    public static final Object getValueByGetMethod(Object target , String paramName) {
+        final String methodName = "get" + paramName.substring(0 , 1).toUpperCase() + paramName.substring(1);
+        final Method method = MethodOperation.getMethod(target.getClass() , methodName);
+        return MethodOperation.invoked(target , method);
+    }
+
     /**
      * 
      * @param target the object which has define and value about field
@@ -75,6 +82,12 @@ public final class FieldOperation {
         } catch (java.lang.IllegalAccessException e) {
             throw new IllegalAccessException(e);
         }
+    }
+
+    public static final void setValueBySetMethod(Object target , String paramName , Class<?> paramType , Object value) {
+        final String methodName = "set" + paramName.substring(0 , 1).toUpperCase() + paramName.substring(1);
+        final Method method = MethodOperation.getMethod(target.getClass() , methodName , paramType);
+        MethodOperation.invoked(target , method , value);
     }
 
     /**

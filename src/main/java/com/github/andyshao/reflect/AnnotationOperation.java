@@ -12,7 +12,7 @@ import java.lang.annotation.Annotation;
  * @author Andy.Shao
  *
  */
-public class AnnotationOperation {
+public final class AnnotationOperation {
     /**
      * 
      * @param target the object which has define and value about field
