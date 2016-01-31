@@ -1,0 +1,5 @@
+Method declaration in source file | Method descriptor
+voie m(int i, float f)              (IF)V
+int m(Object o)                     (Ljava/lang/Object;)I
+int[] m(int i, String s)            (ILjava/lang/String;)[I
+Object m(int[] i)                   ([I)java/lang/Object;

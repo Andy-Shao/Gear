@@ -87,7 +87,7 @@ public final class ArrayOperation {
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
-
+    
     /**
      * find out the location of first item.
      * 

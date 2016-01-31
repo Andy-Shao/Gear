@@ -1,5 +1,6 @@
 package com.github.andyshao.reflect;
 
+import java.lang.reflect.Proxy;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -28,6 +29,35 @@ public final class ClassOperation {
         } catch (java.lang.ClassNotFoundException e) {
             throw new ClassNotFoundException(e);
         }
+    }
+
+    public static <T> T newInstance(Class<T> clazz) {
+        return ConstructorOperation.newInstance(clazz);
+    }
+
+    public static <T> T newInstance(Class<T> clazz , Object... args) {
+        Class<?>[] argTypes = new Class<?>[args.length];
+        for (int i = 0 ; i < args.length ; i++)
+            argTypes[i] = args[i].getClass();
+        return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T newInterfaceInstance(Class<T> clazz) {
+        if (!clazz.isInterface()) throw new IllegalArgumentException("clazz is not interface");
+        return (T) Proxy.newProxyInstance(clazz.getClassLoader() , new Class<?>[] { clazz } ,
+            (proxy , method , args) -> {
+                if (method.isDefault()) return "isDefault";
+                else if (method.getReturnType().isAssignableFrom(int.class)) return 0;
+                else if (method.getReturnType().isAssignableFrom(char.class)) return (char) 0;
+                else if (method.getReturnType().isAssignableFrom(short.class)) return (short) 0;
+                else if (method.getReturnType().isAssignableFrom(long.class)) return 0L;
+                else if (method.getReturnType().isAssignableFrom(float.class)) return 0.0f;
+                else if (method.getReturnType().isAssignableFrom(double.class)) return 0.0d;
+                else if (method.getReturnType().isAssignableFrom(boolean.class)) return false;
+                else if (method.getReturnType().isAssignableFrom(byte.class)) return (byte) 0;
+                return null;
+            });
     }
 
     /**
