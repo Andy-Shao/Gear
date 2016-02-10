@@ -1,8 +1,23 @@
 package com.github.andyshao.reflect;
 
-import java.lang.reflect.Proxy;
+import java.io.File;
+import java.io.IOException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+
+import com.github.andyshao.lang.GenericClassLoader;
+import com.github.andyshao.lang.Version;
 
 /**
  * 
@@ -43,21 +58,84 @@ public final class ClassOperation {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T newInterfaceInstance(Class<T> clazz) {
-        if (!clazz.isInterface()) throw new IllegalArgumentException("clazz is not interface");
-        return (T) Proxy.newProxyInstance(clazz.getClassLoader() , new Class<?>[] { clazz } ,
-            (proxy , method , args) -> {
-                if (method.isDefault()) return "isDefault";
-                else if (method.getReturnType().isAssignableFrom(int.class)) return 0;
-                else if (method.getReturnType().isAssignableFrom(char.class)) return (char) 0;
-                else if (method.getReturnType().isAssignableFrom(short.class)) return (short) 0;
-                else if (method.getReturnType().isAssignableFrom(long.class)) return 0L;
-                else if (method.getReturnType().isAssignableFrom(float.class)) return 0.0f;
-                else if (method.getReturnType().isAssignableFrom(double.class)) return 0.0d;
-                else if (method.getReturnType().isAssignableFrom(boolean.class)) return false;
-                else if (method.getReturnType().isAssignableFrom(byte.class)) return (byte) 0;
-                return null;
-            });
+    public static <T> T newInterfaceInstance(
+        Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
+        if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");
+        final ClassWriter cw = new ClassWriter(0);
+        cw.visit(version.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , targetName.replace('.' , '/') , null ,
+            "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
+        MethodVisitor mv = null;
+        {
+            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , "<init>" , "()V" , null , null);
+            mv.visitCode();
+            mv.visitVarInsn(Opcodes.ALOAD , 0);
+            mv.visitMethodInsn(Opcodes.INVOKESPECIAL , "java/lang/Object" , "<init>" , "()V" , false);
+            mv.visitInsn(Opcodes.RETURN);
+            mv.visitMaxs(1 , 1);
+            mv.visitEnd();
+        }
+        Method[] methods = interfaceClass.getMethods();
+        for (Method method : methods) {
+            if (method.isDefault()) continue;
+            if (Modifier.isStatic(method.getModifiers())) continue;
+            Class<?>[] exceptions = method.getExceptionTypes();
+            String[] exceptionDescriptions = new String[exceptions.length];
+            for (int i = 0 ; i < exceptions.length ; i++)
+                exceptionDescriptions[i] = exceptions[i].getName().replace('.' , '/');
+            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() , null ,
+                exceptionDescriptions);
+            Class<?> returnType = method.getReturnType();
+            mv.visitCode();
+            if (returnType.isAssignableFrom(int.class)) {
+                mv.visitInsn(Opcodes.ICONST_0);
+                mv.visitInsn(Opcodes.IRETURN);
+                mv.visitMaxs(1 , 1);
+            } else if (returnType.isAssignableFrom(byte.class)) {
+                mv.visitInsn(Opcodes.ICONST_0);
+                mv.visitInsn(Opcodes.IRETURN);
+                mv.visitMaxs(1 , 1);
+            } else if (returnType.isAssignableFrom(char.class)) {
+                mv.visitInsn(Opcodes.ICONST_0);
+                mv.visitInsn(Opcodes.IRETURN);
+                mv.visitMaxs(1 , 1);
+            } else if (returnType.isAssignableFrom(double.class)) {
+                mv.visitInsn(Opcodes.DCONST_0);
+                mv.visitInsn(Opcodes.DRETURN);
+                mv.visitMaxs(2 , 1);
+            } else if (returnType.isAssignableFrom(float.class)) {
+                mv.visitInsn(Opcodes.FCONST_0);
+                mv.visitInsn(Opcodes.FRETURN);
+                mv.visitMaxs(1 , 1);
+            } else if (returnType.isAssignableFrom(long.class)) {
+                mv.visitInsn(Opcodes.LCONST_0);
+                mv.visitInsn(Opcodes.LRETURN);
+                mv.visitMaxs(2 , 1);
+            } else if (returnType.isAssignableFrom(short.class)) {
+                mv.visitInsn(Opcodes.ICONST_0);
+                mv.visitInsn(Opcodes.IRETURN);
+                mv.visitMaxs(1 , 1);
+            } else if (returnType.isAssignableFrom(boolean.class)) {
+                mv.visitInsn(Opcodes.ICONST_0);
+                mv.visitInsn(Opcodes.IRETURN);
+                mv.visitMaxs(1 , 1);
+            } else if (returnType.isAssignableFrom(void.class) || returnType == Void.class) {
+                mv.visitInsn(Opcodes.RETURN);
+                mv.visitMaxs(0 , 1);
+            } else {
+                mv.visitInsn(Opcodes.ACONST_NULL);
+                mv.visitInsn(Opcodes.ARETURN);
+                mv.visitMaxs(1 , 1);
+            }
+            mv.visitEnd();
+        }
+        cw.visitEnd();
+        byte[] bs = cw.toByteArray();
+        if (isKeep) {
+            String filePath = targetName.replace('.' , '/') + ".class";
+            Files.write(new File(filePath).toPath() , bs);
+        }
+        GenericClassLoader classLoader = new GenericClassLoader();
+        return ClassOperation.newInstance((Class<T>) classLoader.defineClass(targetName , bs));
     }
 
     /**
