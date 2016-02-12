@@ -40,8 +40,8 @@ public class ClassOperationTest {
     }
 
     @Test
-    public void testNewInterfaceInstance() throws IOException {
-        MyInterface myInterface = ClassOperation.newInterfaceInstance(ClassOperationTest.MyInterface.class ,
+    public void testNewInstanceForInterface() throws IOException {
+        MyInterface myInterface = ClassOperation.newInstanceForInterface(ClassOperationTest.MyInterface.class ,
             "andy.shao.MyClass" , false , Version.V1_8);
         myInterface.doVoid();
         Assert.assertThat(myInterface.doDefault() , Matchers.is("doDefault"));
@@ -50,13 +50,16 @@ public class ClassOperationTest {
         Assert.assertTrue(myInterface.doString() == null);
 
         @SuppressWarnings("unchecked")
-        MyGenericInterface<String> myGenericInterface = ClassOperation.newInterfaceInstance(MyGenericInterface.class ,
-            "andy.shao.MyGenericClass" , false , Version.V1_8);
+        MyGenericInterface<String> myGenericInterface = ClassOperation
+            .newInstanceForInterface(MyGenericInterface.class , "andy.shao.MyGenericClass" , false , Version.V1_8);
         myGenericInterface.doVoid();
         Assert.assertThat(myGenericInterface.doDefault() , Matchers.is("doDefault"));
         Assert.assertThat(myGenericInterface.doInt() , Matchers.is(0));
         Assert.assertThat(myGenericInterface.doBoolean() , Matchers.is(false));
         Assert.assertTrue(myGenericInterface.doString() == null);
         Assert.assertTrue(myGenericInterface.doGeneric() == null);
+
+        myInterface =
+            ClassOperation.newInstanceForInterface(MyInterface.class , "andy.shao.MyClass2" , true , Version.V1_8);
     }
 }

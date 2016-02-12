@@ -1,10 +1,11 @@
 package com.github.andyshao.reflect;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -55,7 +56,7 @@ public final class ClassOperation {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> T newInterfaceInstance(
+    public static <T> T newInstanceForInterface(
         Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
         if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");
         final ClassWriter cw = new ClassWriter(0);
@@ -73,8 +74,7 @@ public final class ClassOperation {
         }
         Method[] methods = interfaceClass.getMethods();
         for (Method method : methods) {
-            if (method.isDefault()) continue;
-            if (Modifier.isStatic(method.getModifiers())) continue;
+            if (method.isDefault() || Modifier.isStatic(method.getModifiers())) continue;
             Class<?>[] exceptions = method.getExceptionTypes();
             String[] exceptionDescriptions = new String[exceptions.length];
             for (int i = 0 ; i < exceptions.length ; i++)
@@ -83,15 +83,9 @@ public final class ClassOperation {
                 exceptionDescriptions);
             Class<?> returnType = method.getReturnType();
             mv.visitCode();
-            if (int.class.isAssignableFrom(returnType)) {
-                mv.visitInsn(Opcodes.ICONST_0);
-                mv.visitInsn(Opcodes.IRETURN);
-                mv.visitMaxs(1 , 1);
-            } else if (byte.class.isAssignableFrom(returnType)) {
-                mv.visitInsn(Opcodes.ICONST_0);
-                mv.visitInsn(Opcodes.IRETURN);
-                mv.visitMaxs(1 , 1);
-            } else if (char.class.isAssignableFrom(returnType)) {
+            if (int.class.isAssignableFrom(returnType) || byte.class.isAssignableFrom(returnType)
+                || char.class.isAssignableFrom(returnType) || short.class.isAssignableFrom(returnType)
+                || boolean.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
                 mv.visitMaxs(1 , 1);
@@ -107,14 +101,6 @@ public final class ClassOperation {
                 mv.visitInsn(Opcodes.LCONST_0);
                 mv.visitInsn(Opcodes.LRETURN);
                 mv.visitMaxs(2 , 1);
-            } else if (short.class.isAssignableFrom(returnType)) {
-                mv.visitInsn(Opcodes.ICONST_0);
-                mv.visitInsn(Opcodes.IRETURN);
-                mv.visitMaxs(1 , 1);
-            } else if (boolean.class.isAssignableFrom(returnType)) {
-                mv.visitInsn(Opcodes.ICONST_0);
-                mv.visitInsn(Opcodes.IRETURN);
-                mv.visitMaxs(1 , 1);
             } else if (void.class.isAssignableFrom(returnType) || Void.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.RETURN);
                 mv.visitMaxs(0 , 1);
@@ -129,7 +115,16 @@ public final class ClassOperation {
         byte[] bs = cw.toByteArray();
         if (isKeep) {
             String filePath = targetName.replace('.' , '/') + ".class";
-            Files.write(new File(filePath).toPath() , bs);
+            File file = new File(filePath);
+            file.deleteOnExit();
+            File dir = file.getParentFile();
+            if (dir == null) ;
+            else if (!dir.exists()) dir.mkdirs();
+            file.createNewFile();
+            try (OutputStream outputStream = new FileOutputStream(file)) {
+                outputStream.write(bs);
+                outputStream.flush();
+            }
         }
         GenericClassLoader classLoader = new GenericClassLoader();
         return ClassOperation.newInstance((Class<T>) classLoader.defineClass(targetName , bs));
