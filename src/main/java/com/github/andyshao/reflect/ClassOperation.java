@@ -4,11 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Set;
 
 import org.objectweb.asm.ClassWriter;
@@ -86,39 +83,39 @@ public final class ClassOperation {
                 exceptionDescriptions);
             Class<?> returnType = method.getReturnType();
             mv.visitCode();
-            if (returnType.isAssignableFrom(int.class)) {
+            if (int.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
                 mv.visitMaxs(1 , 1);
-            } else if (returnType.isAssignableFrom(byte.class)) {
+            } else if (byte.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
                 mv.visitMaxs(1 , 1);
-            } else if (returnType.isAssignableFrom(char.class)) {
+            } else if (char.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
                 mv.visitMaxs(1 , 1);
-            } else if (returnType.isAssignableFrom(double.class)) {
+            } else if (double.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.DCONST_0);
                 mv.visitInsn(Opcodes.DRETURN);
                 mv.visitMaxs(2 , 1);
-            } else if (returnType.isAssignableFrom(float.class)) {
+            } else if (float.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.FCONST_0);
                 mv.visitInsn(Opcodes.FRETURN);
                 mv.visitMaxs(1 , 1);
-            } else if (returnType.isAssignableFrom(long.class)) {
+            } else if (long.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.LCONST_0);
                 mv.visitInsn(Opcodes.LRETURN);
                 mv.visitMaxs(2 , 1);
-            } else if (returnType.isAssignableFrom(short.class)) {
+            } else if (short.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
                 mv.visitMaxs(1 , 1);
-            } else if (returnType.isAssignableFrom(boolean.class)) {
+            } else if (boolean.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
                 mv.visitMaxs(1 , 1);
-            } else if (returnType.isAssignableFrom(void.class) || returnType == Void.class) {
+            } else if (void.class.isAssignableFrom(returnType) || Void.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.RETURN);
                 mv.visitMaxs(0 , 1);
             } else {
