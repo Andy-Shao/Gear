@@ -1,5 +1,6 @@
 package com.github.andyshao.reflect;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.hamcrest.Matchers;
@@ -61,5 +62,10 @@ public class ClassOperationTest {
 
         myInterface =
             ClassOperation.newInstanceForInterface(MyInterface.class , "andy.shao.MyClass2" , true , Version.V1_8);
+        File file = new File("andy/shao/MyClass2.class");
+        Assert.assertThat(file.exists() , Matchers.is(true));
+        file.delete();
+        new File("andy/shao").delete();
+        new File("andy").delete();
     }
 }

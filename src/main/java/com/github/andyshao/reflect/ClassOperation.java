@@ -116,12 +116,10 @@ public final class ClassOperation {
         if (isKeep) {
             String filePath = targetName.replace('.' , '/') + ".class";
             File file = new File(filePath);
-            file.deleteOnExit();
+            if(file.exists()) file.delete();
             File dir = file.getParentFile();
             if (dir == null) ;
             else if (!dir.exists()) dir.mkdirs();
-            file.createNewFile();
-            //TODO
             try (OutputStream outputStream = new FileOutputStream(file)) {
                 outputStream.write(bs);
                 outputStream.flush();
