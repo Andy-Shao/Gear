@@ -81,7 +81,7 @@ public final class MethodOperation {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
         } catch (java.lang.NoSuchMethodException e) {
             if (clazz.getSuperclass() != null)
-                return Reflects.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
+                return MethodOperation.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
             throw new NoSuchFieldException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);

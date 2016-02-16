@@ -3,7 +3,7 @@ package com.github.andyshao.proxy;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.reflect.Reflects;
+import com.github.andyshao.reflect.MethodOperation;
 
 public class CglibPFTest {
 
@@ -19,7 +19,7 @@ public class CglibPFTest {
         Assert.assertFalse(myClass.isAllow());
 
         final String methodName =
-            ProxyFactory.buildMethodKey(Reflects.getMethod(CglibPFTest.MyClass.class , "isAllow"));
+            ProxyFactory.buildMethodKey(MethodOperation.getMethod(CglibPFTest.MyClass.class , "isAllow"));
         CglibPF<CglibPFTest.MyClass> cglibProxyF = (target , method , args) -> {
             if (methodName.equals(ProxyFactory.buildMethodKey(method))) return true;
             return method.invoke(myClass , args);

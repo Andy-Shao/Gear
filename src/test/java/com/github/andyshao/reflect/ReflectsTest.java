@@ -6,6 +6,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class ReflectsTest {
 
     class MyClass {

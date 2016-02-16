@@ -103,7 +103,7 @@ public final class FieldOperation {
             return clazz.getDeclaredField(field_name);
         } catch (java.lang.NoSuchFieldException e) {
             if (clazz.getSuperclass() != null)
-                return Reflects.superGetDeclaredField(clazz.getSuperclass() , field_name);
+                return FieldOperation.superGetDeclaredField(clazz.getSuperclass() , field_name);
             throw new NoSuchFieldException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);
@@ -119,7 +119,7 @@ public final class FieldOperation {
     public static Field[] superGetDeclaredFields(Class<?> clazz) {
         Field[] result = new Field[0];
         if (clazz.getSuperclass() != null) {
-            Field[] fields = Reflects.superGetDeclaredFields(clazz.getSuperclass());
+            Field[] fields = FieldOperation.superGetDeclaredFields(clazz.getSuperclass());
             result = ArrayOperation.mergeArray(Field[].class , result , fields);
         }
         Field[] fields = clazz.getDeclaredFields();

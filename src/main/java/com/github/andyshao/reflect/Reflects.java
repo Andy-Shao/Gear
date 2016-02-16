@@ -51,6 +51,7 @@ import java.util.Set;
  * @author Andy.Shao
  *
  */
+@Deprecated
 public final class Reflects {
     /**
      * 

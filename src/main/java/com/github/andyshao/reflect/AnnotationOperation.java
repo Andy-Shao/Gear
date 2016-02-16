@@ -28,19 +28,19 @@ public final class AnnotationOperation {
         if (target.isInterface()) {
             Class<?>[] interfaces = target.getInterfaces();
             for (Class<?> _interface : interfaces) {
-                annotation = Reflects.superGetAnnotation(_interface , clazz);
+                annotation = AnnotationOperation.superGetAnnotation(_interface , clazz);
                 if (annotation != null) return annotation;
             }
         } else {
             Class<? extends Object> superClass = target.getSuperclass();
             if (superClass != null) {
-                annotation = Reflects.superGetAnnotation(superClass , clazz);
+                annotation = AnnotationOperation.superGetAnnotation(superClass , clazz);
                 if (annotation != null) return annotation;
             }
 
             Class<?>[] interfaces = target.getInterfaces();
             for (Class<?> _interface : interfaces) {
-                annotation = Reflects.superGetAnnotation(_interface , clazz);
+                annotation = AnnotationOperation.superGetAnnotation(_interface , clazz);
                 if (annotation != null) return annotation;
             }
         }

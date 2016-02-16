@@ -67,7 +67,8 @@ public final class PackageOperation {
     public static Package[] getPckages(Package pkg) {
         List<Package> result = new ArrayList<>();
         Package[] packages = Package.getPackages();
-        for(Package ppkg : packages) if(ppkg.getName().startsWith(pkg.getName())) result.add(ppkg);
+        for (Package ppkg : packages)
+            if (ppkg.getName().startsWith(pkg.getName())) result.add(ppkg);
         return result.toArray(new Package[result.size()]);
     }
 

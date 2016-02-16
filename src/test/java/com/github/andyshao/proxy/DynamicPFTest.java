@@ -3,7 +3,7 @@ package com.github.andyshao.proxy;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.reflect.Reflects;
+import com.github.andyshao.reflect.MethodOperation;
 
 public class DynamicPFTest {
 
@@ -21,7 +21,8 @@ public class DynamicPFTest {
             }
         };
         Assert.assertFalse(myInterface.isAllow());
-        final String key = ProxyFactory.buildMethodKey(Reflects.getMethod(DynamicPFTest.MyInterface.class , "isAllow"));
+        final String key =
+            ProxyFactory.buildMethodKey(MethodOperation.getMethod(DynamicPFTest.MyInterface.class , "isAllow"));
 
         DynamicPF<MyInterface> dynamicPF = (target , method , args) -> {
             if (key.equals(ProxyFactory.buildMethodKey(method))) return true;

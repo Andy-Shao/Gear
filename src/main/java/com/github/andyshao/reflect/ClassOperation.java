@@ -116,7 +116,7 @@ public final class ClassOperation {
         if (isKeep) {
             String filePath = targetName.replace('.' , '/') + ".class";
             File file = new File(filePath);
-            if(file.exists()) file.delete();
+            if (file.exists()) file.delete();
             File dir = file.getParentFile();
             if (dir == null) ;
             else if (!dir.exists()) dir.mkdirs();
@@ -139,7 +139,7 @@ public final class ClassOperation {
      */
     public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
         set.addAll(Arrays.asList(clazz.getInterfaces()));
-        if (clazz.getSuperclass() != null) Reflects.superGetInterfaces(clazz.getSuperclass() , set);
+        if (clazz.getSuperclass() != null) ClassOperation.superGetInterfaces(clazz.getSuperclass() , set);
     }
 
     private ClassOperation() {

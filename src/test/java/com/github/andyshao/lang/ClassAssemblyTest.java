@@ -11,7 +11,8 @@ import org.junit.Test;
 
 import com.github.andyshao.nio.BufferReader;
 import com.github.andyshao.nio.ByteBufferReader;
-import com.github.andyshao.reflect.Reflects;
+import com.github.andyshao.reflect.ClassOperation;
+import com.github.andyshao.reflect.MethodOperation;
 
 public class ClassAssemblyTest {
     private static final String CLASS_PATH = "com/github/andyshao/lang/ClassDemo.class";
@@ -28,7 +29,8 @@ public class ClassAssemblyTest {
         }
         Class<Supplier<String>> clazz = ClassAssembly.DEFAULT.<Supplier<String>> assemble(
             ClassAssemblyTest.CLASS_PATH.replace("/" , ".").replace(".class" , "") , classInfo);
-        String answer = Reflects.<String> invoked(Reflects.newInstance(clazz) , Reflects.getMethod(clazz , "get"));
+        String answer = MethodOperation.<String> invoked(ClassOperation.newInstance(clazz) ,
+            MethodOperation.getMethod(clazz , "get"));
         Assert.assertThat(answer , Matchers.is("Hello,World!"));
     }
 }

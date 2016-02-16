@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.andyshao.reflect.Reflects;
+import com.github.andyshao.reflect.ClassOperation;
 
 /**
  * 
@@ -38,7 +38,7 @@ public interface ProxyFactory<T> {
 
     public default Class<?>[] proxyInterfaces(T target) {
         Set<Class<?>> set = new HashSet<>();
-        Reflects.superGetInterfaces(target.getClass() , set);
+        ClassOperation.superGetInterfaces(target.getClass() , set);
         return set.toArray(new Class<?>[set.size()]);
     }
 }
