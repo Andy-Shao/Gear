@@ -96,7 +96,7 @@
     0x58            pop2                将栈顶的一个(对于long或double类型)或两个数值(对于非long或double的其他类型)弹出
     0x59            dup                 复制栈顶数值并将复制值压入栈顶
     0x5a            dup_x1              复制栈顶数值并将两个复制值压入栈顶
-    0x5b            dup_x2              复制栈顶数值并将两个复制值压入栈顶
+    0x5b            dup_x2              复制栈顶数值并将三个(或两个)复制值压入栈顶
     0x5c            dup2                复制栈顶一个(对于long或double类型)或两个(对于非long或double的其他类型)数值并将复制值压入栈顶
     0x5d            dup2_x1             dup_x1指令的双倍版本
     0x5e            dup2_x2             dup_x2指令的双倍版本
