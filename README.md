@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2**
 
+adding new package com.github.andyshao.asm<br>
 Moving to asm-all<br>
 Adding -jvm [--type|--method] commands<br>
 Redesign reflecting - separate Reflects class<br> 
