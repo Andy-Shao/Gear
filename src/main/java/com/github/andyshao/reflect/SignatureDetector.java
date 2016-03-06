@@ -26,6 +26,12 @@ public class SignatureDetector extends ClassVisitor {
         public final Map<String , String> fieldSignatures = new HashMap<>();
         public final Map<Class<?> , ClassSignature> innerClassSignatures = new HashMap<>();
         public final Map<String , String> methodSignatures = new HashMap<>();
+        @Override
+        public String toString() {
+            return "ClassSignature [className=" + className + ", classSignature=" + classSignature
+                + ", fieldSignatures=" + fieldSignatures + ", innerClassSignatures=" + innerClassSignatures
+                + ", methodSignatures=" + methodSignatures + "]";
+        }
     }
 
     private int api;
