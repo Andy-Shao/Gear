@@ -1,6 +1,11 @@
 package com.github.andyshao.reflect;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.function.Consumer;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -11,7 +16,22 @@ import org.objectweb.asm.Opcodes;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 
 public class SignatureDetectorTest {
-    private SignatureDetector detector;
+    public class MyClass<T extends MyIterable> {
+        public Map<T , Method> myMethod(Collection<? extends T> list) {
+            return null;
+        }
+    }
+
+    public class MyIterable implements Iterable<Integer> {
+
+        @Override
+        public Iterator<Integer> iterator() {
+            return null;
+        }
+
+    }
+
+    private volatile SignatureDetector detector;
 
     @Before
     public void befor() {
@@ -19,8 +39,41 @@ public class SignatureDetectorTest {
     }
 
     @Test
+    public void testForDefineClass() {
+        ClassSignature classSignature = this.detector.getSignature(SignatureDetectorTest.MyClass.class);
+        Assert.assertThat(classSignature.classSignature ,
+            Matchers.is("<T:Lcom/github/andyshao/reflect/SignatureDetectorTest$MyIterable;>Ljava/lang/Object;"));
+        Method method = MethodOperation.getMethod(SignatureDetectorTest.MyClass.class , "myMethod" , Collection.class);
+        Assert.assertThat(classSignature.methodSignatures.get(method) ,
+            Matchers.is("(Ljava/util/Collection<+TT;>;)Ljava/util/Map<TT;Ljava/lang/reflect/Method;>;"));
+    }
+
+    @Test
     public void testForIterable() throws IOException {
         ClassSignature classSignature = this.detector.getSignature(Iterable.class);
         Assert.assertThat(classSignature.classSignature , Matchers.is("<T:Ljava/lang/Object;>Ljava/lang/Object;"));
+        Method method = MethodOperation.getMethod(Iterable.class , "iterator");
+        Assert.assertThat(classSignature.methodSignatures.get(method) , Matchers.is("()Ljava/util/Iterator<TT;>;"));
+        method = MethodOperation.getMethod(Iterable.class , "forEach" , Consumer.class);
+        Assert.assertThat(classSignature.methodSignatures.get(method) ,
+            Matchers.is("(Ljava/util/function/Consumer<-TT;>;)V"));
+        method = MethodOperation.getMethod(Iterable.class , "spliterator");
+        Assert.assertThat(classSignature.methodSignatures.get(method) , Matchers.is("()Ljava/util/Spliterator<TT;>;"));
+
+        this.detector.refresh();
+        classSignature = this.detector.getSignature(SignatureDetectorTest.MyIterable.class);
+        Assert.assertThat(classSignature.classSignature ,
+            Matchers.is("Ljava/lang/Object;Ljava/lang/Iterable<Ljava/lang/Integer;>;"));
+        method = MethodOperation.getMethod(MyIterable.class , "iterator");
+        Assert.assertThat(classSignature.methodSignatures.get(method) ,
+            Matchers.is("()Ljava/util/Iterator<Ljava/lang/Integer;>;"));
+
+        this.detector.refresh();
+        classSignature = this.detector.getSignature(MyIterable2.class);
+        Assert.assertThat(classSignature.classSignature ,
+            Matchers.is("Ljava/lang/Object;Ljava/lang/Iterable<Ljava/lang/Integer;>;"));
+        method = MethodOperation.getMethod(MyIterable2.class , "iterator");
+        Assert.assertThat(classSignature.methodSignatures.get(method) ,
+            Matchers.is("()Ljava/util/Iterator<Ljava/lang/Integer;>;"));
     }
 }

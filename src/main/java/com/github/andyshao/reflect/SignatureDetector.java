@@ -79,8 +79,9 @@ public class SignatureDetector extends ClassVisitor {
 
     @Override
     public void visitInnerClass(String name , String outerName , String innerName , int access) {
-        Class<?> innerClass = ClassOperation.forName(outerName.replace('/' , '.') + "$" + name);
-        this.signature.innerClassSignatures.put(innerClass , new SignatureDetector(this.api).getSignature(innerClass));
+        Class<?> innerClass = ClassOperation.forName(name.replace('/' , '.'));
+        if (!innerClass.equals(this.signature.clazz)) this.signature.innerClassSignatures.put(innerClass ,
+            new SignatureDetector(this.api).getSignature(innerClass));
         super.visitInnerClass(name , outerName , innerName , access);
     }
 
