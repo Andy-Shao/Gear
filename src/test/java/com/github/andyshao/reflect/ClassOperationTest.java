@@ -7,7 +7,7 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.lang.Version;
+import com.github.andyshao.asm.Version;
 
 public class ClassOperationTest {
     public static interface MyGenericInterface<T> {

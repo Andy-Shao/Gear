@@ -25,17 +25,17 @@ import com.github.andyshao.asm.TypeOperation;
  */
 public class SignatureDetector extends ClassVisitor {
     public static class ClassSignature {
-        public Class<?> clazz;
         public String classSignature;
+        public Class<?> clazz;
         public final Map<Field , String> fieldSignatures = new HashMap<>();
         public final Map<Class<?> , ClassSignature> innerClassSignatures = new HashMap<>();
         public final Map<Method , String> methodSignatures = new HashMap<>();
 
         @Override
         public String toString() {
-            return "ClassSignature [clazz=" + clazz + ", classSignature=" + classSignature + ", fieldSignatures="
-                + fieldSignatures + ", innerClassSignatures=" + innerClassSignatures + ", methodSignatures="
-                + methodSignatures + "]";
+            return "ClassSignature [clazz=" + this.clazz + ", classSignature=" + this.classSignature
+                + ", fieldSignatures=" + this.fieldSignatures + ", innerClassSignatures=" + this.innerClassSignatures
+                + ", methodSignatures=" + this.methodSignatures + "]";
         }
     }
 

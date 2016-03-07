@@ -22,13 +22,28 @@ public class SignatureDetectorTest {
         }
     }
 
-    public class MyIterable implements Iterable<Integer> {
+    public class MyClass2 implements MyInterface {
+        @Override
+        public void myMethod() {
+        }
+    }
 
+    public interface MyInterface {
+        public void myMethod();
+    }
+
+    public class MyIt<T, R> implements Iterable<T> {
+        @Override
+        public Iterator<T> iterator() {
+            return null;
+        }
+    }
+
+    public class MyIterable implements Iterable<Integer> {
         @Override
         public Iterator<Integer> iterator() {
             return null;
         }
-
     }
 
     private volatile SignatureDetector detector;
@@ -46,6 +61,12 @@ public class SignatureDetectorTest {
         Method method = MethodOperation.getMethod(SignatureDetectorTest.MyClass.class , "myMethod" , Collection.class);
         Assert.assertThat(classSignature.methodSignatures.get(method) ,
             Matchers.is("(Ljava/util/Collection<+TT;>;)Ljava/util/Map<TT;Ljava/lang/reflect/Method;>;"));
+
+        this.detector.refresh();
+        classSignature = this.detector.getSignature(MyClass2.class);
+        Assert.assertTrue(classSignature.classSignature == null);
+        method = MethodOperation.getMethod(MyClass2.class , "myMethod");
+        Assert.assertTrue(classSignature.methodSignatures.get(method) == null);
     }
 
     @Test
@@ -75,5 +96,12 @@ public class SignatureDetectorTest {
         method = MethodOperation.getMethod(MyIterable2.class , "iterator");
         Assert.assertThat(classSignature.methodSignatures.get(method) ,
             Matchers.is("()Ljava/util/Iterator<Ljava/lang/Integer;>;"));
+
+        this.detector.refresh();
+        classSignature = this.detector.getSignature(SignatureDetectorTest.MyIt.class);
+        Assert.assertThat(classSignature.classSignature ,
+            Matchers.is("<T:Ljava/lang/Object;R:Ljava/lang/Object;>Ljava/lang/Object;Ljava/lang/Iterable<TT;>;"));
+        method = MethodOperation.getMethod(MyIt.class , "iterator");
+        Assert.assertThat(classSignature.methodSignatures.get(method) , Matchers.is("()Ljava/util/Iterator<TT;>;"));
     }
 }

@@ -14,8 +14,10 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
-import com.github.andyshao.lang.GenericClassLoader;
-import com.github.andyshao.lang.Version;
+import com.github.andyshao.asm.Version;
+import com.github.andyshao.lang.ClassAssembly;
+import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 
 /**
  * 
@@ -55,13 +57,26 @@ public final class ClassOperation {
         return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> T newInstanceForInterface(
         Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
         if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");
+        final ClassSignature csig = new SignatureDetector(Opcodes.ASM5).getSignature(interfaceClass);
+        String classSignature = null;
+        if (csig.classSignature != null) {
+            String tail = StringOperation.replaceAll(csig.classSignature , "Ljava/lang/Object" , "");
+            String[] parts = tail.split(";");
+            for (String part : parts) {
+                part = StringOperation.replaceAll(part , "<" , "");
+                part = StringOperation.replaceAll(part , ">" , "");
+                part = StringOperation.replaceAll(part , ":" , "");
+                if (!part.isEmpty()) tail = StringOperation.replaceFirst(tail , ":" , part);
+            }
+            tail = "L" + interfaceClass.getName().replace('.' , '/') + tail;
+            classSignature = csig.classSignature + tail;
+        }
         final ClassWriter cw = new ClassWriter(0);
-        cw.visit(version.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , targetName.replace('.' , '/') , null ,
-            "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
+        cw.visit(version.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , targetName.replace('.' , '/') ,
+            classSignature , "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
         MethodVisitor mv = null;
         {
             mv = cw.visitMethod(Opcodes.ACC_PUBLIC , "<init>" , "()V" , null , null);
@@ -79,8 +94,8 @@ public final class ClassOperation {
             String[] exceptionDescriptions = new String[exceptions.length];
             for (int i = 0 ; i < exceptions.length ; i++)
                 exceptionDescriptions[i] = exceptions[i].getName().replace('.' , '/');
-            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() , null ,
-                exceptionDescriptions);
+            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() ,
+                csig.methodSignatures.get(method) , exceptionDescriptions);
             Class<?> returnType = method.getReturnType();
             mv.visitCode();
             if (int.class.isAssignableFrom(returnType) || byte.class.isAssignableFrom(returnType)
@@ -125,8 +140,7 @@ public final class ClassOperation {
                 outputStream.flush();
             }
         }
-        GenericClassLoader classLoader = new GenericClassLoader();
-        return ClassOperation.newInstance((Class<T>) classLoader.defineClass(targetName , bs));
+        return ClassOperation.newInstance(ClassAssembly.DEFAULT.assemble(targetName , bs));
     }
 
     /**
