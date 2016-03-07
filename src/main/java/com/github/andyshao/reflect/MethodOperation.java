@@ -26,7 +26,7 @@ public final class MethodOperation {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
         } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
             if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
-            else throw new NoSuchFieldException(e);
+            else throw new NoSuchMethodException(e);
         }
     }
 
@@ -44,7 +44,7 @@ public final class MethodOperation {
             return clazz.getMethod(method_name , parameterTypes);
         } catch (java.lang.NoSuchMethodException | java.lang.SecurityException e) {
             if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
-            else throw new NoSuchFieldException(e);
+            else throw new NoSuchMethodException(e);
         }
     }
 
@@ -68,7 +68,7 @@ public final class MethodOperation {
     }
 
     /**
-     * if the clazz doesn't include the mtheod, it will check the super class.
+     * if the clazz doesn't include the method, it will check the super class.
      * 
      * @param clazz the type of class
      * @param method_name the name of method
@@ -82,7 +82,7 @@ public final class MethodOperation {
         } catch (java.lang.NoSuchMethodException e) {
             if (clazz.getSuperclass() != null)
                 return MethodOperation.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
-            throw new NoSuchFieldException(e);
+            throw new NoSuchMethodException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);
         }

@@ -30,11 +30,32 @@ public class TypeOperationTest {
         Assert.assertThat(TypeOperation.getArgumentClasses("([D)V") , Matchers.is(new Class<?>[] { double[].class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("([Ljava/lang/String;)V") ,
             Matchers.is(new Class<?>[] { String[].class }));
+        Assert.assertThat(TypeOperation.getArgumentClasses("(II)V") ,
+            Matchers.is(new Class<?>[] { int.class , int.class }));
     }
 
     @Test
     public void testGetReturnClass() {
-        Assert.assertTrue(void.class.isAssignableFrom(TypeOperation.getReturnClasses("()V")));
-        Assert.assertTrue(int.class.isAssignableFrom(TypeOperation.getReturnClasses("()I")));
+        Assert.assertTrue(void.class.isAssignableFrom(TypeOperation.getReturnClass("()V")));
+        Assert.assertTrue(int.class.isAssignableFrom(TypeOperation.getReturnClass("()I")));
+        Assert.assertTrue(boolean.class.isAssignableFrom(TypeOperation.getReturnClass("()Z")));
+        Assert.assertTrue(char.class.isAssignableFrom(TypeOperation.getReturnClass("()C")));
+        Assert.assertTrue(byte.class.isAssignableFrom(TypeOperation.getReturnClass("()B")));
+        Assert.assertTrue(short.class.isAssignableFrom(TypeOperation.getReturnClass("()S")));
+        Assert.assertTrue(float.class.isAssignableFrom(TypeOperation.getReturnClass("()F")));
+        Assert.assertTrue(long.class.isAssignableFrom(TypeOperation.getReturnClass("()J")));
+        Assert.assertTrue(double.class.isAssignableFrom(TypeOperation.getReturnClass("()D")));
+        Assert.assertTrue(String.class.isAssignableFrom(TypeOperation.getReturnClass("()Ljava/lang/String;")));
+        Assert.assertTrue(Void.class.isAssignableFrom(TypeOperation.getReturnClass("()Ljava/lang/Void;")));
+        Assert.assertTrue(int[].class.isAssignableFrom(TypeOperation.getReturnClass("()[I")));
+        Assert.assertTrue(boolean[].class.isAssignableFrom(TypeOperation.getReturnClass("()[Z")));
+        Assert.assertTrue(char[].class.isAssignableFrom(TypeOperation.getReturnClass("()[C")));
+        Assert.assertTrue(byte[].class.isAssignableFrom(TypeOperation.getReturnClass("()[B")));
+        Assert.assertTrue(short[].class.isAssignableFrom(TypeOperation.getReturnClass("()[S")));
+        Assert.assertTrue(float[].class.isAssignableFrom(TypeOperation.getReturnClass("()[F")));
+        Assert.assertTrue(long[].class.isAssignableFrom(TypeOperation.getReturnClass("()[J")));
+        Assert.assertTrue(double[].class.isAssignableFrom(TypeOperation.getReturnClass("()[D")));
+        Assert.assertTrue(String[].class.isAssignableFrom(TypeOperation.getReturnClass("()[Ljava/lang/String;")));
+        Assert.assertTrue(Void[].class.isAssignableFrom(TypeOperation.getReturnClass("()[Ljava/lang/Void;")));
     }
 }

@@ -11,7 +11,6 @@ package com.github.andyshao.reflect;
  *
  */
 public class NoSuchFieldException extends ReflectiveOperationException {
-
     private static final long serialVersionUID = 7486693973906589683L;
 
     public NoSuchFieldException() {

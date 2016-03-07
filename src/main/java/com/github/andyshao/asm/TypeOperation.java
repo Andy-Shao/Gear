@@ -1,10 +1,13 @@
 package com.github.andyshao.asm;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 
 import org.objectweb.asm.Type;
 
 import com.github.andyshao.reflect.ClassOperation;
+import com.github.andyshao.reflect.MethodOperation;
+import com.github.andyshao.reflect.NoSuchMethodException;
 
 /**
  * Title:<br>
@@ -17,7 +20,12 @@ import com.github.andyshao.reflect.ClassOperation;
  */
 public final class TypeOperation {
     public static final Class<?>[] getArgumentClasses(String descriptor) {
-        Type[] types = Type.getType(descriptor).getArgumentTypes();
+        return TypeOperation.getArgumentClasses(Type.getType(descriptor));
+    }
+
+    public static final Class<?>[] getArgumentClasses(Type type) {
+        if (type.getSort() != Type.METHOD) throw new ASMOperationException("Type should be method type");
+        Type[] types = type.getArgumentTypes();
         Class<?>[] result = new Class<?>[types.length];
         for (int i = 0 ; i < types.length ; i++)
             result[i] = TypeOperation.getClass(types[i]);
@@ -74,9 +82,34 @@ public final class TypeOperation {
         return result;
     }
 
-    public static final Class<?> getReturnClasses(String descriptor) {
+    public static final Method getMethod(String descriptor , String methodName , Class<?> superClass) {
+        return TypeOperation.getMethod(Type.getType(descriptor) , methodName , superClass);
+    }
+
+    public static final Method getMethod(Type type , String methodName , Class<?> superClass) {
+        if (type.getSort() != Type.METHOD) throw new ASMOperationException("Type should be method type");
+        final Class<?>[] arguments = TypeOperation.getArgumentClasses(type.getDescriptor());
+        Method method = null;
+        try {
+            method = MethodOperation.getMethod(superClass , methodName , arguments);
+        } catch (NoSuchMethodException e) {
+            try {
+                method = MethodOperation.superGetDeclaredMethod(superClass , methodName , arguments);
+            } catch (NoSuchMethodException e1) {
+                throw new ASMOperationException("Cannot find out the method" , e1);
+            }
+        }
+        return method;
+    }
+
+    public static final Class<?> getReturnClass(String descriptor) {
         Type type = Type.getType(descriptor).getReturnType();
         return TypeOperation.getClass(type);
+    }
+
+    public static final Class<?> getReturnClass(Type type) {
+        if (type.getSort() != Type.METHOD) throw new ASMOperationException("Type should be method type");
+        return TypeOperation.getClass(type.getReturnType());
     }
 
     private TypeOperation() {

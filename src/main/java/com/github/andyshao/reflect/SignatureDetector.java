@@ -1,6 +1,8 @@
 package com.github.andyshao.reflect;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +10,8 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
+
+import com.github.andyshao.asm.TypeOperation;
 
 /**
  * 
@@ -21,16 +25,17 @@ import org.objectweb.asm.MethodVisitor;
  */
 public class SignatureDetector extends ClassVisitor {
     public static class ClassSignature {
-        public String className;
+        public Class<?> clazz;
         public String classSignature;
-        public final Map<String , String> fieldSignatures = new HashMap<>();
+        public final Map<Field , String> fieldSignatures = new HashMap<>();
         public final Map<Class<?> , ClassSignature> innerClassSignatures = new HashMap<>();
-        public final Map<String , String> methodSignatures = new HashMap<>();
+        public final Map<Method , String> methodSignatures = new HashMap<>();
+
         @Override
         public String toString() {
-            return "ClassSignature [className=" + className + ", classSignature=" + classSignature
-                + ", fieldSignatures=" + fieldSignatures + ", innerClassSignatures=" + innerClassSignatures
-                + ", methodSignatures=" + methodSignatures + "]";
+            return "ClassSignature [clazz=" + clazz + ", classSignature=" + classSignature + ", fieldSignatures="
+                + fieldSignatures + ", innerClassSignatures=" + innerClassSignatures + ", methodSignatures="
+                + methodSignatures + "]";
         }
     }
 
@@ -49,6 +54,7 @@ public class SignatureDetector extends ClassVisitor {
         } catch (IOException e) {
             throw new ClassNotFoundException(e);
         }
+        this.signature.clazz = clazz;
         cr.accept(this , 0);
         return this.signature;
     }
@@ -60,14 +66,14 @@ public class SignatureDetector extends ClassVisitor {
     @Override
     public void
         visit(int version , int access , String name , String signature , String superName , String[] interfaces) {
-        this.signature.className = name.replace('/' , '.');
         this.signature.classSignature = signature;
         super.visit(version , access , name , signature , superName , interfaces);
     }
 
     @Override
     public FieldVisitor visitField(int access , String name , String desc , String signature , Object value) {
-        if (signature != null) this.signature.fieldSignatures.put(name , signature);
+        if (signature != null) this.signature.fieldSignatures
+            .put(FieldOperation.superGetDeclaredField(this.signature.clazz , name) , signature);
         return super.visitField(access , name , desc , signature , value);
     }
 
@@ -80,7 +86,8 @@ public class SignatureDetector extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(int access , String name , String desc , String signature , String[] exceptions) {
-        if (signature != null) this.signature.methodSignatures.put(name , signature);
+        if (signature != null) this.signature.methodSignatures
+            .put(TypeOperation.getMethod(desc , name , this.signature.clazz) , signature);
         return super.visitMethod(access , name , desc , signature , exceptions);
     }
 }
