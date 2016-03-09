@@ -64,6 +64,14 @@ public final class PackageOperation {
         return result.toArray(new Class<?>[result.size()]);
     }
 
+    public static Package[] getPackages(String regex) {
+        List<Package> result = new ArrayList<>();
+        Package[] packages = Package.getPackages();
+        for (Package pkg : packages)
+            if (pkg.getName().matches(regex)) result.add(pkg);
+        return result.toArray(new Package[result.size()]);
+    }
+
     public static Package[] getPckages(Package pkg) {
         List<Package> result = new ArrayList<>();
         Package[] packages = Package.getPackages();
