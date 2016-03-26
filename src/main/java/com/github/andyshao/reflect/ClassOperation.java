@@ -116,7 +116,7 @@ public final class ClassOperation {
                 mv.visitInsn(Opcodes.LCONST_0);
                 mv.visitInsn(Opcodes.LRETURN);
                 mv.visitMaxs(2 , 1);
-            } else if (void.class.isAssignableFrom(returnType) || Void.class.isAssignableFrom(returnType)) {
+            } else if (void.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.RETURN);
                 mv.visitMaxs(0 , 1);
             } else {
