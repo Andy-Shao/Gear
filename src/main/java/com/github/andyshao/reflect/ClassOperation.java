@@ -46,19 +46,7 @@ public final class ClassOperation {
         }
     }
 
-    public static <T> T newInstance(Class<T> clazz) {
-        return ConstructorOperation.newInstance(clazz);
-    }
-
-    public static <T> T newInstance(Class<T> clazz , Object... args) {
-        Class<?>[] argTypes = new Class<?>[args.length];
-        for (int i = 0 ; i < args.length ; i++)
-            argTypes[i] = args[i].getClass();
-        return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
-    }
-
-    public static <T> T newInstanceForInterface(
-        Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
+    public static <T> byte[] getSuperClassForInterface(Class<T> interfaceClass , String targetName , Version version) {
         if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");
         final ClassSignature csig = new SignatureDetector(Opcodes.ASM5).getSignature(interfaceClass);
         String classSignature = null;
@@ -127,7 +115,23 @@ public final class ClassOperation {
             mv.visitEnd();
         }
         cw.visitEnd();
-        byte[] bs = cw.toByteArray();
+        return cw.toByteArray();
+    }
+
+    public static <T> T newInstance(Class<T> clazz) {
+        return ConstructorOperation.newInstance(clazz);
+    }
+
+    public static <T> T newInstance(Class<T> clazz , Object... args) {
+        Class<?>[] argTypes = new Class<?>[args.length];
+        for (int i = 0 ; i < args.length ; i++)
+            argTypes[i] = args[i].getClass();
+        return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
+    }
+
+    public static <T> T newInstanceForInterface(
+        Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
+        byte[] bs = ClassOperation.getSuperClassForInterface(interfaceClass , targetName , version);
         if (isKeep) {
             String filePath = targetName.replace('.' , '/') + ".class";
             File file = new File(filePath);
