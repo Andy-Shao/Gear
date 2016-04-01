@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2**
 
+Adding two new children projection GearEE and GearEE-Spring in System<br>
 adding new package com.github.andyshao.asm<br>
 Moving to asm-all<br>
 Adding -jvm [--type|--method] commands<br>
@@ -28,6 +29,7 @@ Rewriting ArrayOperation.getValue()<br>
 
 **What the updating in v3.1**
 
+cglib 3.2.0-&gt;3.2.1, org.ow2.asm 5.0.4-&gt;5.1<br>
 Removing src/main/java/com/github/andyshao/util/ComparatorOperation.java<br>
 Adding getMethodParamNames() in Reflects<br>
 Adding HttpTask in system package<br>
