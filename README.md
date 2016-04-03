@@ -17,6 +17,10 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the updating in v3.3**
+
+Adding getParamNamesByAnnotation() in ParameterOperation<br>
+
 **What the updating in v3.2**
 
 Adding two new children projection GearEE and GearEE-Spring in System<br>
