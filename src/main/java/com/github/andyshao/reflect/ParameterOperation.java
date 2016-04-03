@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.Parameter;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -12,6 +13,8 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+
+import com.github.andyshao.reflect.annotation.Param;
 
 /**
  * 
@@ -29,11 +32,14 @@ public final class ParameterOperation {
      * <p>
      * Gets the parameter name of method's
      * </p>
+     * <br>
+     * <font style="color:red;">NOTE: Cannot support interface</font>
      *
      * @param m method
      * @return the parameter name list
      */
     public static String[] getMethodParamNames(final Method m) {
+        if (m.getDeclaringClass().isInterface()) throw new ReflectiveOperationException("No Support the interface!");
         final String[] paramNames = new String[m.getParameterTypes().length];
         final String path = m.getDeclaringClass().getName().replace('.' , '/') + ".class";
         final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
@@ -69,6 +75,17 @@ public final class ParameterOperation {
             }
         } , 0);
         return paramNames;
+    }
+
+    public static String[] getParamNamesByAnnotation(Method method) {
+        String[] result = new String[method.getParameterCount()];
+        Parameter[] parameters = method.getParameters();
+        for (int i = 0 ; i < result.length ; i++) {
+            Parameter parameter = parameters[i];
+            Param param = parameter.getAnnotation(Param.class);
+            if (param != null) result[i] = param.value();
+        }
+        return result;
     }
 
     /**
