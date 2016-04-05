@@ -18,6 +18,7 @@ import com.github.andyshao.asm.Version;
 import com.github.andyshao.lang.ClassAssembly;
 import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
+import com.github.andyshao.reflect.annotation.Generic;
 
 /**
  * 
@@ -44,6 +45,16 @@ public final class ClassOperation {
         } catch (java.lang.ClassNotFoundException e) {
             throw new ClassNotFoundException(e);
         }
+    }
+
+    public static GenericInfo getClassGenericInfo(Class<?> clazz) {
+        Generic generic = clazz.getAnnotation(Generic.class);
+        if (generic == null) throw new ReflectiveOperationException("Cannot find " + Generic.class);
+        GenericInfo genericInfo = new GenericInfo();
+        genericInfo.isGeneiric = generic.isGeneric();
+        genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
+        genericInfo.declareType = clazz;
+        return genericInfo;
     }
 
     public static <T> byte[] getSuperClassForInterface(Class<T> interfaceClass , String targetName , Version version) {
@@ -116,6 +127,19 @@ public final class ClassOperation {
         }
         cw.visitEnd();
         return cw.toByteArray();
+    }
+
+    public static boolean isPrimitiveObject(Class<?> clazz) {
+        if (Integer.class.isAssignableFrom(clazz) || Short.class.isAssignableFrom(clazz)
+            || Character.class.isAssignableFrom(clazz) || Byte.class.isAssignableFrom(clazz)
+            || Long.class.isAssignableFrom(clazz) || Float.class.isAssignableFrom(clazz)
+            || Double.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz)
+            || Void.class.isAssignableFrom(clazz)) return true;
+        return false;
+    }
+
+    public static boolean isPrimitiveType(Class<?> clazz) {
+        return clazz.isPrimitive() || ClassOperation.isPrimitiveObject(clazz);
     }
 
     public static <T> T newInstance(Class<T> clazz) {

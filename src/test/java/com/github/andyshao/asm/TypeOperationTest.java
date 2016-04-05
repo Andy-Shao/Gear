@@ -1,8 +1,13 @@
 package com.github.andyshao.asm;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.BiFunction;
+
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.objectweb.asm.Type;
 
 public class TypeOperationTest {
 
@@ -57,5 +62,17 @@ public class TypeOperationTest {
         Assert.assertTrue(double[].class.isAssignableFrom(TypeOperation.getReturnClass("()[D")));
         Assert.assertTrue(String[].class.isAssignableFrom(TypeOperation.getReturnClass("()[Ljava/lang/String;")));
         Assert.assertTrue(Void[].class.isAssignableFrom(TypeOperation.getReturnClass("()[Ljava/lang/Void;")));
+    }
+
+    @Test
+    public void testGetType() {
+        Type type = Type.getType("Ljava/lang/Object;");
+        Assert.assertTrue(TypeOperation.getClass(type) == Object.class);
+        type = Type.getType("Ljava/util/List;<Ljava/lang/Object;>");
+        Assert.assertTrue(TypeOperation.getClass(type) == List.class);
+        type = Type.getType("Ljava/util/Map;<Ljava/lang/String;Ljava/lang/Object;>");
+        Assert.assertTrue(TypeOperation.getClass(type) == Map.class);
+        type = Type.getType("Ljava/util/function/BiFunction;<Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Boolean;>");
+        Assert.assertTrue(TypeOperation.getClass(type) == BiFunction.class);
     }
 }

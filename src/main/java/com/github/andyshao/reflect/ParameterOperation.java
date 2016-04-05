@@ -14,6 +14,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.Param;
 
 /**
@@ -27,6 +28,23 @@ import com.github.andyshao.reflect.annotation.Param;
  *
  */
 public final class ParameterOperation {
+    public static GenericInfo[] getMethodParamGenricInfo(Method method) {
+        GenericInfo[] result = new GenericInfo[method.getParameterCount()];
+        Parameter[] parameters = method.getParameters();
+        for (int i = 0 ; i < result.length ; i++) {
+            Parameter parameter = parameters[i];
+            Param param = parameter.getAnnotation(Param.class);
+            if (param == null) continue;
+            Generic generic = param.genericInfo();
+            GenericInfo genericInfo = new GenericInfo();
+            genericInfo.isGeneiric = generic.isGeneric();
+            genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
+            genericInfo.declareType = parameter.getType();
+            result[i] = genericInfo;
+        }
+        return result;
+    }
+
     /**
      * 
      * <p>

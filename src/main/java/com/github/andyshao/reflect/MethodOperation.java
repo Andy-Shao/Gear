@@ -2,6 +2,9 @@ package com.github.andyshao.reflect;
 
 import java.lang.reflect.Method;
 
+import com.github.andyshao.reflect.annotation.Generic;
+import com.github.andyshao.reflect.annotation.MethodInfo;
+
 /**
  * 
  * Title:<br>
@@ -46,6 +49,28 @@ public final class MethodOperation {
             if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
             else throw new NoSuchMethodException(e);
         }
+    }
+
+    public static GenericInfo getMethodGenericInfo(Method method) {
+        MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
+        if (methodInfo == null) throw new ReflectiveOperationException("Cannot find " + MethodInfo.class + " Type");
+        Generic generic = methodInfo.methodGenericInfo();
+        GenericInfo genericInfo = new GenericInfo();
+        genericInfo.isGeneiric = generic.isGeneric();
+        genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
+        genericInfo.declareType = method.getDeclaringClass();
+        return genericInfo;
+    }
+
+    public static GenericInfo getReturnGenericInfo(Method method) {
+        MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
+        if (methodInfo == null) throw new ReflectiveOperationException("Cannot find " + MethodInfo.class + " Type");
+        Generic annotation = methodInfo.returnGenericInfo();
+        GenericInfo genericInfo = new GenericInfo();
+        genericInfo.declareType = method.getReturnType();
+        genericInfo.isGeneiric = annotation.isGeneric();
+        genericInfo.componentTypes = GenericInfo.analyseScript(annotation.componentTypes());
+        return genericInfo;
     }
 
     /**

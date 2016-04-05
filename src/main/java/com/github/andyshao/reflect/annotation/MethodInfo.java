@@ -10,18 +10,19 @@ import java.lang.annotation.Target;
  * 
  * Title:<br>
  * Descript:<br>
- * Copyright: Copryright(c) Apr 3, 2016<br>
+ * Copyright: Copryright(c) Apr 4, 2016<br>
  * Encoding:UNIX UTF-8
  * 
  * @author Andy.Shao
  *
  */
 @Documented
-@Target(ElementType.PARAMETER)
+@Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Param {
-    Generic genericInfo() default @Generic
+public @interface MethodInfo {
+    Generic methodGenericInfo() default @Generic
     ;
 
-    String value();
+    Generic returnGenericInfo() default @Generic
+    ;
 }

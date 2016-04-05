@@ -19,6 +19,8 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.3**
 
+Adding get Generic Type ways<br>
+Adding isPrimitiveObject() and isPrimitiveType() in ClassOperation<br>
 Adding getParamNamesByAnnotation() in ParameterOperation<br>
 
 **What the updating in v3.2**

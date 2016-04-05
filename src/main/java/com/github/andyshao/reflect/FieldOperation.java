@@ -3,6 +3,8 @@ package com.github.andyshao.reflect;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import com.github.andyshao.reflect.annotation.Generic;
+
 /**
  * 
  * Title:<br>
@@ -44,6 +46,16 @@ public final class FieldOperation {
             if (e instanceof java.lang.SecurityException) throw new SecurityException(e);
             else throw new NoSuchFieldException(e);
         }
+    }
+
+    public static final GenericInfo getFieldGenericInfo(Field field) {
+        Generic generic = field.getAnnotation(Generic.class);
+        if (generic == null) throw new ReflectiveOperationException("Cannot find " + Generic.class);
+        GenericInfo genericInfo = new GenericInfo();
+        genericInfo.isGeneiric = generic.isGeneric();
+        genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
+        genericInfo.declareType = field.getType();
+        return genericInfo;
     }
 
     /**
