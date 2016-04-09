@@ -2,6 +2,7 @@ package com.github.andyshao.reflect;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
@@ -38,6 +39,8 @@ public class ClassOperationTest {
         String doString();
 
         void doVoid();
+        
+        List<Integer> doList(String strOne, String strTwo);
     }
 
     @Test
@@ -49,6 +52,7 @@ public class ClassOperationTest {
         Assert.assertThat(myInterface.doInt() , Matchers.is(0));
         Assert.assertThat(myInterface.doBoolean() , Matchers.is(false));
         Assert.assertTrue(myInterface.doString() == null);
+        Assert.assertThat(myInterface.doList("" , "") == null , Matchers.is(true));
 
         @SuppressWarnings("unchecked")
         MyGenericInterface<String> myGenericInterface = ClassOperation

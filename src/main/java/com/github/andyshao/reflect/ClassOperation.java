@@ -102,26 +102,26 @@ public final class ClassOperation {
                 || boolean.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
-                mv.visitMaxs(1 , 1);
+                mv.visitMaxs(1 , method.getParameterCount() + 1);
             } else if (double.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.DCONST_0);
                 mv.visitInsn(Opcodes.DRETURN);
-                mv.visitMaxs(2 , 1);
+                mv.visitMaxs(2 , method.getParameterCount() + 1);
             } else if (float.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.FCONST_0);
                 mv.visitInsn(Opcodes.FRETURN);
-                mv.visitMaxs(1 , 1);
+                mv.visitMaxs(1 , method.getParameterCount() + 1);
             } else if (long.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.LCONST_0);
                 mv.visitInsn(Opcodes.LRETURN);
-                mv.visitMaxs(2 , 1);
+                mv.visitMaxs(2 , method.getParameterCount() + 1);
             } else if (void.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.RETURN);
-                mv.visitMaxs(0 , 1);
+                mv.visitMaxs(0 , method.getParameterCount() + 1);
             } else {
                 mv.visitInsn(Opcodes.ACONST_NULL);
                 mv.visitInsn(Opcodes.ARETURN);
-                mv.visitMaxs(1 , 1);
+                mv.visitMaxs(1 , method.getParameterCount() + 1);
             }
             mv.visitEnd();
         }
