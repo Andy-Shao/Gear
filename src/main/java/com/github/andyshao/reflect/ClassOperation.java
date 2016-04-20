@@ -14,6 +14,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import com.github.andyshao.asm.ClassVisitorOperation;
 import com.github.andyshao.asm.Version;
 import com.github.andyshao.lang.ClassAssembly;
 import com.github.andyshao.lang.StringOperation;
@@ -102,26 +103,26 @@ public final class ClassOperation {
                 || boolean.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
-                mv.visitMaxs(1 , method.getParameterCount() + 1);
+                mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
             } else if (double.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.DCONST_0);
                 mv.visitInsn(Opcodes.DRETURN);
-                mv.visitMaxs(2 , method.getParameterCount() + 1);
+                mv.visitMaxs(2 , ClassVisitorOperation.countBasicLocal(method));
             } else if (float.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.FCONST_0);
                 mv.visitInsn(Opcodes.FRETURN);
-                mv.visitMaxs(1 , method.getParameterCount() + 1);
+                mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
             } else if (long.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.LCONST_0);
                 mv.visitInsn(Opcodes.LRETURN);
-                mv.visitMaxs(2 , method.getParameterCount() + 1);
+                mv.visitMaxs(2 , ClassVisitorOperation.countBasicLocal(method));
             } else if (void.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.RETURN);
-                mv.visitMaxs(0 , method.getParameterCount() + 1);
+                mv.visitMaxs(0 , ClassVisitorOperation.countBasicLocal(method));
             } else {
                 mv.visitInsn(Opcodes.ACONST_NULL);
                 mv.visitInsn(Opcodes.ARETURN);
-                mv.visitMaxs(1 , method.getParameterCount() + 1);
+                mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
             }
             mv.visitEnd();
         }
