@@ -33,9 +33,8 @@ public class SignatureDetector extends ClassVisitor {
 
         @Override
         public String toString() {
-            return "ClassSignature [clazz=" + this.clazz + ", classSignature=" + this.classSignature
-                + ", fieldSignatures=" + this.fieldSignatures + ", innerClassSignatures=" + this.innerClassSignatures
-                + ", methodSignatures=" + this.methodSignatures + "]";
+            return "ClassSignature [clazz=" + this.clazz + ", classSignature=" + this.classSignature + ", fieldSignatures=" + this.fieldSignatures + ", innerClassSignatures="
+                + this.innerClassSignatures + ", methodSignatures=" + this.methodSignatures + "]";
         }
     }
 
@@ -64,31 +63,27 @@ public class SignatureDetector extends ClassVisitor {
     }
 
     @Override
-    public void
-        visit(int version , int access , String name , String signature , String superName , String[] interfaces) {
+    public void visit(int version , int access , String name , String signature , String superName , String[] interfaces) {
         this.signature.classSignature = signature;
         super.visit(version , access , name , signature , superName , interfaces);
     }
 
     @Override
     public FieldVisitor visitField(int access , String name , String desc , String signature , Object value) {
-        if (signature != null) this.signature.fieldSignatures
-            .put(FieldOperation.superGetDeclaredField(this.signature.clazz , name) , signature);
+        if (signature != null) this.signature.fieldSignatures.put(FieldOperation.superGetDeclaredField(this.signature.clazz , name) , signature);
         return super.visitField(access , name , desc , signature , value);
     }
 
     @Override
     public void visitInnerClass(String name , String outerName , String innerName , int access) {
         Class<?> innerClass = ClassOperation.forName(name.replace('/' , '.'));
-        if (!innerClass.equals(this.signature.clazz)) this.signature.innerClassSignatures.put(innerClass ,
-            new SignatureDetector(this.api).getSignature(innerClass));
+        if (!innerClass.equals(this.signature.clazz)) this.signature.innerClassSignatures.put(innerClass , new SignatureDetector(this.api).getSignature(innerClass));
         super.visitInnerClass(name , outerName , innerName , access);
     }
 
     @Override
     public MethodVisitor visitMethod(int access , String name , String desc , String signature , String[] exceptions) {
-        if (signature != null) this.signature.methodSignatures
-            .put(TypeOperation.getMethod(desc , name , this.signature.clazz) , signature);
+        if (signature != null) this.signature.methodSignatures.put(TypeOperation.getMethod(desc , name , this.signature.clazz) , signature);
         return super.visitMethod(access , name , desc , signature , exceptions);
     }
 }

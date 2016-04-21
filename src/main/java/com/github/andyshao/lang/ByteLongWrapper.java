@@ -35,9 +35,7 @@ public class ByteLongWrapper implements LongWrapper<byte[]> {
 
     @Override
     public BigInteger size(byte[] array) {
-        return array.length - (array.length >> ByteLongWrapper.BASE) > 0
-            ? BigInteger.valueOf((array.length >> ByteLongWrapper.BASE) + 1)
-            : BigInteger.valueOf(array.length >> ByteLongWrapper.BASE);
+        return array.length - (array.length >> ByteLongWrapper.BASE) > 0 ? BigInteger.valueOf((array.length >> ByteLongWrapper.BASE) + 1) : BigInteger.valueOf(array.length >> ByteLongWrapper.BASE);
     }
 
 }

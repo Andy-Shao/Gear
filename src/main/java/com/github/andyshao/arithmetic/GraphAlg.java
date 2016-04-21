@@ -26,8 +26,7 @@ import com.github.andyshao.data.structure.Stack;
  */
 public final class GraphAlg {
     public static class MstVertex<DATA> {
-        public static final <DATA> void
-            setUntowardEdge(Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
+        public static final <DATA> void setUntowardEdge(Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             Graph.addUntowardEdge(graph , one , two);
             MstVertex.setUntowardWeight(one , two , weight);
         }
@@ -45,16 +44,13 @@ public final class GraphAlg {
     }
 
     public static class PathVertex<DATA> {
-        public static final <DATA> void setDoubleEdge(
-            Graph<PathVertex<DATA>> graph , PathVertex<DATA> one , PathVertex<DATA> two , double one2two ,
-            double two2one) {
+        public static final <DATA> void setDoubleEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> one , PathVertex<DATA> two , double one2two , double two2one) {
             Graph.addUntowardEdge(graph , one , two);
             one.weight.put(two , one2two);
             two.weight.put(one , two2one);
         }
 
-        public static final <DATA> void
-            setEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , PathVertex<DATA> end , double weight) {
+        public static final <DATA> void setEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , PathVertex<DATA> end , double weight) {
             graph.insEdge(start , end);
             start.weight.put(end , weight);
         }
@@ -85,9 +81,8 @@ public final class GraphAlg {
      * @param <DATA> data type
      * @return result
      */
-    static final <DATA> Collection<PathVertex<DATA>> findShortest(
-        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , final Collection<PathVertex<DATA>> result ,
-        Comparator<PathVertex<DATA>> comparator) {
+    static final <DATA> Collection<PathVertex<DATA>>
+        findShortest(Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , final Collection<PathVertex<DATA>> result , Comparator<PathVertex<DATA>> comparator) {
         //Initialize all of the vertices in the graph.
         {
             boolean found = false;
@@ -155,9 +150,8 @@ public final class GraphAlg {
      * @param <DATA> data type
      * @return the 'result'
      */
-    public static final <DATA> Collection<MstVertex<DATA>> mst(
-        Graph<MstVertex<DATA>> graph , MstVertex<DATA> start , final Collection<MstVertex<DATA>> result ,
-        Comparator<MstVertex<DATA>> comparator) {
+    public static final <DATA> Collection<MstVertex<DATA>>
+        mst(Graph<MstVertex<DATA>> graph , MstVertex<DATA> start , final Collection<MstVertex<DATA>> result , Comparator<MstVertex<DATA>> comparator) {
         //Initialize all of the vertices in the graph.
         {
             boolean found = false;
@@ -224,14 +218,13 @@ public final class GraphAlg {
      * @return {@link Map}
      */
     public static final <DATA> Map<PathVertex<DATA> , Collection<PathVertex<DATA>>> shortest(
-        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , Collection<PathVertex<DATA>> ends ,
-        final Map<PathVertex<DATA> , Collection<PathVertex<DATA>>> result , Comparator<PathVertex<DATA>> comparator) {
+        Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , Collection<PathVertex<DATA>> ends , final Map<PathVertex<DATA> , Collection<PathVertex<DATA>>> result ,
+        Comparator<PathVertex<DATA>> comparator) {
         final List<PathVertex<DATA>> answer = new ArrayList<>();
         GraphAlg.findShortest(graph , start , answer , comparator);
 
         for (PathVertex<DATA> end : ends) {
-            final Stack<PathVertex<DATA>> temp =
-                Stack.defaultStack(SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+            final Stack<PathVertex<DATA>> temp = Stack.defaultStack(SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
             temp.add(end);
             {
                 PathVertex<DATA> target = end;
@@ -271,9 +264,8 @@ public final class GraphAlg {
      * @param <DATA> data type
      * @return result
      */
-    public static final <DATA> Collection<TspVertex<DATA>> tsp(
-        Collection<TspVertex<DATA>> vertices , TspVertex<DATA> start , final Collection<TspVertex<DATA>> result ,
-        Comparator<TspVertex<DATA>> comparator) {
+    public static final <DATA> Collection<TspVertex<DATA>>
+        tsp(Collection<TspVertex<DATA>> vertices , TspVertex<DATA> start , final Collection<TspVertex<DATA>> result , Comparator<TspVertex<DATA>> comparator) {
         TspVertex<DATA> tsp_start = null;
         double x = 0 , y = 0;
         {

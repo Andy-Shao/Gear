@@ -18,8 +18,7 @@ public class CglibPFTest {
         final CglibPFTest.MyClass myClass = new CglibPFTest.MyClass();
         Assert.assertFalse(myClass.isAllow());
 
-        final String methodName =
-            ProxyFactory.buildMethodKey(MethodOperation.getMethod(CglibPFTest.MyClass.class , "isAllow"));
+        final String methodName = ProxyFactory.buildMethodKey(MethodOperation.getMethod(CglibPFTest.MyClass.class , "isAllow"));
         CglibPF<CglibPFTest.MyClass> cglibProxyF = (target , method , args) -> {
             if (methodName.equals(ProxyFactory.buildMethodKey(method))) return true;
             return method.invoke(myClass , args);

@@ -18,8 +18,7 @@ public class CharBufferOperationTest {
 
     @Test
     public void testGetChars() {
-        Assert.assertThat(CharBufferOperation.getChars(this.charBuffer , 0 , this.charBuffer.limit()) ,
-            Matchers.is(this.cs));
+        Assert.assertThat(CharBufferOperation.getChars(this.charBuffer , 0 , this.charBuffer.limit()) , Matchers.is(this.cs));
     }
 
     @Test

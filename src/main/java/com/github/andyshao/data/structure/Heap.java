@@ -61,12 +61,10 @@ public interface Heap<D> extends Cleanable {
                 lpos = Heap.left(ipos);
                 rpos = Heap.right(ipos);
 
-                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0)
-                    mpos = lpos;
+                if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) mpos = lpos;
                 else mpos = ipos;
 
-                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0)
-                    mpos = rpos;
+                if (rpos < this.size() && this.comparator.compare(this.tree.get(rpos) , this.tree.get(mpos)) < 0) mpos = rpos;
 
                 //When mpos is ipos, the heap property has been restored.
                 if (mpos == ipos) break;

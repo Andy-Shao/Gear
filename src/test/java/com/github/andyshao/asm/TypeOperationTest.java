@@ -21,10 +21,8 @@ public class TypeOperationTest {
         Assert.assertThat(TypeOperation.getArgumentClasses("(F)V") , Matchers.is(new Class<?>[] { float.class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("(J)V") , Matchers.is(new Class<?>[] { long.class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("(D)V") , Matchers.is(new Class<?>[] { double.class }));
-        Assert.assertThat(TypeOperation.getArgumentClasses("(Ljava/lang/String;)V") ,
-            Matchers.is(new Class<?>[] { String.class }));
-        Assert.assertThat(TypeOperation.getArgumentClasses("(Ljava/lang/Void;)V") ,
-            Matchers.is(new Class<?>[] { Void.class }));
+        Assert.assertThat(TypeOperation.getArgumentClasses("(Ljava/lang/String;)V") , Matchers.is(new Class<?>[] { String.class }));
+        Assert.assertThat(TypeOperation.getArgumentClasses("(Ljava/lang/Void;)V") , Matchers.is(new Class<?>[] { Void.class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("([I)V") , Matchers.is(new Class<?>[] { int[].class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("([Z)V") , Matchers.is(new Class<?>[] { boolean[].class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("([C)V") , Matchers.is(new Class<?>[] { char[].class }));
@@ -33,10 +31,8 @@ public class TypeOperationTest {
         Assert.assertThat(TypeOperation.getArgumentClasses("([F)V") , Matchers.is(new Class<?>[] { float[].class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("([J)V") , Matchers.is(new Class<?>[] { long[].class }));
         Assert.assertThat(TypeOperation.getArgumentClasses("([D)V") , Matchers.is(new Class<?>[] { double[].class }));
-        Assert.assertThat(TypeOperation.getArgumentClasses("([Ljava/lang/String;)V") ,
-            Matchers.is(new Class<?>[] { String[].class }));
-        Assert.assertThat(TypeOperation.getArgumentClasses("(II)V") ,
-            Matchers.is(new Class<?>[] { int.class , int.class }));
+        Assert.assertThat(TypeOperation.getArgumentClasses("([Ljava/lang/String;)V") , Matchers.is(new Class<?>[] { String[].class }));
+        Assert.assertThat(TypeOperation.getArgumentClasses("(II)V") , Matchers.is(new Class<?>[] { int.class , int.class }));
     }
 
     @Test

@@ -18,16 +18,14 @@ public class ByteBufferReaderTest {
     }
 
     public static Path getFilePath() throws URISyntaxException {
-        URI uri = Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples")
-            .toURI();
+        URI uri = Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples").toURI();
         return Paths.get(uri);
     }
 
     @Test
     public void efficientTest() throws IOException , URISyntaxException {
         long time = 0L;
-        try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getBigFilePath());
-            ByteBufferReader reader = new ByteBufferReader(channel);) {
+        try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getBigFilePath()); ByteBufferReader reader = new ByteBufferReader(channel);) {
             time = System.currentTimeMillis();
             while (reader.hasNext())
                 reader.read();
@@ -38,8 +36,7 @@ public class ByteBufferReaderTest {
 
     @Test
     public void testReader() throws IOException , URISyntaxException {
-        try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getFilePath());
-            ByteBufferReader reader = new ByteBufferReader(channel);) {
+        try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getFilePath()); ByteBufferReader reader = new ByteBufferReader(channel);) {
             reader.setFindSeparatePoint(new ByteBufferReader.SeparateByBytes("\n".getBytes()));
             Assert.assertThat(reader.read() , Matchers.is("[Desktop Entry]".getBytes()));
             Assert.assertThat(reader.read() , Matchers.is("Version=1.0".getBytes()));

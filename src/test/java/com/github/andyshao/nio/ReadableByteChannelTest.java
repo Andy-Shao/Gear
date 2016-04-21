@@ -16,14 +16,12 @@ import org.junit.Test;
 
 public class ReadableByteChannelTest {
 
-    private static final URL RESOURCES =
-        Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples");
+    private static final URL RESOURCES = Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples");
 
     @Test
     public void readFixTest() throws FileNotFoundException , IOException , URISyntaxException {
         ByteBuffer buffer = ByteBuffer.allocate(1024);
-        try (ReadableByteChannel channel =
-            Channels.newChannel(new FileInputStream(new File(ReadableByteChannelTest.RESOURCES.toURI())))) {
+        try (ReadableByteChannel channel = Channels.newChannel(new FileInputStream(new File(ReadableByteChannelTest.RESOURCES.toURI())))) {
             while (buffer.position() < 4)
                 channel.read(buffer);
             buffer.flip();

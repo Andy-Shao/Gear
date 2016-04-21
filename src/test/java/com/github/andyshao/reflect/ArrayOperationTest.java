@@ -18,8 +18,7 @@ public class ArrayOperationTest {
 
     @Test
     public void convertToMap() {
-        Map<String , String> target = ArrayOperation.<String , String> convertToMap(Convert.OB_2_STR ,
-            Convert.OB_2_STR , new HashMap<String , String>() ,
+        Map<String , String> target = ArrayOperation.<String , String> convertToMap(Convert.OB_2_STR , Convert.OB_2_STR , new HashMap<String , String>() ,
             new Object[][] { { "i" , "2" } , { "I" , "3" } , { "key" , "value" } });
 
         Map<String , String> answer = new HashMap<>();
@@ -68,8 +67,7 @@ public class ArrayOperationTest {
     @Test
     public void mergeArray() {
         {
-            int[] array =
-                ArrayOperation.mergeArray(int[].class , new int[] { 1 , 2 , 3 , 4 } , new int[] { 5 , 6 , 7 , 8 , 9 });
+            int[] array = ArrayOperation.mergeArray(int[].class , new int[] { 1 , 2 , 3 , 4 } , new int[] { 5 , 6 , 7 , 8 , 9 });
             Assert.assertThat(array , Matchers.is(new int[] { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 }));
         }
         {
@@ -112,8 +110,7 @@ public class ArrayOperationTest {
     @Test
     public void removeItem() {
         int[] array = new int[] { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 };
-        Assert.assertThat(ArrayOperation.removeItem(array , 3) ,
-            Matchers.is(new int[] { 1 , 2 , 3 , 5 , 6 , 7 , 8 , 9 }));
+        Assert.assertThat(ArrayOperation.removeItem(array , 3) , Matchers.is(new int[] { 1 , 2 , 3 , 5 , 6 , 7 , 8 , 9 }));
         Assert.assertThat(ArrayOperation.removeItem(array , 1 , 4) , Matchers.is(new int[] { 1 , 5 , 6 , 7 , 8 , 9 }));
     }
 }

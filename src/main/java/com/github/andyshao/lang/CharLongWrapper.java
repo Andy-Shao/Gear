@@ -35,8 +35,6 @@ public class CharLongWrapper implements LongWrapper<char[]> {
 
     @Override
     public BigInteger size(char[] array) {
-        return array.length - (array.length >> CharLongWrapper.BASE) > 0
-            ? BigInteger.valueOf((array.length >> CharLongWrapper.BASE) + 1)
-            : BigInteger.valueOf(array.length >> CharLongWrapper.BASE);
+        return array.length - (array.length >> CharLongWrapper.BASE) > 0 ? BigInteger.valueOf((array.length >> CharLongWrapper.BASE) + 1) : BigInteger.valueOf(array.length >> CharLongWrapper.BASE);
     }
 }

@@ -34,8 +34,7 @@ public interface BufferReader<ARRAY> extends Closeable {
         public boolean equals(Object obj) {
             if (obj instanceof SeparatePoint) {
                 SeparatePoint that = (SeparatePoint) obj;
-                return Objects.equals(this.separatePoint , that.separatePoint)
-                    && Objects.equals(this.nextStartSit , that.nextStartSit);
+                return Objects.equals(this.separatePoint , that.separatePoint) && Objects.equals(this.nextStartSit , that.nextStartSit);
             } else return false;
         }
 

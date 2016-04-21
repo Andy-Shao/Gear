@@ -31,8 +31,7 @@ public final class GenericInfo {
             if (genericInfo.isGeneiric) {
                 int head = script[i].indexOf('<');
                 int tail = script[i].lastIndexOf('>');
-                genericInfo.componentTypes =
-                    GenericInfo.analyseScript(GenericInfo.splitScript(script[i].substring(head + 1 , tail)));
+                genericInfo.componentTypes = GenericInfo.analyseScript(GenericInfo.splitScript(script[i].substring(head + 1 , tail)));
             }
         }
         return result;
@@ -61,9 +60,7 @@ public final class GenericInfo {
     public boolean equals(Object obj) {
         if (obj instanceof GenericInfo) {
             GenericInfo that = (GenericInfo) obj;
-            return Objects.equals(this.isGeneiric , that.isGeneiric)
-                && Objects.equals(this.componentTypes , that.componentTypes)
-                && Objects.equals(this.declareType , that.declareType);
+            return Objects.equals(this.isGeneiric , that.isGeneiric) && Objects.equals(this.componentTypes , that.componentTypes) && Objects.equals(this.declareType , that.declareType);
         } else return false;
     }
 
@@ -76,7 +73,6 @@ public final class GenericInfo {
 
     @Override
     public String toString() {
-        return "Generic [declareType=" + this.declareType + ", componentTypes=" + Arrays.toString(this.componentTypes)
-            + ", isGeneiric=" + this.isGeneiric + "]";
+        return "Generic [declareType=" + this.declareType + ", componentTypes=" + Arrays.toString(this.componentTypes) + ", isGeneiric=" + this.isGeneiric + "]";
     }
 }

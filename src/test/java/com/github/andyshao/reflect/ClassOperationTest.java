@@ -36,17 +36,16 @@ public class ClassOperationTest {
 
         int doInt();
 
+        List<Integer> doList(String strOne , String strTwo);
+
         String doString();
 
         void doVoid();
-        
-        List<Integer> doList(String strOne, String strTwo);
     }
 
     @Test
     public void testNewInstanceForInterface() throws IOException {
-        MyInterface myInterface = ClassOperation.newInstanceForInterface(ClassOperationTest.MyInterface.class ,
-            "andy.shao.MyClass" , false , Version.V1_8);
+        MyInterface myInterface = ClassOperation.newInstanceForInterface(ClassOperationTest.MyInterface.class , "andy.shao.MyClass" , false , Version.V1_8);
         myInterface.doVoid();
         Assert.assertThat(myInterface.doDefault() , Matchers.is("doDefault"));
         Assert.assertThat(myInterface.doInt() , Matchers.is(0));
@@ -55,8 +54,7 @@ public class ClassOperationTest {
         Assert.assertThat(myInterface.doList("" , "") == null , Matchers.is(true));
 
         @SuppressWarnings("unchecked")
-        MyGenericInterface<String> myGenericInterface = ClassOperation
-            .newInstanceForInterface(MyGenericInterface.class , "andy.shao.MyGenericClass" , false , Version.V1_8);
+        MyGenericInterface<String> myGenericInterface = ClassOperation.newInstanceForInterface(MyGenericInterface.class , "andy.shao.MyGenericClass" , false , Version.V1_8);
         myGenericInterface.doVoid();
         Assert.assertThat(myGenericInterface.doDefault() , Matchers.is("doDefault"));
         Assert.assertThat(myGenericInterface.doInt() , Matchers.is(0));
@@ -64,8 +62,7 @@ public class ClassOperationTest {
         Assert.assertTrue(myGenericInterface.doString() == null);
         Assert.assertTrue(myGenericInterface.doGeneric() == null);
 
-        myInterface =
-            ClassOperation.newInstanceForInterface(MyInterface.class , "andy.shao.MyClass2" , true , Version.V1_8);
+        myInterface = ClassOperation.newInstanceForInterface(MyInterface.class , "andy.shao.MyClass2" , true , Version.V1_8);
         File file = new File("andy/shao/MyClass2.class");
         Assert.assertThat(file.exists() , Matchers.is(true));
         file.delete();

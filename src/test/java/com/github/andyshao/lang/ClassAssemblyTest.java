@@ -20,17 +20,13 @@ public class ClassAssemblyTest {
     @Test
     public void loadTest() throws IOException {
         byte[] classInfo = null;
-        try (
-            InputStream inputStream =
-                Thread.currentThread().getContextClassLoader().getResourceAsStream(ClassAssemblyTest.CLASS_PATH);
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(ClassAssemblyTest.CLASS_PATH);
             ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));) {
             reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
             classInfo = reader.read();
         }
-        Class<Supplier<String>> clazz = ClassAssembly.DEFAULT.<Supplier<String>> assemble(
-            ClassAssemblyTest.CLASS_PATH.replace("/" , ".").replace(".class" , "") , classInfo);
-        String answer = MethodOperation.<String> invoked(ClassOperation.newInstance(clazz) ,
-            MethodOperation.getMethod(clazz , "get"));
+        Class<Supplier<String>> clazz = ClassAssembly.DEFAULT.<Supplier<String>> assemble(ClassAssemblyTest.CLASS_PATH.replace("/" , ".").replace(".class" , "") , classInfo);
+        String answer = MethodOperation.<String> invoked(ClassOperation.newInstance(clazz) , MethodOperation.getMethod(clazz , "get"));
         Assert.assertThat(answer , Matchers.is("Hello,World!"));
     }
 }

@@ -15,11 +15,8 @@ import org.junit.runners.Parameterized.Parameters;
 public class StackTest {
     @Parameters
     public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
-            { Stack.<String , CycleLinkedElmt<String>> defaultStack(
-                SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt)) } ,
-            { Stack.<String , CycleLinkedElmt<String>> defaultStack(
-                CycleLinked.defaultCycleLinked(CycleLinkedElmt::defaultElmt)) } });
+        return Arrays.asList(new Object[][] { { Stack.<String , CycleLinkedElmt<String>> defaultStack(SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt)) } ,
+            { Stack.<String , CycleLinkedElmt<String>> defaultStack(CycleLinked.defaultCycleLinked(CycleLinkedElmt::defaultElmt)) } });
     }
 
     private final String[] data = { "Andy" , "Shao" };

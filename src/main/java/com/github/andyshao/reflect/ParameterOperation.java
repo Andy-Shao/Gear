@@ -69,18 +69,14 @@ public final class ParameterOperation {
         }
         cr.accept(new ClassVisitor(Opcodes.ASM5 , cw) {
             @Override
-            public MethodVisitor visitMethod(
-                final int access , final String name , final String desc , final String signature ,
-                final String[] exceptions) {
+            public MethodVisitor visitMethod(final int access , final String name , final String desc , final String signature , final String[] exceptions) {
                 final Type[] args = Type.getArgumentTypes(desc);
                 //Same method name and parameter number
-                if (!name.equals(m.getName()) || !ParameterOperation.sameType(args , m.getParameterTypes()))
-                    return super.visitMethod(access , name , desc , signature , exceptions);
+                if (!name.equals(m.getName()) || !ParameterOperation.sameType(args , m.getParameterTypes())) return super.visitMethod(access , name , desc , signature , exceptions);
                 MethodVisitor v = this.cv.visitMethod(access , name , desc , signature , exceptions);
                 return new MethodVisitor(Opcodes.ASM5 , v) {
                     @Override
-                    public void visitLocalVariable(
-                        String name , String desc , String signature , Label start , Label end , int index) {
+                    public void visitLocalVariable(String name , String desc , String signature , Label start , Label end , int index) {
                         int i = index - 1;
                         //If it is static method then it is the first one.
                         //If it is not static method then the first one is 'this' and next is parameter of method's

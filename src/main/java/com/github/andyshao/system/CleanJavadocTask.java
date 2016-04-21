@@ -48,8 +48,7 @@ public class CleanJavadocTask implements Task {
 
             int index = -1;
             while ((index = ByteBufferOperation.indexOf(context , head)) != -1) {
-                tmp = ArrayOperation.mergeArray(byte[].class , tmp ,
-                    ByteBufferOperation.getBytes(context , context.position() , index - context.position()));
+                tmp = ArrayOperation.mergeArray(byte[].class , tmp , ByteBufferOperation.getBytes(context , context.position() , index - context.position()));
                 context.position(index);
                 context.position(ByteBufferOperation.indexOf(context , tail) + tail.length);
             }

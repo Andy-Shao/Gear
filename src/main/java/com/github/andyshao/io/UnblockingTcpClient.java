@@ -45,8 +45,7 @@ public class UnblockingTcpClient implements TcpClient {
         Exception e = (Exception) context.get(UnblockingTcpClient.EXCEPTION);
         e.printStackTrace();
     };
-    protected ExecutorService executorService =
-        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    protected ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
 
     protected volatile boolean isProcessing = false;
 
@@ -154,8 +153,7 @@ public class UnblockingTcpClient implements TcpClient {
             context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
         }
-        if (context.isWaitingForSending())
-            this.messageFactory.buildMessageWritable(context).write((SocketChannel) key.channel() , context);
+        if (context.isWaitingForSending()) this.messageFactory.buildMessageWritable(context).write((SocketChannel) key.channel() , context);
     }
 
     @Override

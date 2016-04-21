@@ -35,8 +35,6 @@ public class ShortLongWrapper implements LongWrapper<short[]> {
 
     @Override
     public BigInteger size(short[] array) {
-        return array.length - (array.length >> ShortLongWrapper.BASE) > 0
-            ? BigInteger.valueOf((array.length >> ShortLongWrapper.BASE) + 1)
-            : BigInteger.valueOf(array.length >> ShortLongWrapper.BASE);
+        return array.length - (array.length >> ShortLongWrapper.BASE) > 0 ? BigInteger.valueOf((array.length >> ShortLongWrapper.BASE) + 1) : BigInteger.valueOf(array.length >> ShortLongWrapper.BASE);
     }
 }

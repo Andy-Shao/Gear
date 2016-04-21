@@ -16,8 +16,7 @@ public class ReflectsTest {
 
     @Test
     public void getParameterNameTest() throws IOException {
-        String[] names = Reflects
-            .getMethodParamNames(Reflects.getDeclaredMethod(MyClass.class , "myMethod" , String.class , String.class));
+        String[] names = Reflects.getMethodParamNames(Reflects.getDeclaredMethod(MyClass.class , "myMethod" , String.class , String.class));
         Assert.assertThat(names , Matchers.is(new String[] { "myStr" , "myStr2" }));
     }
 }

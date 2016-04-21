@@ -20,11 +20,9 @@ public class QueueTest {
 
     @Parameters
     public static Collection<Object[]> data() {
-        return Arrays.asList(new Object[][] {
-            { Queue.<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(
-                SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data))) } ,
-            { Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(
-                CycleLinked.defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data))) } });
+        return Arrays
+            .asList(new Object[][] { { Queue.<String , CycleLinkedElmt<String> , SingleLinked<String>> DEFAULT_QUEUE(SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data))) } ,
+                { Queue.<String , CycleLinkedElmt<String> , CycleLinked<String>> DEFAULT_QUEUE(CycleLinked.defaultCycleLinked((data) -> CycleLinkedElmt.defaultElmt(data))) } });
     }
 
     public final String[] data = { "Andy" , "Shao" };

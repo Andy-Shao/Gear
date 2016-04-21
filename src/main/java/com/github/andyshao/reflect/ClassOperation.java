@@ -75,8 +75,8 @@ public final class ClassOperation {
             classSignature = csig.classSignature + tail;
         }
         final ClassWriter cw = new ClassWriter(0);
-        cw.visit(version.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , targetName.replace('.' , '/') ,
-            classSignature , "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
+        cw.visit(version.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , targetName.replace('.' , '/') , classSignature , "java/lang/Object" ,
+            new String[] { interfaceClass.getName().replace('.' , '/') });
         MethodVisitor mv = null;
         {
             mv = cw.visitMethod(Opcodes.ACC_PUBLIC , "<init>" , "()V" , null , null);
@@ -94,12 +94,10 @@ public final class ClassOperation {
             String[] exceptionDescriptions = new String[exceptions.length];
             for (int i = 0 ; i < exceptions.length ; i++)
                 exceptionDescriptions[i] = exceptions[i].getName().replace('.' , '/');
-            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() ,
-                csig.methodSignatures.get(method) , exceptionDescriptions);
+            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() , csig.methodSignatures.get(method) , exceptionDescriptions);
             Class<?> returnType = method.getReturnType();
             mv.visitCode();
-            if (int.class.isAssignableFrom(returnType) || byte.class.isAssignableFrom(returnType)
-                || char.class.isAssignableFrom(returnType) || short.class.isAssignableFrom(returnType)
+            if (int.class.isAssignableFrom(returnType) || byte.class.isAssignableFrom(returnType) || char.class.isAssignableFrom(returnType) || short.class.isAssignableFrom(returnType)
                 || boolean.class.isAssignableFrom(returnType)) {
                 mv.visitInsn(Opcodes.ICONST_0);
                 mv.visitInsn(Opcodes.IRETURN);
@@ -131,10 +129,8 @@ public final class ClassOperation {
     }
 
     public static boolean isPrimitiveObject(Class<?> clazz) {
-        if (Integer.class.isAssignableFrom(clazz) || Short.class.isAssignableFrom(clazz)
-            || Character.class.isAssignableFrom(clazz) || Byte.class.isAssignableFrom(clazz)
-            || Long.class.isAssignableFrom(clazz) || Float.class.isAssignableFrom(clazz)
-            || Double.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz)
+        if (Integer.class.isAssignableFrom(clazz) || Short.class.isAssignableFrom(clazz) || Character.class.isAssignableFrom(clazz) || Byte.class.isAssignableFrom(clazz)
+            || Long.class.isAssignableFrom(clazz) || Float.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz)
             || Void.class.isAssignableFrom(clazz)) return true;
         return false;
     }
@@ -154,8 +150,7 @@ public final class ClassOperation {
         return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
     }
 
-    public static <T> T newInstanceForInterface(
-        Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
+    public static <T> T newInstanceForInterface(Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
         byte[] bs = ClassOperation.getSuperClassForInterface(interfaceClass , targetName , version);
         if (isKeep) {
             String filePath = targetName.replace('.' , '/') + ".class";

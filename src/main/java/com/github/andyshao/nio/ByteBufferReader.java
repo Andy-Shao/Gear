@@ -120,8 +120,7 @@ public class ByteBufferReader implements BufferReader<byte[]> {
             if (point.getSeparatePoint() == -1) {
                 if (this.buffer.hasRemaining()) continue READ;
                 else if (this.mark == 0) {
-                    if (this.bufferSize == Integer.MAX_VALUE)
-                        throw new BufferReaderException("The byteBuffer is overflow");
+                    if (this.bufferSize == Integer.MAX_VALUE) throw new BufferReaderException("The byteBuffer is overflow");
                     this.bufferSize = (this.bufferSize << 1) > 0 ? this.bufferSize << 1 : Integer.MAX_VALUE;
                     byte[] remaning = ByteBufferOperation.usedArray(temp);
                     this.buffer = ByteBuffer.allocate(this.bufferSize);

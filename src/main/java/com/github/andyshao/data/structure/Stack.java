@@ -21,8 +21,7 @@ public interface Stack<D> extends CollectionModel<D> {
     public class MyStack<DATA , E extends Linked.LinkedElmt<DATA , E>> implements Stack<DATA> {
         class MyIterator implements Iterator<DATA> {
             @SuppressWarnings("unchecked")
-            private final DATA[] data = MyStack.this.linked.toArray(
-                (DATA[]) Array.newInstance(MyStack.this.linked.head().data().getClass() , MyStack.this.linked.size()));
+            private final DATA[] data = MyStack.this.linked.toArray((DATA[]) Array.newInstance(MyStack.this.linked.head().data().getClass() , MyStack.this.linked.size()));
             private int index = 0;
 
             @Override

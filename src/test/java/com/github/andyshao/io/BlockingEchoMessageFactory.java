@@ -18,8 +18,7 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
             @Override
             public void decode(MessageContext context) throws IOException , UnsupportedEncodingException {
                 byte[] input_message = (byte[]) context.get(MessageContext.INPUT_MESSAGE_BYTES);
-                String message =
-                    new String(input_message , (String) context.get(MessageContext.INPUT_MESSAGE_ENCODING));
+                String message = new String(input_message , (String) context.get(MessageContext.INPUT_MESSAGE_ENCODING));
                 context.put(MessageContext.INPUT_MESSAGE_OBJECT , message);
                 System.out.println("Decode Message: " + message);
             }
@@ -34,8 +33,7 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
             public void encode(MessageContext context) throws IOException , UnsupportedEncodingException {
                 String output_message = (String) context.get(MessageContext.OUTPUT_MESSAGE_OBJECT);
                 output_message = BlockingEchoMessageFactory.addMessageHead(output_message);
-                context.put(MessageContext.OUTPUT_MESSAGE_BYTES ,
-                    output_message.getBytes((String) context.get(MessageContext.OUTPU_MESSAGE_ENCODING)));
+                context.put(MessageContext.OUTPUT_MESSAGE_BYTES , output_message.getBytes((String) context.get(MessageContext.OUTPU_MESSAGE_ENCODING)));
                 System.out.println("Encode Message: " + output_message);
             }
         };
@@ -61,8 +59,7 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
             channel.read(headBuffer);
             if (headBuffer.hasRemaining()) throw new IOException("Message is error!");
             headBuffer.flip();
-            ByteBuffer bodyBuffer =
-                ByteBuffer.allocate(Integer.valueOf(new String(ByteBufferOperation.usedArray(headBuffer))));
+            ByteBuffer bodyBuffer = ByteBuffer.allocate(Integer.valueOf(new String(ByteBufferOperation.usedArray(headBuffer))));
             channel.read(bodyBuffer);
             bodyBuffer.flip();
             ctxt.put(MessageContext.INPUT_MESSAGE_BYTES , ByteBufferOperation.usedArray(bodyBuffer));

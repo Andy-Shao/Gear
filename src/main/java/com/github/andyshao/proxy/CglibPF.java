@@ -20,8 +20,7 @@ import net.sf.cglib.proxy.InvocationHandler;
 public interface CglibPF<T> extends ProxyFactory<T> {
     @Override
     public default T getProxy(T target) {
-        return this.getProxy(target ,
-            (Object proxy , Method method , Object[] args) -> CglibPF.this.invoke(target , method , args));
+        return this.getProxy(target , (Object proxy , Method method , Object[] args) -> CglibPF.this.invoke(target , method , args));
     }
 
     @SuppressWarnings("unchecked")

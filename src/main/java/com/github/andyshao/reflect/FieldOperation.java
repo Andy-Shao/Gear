@@ -114,8 +114,7 @@ public final class FieldOperation {
         try {
             return clazz.getDeclaredField(field_name);
         } catch (java.lang.NoSuchFieldException e) {
-            if (clazz.getSuperclass() != null)
-                return FieldOperation.superGetDeclaredField(clazz.getSuperclass() , field_name);
+            if (clazz.getSuperclass() != null) return FieldOperation.superGetDeclaredField(clazz.getSuperclass() , field_name);
             throw new NoSuchFieldException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);

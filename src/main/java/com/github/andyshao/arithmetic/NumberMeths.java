@@ -28,8 +28,7 @@ public final class NumberMeths {
      * @param roundingMode rounding mode to apply.
      * @return the answer list of f(z)
      */
-    public static final BigDecimal[] interpol(
-        final BigDecimal[] x , final BigDecimal[] fx , BigDecimal[] z , int scale , RoundingMode roundingMode) {
+    public static final BigDecimal[] interpol(final BigDecimal[] x , final BigDecimal[] fx , BigDecimal[] z , int scale , RoundingMode roundingMode) {
         BigDecimal[] pz = new BigDecimal[z.length];
         BigDecimal[] coeff = new BigDecimal[x.length];
 
@@ -113,9 +112,8 @@ public final class NumberMeths {
      * @param roundingMode rounding mode to apply.
      * @return a Double[]
      */
-    public static final BigDecimal[] root(
-        Function<BigDecimal , BigDecimal> f , Function<BigDecimal , BigDecimal> g , AutoIncreaseArray<BigDecimal> x ,
-        int maxTimes , BigDecimal delta , int scale , RoundingMode roundingMode) {
+    public static final BigDecimal[]
+        root(Function<BigDecimal , BigDecimal> f , Function<BigDecimal , BigDecimal> g , AutoIncreaseArray<BigDecimal> x , int maxTimes , BigDecimal delta , int scale , RoundingMode roundingMode) {
         if (maxTimes < 0) throw new IllegalArgumentException();
         //User Newton's method to find a root of f.
         for (int i = 0 , satisfied = 0 ; satisfied == 0 && i + 1 < maxTimes ; i++) {
@@ -139,9 +137,7 @@ public final class NumberMeths {
      * @param delta 允许的最大偏差
      * @return a Double[]
      */
-    public static final Double[] root(
-        Function<Double , Double> f , Function<Double , Double> g , AutoIncreaseArray<Double> x , int maxTimes ,
-        double delta) {
+    public static final Double[] root(Function<Double , Double> f , Function<Double , Double> g , AutoIncreaseArray<Double> x , int maxTimes , double delta) {
         if (maxTimes < 0) throw new IllegalArgumentException();
         //User Newton's method to find a root of f.
         for (int i = 0 , satisfied = 0 ; satisfied == 0 && i + 1 < maxTimes ; i++) {

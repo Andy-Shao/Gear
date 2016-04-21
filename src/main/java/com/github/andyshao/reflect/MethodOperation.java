@@ -105,8 +105,7 @@ public final class MethodOperation {
         try {
             return clazz.getDeclaredMethod(method_name , parameterTypes);
         } catch (java.lang.NoSuchMethodException e) {
-            if (clazz.getSuperclass() != null)
-                return MethodOperation.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
+            if (clazz.getSuperclass() != null) return MethodOperation.superGetDeclaredMethod(clazz.getSuperclass() , method_name , parameterTypes);
             throw new NoSuchMethodException(e);
         } catch (java.lang.SecurityException e) {
             throw new SecurityException(e);

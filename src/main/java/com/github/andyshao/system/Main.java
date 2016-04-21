@@ -24,9 +24,7 @@ public class Main {
         final ScriptEngineManager factory = new ScriptEngineManager();
         final ScriptEngine engine = factory.getEngineByName("nashorn");
 
-        try (
-            InputStream inputStream = Thread.currentThread().getContextClassLoader()
-                .getResourceAsStream("com/github/andyshao/system/system.js");
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("com/github/andyshao/system/system.js");
             Reader reader = new InputStreamReader(inputStream);) {
             engine.eval(reader);
         }

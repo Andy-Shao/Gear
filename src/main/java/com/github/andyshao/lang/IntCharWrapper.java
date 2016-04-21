@@ -26,8 +26,7 @@ public class IntCharWrapper implements CharWrapper<int[]> {
     public void setChar(int[] array , BigInteger position , char c) {
         BigInteger indexs[] = position.divideAndRemainder(IntCharWrapper.BASE);
         if (indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
-        array[indexs[0].intValue()] =
-            IntegerOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
+        array[indexs[0].intValue()] = IntegerOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
     }
 
     @Override

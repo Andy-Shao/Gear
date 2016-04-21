@@ -7,7 +7,7 @@ import org.junit.Test;
 public class ClassTest {
 
     @Test
-    public void testisPrimitive(){
+    public void testisPrimitive() {
         Assert.assertThat(int.class.isPrimitive() , Matchers.is(true));
         Assert.assertThat(boolean.class.isPrimitive() , Matchers.is(true));
         Assert.assertThat(short.class.isPrimitive() , Matchers.is(true));

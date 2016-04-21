@@ -14,9 +14,7 @@ public class BistreeTest {
 
     @Before
     public void before() {
-        this.bistree = Bistree.<Integer> defaultBistree(
-            Bitree.<AvlNode<Integer>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode) ,
-            Bistree.AvlNode::defaultAvlNode , Integer::compare);
+        this.bistree = Bistree.<Integer> defaultBistree(Bitree.<AvlNode<Integer>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode) , Bistree.AvlNode::defaultAvlNode , Integer::compare);
     }
 
     @Test

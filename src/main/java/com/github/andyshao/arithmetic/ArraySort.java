@@ -37,8 +37,7 @@ public final class ArraySort {
      * @throws IllegalArgumentException if start bigger than or equal end.
      */
     @SuppressWarnings("unchecked")
-    public static final <ARRAY , DATA> ARRAY
-        ctsort(ARRAY array , Convert<DATA , Integer> convert , int start , int end , int max) {
+    public static final <ARRAY , DATA> ARRAY ctsort(ARRAY array , Convert<DATA , Integer> convert , int start , int end , int max) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         int[] counts = new int[max];
         Arrays.fill(counts , 0);
@@ -82,8 +81,7 @@ public final class ArraySort {
      * @throws IllegalArgumentException if start bigger than or equal end.
      */
     @SuppressWarnings("unchecked")
-    public static final <DATA> DATA[]
-        ctsort(DATA[] array , Convert<DATA , Integer> convert , int start , int end , int max) {
+    public static final <DATA> DATA[] ctsort(DATA[] array , Convert<DATA , Integer> convert , int start , int end , int max) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         int[] counts = new int[max];
         Arrays.fill(counts , 0);
@@ -123,8 +121,7 @@ public final class ArraySort {
      * @throws IllegalArgumentException if start bigger than or equal end
      */
     @SuppressWarnings("unchecked")
-    public static final <ARRAY , DATA> ARRAY
-        issort(final ARRAY data , int start , int end , Comparator<DATA> comparator) {
+    public static final <ARRAY , DATA> ARRAY issort(final ARRAY data , int start , int end , Comparator<DATA> comparator) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         //Repeatedly insert a key element among the sorted elements.
         for (int i = start + 1 ; i < end ; i++) {
@@ -177,8 +174,7 @@ public final class ArraySort {
      * @return the array which has been merged
      */
     @SuppressWarnings("unchecked")
-    static final <ARRAY , DATA> ARRAY
-        merge(ARRAY array , int start , int division , int end , Comparator<DATA> comparator) {
+    static final <ARRAY , DATA> ARRAY merge(ARRAY array , int start , int division , int end , Comparator<DATA> comparator) {
         //initialize the counters used in merging.
         int leftPos = start;
         int rightPos = division + 1;
@@ -200,8 +196,7 @@ public final class ArraySort {
             }
 
             //Append the next ordered element to the merged elements.
-            if (comparator.compare((DATA) Array.get(array , leftPos) , (DATA) Array.get(array , rightPos)) < 0)
-                Array.set(temp , tempPos++ , Array.get(array , leftPos++));
+            if (comparator.compare((DATA) Array.get(array , leftPos) , (DATA) Array.get(array , rightPos)) < 0) Array.set(temp , tempPos++ , Array.get(array , leftPos++));
             else Array.set(temp , tempPos++ , Array.get(array , rightPos++));
         }
 
@@ -417,8 +412,7 @@ public final class ArraySort {
      * @throws SortException when the sort has error.
      * @throws IllegalArgumentException if start bigger than or equal end
      */
-    public static final <ARRAY , DATA> ARRAY
-        qksort(final ARRAY array , int start , int end , Comparator<DATA> comparator) {
+    public static final <ARRAY , DATA> ARRAY qksort(final ARRAY array , int start , int end , Comparator<DATA> comparator) {
         if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         //Stop the recursion when it is not possible to partition further.
         while (start < end - 1) {
@@ -482,8 +476,7 @@ public final class ArraySort {
      * @throws IllegalArgumentException if start bigger than or equal end.
      */
     @SuppressWarnings("unchecked")
-    public static final <ARRAY , DATA> ARRAY
-        rxsort(ARRAY array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
+    public static final <ARRAY , DATA> ARRAY rxsort(ARRAY array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
         if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);
 
         int[] counts = new int[k];
@@ -537,8 +530,7 @@ public final class ArraySort {
      * @throws IllegalArgumentException if start bigger than or equal end.
      */
     @SuppressWarnings("unchecked")
-    public static final <DATA> DATA[]
-        rxsort(DATA[] array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
+    public static final <DATA> DATA[] rxsort(DATA[] array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
         if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);
 
         int[] counts = new int[k];

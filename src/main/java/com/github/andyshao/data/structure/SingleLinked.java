@@ -40,8 +40,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
         return SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt);
     }
 
-    public static <DATA> SingleLinked<DATA>
-        defaultSingleLinked(Function<DATA , CycleLinkedElmt<DATA>> cycleLinkedElmt) {
+    public static <DATA> SingleLinked<DATA> defaultSingleLinked(Function<DATA , CycleLinkedElmt<DATA>> cycleLinkedElmt) {
         return new SingleLinked<DATA>(cycleLinkedElmt);
     }
 
@@ -76,8 +75,7 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
         SingleLinked<D> that;
         if (obj instanceof SingleLinked) {
             that = (SingleLinked<D>) obj;
-            return this.size() == that.size() && Objects.equals(this.head() , that.head())
-                && Objects.equals(this.tail() , that.tail());
+            return this.size() == that.size() && Objects.equals(this.head() , that.head()) && Objects.equals(this.tail() , that.tail());
         } else return false;
     }
 

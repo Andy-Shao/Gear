@@ -18,8 +18,7 @@ public final class LongOperation {
     }
 
     public static final long[] bitOxr(final long[] b1 , final long[] b2 , int size) {
-        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(8)) ,
-            ByteWrapper.LONG_BYTE_WRAPPER);
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(8)) , ByteWrapper.LONG_BYTE_WRAPPER);
     }
 
     public static final long[] bitRotLeft(int count , final long[] array) {
@@ -168,15 +167,13 @@ public final class LongOperation {
     }
 
     public static final byte[] toByte(long l) {
-        return new byte[] { LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) ,
-            LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) , LongOperation.getByte(l , 5) ,
-            LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7) };
+        return new byte[] { LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) , LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) ,
+            LongOperation.getByte(l , 5) , LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7) };
     }
 
     public static final String toHexString(long l) {
-        return Convert.BYTES_TO_HEX.convert(new byte[] { LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) ,
-            LongOperation.getByte(l , 2) , LongOperation.getByte(l , 3) , LongOperation.getByte(l , 4) ,
-            LongOperation.getByte(l , 5) , LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7) });
+        return Convert.BYTES_TO_HEX.convert(new byte[] { LongOperation.getByte(l , 0) , LongOperation.getByte(l , 1) , LongOperation.getByte(l , 2) , LongOperation.getByte(l , 3) ,
+            LongOperation.getByte(l , 4) , LongOperation.getByte(l , 5) , LongOperation.getByte(l , 6) , LongOperation.getByte(l , 7) });
     }
 
     public static final String toHexString(long... ls) {

@@ -19,14 +19,12 @@ import java.lang.reflect.Proxy;
 public interface DynamicPF<T> extends ProxyFactory<T> {
     @Override
     public default T getProxy(T target) {
-        return this.getProxy(target ,
-            (Object proxy , Method method , Object[] args) -> DynamicPF.this.invoke(target , method , args));
+        return this.getProxy(target , (Object proxy , Method method , Object[] args) -> DynamicPF.this.invoke(target , method , args));
     }
 
     @SuppressWarnings("unchecked")
     public default T getProxy(T target , InvocationHandler invocationHandler) {
-        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.proxyInterfaces(target) ,
-            invocationHandler);
+        return (T) Proxy.newProxyInstance(target.getClass().getClassLoader() , this.proxyInterfaces(target) , invocationHandler);
     }
 
     /**

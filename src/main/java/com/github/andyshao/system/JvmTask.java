@@ -29,8 +29,7 @@ public class JvmTask implements Task {
     public static final String TYPE_PATH = "com/github/andyshao/system/typeDescription.txt";
 
     static byte[] readFile(String path) throws IOException {
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
-            ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));) {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(path); ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));) {
             reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
             return reader.read();
         }

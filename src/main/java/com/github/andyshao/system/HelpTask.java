@@ -35,9 +35,7 @@ public class HelpTask implements Task {
 
     @Override
     public void process(String[] args) {
-        try (
-            InputStream inputStream =
-                Thread.currentThread().getContextClassLoader().getResourceAsStream(HelpTask.TARGET);
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(HelpTask.TARGET);
             ByteBufferReader reader = new ByteBufferReader(Channels.newChannel(inputStream));) {
             reader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(-1));
             System.out.println(new String(reader.read()));

@@ -16,8 +16,7 @@ import java.util.Queue;
  * @param <D> data
  */
 public class SimpleQueue<D> implements Queue<D> {
-    private final SingleLinked<D> linked =
-        SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
+    private final SingleLinked<D> linked = SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
 
     @Override
     public boolean add(D e) {

@@ -35,8 +35,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
                     DoubleLinkedElmt<DATA> that;
                     if (obj instanceof DoubleLinkedElmt) {
                         that = (DoubleLinkedElmt<DATA>) obj;
-                        return Objects.equals(this.data() , that.data()) && Objects.equals(this.next() , that.next())
-                            && Objects.equals(this.getPrev() , that.getPrev());
+                        return Objects.equals(this.data() , that.data()) && Objects.equals(this.next() , that.next()) && Objects.equals(this.getPrev() , that.getPrev());
                     } else return false;
                 }
 
@@ -105,8 +104,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             DoubleLinked<DATA> that;
             if (obj instanceof DoubleLinked) {
                 that = (DoubleLinked<DATA>) obj;
-                return this.size == that.size() && Objects.equals(this.head() , that.head())
-                    && Objects.equals(this.tail() , that.tail());
+                return this.size == that.size() && Objects.equals(this.head() , that.head()) && Objects.equals(this.tail() , that.tail());
             } else return false;
         }
 
@@ -128,8 +126,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         @Override
         public void insNext(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
             //Do not allow a NULL element unless the list is empty.
-            if (element == null && this.size() != 0)
-                throw new LinkedOperationException("Do not allow a NULL element unless the list is empty.");
+            if (element == null && this.size() != 0) throw new LinkedOperationException("Do not allow a NULL element unless the list is empty.");
 
             DoubleLinked.DoubleLinkedElmt<DATA> new_element = this.getElmtFactory().apply(data);
 
@@ -159,8 +156,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         @Override
         public void insPrev(DoubleLinked.DoubleLinkedElmt<DATA> element , final DATA data) {
             //Do not allowed a NULL element unless the list is empty.
-            if (element == null && this.size() != 0)
-                throw new LinkedOperationException("Do not allowed a NULL element unless the list is empty.");
+            if (element == null && this.size() != 0) throw new LinkedOperationException("Do not allowed a NULL element unless the list is empty.");
 
             DoubleLinked.DoubleLinkedElmt<DATA> new_element = this.getElmtFactory().apply(data);
 
@@ -194,8 +190,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
                 @Override
                 public boolean hasNext() {
-                    if (this.myActioncount != MyDoubleLinked.this.actionCount)
-                        throw new ConcurrentModificationException();
+                    if (this.myActioncount != MyDoubleLinked.this.actionCount) throw new ConcurrentModificationException();
                     return this.index != null;
                 }
 
@@ -247,8 +242,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             DATA data = null;
 
             //Do not allow a NULL element or removal from an empty list.
-            if (element == null || this.size() == 0)
-                throw new LinkedOperationException("Do not allow a NULL element or removal from an empty list.");
+            if (element == null || this.size() == 0) throw new LinkedOperationException("Do not allow a NULL element or removal from an empty list.");
 
             //Remove the element from the list.
             data = element.data();
@@ -286,8 +280,7 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         return DoubleLinked.defaultDoubleLinked(DoubleLinkedElmt::defaultElmt);
     }
 
-    public static <DATA> DoubleLinked<DATA>
-        defaultDoubleLinked(Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
+    public static <DATA> DoubleLinked<DATA> defaultDoubleLinked(Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
         return new MyDoubleLinked<>(elmtFactory);
     }
 

@@ -35,9 +35,7 @@ public class IntLongWrapper implements LongWrapper<int[]> {
 
     @Override
     public BigInteger size(int[] array) {
-        return array.length - (array.length >> IntLongWrapper.BASE) > 0
-            ? BigInteger.valueOf((array.length >> IntLongWrapper.BASE) + 1)
-            : BigInteger.valueOf(array.length >> IntLongWrapper.BASE);
+        return array.length - (array.length >> IntLongWrapper.BASE) > 0 ? BigInteger.valueOf((array.length >> IntLongWrapper.BASE) + 1) : BigInteger.valueOf(array.length >> IntLongWrapper.BASE);
     }
 
 }

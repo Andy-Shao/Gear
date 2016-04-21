@@ -64,10 +64,8 @@ public class HttpTask implements Task {
     }
 
     void showStatueCode(String[] args) {
-        try (InputStream inputStream =
-            Thread.currentThread().getContextClassLoader().getResourceAsStream(HttpTask.STAUTS_FILE);) {
-            if (this.isPrintAll(args))
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));) {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(HttpTask.STAUTS_FILE);) {
+            if (this.isPrintAll(args)) try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));) {
                 String line = "";
                 while ((line = reader.readLine()) != null)
                     System.out.println(line);

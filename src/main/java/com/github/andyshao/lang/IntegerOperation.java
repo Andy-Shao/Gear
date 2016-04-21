@@ -18,8 +18,7 @@ public final class IntegerOperation {
     }
 
     public static final int[] bitOxr(final int[] b1 , final int[] b2 , int size) {
-        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(4)) ,
-            ByteWrapper.INT_BYTE_WRAPPER);
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(4)) , ByteWrapper.INT_BYTE_WRAPPER);
     }
 
     public static final int[] bitRotLeft(int count , final int[] array) {
@@ -105,13 +104,11 @@ public final class IntegerOperation {
     }
 
     public static final byte[] toByte(int i) {
-        return new byte[] { IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) ,
-            IntegerOperation.getByte(i , 2) , IntegerOperation.getByte(i , 3) };
+        return new byte[] { IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) , IntegerOperation.getByte(i , 3) };
     }
 
     public static final String toHexString(int i) {
-        return Convert.BYTES_TO_HEX.convert(new byte[] { IntegerOperation.getByte(i , 0) ,
-            IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) , IntegerOperation.getByte(i , 3) });
+        return Convert.BYTES_TO_HEX.convert(new byte[] { IntegerOperation.getByte(i , 0) , IntegerOperation.getByte(i , 1) , IntegerOperation.getByte(i , 2) , IntegerOperation.getByte(i , 3) });
     }
 
     public static final String toHexString(int... is) {

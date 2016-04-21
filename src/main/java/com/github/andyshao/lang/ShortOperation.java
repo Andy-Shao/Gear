@@ -18,8 +18,7 @@ public final class ShortOperation {
     }
 
     public static final short[] bitOxr(final short[] b1 , final short[] b2 , int size) {
-        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(2)) ,
-            ByteWrapper.SHORT_BYTE_WRAPPER);
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(2)) , ByteWrapper.SHORT_BYTE_WRAPPER);
     }
 
     public static final short[] bitRotLeft(int count , final short[] array) {
@@ -70,8 +69,7 @@ public final class ShortOperation {
     }
 
     public static final String toHexString(short s) {
-        return Convert.BYTES_TO_HEX
-            .convert(new byte[] { ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1) });
+        return Convert.BYTES_TO_HEX.convert(new byte[] { ShortOperation.getByte(s , 0) , ShortOperation.getByte(s , 1) });
     }
 
     public static final String toHexString(short... s) {

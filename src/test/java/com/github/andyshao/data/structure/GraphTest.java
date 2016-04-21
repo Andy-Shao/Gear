@@ -29,8 +29,7 @@ public class GraphTest {
 
     @Before
     public void before() {
-        this.graph = Graph.<String> defaultGraph(StringOperation.COMPARATOR ,
-            () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
+        this.graph = Graph.<String> defaultGraph(StringOperation.COMPARATOR , () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
     }
 
     @Test
@@ -42,8 +41,7 @@ public class GraphTest {
         final Graph.BfsVertex<String> node5 = GraphTest.buildBsfvertex("node5");
         final Graph.BfsVertex<String> node6 = GraphTest.buildBsfvertex("node6");
         Graph<Graph.BfsVertex<String>> graph =
-            Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
-                () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
+            Graph.<Graph.BfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) , () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
         graph.insVertex(node1);
         graph.insVertex(node2);
         graph.insVertex(node3);
@@ -61,8 +59,7 @@ public class GraphTest {
         Graph.addUntowardEdge(graph , node5 , node6);
         Assert.assertThat(graph.ecount() , Matchers.is(14));
 
-        Queue<BfsVertex<String>> queue =
-            new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> Integer.compare(obj1.hops() , obj2.hops()));
+        Queue<BfsVertex<String>> queue = new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> Integer.compare(obj1.hops() , obj2.hops()));
         Graph.bfs(graph , node6 , queue);
         Assert.assertThat(queue.poll() , Matchers.is(node6));
         Assert.assertThat(queue.poll() , Matchers.is(node5));
@@ -109,8 +106,7 @@ public class GraphTest {
         final DfsVertex<String> ma200 = GraphTest.buildDfsVertex("MA200");
         final DfsVertex<String> ma300 = GraphTest.buildDfsVertex("MA300");
         Graph<DfsVertex<String>> graph =
-            Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) ,
-                () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
+            Graph.<DfsVertex<String>> defaultGraph((obj1 , obj2) -> obj1.data().compareTo(obj2.data()) , () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
         graph.insVertex(cs100);
         graph.insVertex(cs200);
         graph.insVertex(cs300);

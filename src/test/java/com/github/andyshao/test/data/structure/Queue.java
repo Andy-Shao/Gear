@@ -8,8 +8,7 @@ import com.github.andyshao.lang.Cleanable;
 @Deprecated
 public interface Queue<D> extends Cleanable , Iterable<D> {
 
-    public static <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E>> Queue<DATA>
-        DEFAULT_QUEUE(T linked) {
+    public static <DATA , E extends Linked.LinkedElmt<DATA , E> , T extends Linked<DATA , E>> Queue<DATA> DEFAULT_QUEUE(T linked) {
         return new Queue<DATA>() {
 
             @Override

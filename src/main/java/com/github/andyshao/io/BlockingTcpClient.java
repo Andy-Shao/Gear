@@ -47,8 +47,7 @@ public class BlockingTcpClient implements TcpClient {
     @Override
     public void open(MessageContext context) throws IOException {
         this.socketChannel = SocketChannel.open();
-        InetSocketAddress isa = new InetSocketAddress((InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS) ,
-            (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
+        InetSocketAddress isa = new InetSocketAddress((InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS) , (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
         this.socketChannel.connect(isa);
     }
 
@@ -66,12 +65,10 @@ public class BlockingTcpClient implements TcpClient {
             this.messageFactory.buildMessageEncoder(context).encode(context);
             context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
-            this.messageFactory.buildMessageWritable(context).write(Channels.newChannel(socket.getOutputStream()) ,
-                context);
+            this.messageFactory.buildMessageWritable(context).write(Channels.newChannel(socket.getOutputStream()) , context);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
-            this.messageFactory.builMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) ,
-                context);
+            this.messageFactory.builMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) , context);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
             context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
             this.messageFactory.buildMessageDecoder(context).decode(context);

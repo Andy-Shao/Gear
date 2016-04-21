@@ -21,8 +21,7 @@ public class DynamicPFTest {
             }
         };
         Assert.assertFalse(myInterface.isAllow());
-        final String key =
-            ProxyFactory.buildMethodKey(MethodOperation.getMethod(DynamicPFTest.MyInterface.class , "isAllow"));
+        final String key = ProxyFactory.buildMethodKey(MethodOperation.getMethod(DynamicPFTest.MyInterface.class , "isAllow"));
 
         DynamicPF<MyInterface> dynamicPF = (target , method , args) -> {
             if (key.equals(ProxyFactory.buildMethodKey(method))) return true;

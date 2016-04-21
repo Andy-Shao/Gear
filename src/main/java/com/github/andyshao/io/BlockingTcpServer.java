@@ -30,8 +30,7 @@ public class BlockingTcpServer implements TcpServer {
         Exception e = (Exception) context.get(BlockingTcpServer.EXCEPTION);
         e.printStackTrace();
     };
-    protected ExecutorService executorService =
-        Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    protected ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
     protected volatile boolean isProcessing = false;
     protected volatile boolean isWaitingForClose = false;
     protected MessageFactory messageFactory;
@@ -74,8 +73,7 @@ public class BlockingTcpServer implements TcpServer {
                     context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
 
                     try {
-                        BlockingTcpServer.this.messageFactory.builMessageReadable(context)
-                            .read(Channels.newChannel(socket.getInputStream()) , context);
+                        BlockingTcpServer.this.messageFactory.builMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) , context);
                         context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
                         context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                         BlockingTcpServer.this.messageFactory.buildMessageDecoder(context).decode(context);
@@ -87,8 +85,7 @@ public class BlockingTcpServer implements TcpServer {
                         BlockingTcpServer.this.messageFactory.buildMessageEncoder(context).encode(context);
                         context.put(MessageContext.IS_WAITING_FOR_ENCODE , false);
                         context.put(MessageContext.IS_WAITING_FOR_SENDING , true);
-                        BlockingTcpServer.this.messageFactory.buildMessageWritable(context)
-                            .write(Channels.newChannel(socket.getOutputStream()) , context);
+                        BlockingTcpServer.this.messageFactory.buildMessageWritable(context).write(Channels.newChannel(socket.getOutputStream()) , context);
                         context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
                     } catch (Exception e) {
                         context.put(BlockingTcpServer.SOCKET_CHANNEL , socketChannel);

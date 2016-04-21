@@ -26,8 +26,7 @@ public class ConvertStr2Byte implements Convert<String , Byte[]> {
         byte[] d = new byte[length];
         for (int i = 0 ; i < length ; i++) {
             int pos = i * 2;
-            d[i] = (byte) (char) (ConvertStr2Byte.charToByte(hexChars[pos]) << 4
-                | ConvertStr2Byte.charToByte(hexChars[pos + 1]));
+            d[i] = (byte) (char) (ConvertStr2Byte.charToByte(hexChars[pos]) << 4 | ConvertStr2Byte.charToByte(hexChars[pos + 1]));
         }
 
         return d;
@@ -42,8 +41,7 @@ public class ConvertStr2Byte implements Convert<String , Byte[]> {
         Byte[] d = new Byte[length];
         for (int i = 0 ; i < length ; i++) {
             int pos = i * 2;
-            d[i] = (byte) (char) (ConvertStr2Byte.charToByte(hexChars[pos]) << 4
-                | ConvertStr2Byte.charToByte(hexChars[pos + 1]));
+            d[i] = (byte) (char) (ConvertStr2Byte.charToByte(hexChars[pos]) << 4 | ConvertStr2Byte.charToByte(hexChars[pos + 1]));
         }
 
         return d;

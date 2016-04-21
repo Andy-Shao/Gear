@@ -44,10 +44,8 @@ public class GraphAlgTest {
 
     @Test
     public void testMst() {
-        final Comparator<MstVertex<String>> comparator =
-            (MstVertex<String> one , MstVertex<String> two) -> StringOperation.COMPARATOR.compare(one.data , two.data);
-        final Graph<MstVertex<String>> graph = Graph.<MstVertex<String>> defaultGraph(comparator ,
-            () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+        final Comparator<MstVertex<String>> comparator = (MstVertex<String> one , MstVertex<String> two) -> StringOperation.COMPARATOR.compare(one.data , two.data);
+        final Graph<MstVertex<String>> graph = Graph.<MstVertex<String>> defaultGraph(comparator , () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         final MstVertex<String> a = GraphAlgTest.buildMstVertex("a");
         final MstVertex<String> b = GraphAlgTest.buildMstVertex("b");
         final MstVertex<String> c = GraphAlgTest.buildMstVertex("c");
@@ -78,11 +76,8 @@ public class GraphAlgTest {
 
     @Test
     public void testShortest() {
-        final Comparator<PathVertex<String>> comparator =
-            (PathVertex<String> one , PathVertex<String> two) -> StringOperation.COMPARATOR.compare(one.data ,
-                two.data);
-        final Graph<PathVertex<String>> graph = Graph.<PathVertex<String>> defaultGraph(comparator ,
-            () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
+        final Comparator<PathVertex<String>> comparator = (PathVertex<String> one , PathVertex<String> two) -> StringOperation.COMPARATOR.compare(one.data , two.data);
+        final Graph<PathVertex<String>> graph = Graph.<PathVertex<String>> defaultGraph(comparator , () -> SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data)));
         final PathVertex<String> a = GraphAlgTest.buildPathVertex("a");
         final PathVertex<String> b = GraphAlgTest.buildPathVertex("b");
         final PathVertex<String> c = GraphAlgTest.buildPathVertex("c");
@@ -118,8 +113,7 @@ public class GraphAlgTest {
 
     @Test
     public void testTsp() {
-        final Comparator<TspVertex<String>> comparator =
-            (one , two) -> StringOperation.COMPARATOR.compare(one.data , two.data);
+        final Comparator<TspVertex<String>> comparator = (one , two) -> StringOperation.COMPARATOR.compare(one.data , two.data);
         final TspVertex<String> a = GraphAlgTest.buildTspVertex("a" , 2 , 1);
         final TspVertex<String> b = GraphAlgTest.buildTspVertex("b" , 5 , 2);
         final TspVertex<String> c = GraphAlgTest.buildTspVertex("c" , 1 , 3);

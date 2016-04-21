@@ -74,8 +74,7 @@ public class ConstructorOperation {
     public static <T> T newInstance(Constructor<T> constructor , Object... values) {
         try {
             return constructor.newInstance(values);
-        } catch (java.lang.InstantiationException | java.lang.IllegalAccessException
-            | java.lang.reflect.InvocationTargetException e) {
+        } catch (java.lang.InstantiationException | java.lang.IllegalAccessException | java.lang.reflect.InvocationTargetException e) {
             if (e instanceof java.lang.InstantiationException) throw new InstantiationException(e);
             else if (e instanceof java.lang.IllegalAccessException) throw new IllegalAccessException(e);
             else throw new InvocationTargetException(e);

@@ -15,15 +15,13 @@ public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
         @Override
         public void read(ReadableByteChannel channel , MessageContext context) throws IOException {
             if (this.isReceiveBody) {
-                int bodyLength = Integer.valueOf(new String((byte[]) context.get(MyMessageReadable.HEAD_BYTE) ,
-                    (String) context.get(MessageContext.INPUT_MESSAGE_ENCODING)));
+                int bodyLength = Integer.valueOf(new String((byte[]) context.get(MyMessageReadable.HEAD_BYTE) , (String) context.get(MessageContext.INPUT_MESSAGE_ENCODING)));
                 byte[] bodyBytes = (byte[]) context.get(MessageContext.INPUT_MESSAGE_BYTES);
                 ByteBuffer bodyBuffer = ByteBuffer.allocate(bodyLength - bodyBytes.length);
                 channel.read(bodyBuffer);
                 if (!bodyBuffer.hasRemaining()) context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
                 bodyBuffer.flip();
-                bodyBytes =
-                    ArrayOperation.mergeArray(byte[].class , bodyBytes , ByteBufferOperation.usedArray(bodyBuffer));
+                bodyBytes = ArrayOperation.mergeArray(byte[].class , bodyBytes , ByteBufferOperation.usedArray(bodyBuffer));
                 context.put(MessageContext.INPUT_MESSAGE_BYTES , bodyBytes);
             } else {
                 byte[] headBytes = (byte[]) context.get(MyMessageReadable.HEAD_BYTE);
@@ -35,22 +33,19 @@ public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
                     context.put(MessageContext.INPUT_MESSAGE_BYTES , new byte[0]);
                 }
                 headBuffer.flip();
-                headBytes =
-                    ArrayOperation.mergeArray(byte[].class , headBytes , ByteBufferOperation.usedArray(headBuffer));
+                headBytes = ArrayOperation.mergeArray(byte[].class , headBytes , ByteBufferOperation.usedArray(headBuffer));
                 context.put(MyMessageReadable.HEAD_BYTE , headBytes);
             }
         }
     }
 
-    public static final String MESSAGE_READABLE_OBJECT =
-        UnblockingEchoMessageFactory.class.getName() + "_message_readable_object";
+    public static final String MESSAGE_READABLE_OBJECT = UnblockingEchoMessageFactory.class.getName() + "_message_readable_object";
 
     @Override
     public MessageDecoder buildMessageDecoder(MessageContext context) {
         return (ctxt) -> {
             byte[] received_bytes = (byte[]) ctxt.get(MessageContext.INPUT_MESSAGE_BYTES);
-            String received_message =
-                new String(received_bytes , (String) ctxt.get(MessageContext.INPUT_MESSAGE_ENCODING));
+            String received_message = new String(received_bytes , (String) ctxt.get(MessageContext.INPUT_MESSAGE_ENCODING));
             ctxt.put(MessageContext.INPUT_MESSAGE_OBJECT , received_message);
             System.out.println("Decoder: " + received_message);
         };

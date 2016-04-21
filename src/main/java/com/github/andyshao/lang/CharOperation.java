@@ -18,8 +18,7 @@ public class CharOperation {
     }
 
     public static final char[] bitOxr(final char[] b1 , final char[] b2 , int size) {
-        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(2)) ,
-            ByteWrapper.CHAR_BYTE_WRAPPER);
+        return ByteOperation.bitOxr(b1 , b2 , BigInteger.valueOf(size).multiply(BigInteger.valueOf(2)) , ByteWrapper.CHAR_BYTE_WRAPPER);
     }
 
     public static final char[] bitRotLeft(int count , final char[] array) {

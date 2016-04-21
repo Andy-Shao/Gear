@@ -26,8 +26,7 @@ public class LongCharWrapper implements CharWrapper<long[]> {
     public void setChar(long[] array , BigInteger position , char c) {
         BigInteger indexs[] = position.divideAndRemainder(LongCharWrapper.BASE);
         if (indexs[1].intValue() < 0) throw new ArrayIndexOutOfBoundsException(position.toString());
-        array[indexs[0].intValue()] =
-            LongOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
+        array[indexs[0].intValue()] = LongOperation.setShort(array[indexs[0].intValue()] , indexs[1].intValue() , (short) c);
     }
 
     @Override
