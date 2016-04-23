@@ -40,7 +40,10 @@ public final class GenericInfo {
     static String[] splitScript(String script) {
         List<String> result = new ArrayList<>();
         while (true) {
-            int firstTail = script.indexOf(';');
+            script = script.trim();
+            if (script.length() == 0) break;
+            int firstTail = script.indexOf('>');
+            if (firstTail == -1) firstTail = script.indexOf(';');
             if (firstTail == script.length() - 1 || firstTail == -1) {
                 result.add(script);
                 break;
@@ -60,7 +63,7 @@ public final class GenericInfo {
     public boolean equals(Object obj) {
         if (obj instanceof GenericInfo) {
             GenericInfo that = (GenericInfo) obj;
-            return Objects.equals(this.isGeneiric , that.isGeneiric) && Objects.equals(this.componentTypes , that.componentTypes) && Objects.equals(this.declareType , that.declareType);
+            return Objects.equals(this.isGeneiric , that.isGeneiric) && Arrays.deepEquals(this.componentTypes , that.componentTypes) && Objects.equals(this.declareType , that.declareType);
         } else return false;
     }
 
