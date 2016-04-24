@@ -17,7 +17,7 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
-**What the updating in v3.3**
+**What the updating in v3.2.1**
 
 Adding get Generic Type ways<br>
 Adding isPrimitiveObject() and isPrimitiveType() in ClassOperation<br>
