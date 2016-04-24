@@ -1,5 +1,6 @@
 package com.github.andyshao.reflect;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +13,42 @@ import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
 import com.github.andyshao.reflect.annotation.Param;
 
-@Generic(isGeneric = true, componentTypes = "Ljava/lang/Object;")
+@Generic(isGeneric = true , componentTypes = "Ljava/lang/Object;")
 public class GenericTest<T> {
+    @Generic(isGeneric = true , componentTypes = { "Ljava/lang/String;" , "Ljava/lang/Object;" })
+    Map<String , Object> fieldDemo;
+
+    public void getClassGenericDefineTesting() {
+        GenericInfo genericInfo = ClassOperation.getClassGenericInfo(GenericTest.class);
+        Assert.assertThat(genericInfo.isGeneiric , Matchers.is(true));
+        Assert.assertThat(genericInfo.declareType == GenericTest.class , Matchers.is(true));
+        Assert.assertThat(genericInfo.componentTypes != null , Matchers.is(true));
+
+        GenericInfo[] infos = genericInfo.componentTypes;
+        Assert.assertThat(infos.length , Matchers.is(1));
+        Assert.assertThat(infos[0].isGeneiric , Matchers.is(false));
+        Assert.assertThat(infos[0].declareType == Object.class , Matchers.is(true));
+        Assert.assertThat(infos[0].componentTypes == null , Matchers.is(true));
+    }
+
+    @Test
+    public void getFieldGenericDefineTesting() {
+        Field field = FieldOperation.getDeclaredField(GenericTest.class , "fieldDemo");
+        GenericInfo genericInfo = FieldOperation.getFieldGenericInfo(field);
+        Assert.assertThat(genericInfo.isGeneiric , Matchers.is(true));
+        Assert.assertThat(genericInfo.declareType == Map.class , Matchers.is(true));
+        Assert.assertThat(genericInfo.componentTypes != null , Matchers.is(true));
+
+        GenericInfo[] infos = genericInfo.componentTypes;
+        Assert.assertThat(infos.length , Matchers.is(2));
+        Assert.assertThat(infos[0].isGeneiric , Matchers.is(false));
+        Assert.assertThat(infos[0].declareType == String.class , Matchers.is(true));
+        Assert.assertThat(infos[0].componentTypes == null , Matchers.is(true));
+        Assert.assertThat(infos[1].isGeneiric , Matchers.is(false));
+        Assert.assertThat(infos[1].declareType == Object.class , Matchers.is(true));
+        Assert.assertThat(infos[1].componentTypes == null , Matchers.is(true));
+    }
+
     public void
         listParam(@Param(value = "param" , genericInfo = @Generic(isGeneric = true , componentTypes = "Ljava/util/List;<Ljava/util/List;<Ljava/lang/String;>>") ) List<List<List<String>>> param) {
 
