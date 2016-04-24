@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2.1**
 
+cglib 3.2.1-&gt;3.2.2<br>
 Adding get Generic Type ways<br>
 Adding isPrimitiveObject() and isPrimitiveType() in ClassOperation<br>
 Adding getParamNamesByAnnotation() in ParameterOperation<br>
