@@ -17,6 +17,10 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the updating in v3.2.2**
+
+add -printChar in jar System<br>
+
 **What the updating in v3.2.1**
 
 cglib 3.2.1-&gt;3.2.2<br>

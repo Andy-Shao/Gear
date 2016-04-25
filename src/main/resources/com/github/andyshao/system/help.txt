@@ -29,3 +29,8 @@ DESCRIPTION
     -http show informations of HTTP
         java -jar GearXX.jar -http [--statusCode] show all HTTP status code informations
         java -jar GearXX.jar -http --statusCode [number] show [number] code HTTP status information
+    
+    -printChar show char you want to
+        java -jar GearXX.jar -printChar [number] [number] show char from start to end (include end)
+        java -jar GearXX.jar -printChar [number] show char what you give
+        java -jar GearXX.jar -printChar show char from 'α' to 'ω' 
