@@ -1,9 +1,21 @@
 package com.github.andyshao.reflect;
 
+import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import org.objectweb.asm.ClassReader;
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+
+import com.github.andyshao.asm.TypeOperation;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
+import com.github.andyshao.util.CollectionOperation;
 
 /**
  * 
@@ -16,6 +28,13 @@ import com.github.andyshao.reflect.annotation.MethodInfo;
  *
  */
 public final class MethodOperation {
+    public static Method[] getAllMethods(Class<?> clazz) {
+        Set<Method> result = new HashSet<Method>();
+        CollectionOperation.addAll(result , clazz.getMethods());
+        CollectionOperation.addAll(result , clazz.getDeclaredMethods());
+        return result.toArray(new Method[result.size()]);
+    }
+
     /**
      * 
      * @param clazz the type of class

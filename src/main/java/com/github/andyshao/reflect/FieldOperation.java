@@ -2,8 +2,11 @@ package com.github.andyshao.reflect;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.github.andyshao.reflect.annotation.Generic;
+import com.github.andyshao.util.CollectionOperation;
 
 /**
  * 
@@ -16,6 +19,13 @@ import com.github.andyshao.reflect.annotation.Generic;
  *
  */
 public final class FieldOperation {
+    public static Field[] getAllField(Class<?> clazz) {
+        Set<Field> result = new HashSet<>();
+        CollectionOperation.addAll(result , clazz.getFields());
+        CollectionOperation.addAll(result , clazz.getDeclaredFields());
+        return result.toArray(new Field[result.size()]);
+    }
+
     /**
      * 
      * @param clazz the type of class

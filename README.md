@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2.2**
 
+add -classPrint in jar System<br>
 add -search in jar System<br>
 add -printChar in jar System<br>
 
