@@ -1,10 +1,21 @@
 package com.github.andyshao.reflect;
 
+import java.nio.file.Paths;
+
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
+import com.github.andyshao.lang.GeneralSystemProperty;
+
 public class PackageOperationTest {
+
+    @Test
+    public void testGetClassByJarPath() {
+        String jarPath = GeneralSystemProperty.JAVA_HOME.value() + "/lib/rt.jar";
+        String[] classes = PackageOperation.getClasses(Paths.get(jarPath));
+        Assert.assertThat(ArrayOperation.indexOf(classes , "java.lang.String") != -1 , Matchers.is(true));
+    }
 
     @Test
     public void testGetPackageClasses() {

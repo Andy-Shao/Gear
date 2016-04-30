@@ -34,3 +34,6 @@ DESCRIPTION
         java -jar GearXX.jar -printChar [number] [number] show char from start to end (include end)
         java -jar GearXX.jar -printChar [number] show char what you give
         java -jar GearXX.jar -printChar show char from 'α' to 'ω' 
+    
+    -search search info 
+        java -jar GearXX.jar -search [regex] finding the location of the class which name match 'regex'
