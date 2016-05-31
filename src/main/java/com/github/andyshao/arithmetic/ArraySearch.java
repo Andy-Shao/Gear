@@ -1,6 +1,5 @@
 package com.github.andyshao.arithmetic;
 
-import java.lang.reflect.Array;
 import java.util.Comparator;
 
 import com.github.andyshao.lang.ArrayWrapper;
@@ -28,18 +27,18 @@ public final class ArraySearch {
      */
     public static final <ARRAY , DATA> int bisearch(ARRAY sorted , DATA target , Comparator<DATA> comparator) {
         final ArrayWrapper arrayWrapper = ArrayWrapper.wrap(sorted);
-        return bisearch(arrayWrapper , target , comparator);
+        return ArraySearch.bisearch(arrayWrapper , target , comparator);
     }
-    
+
     @SuppressWarnings("unchecked")
-    public static final <DATA> int bisearch(ArrayWrapper sorted, DATA target, Comparator<DATA> comparator){
+    public static final <DATA> int bisearch(ArrayWrapper sorted , DATA target , Comparator<DATA> comparator) {
         //Continue searching until the left and right indices cross.
         int left = 0;
         int right = sorted.length() - 1;
-        
+
         while (left <= right) {
             int middle = (left + right) / 2;
-            
+
             int compare = comparator.compare((DATA) sorted.get(middle) , target);
             //Prepare to search to the right of the middle index.
             if (compare < 0) left = middle + 1;
@@ -48,7 +47,7 @@ public final class ArraySearch {
             //Return the exact index where the data has been found.
             else return middle;
         }
-        
+
         //Return that the data was not found.
         return -1;
     }

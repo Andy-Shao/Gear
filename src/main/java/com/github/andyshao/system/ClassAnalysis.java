@@ -48,7 +48,7 @@ public class ClassAnalysis implements Task {
         } else {
             int i = 1;
             List<String> tmp = new ArrayList<>();
-            for ( ; i < args.length ; i++)
+            for (; i < args.length ; i++)
                 if (args[i].startsWith("--")) tmp.add(args[i]);
                 else break;
             clz = ClassOperation.forName(args[i]);
@@ -72,9 +72,9 @@ public class ClassAnalysis implements Task {
                     info.append(method.getName());
                     info.append('(');
                     Class<?>[] parameterTypes = method.getParameterTypes();
-                    for(int i = 0; i< parameterTypes.length; i++){
+                    for (int i = 0 ; i < parameterTypes.length ; i++) {
                         info.append(parameterTypes[i].getName());
-                        if(i != parameterTypes.length -1) info.append(',');
+                        if (i != parameterTypes.length - 1) info.append(',');
                     }
                     info.append(')');
                     info.append(';');
@@ -83,7 +83,7 @@ public class ClassAnalysis implements Task {
                 break;
             case FIELDS:
                 Field[] fields = FieldOperation.getAllField(clz);
-                for(Field field : fields){
+                for (Field field : fields) {
                     StringBuilder info = new StringBuilder();
                     final int modifiers = field.getModifiers();
                     if (Modifier.isPublic(modifiers)) info.append("public ");
@@ -102,13 +102,13 @@ public class ClassAnalysis implements Task {
             case CLASS: {
                 StringBuffer info = new StringBuffer();
                 final int modifers = clz.getModifiers();
-                if(Modifier.isPublic(modifers)) info.append("public ");
-                else if(Modifier.isPrivate(modifers)) info.append("private ");
-                else if(Modifier.isProtected(modifers)) info.append("protected ");
-                if(Modifier.isStatic(modifers)) info.append("static ");
-                if(Modifier.isFinal(modifers)) info.append("final ");
-                else if(Modifier.isAbstract(modifers)) info.append("abstract ");
-                if(clz.isInterface()) info.append("interface ");
+                if (Modifier.isPublic(modifers)) info.append("public ");
+                else if (Modifier.isPrivate(modifers)) info.append("private ");
+                else if (Modifier.isProtected(modifers)) info.append("protected ");
+                if (Modifier.isStatic(modifers)) info.append("static ");
+                if (Modifier.isFinal(modifers)) info.append("final ");
+                else if (Modifier.isAbstract(modifers)) info.append("abstract ");
+                if (clz.isInterface()) info.append("interface ");
                 else info.append("class ");
                 info.append(clz.getName());
                 info.append(';');

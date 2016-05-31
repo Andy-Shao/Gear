@@ -35,10 +35,9 @@ public class SearchTask implements Task {
         if (args.length < 2) throw new RuntimeException("args length is not enough");
         for (String className : PackageOperation.getClasses(Paths.get(GeneralSystemProperty.JAVA_HOME.value() , "lib" , "rt.jar")))
             if (className.matches(args[1])) System.out.println(className);
-        for (Package pkg : Package.getPackages()) {
-            for(String className : PackageOperation.getPackageClasseName(pkg))
-                if(className.matches(args[1])) System.out.println(className);
-        }
+        for (Package pkg : Package.getPackages())
+            for (String className : PackageOperation.getPackageClasseName(pkg))
+                if (className.matches(args[1])) System.out.println(className);
     }
 
     public void setNextTask(Task nextTask) {

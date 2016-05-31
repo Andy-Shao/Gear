@@ -139,25 +139,6 @@ public final class ArraySort {
         return array;
     }
 
-    public static final <DATA> ArrayWrapper mgsort(ArrayWrapper data , int start , int end , Comparator<DATA> comparator) {
-        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
-        //Stop the recursion when no more divisions can be made.
-        if (start < end - 1) {
-            int division;
-            //Determine where to divide the elements.
-            division = (start + end) / 2;
-
-            //Recursively sort the two divisions.
-            ArraySort.mgsort(data , start , division , comparator);
-            ArraySort.mgsort(data , division , end , comparator);
-
-            //Merge the two sorted divisions into a single sorted set.
-            ArraySort.merge(data , start , division - 1 , end , comparator);
-        }
-
-        return data;
-    }
-
     /**
      * Merge sort(归并排序)<br>
      * 归并排序在所有情况下都能达到快速排序的平均性能.必须要有两倍于无序数据集
@@ -175,7 +156,26 @@ public final class ArraySort {
     @SuppressWarnings("unchecked")
     public static final <ARRAY , DATA> ARRAY mgsort(ARRAY data , int start , int end , Comparator<DATA> comparator) {
         final ArrayWrapper arrayWrapper = ArrayWrapper.wrap(data);
-        return (ARRAY) mgsort(arrayWrapper , start , end , comparator).array();
+        return (ARRAY) ArraySort.mgsort(arrayWrapper , start , end , comparator).array();
+    }
+
+    public static final <DATA> ArrayWrapper mgsort(ArrayWrapper data , int start , int end , Comparator<DATA> comparator) {
+        if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        //Stop the recursion when no more divisions can be made.
+        if (start < end - 1) {
+            int division;
+            //Determine where to divide the elements.
+            division = (start + end) / 2;
+
+            //Recursively sort the two divisions.
+            ArraySort.mgsort(data , start , division , comparator);
+            ArraySort.mgsort(data , division , end , comparator);
+
+            //Merge the two sorted divisions into a single sorted set.
+            ArraySort.merge(data , start , division - 1 , end , comparator);
+        }
+
+        return data;
     }
 
     @SuppressWarnings("unchecked")
@@ -221,23 +221,6 @@ public final class ArraySort {
         return tail;
     }
 
-    public static final <DATA> ArrayWrapper qksort(final ArrayWrapper array , int start , int end , Comparator<DATA> comparator) {
-        if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
-        //Stop the recursion when it is not possible to partition further.
-        while (start < end - 1) {
-            int index = 0;
-            //Determine where to partition the elements.
-            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new SortException();
-
-            //Recursively sort the left partition.
-            ArraySort.qksort(array , start , ++index , comparator);
-
-            //Iterate and sort the right partition.
-            start = index;
-        }
-        return array;
-    }
-
     /**
      * quick sort(快速排序)
      * 
@@ -254,7 +237,24 @@ public final class ArraySort {
     @SuppressWarnings("unchecked")
     public static final <ARRAY , DATA> ARRAY qksort(final ARRAY array , int start , int end , Comparator<DATA> comparator) {
         final ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
-        return (ARRAY) qksort(arrayWrapper , start , end , comparator).array();
+        return (ARRAY) ArraySort.qksort(arrayWrapper , start , end , comparator).array();
+    }
+
+    public static final <DATA> ArrayWrapper qksort(final ArrayWrapper array , int start , int end , Comparator<DATA> comparator) {
+        if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
+        //Stop the recursion when it is not possible to partition further.
+        while (start < end - 1) {
+            int index = 0;
+            //Determine where to partition the elements.
+            if ((index = ArraySort.partition(array , start , end , comparator)) < 0) throw new SortException();
+
+            //Recursively sort the left partition.
+            ArraySort.qksort(array , start , ++index , comparator);
+
+            //Iterate and sort the right partition.
+            start = index;
+        }
+        return array;
     }
 
     /**
@@ -277,9 +277,9 @@ public final class ArraySort {
     @SuppressWarnings("unchecked")
     public static final <ARRAY , DATA> ARRAY rxsort(ARRAY array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
         final ArrayWrapper arrayWrapper = ArrayWrapper.wrap(array);
-        return (ARRAY) rxsort(arrayWrapper , convert , p , k , start , end).array();
+        return (ARRAY) ArraySort.rxsort(arrayWrapper , convert , p , k , start , end).array();
     }
-    
+
     @SuppressWarnings("unchecked")
     public static final <DATA> ArrayWrapper rxsort(ArrayWrapper array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
         if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);

@@ -58,7 +58,7 @@ public interface Heap<D> extends Cleanable {
                 //Select the child to swap with the current node.
                 lpos = Heap.left(ipos);
                 rpos = Heap.right(ipos);
-                
+
                 if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) mpos = lpos;
                 else mpos = ipos;
 
