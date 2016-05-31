@@ -53,14 +53,12 @@ public interface Heap<D> extends Cleanable {
 
             //Heapify the tree by pushing the contents of the new top downward.
             ipos = 0;
-            lpos = Heap.left(ipos);
-            rpos = Heap.right(ipos);
 
             while (true) {
                 //Select the child to swap with the current node.
                 lpos = Heap.left(ipos);
                 rpos = Heap.right(ipos);
-
+                
                 if (lpos < this.size() && this.comparator.compare(this.tree.get(lpos) , this.tree.get(ipos)) < 0) mpos = lpos;
                 else mpos = ipos;
 
