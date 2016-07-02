@@ -1,6 +1,6 @@
 package com.github.andyshao.io;
 
-import java.util.Map;
+import java.util.concurrent.ConcurrentMap;
 
 import com.github.andyshao.lang.GeneralSystemProperty;
 
@@ -14,7 +14,7 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  * @author Andy.Shao
  *
  */
-public interface MessageContext extends Map<String , Object> {
+public interface MessageContext extends ConcurrentMap<String , Object> {
     public static final String INPUT_MESSAGE_BYTES = "input_message_bytes";
     public static final String INPUT_MESSAGE_ENCODING = "input_message_encoding";
     public static final String INPUT_MESSAGE_OBJECT = "input_message_object";

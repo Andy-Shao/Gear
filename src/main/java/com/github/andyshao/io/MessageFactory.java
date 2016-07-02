@@ -1,9 +1,10 @@
 package com.github.andyshao.io;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 
@@ -24,7 +25,7 @@ public interface MessageFactory {
      */
     public default MessageContext buildMessageContext() {
         MessageContext context = new MessageContext() {
-            private final Map<String , Object> map = new HashMap<>();
+            private final ConcurrentMap<String , Object> map = new ConcurrentHashMap<>();
 
             @Override
             public void clear() {
@@ -72,8 +73,28 @@ public interface MessageFactory {
             }
 
             @Override
+            public Object putIfAbsent(String key , Object value) {
+                return this.map.putIfAbsent(key , value);
+            }
+
+            @Override
             public Object remove(Object key) {
                 return this.map.remove(key);
+            }
+
+            @Override
+            public boolean remove(Object key , Object value) {
+                return this.map.remove(key , value);
+            }
+
+            @Override
+            public Object replace(String key , Object value) {
+                return this.map.replace(key , value);
+            }
+
+            @Override
+            public boolean replace(String key , Object oldValue , Object newValue) {
+                return this.map.replace(key , oldValue , newValue);
             }
 
             @Override
