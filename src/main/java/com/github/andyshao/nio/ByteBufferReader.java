@@ -57,7 +57,6 @@ public class ByteBufferReader implements BufferReader<byte[]> {
         }
     };
     private volatile boolean hasNext = true;
-    private int mark = 0;
 
     /**
      * Create the {@link ByteBufferReader}<br>
@@ -115,35 +114,52 @@ public class ByteBufferReader implements BufferReader<byte[]> {
         READ: while (this.channel.read(this.buffer) != -1) {
             ByteBuffer temp = this.buffer.asReadOnlyBuffer();
             temp.limit(temp.position());
-            temp.position(this.mark);
+            temp.position(0);
             BufferReader.SeparatePoint point = this.findSeparatePoint.apply(temp);
             if (point.getSeparatePoint() == -1) {
                 if (this.buffer.hasRemaining()) continue READ;
-                else if (this.mark == 0) {
-                    if (this.bufferSize == Integer.MAX_VALUE) throw new BufferReaderException("The byteBuffer is overflow");
-                    this.bufferSize = (this.bufferSize << 1) > 0 ? this.bufferSize << 1 : Integer.MAX_VALUE;
-                    byte[] remaning = ByteBufferOperation.usedArray(temp);
-                    this.buffer = ByteBuffer.allocate(this.bufferSize);
-                    this.buffer.put(remaning);
-                    continue READ;
-                } else {
-                    byte[] remaining = ByteBufferOperation.usedArray(temp);
-                    this.buffer.clear();
-                    this.buffer.put(remaining);
-                    this.mark = 0;
-                    continue READ;
-                }
+                if (this.bufferSize == Integer.MAX_VALUE) throw new BufferReaderException("the byteBuffer is overflow");
+                this.bufferSize = (this.bufferSize << 1) > 0 ? this.bufferSize << 1 : Integer.MAX_VALUE;
+                byte[] remaining = ByteBufferOperation.usedArray(temp);
+                this.buffer = ByteBuffer.allocate(this.bufferSize);
+                this.buffer.put(remaining);
+                continue READ;
             } else {
+                final int limit = temp.limit();
                 temp.limit(point.getSeparatePoint());
-                this.mark = point.getNextStartSit();
-                return ByteBufferOperation.usedArray(temp);
+                byte[] result = ByteBufferOperation.usedArray(temp);
+                temp.limit(limit);
+                temp.position(point.getNextStartSit() > limit ? limit : point.getNextStartSit());
+                byte[] remaining = ByteBufferOperation.usedArray(temp);
+                this.buffer.clear();
+                this.buffer.put(remaining);
+                return result;
             }
         }
-        this.hasNext = false;
-        if (this.buffer.position() == 0) return null;
-        this.buffer.limit(this.buffer.position());
-        this.buffer.position(this.mark);
-        return ByteBufferOperation.usedArray(this.buffer);
+        if (this.buffer.position() != 0) {
+            ByteBuffer temp = this.buffer.asReadOnlyBuffer();
+            temp.limit(temp.position());
+            temp.position(0);
+            BufferReader.SeparatePoint point = this.findSeparatePoint.apply(temp);
+            if (point.getSeparatePoint() == -1) {
+                this.hasNext = false;
+                return ByteBufferOperation.usedArray(temp);
+            } else {
+                final int limit = temp.limit();
+                temp.limit(point.getSeparatePoint());
+                byte[] result = ByteBufferOperation.usedArray(temp);
+                temp.limit(limit);
+                temp.position(point.getNextStartSit() > limit ? limit : point.getNextStartSit());
+                byte[] remaining = ByteBufferOperation.usedArray(temp);
+                this.buffer.clear();
+                this.buffer.put(remaining);
+                return result;
+            }
+        } else {
+            this.hasNext = false;
+            return null;
+        }
+
     }
 
     /**
