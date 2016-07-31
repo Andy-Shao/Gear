@@ -71,6 +71,8 @@ public class ConvertTest {
 
         myFloat = Convert.OB_2_FLOAT.convert(bigDecimal);
         Assert.assertThat(myFloat , Matchers.is(f));
+        
+        Assert.assertThat(Convert.OB_2_FLOAT.convert(new Integer(25)) , Matchers.is(25f));
     }
 
     @Test

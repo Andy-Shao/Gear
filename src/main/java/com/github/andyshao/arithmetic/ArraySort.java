@@ -188,9 +188,7 @@ public final class ArraySort {
         r[0] = random.ints(start , tail).findFirst().getAsInt();
         r[1] = random.ints(start , tail).findFirst().getAsInt();
         r[2] = random.ints(start , tail).findFirst().getAsInt();
-        ArraySort.<int[] , Integer> issort(r , 0 , r.length , (i1 , i2) -> {
-            return Integer.compare(i1 , i2);
-        });
+        ArraySort.<int[] , Integer> issort(r , 0 , r.length , (i1 , i2) -> Integer.compare(i1 , i2));
         DATA pval = (DATA) array.get(r[1]);
 
         //Create two partitions around the partition value.
