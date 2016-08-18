@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Objects;
 
 /**
@@ -31,6 +33,14 @@ public interface Convert<IN , OUT> {
     };
     public static final Convert<String , Byte[]> HEX_2_BYTES = new ConvertStr2Byte();
     public static final Convert<String , byte[]> HEX_TO_BYTES = (String in) -> ConvertStr2Byte.hexStringTobytes(in);
+    public static final Convert<Object , BigDecimal> OB_2_BDECIMAL = in -> {
+        String str = Convert.OB_2_STR.convert(in);
+        return str == null ? null : new BigDecimal(str);
+    };
+    public static final Convert<Object , BigInteger> OB_2_BINT = in -> {
+        String str = Convert.OB_2_STR.convert(in);
+        return str == null ? null : new BigInteger(str);
+    };
     public static final Convert<Object , Boolean> OB_2_BOOLEAN = (Object in) -> {
         String str = Convert.OB_2_STR.convert(in);
         return str == null ? null : Boolean.valueOf(str);

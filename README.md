@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2.3**
 
+Convert interface add OB_2_BINT and OB_2_BDECIMAL<br>
 CGlib move to 3.2.4<br>
 fix bug in ByteBufferReader<br>
 
