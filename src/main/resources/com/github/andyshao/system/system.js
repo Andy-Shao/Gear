@@ -12,6 +12,7 @@ var HttpTask = Java.type(System_Package_Name + ".HttpTask");
 var PrintChar = Java.type(System_Package_Name + ".PrintChar");
 var SearchTask = Java.type(System_Package_Name + ".SearchTask");
 var ClassAnalysis = Java.type(System_Package_Name + ".ClassAnalysis");
+var EnvironmentTask = Java.type(System_Package_Name + ".EnvironmentTask");
 
 //setNextTask
 function setNextTask(head, tail){
@@ -31,5 +32,6 @@ tail = setNextTask(tail, new HttpTask());
 tail = setNextTask(tail, new PrintChar());
 tail = setNextTask(tail, new SearchTask());
 tail = setNextTask(tail, new ClassAnalysis());
+tail = setNextTask(tail, new EnvironmentTask());
 tail = setNextTask(tail, new NoMatchTask());
 tail.setNextTask(head);

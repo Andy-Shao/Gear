@@ -19,6 +19,9 @@ DESCRIPTION
 
     -sp show the java system properties
         java -jar GearXX.jar -sp|-sp [PROPERTY_NAME]
+    
+    -env show the system environment properties
+    	java -jar GearXX.jar -env|-env [PROPERTY_NAME]
 
     -jvm show the jvm information
         java -jar GearXX.jar -jvm [--args|] show the jvm args
