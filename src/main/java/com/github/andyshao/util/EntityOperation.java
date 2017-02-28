@@ -8,7 +8,16 @@ import java.util.Objects;
 
 import com.github.andyshao.reflect.FieldOperation;
 
-public final class ClassWrapper {
+/**
+ * 
+ * Title:object properties copy<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) 28 Feb 2017<br>
+ * Encoding:UNIX UTF-8
+ * @author Andy.Shao
+ *
+ */
+public final class EntityOperation {
 	public static interface FieldMapper<IN, OUT> {
 		List<FieldMatch> match(IN in, OUT out);
 	}
@@ -31,12 +40,12 @@ public final class ClassWrapper {
 		}
 	}
 	
-	public static interface WrapperCovert{
+	public static interface PropertyConvert{
 		Object covert(Object in, Class<?> inClazz, Class<?> outClazz);
 	}
 	
-	public static final <IN, OUT> void wrap(IN in, OUT out){
-		wrap(in, out, (input, output) -> {
+	public static final <IN, OUT> void copyProperties(IN in, OUT out){
+		copyProperties(in, out, (input, output) -> {
 			if(input == null || output == null) return Collections.emptyList();
 			if(input.getClass().isPrimitive() || output.getClass().isPrimitive()) return Collections.emptyList();
 			List<FieldMatch> result = new ArrayList<>();
@@ -53,11 +62,11 @@ public final class ClassWrapper {
 		});
 	}
 	
-	public static final <IN, OUT> void wrap(IN in, OUT out, FieldMapper<IN, OUT> fieldMapper){
-		wrap(in, out, fieldMapper, (input, inClazz, outClazz)->input);
+	public static final <IN, OUT> void copyProperties(IN in, OUT out, FieldMapper<IN, OUT> fieldMapper){
+		copyProperties(in, out, fieldMapper, (input, inClazz, outClazz)->input);
 	}
 	
-	public static final <IN,OUT> void wrap(IN in, OUT out, FieldMapper<IN, OUT> fieldMapper, WrapperCovert covert){
+	public static final <IN,OUT> void copyProperties(IN in, OUT out, FieldMapper<IN, OUT> fieldMapper, PropertyConvert covert){
 		List<FieldMatch> fieldMatchs = fieldMapper.match(in, out);
 		for(FieldMatch fieldMatch : fieldMatchs){
 			fieldMatch.inField.setAccessible(true);
@@ -67,8 +76,8 @@ public final class ClassWrapper {
 		}
 	}
 	
-	private ClassWrapper(){
-		throw new AssertionError("No " + ClassWrapper.class + " instance for you!");
+	private EntityOperation(){
+		throw new AssertionError("No " + EntityOperation.class + " instance for you!");
 	}
 
 }

@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2.3**
 
+Adding EntityOperation include -- copyProperties() method<br>
 Adding Number packaging<br>
 Adding -env command<br>
 Convert interface add OB_2_BINT and OB_2_BDECIMAL<br>
