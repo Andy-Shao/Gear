@@ -18,34 +18,70 @@ import com.github.andyshao.reflect.FieldOperation;
  *
  */
 public final class EntityOperation {
+    /**
+     * 
+     * Title: Field matching procession interface<br>
+     * Descript:<br>
+     * Copyright: Copryright(c) 28 Feb 2017<br>
+     * Encoding:UNIX UTF-8
+     * @author Andy.Shao
+     *
+     * @param <IN>
+     * @param <OUT>
+     */
 	public static interface FieldMapper<IN, OUT> {
 		List<FieldMatch> match(IN in, OUT out);
 	}
 	
+	/**
+	 * 
+	 * Title: Field matching definition<br>
+	 * Descript:<br>
+	 * Copyright: Copryright(c) 28 Feb 2017<br>
+	 * Encoding:UNIX UTF-8
+	 * @author Andy.Shao
+	 *
+	 */
 	public static class FieldMatch{
-		private Field inField;
-		private Field outField;
+		private Field resField;
+		private Field destField;
 		
-		public FieldMatch(Field inField, Field outField){
-			this.inField = inField;
-			this.outField = outField;
+		public FieldMatch(Field resField, Field destField){
+			this.resField = resField;
+			this.destField = destField;
 		}
 		
-		public void setInField(Field inField) {
-			this.inField = inField;
+		public void setResField(Field resField) {
+			this.resField = resField;
 		}
 		
-		public void setOutField(Field outField) {
-			this.outField = outField;
+		public void setDestField(Field destField) {
+			this.destField = destField;
 		}
 	}
 	
+	/**
+	 * 
+	 * Title: The property value convert interface<br>
+	 * Descript:<br>
+	 * Copyright: Copryright(c) 28 Feb 2017<br>
+	 * Encoding:UNIX UTF-8
+	 * @author Andy.Shao
+	 *
+	 */
 	public static interface PropertyConvert{
 		Object covert(Object in, Class<?> inClazz, Class<?> outClazz);
 	}
 	
-	public static final <IN, OUT> void copyProperties(IN in, OUT out){
-		copyProperties(in, out, (input, output) -> {
+	/**
+	 * copy properties
+	 * @param resource the object which should be copied
+	 * @param destination the object which should copy
+	 * @param <RES> resource type
+	 * @param <DEST> destionation type
+	 */
+	public static final <RES, DEST> void copyProperties(RES resource, DEST destination){
+		copyProperties(resource, destination, (input, output) -> {
 			if(input == null || output == null) return Collections.emptyList();
 			if(input.getClass().isPrimitive() || output.getClass().isPrimitive()) return Collections.emptyList();
 			List<FieldMatch> result = new ArrayList<>();
@@ -62,17 +98,34 @@ public final class EntityOperation {
 		});
 	}
 	
-	public static final <IN, OUT> void copyProperties(IN in, OUT out, FieldMapper<IN, OUT> fieldMapper){
-		copyProperties(in, out, fieldMapper, (input, inClazz, outClazz)->input);
+	/**
+	 * copy properties 
+	 * @param resource the object which should be copied
+	 * @param destination the object which should copy
+	 * @param fieldMapper the field matching definition interface
+	 * @param <RES> resource type
+	 * @param <DEST> destination type
+	 */
+	public static final <RES, DEST> void copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper){
+		copyProperties(resource, destination, fieldMapper, (input, inClazz, outClazz)->input);
 	}
 	
-	public static final <IN,OUT> void copyProperties(IN in, OUT out, FieldMapper<IN, OUT> fieldMapper, PropertyConvert covert){
-		List<FieldMatch> fieldMatchs = fieldMapper.match(in, out);
+	/**
+	 * copy properties
+	 * @param resource the object which should be copied
+	 * @param destination the object which should copy
+	 * @param fieldMapper the field matching definition interface
+	 * @param covert the properties convert
+	 * @param <RES> resource type
+	 * @param <DEST> destination type
+	 */
+	public static final <RES,DEST> void copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper, PropertyConvert covert){
+		List<FieldMatch> fieldMatchs = fieldMapper.match(resource, destination);
 		for(FieldMatch fieldMatch : fieldMatchs){
-			fieldMatch.inField.setAccessible(true);
-			fieldMatch.outField.setAccessible(true);
-			Object inValue = FieldOperation.getFieldValue(in, fieldMatch.inField);
-			FieldOperation.setFieldValue(out, fieldMatch.outField, covert.covert(inValue, fieldMatch.inField.getType(), fieldMatch.outField.getType()));
+			fieldMatch.resField.setAccessible(true);
+			fieldMatch.destField.setAccessible(true);
+			Object inValue = FieldOperation.getFieldValue(resource, fieldMatch.resField);
+			FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 		}
 	}
 	
