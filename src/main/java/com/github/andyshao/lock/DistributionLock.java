@@ -10,5 +10,11 @@ package com.github.andyshao.lock;
  *
  */
 public interface DistributionLock {
-
+    void unlock();
+    void lock();
+    void lock(ExpireMode mode, int times);
+    void lockInterruptibly() throws InterruptedException;
+    void lockInterruptibly(ExpireMode mode, int times) throws InterruptedException;
+    boolean tryLock();
+    boolean tryLock(ExpireMode mode, int times);
 }
