@@ -10,7 +10,7 @@ package com.github.andyshao.lock;
  *
  */
 public interface RepeatCheck {
-    boolean check(String uniqueKey, ExpireMode mode, int times);
-    boolean check(String uniqueKey);
+    boolean isRepeat(String uniqueKey, ExpireMode mode, int times);
+    boolean isRepeat(String uniqueKey);
     DistributionLock repeatCheckLock(String uniqueKey, ExpireMode mode, int times);
 }
