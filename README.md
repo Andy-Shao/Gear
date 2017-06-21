@@ -19,6 +19,7 @@ You could download from the maven repository, now!<br>
 ###############################################################################
 **What the updating in v3.2.3**
 
+Adding TimeClip<br>
 Adding distribution lock<br>
 Adding EntityOperation include -- copyProperties() method<br>
 Adding Number packaging<br>
