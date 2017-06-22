@@ -1,5 +1,7 @@
 package com.github.andyshao.lang.number;
 
+import com.github.andyshao.lang.Convert;
+
 /**
  * 
  * Title:<br>
@@ -9,9 +11,10 @@ package com.github.andyshao.lang.number;
  * @author Andy.Shao
  *
  */
-public interface ByteSize {
+public interface ByteSize extends Convert<String , ByteSize>{
     int RANGE_SIZE = 1024;
     void setSize(long l, ByteLevel level);
     long getSize(ByteLevel level);
     long getSize();
+    ByteLevel getLevel();
 }

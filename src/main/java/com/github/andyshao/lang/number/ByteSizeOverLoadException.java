@@ -9,17 +9,17 @@ package com.github.andyshao.lang.number;
  * @author Andy.Shao
  *
  */
-public class ByteSizeOverException extends RuntimeException {
+public class ByteSizeOverLoadException extends RuntimeException {
     private static final long serialVersionUID = -9061320579451877325L;
-    public ByteSizeOverException(String message) {
+    public ByteSizeOverLoadException(String message) {
         super(message);
     }
-    public ByteSizeOverException(Throwable e) {
+    public ByteSizeOverLoadException(Throwable e) {
         super(e);
     }
-    public ByteSizeOverException(String message, Throwable e) {
+    public ByteSizeOverLoadException(String message, Throwable e) {
         super(message, e);
     }
-    public ByteSizeOverException() {
+    public ByteSizeOverLoadException() {
     }
 }

@@ -10,12 +10,17 @@ package com.github.andyshao.lang.number;
  *
  */
 public enum ByteLevel {
-    BYTE(0),KB(1),MB(2),GB(3),TB(4);
+    BYTE(0, "B"),KB(1, "KB"),MB(2, "MB"),GB(3, "GB"),TB(4, "TB");
     private int level;
-    private ByteLevel(int level) {
+    private String tag;
+    private ByteLevel(int level, String tag) {
         this.level = level;
+        this.tag = tag;
     }
     public int getLevel() {
         return this.level;
+    }
+    public String getTag() {
+        return this.tag;
     }
 }
