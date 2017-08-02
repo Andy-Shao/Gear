@@ -1,6 +1,7 @@
 package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -40,7 +41,40 @@ public final class ArrayOperation {
             map.put(convertK.convert(array[0]) , convertV.convert(array[1]));
         return map;
     }
+    
+    public static <T> Iterable<T> iterable(final T[] array) {
+        return () -> new Iterator<T>() {
+            private int index = 0;
 
+            @Override
+            public boolean hasNext() {
+                return array.length > index;
+            }
+
+            @Override
+            public T next() {
+                return array[index++];
+            }
+        };
+    }
+    
+    public static <T> Iterable<T> iterable(ArrayWrapper array) {
+        return () -> new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return array.capacity() > index;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public T next() {
+                return (T) array.get(index++);
+            }
+        };
+    }
+    
     /**
      * flip array
      * 
