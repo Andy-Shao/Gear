@@ -32,8 +32,8 @@ Java启动参数共分为三类；
 
 
 -XX:MaxDirectMemorySize=10M     直接内存容量为10M
--XX:PermSize=10 方法区的默认大小
--XX:MaxPermSize 方法区的最大大小
+-XX:PermSize=120M 方法区的默认大小
+-XX:MaxPermSize=120M 方法区的最大大小
 -XX:SurvivorRatio=8     决定了新生代中Eden区与一个Survivor区的空间比例是8比1
 -XX:+PrintGCDetails     告诉虚拟机在发生垃圾收集行为时打印内存回收日志，并且在进程退出的时候输出当前内存各区域的分配情况。
 

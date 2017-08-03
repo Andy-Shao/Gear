@@ -26,8 +26,8 @@ public final class EntityOperation {
      * Encoding:UNIX UTF-8
      * @author Andy.Shao
      *
-     * @param <IN>
-     * @param <OUT>
+     * @param <IN> input args
+     * @param <OUT> outpu args
      */
 	public static interface FieldMapper<IN, OUT> {
 		List<FieldMatch> match(IN in, OUT out);

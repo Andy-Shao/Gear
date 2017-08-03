@@ -1,6 +1,7 @@
 package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
@@ -200,6 +201,52 @@ public final class ArrayOperation {
      */
     public static <T> boolean isEmpty(T array , int index) {
         return ArrayOperation.isAbove(array , index) ? false : Array.get(array , index) == null;
+    }
+
+    /**
+     * create a {@link Iterable} object for {@link ArrayWrapper}
+     * 
+     * @param array the type of array
+     * @return a {@link Iterable}
+     */
+    public static <T> Iterable<T> iterable(ArrayWrapper array) {
+        return () -> new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return array.capacity() > this.index;
+            }
+
+            @SuppressWarnings("unchecked")
+            @Override
+            public T next() {
+                return (T) array.get(this.index++);
+            }
+        };
+    }
+
+    /**
+     * create a {@link Iterable} object for T[]
+     * 
+     * @param array input array
+     * @param <T> array type
+     * @return a {@link Iterable}
+     */
+    public static <T> Iterable<T> iterable(final T[] array) {
+        return () -> new Iterator<T>() {
+            private int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                return array.length > this.index;
+            }
+
+            @Override
+            public T next() {
+                return array[this.index++];
+            }
+        };
     }
 
     /**
