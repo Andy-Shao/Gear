@@ -17,6 +17,10 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
+**What the updating in v3.2.4**
+CGlib from 3.2.4 to 3.2.5<br>
+asm-all from 5.1 to 5.2<br>
+
 **What the updating in v3.2.3**
 
 Adding ByteSize<br>
