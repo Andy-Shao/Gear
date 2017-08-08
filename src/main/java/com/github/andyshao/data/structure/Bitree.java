@@ -222,14 +222,17 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
     }
 
     public static <DATA> Collection<DATA> inorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
+        inorder(node , item -> result.add(item.data()));
+        return result;
+    }
+    
+    public static <DATA> void inorder(final BitreeNode<DATA> node, Consumer<BitreeNode<DATA>> consumer) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.isEob(node)) {
-            if (!Bitree.isEob(node.left())) Bitree.inorder(node.left() , result);
-            result.add(node.data());
-            if (!Bitree.isEob(node.right())) Bitree.inorder(node.right() , result);
+            if (!Bitree.isEob(node.left())) Bitree.inorder(node.left() , consumer);
+            consumer.accept(node);
+            if (!Bitree.isEob(node.right())) Bitree.inorder(node.right() , consumer);
         }
-
-        return result;
     }
 
     public static <DATA> boolean isEob(BitreeNode<DATA> node) {
@@ -241,38 +244,26 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
     }
 
     public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
-        //Load the list with an inorder listing of the tree.
-        if (!Bitree.isEob(node)) {
-            if (!Bitree.isEob(node.left())) Bitree.postorder(node.left() , result);
-            if (!Bitree.isEob(node.right())) Bitree.postorder(node.right() , result);
-            result.add(node.data());
-        }
-
+        postorder(node , item -> result.add(item.data()));
         return result;
     }
 
-    public static <DATA> void postorder(final BitreeNode<DATA> node , Consumer<DATA> consumer) {
+    public static <DATA> void postorder(final BitreeNode<DATA> node , Consumer<BitreeNode<DATA>> consumer) {
         if (!Bitree.isEob(node)) {
-            if (!Bitree.isEob(node.left())) Bitree.postorder(node , consumer);
-            if (!Bitree.isEob(node.right())) Bitree.postorder(node , consumer);
-            consumer.accept(node.data());
+            if (!Bitree.isEob(node.left())) Bitree.postorder(node.left() , consumer);
+            if (!Bitree.isEob(node.right())) Bitree.postorder(node.right() , consumer);
+            consumer.accept(node);
         }
     }
-
+    
     public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
-        //Load the list with a preorder listing of the tree.
-        if (!Bitree.isEob(node)) {
-            result.add(node.data());
-            if (!Bitree.isEob(node.left())) Bitree.preorder(node.left() , result);
-            if (!Bitree.isEob(node.right())) Bitree.preorder(node.right() , result);
-        }
-
+        preorder(node , item -> result.add(item.data()));
         return result;
     }
 
-    public static <DATA> void preorder(BitreeNode<DATA> node , Consumer<DATA> consumer) {
+    public static <DATA> void preorder(BitreeNode<DATA> node , Consumer<BitreeNode<DATA>> consumer) {
         if (!Bitree.isEob(node)) {
-            consumer.accept(node.data());
+            consumer.accept(node);
             if (!Bitree.isEob(node.left())) Bitree.preorder(node.left() , consumer);
             if (!Bitree.isEob(node.right())) Bitree.preorder(node.right() , consumer);
         }
