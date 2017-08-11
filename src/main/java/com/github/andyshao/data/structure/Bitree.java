@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.data.structure.Tree.TreeNode;
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -17,13 +19,14 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <D> data
  */
-public interface Bitree<D> extends Cleanable , Tree<D> {
-    public interface BitreeNode<DATA> {
+public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
+    public interface BitreeNode<DATA> extends TreeNode<DATA>{
         public static <D> BitreeNode<D> defaultBitreeNode() {
             return new BitreeNode<D>() {
                 private D data;
                 private BitreeNode<D> left;
                 private BitreeNode<D> right;
+                private BitreeNode<D> parent;
 
                 @Override
                 public D data() {
@@ -54,6 +57,16 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
                 public void right(BitreeNode<D> right) {
                     this.right = right;
                 }
+
+                @Override
+                public BitreeNode<D> parent() {
+                    return this.parent;
+                }
+
+                @Override
+                public void parent(BitreeNode<D> parent) {
+                    this.parent = parent;
+                }
             };
         }
 
@@ -68,6 +81,8 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
         public BitreeNode<DATA> right();
 
         public void right(BitreeNode<DATA> right);
+        public BitreeNode<DATA> parent();
+        public void parent(BitreeNode<DATA> parent);
     }
 
     public class MyBitree<DATA> implements Bitree<DATA> {
@@ -126,7 +141,10 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
             new_node.left(null);
             new_node.right(null);
             if (node == null) this.root = new_node;
-            else node.left(new_node);
+            else {
+                node.left(new_node);
+                new_node.parent(node);
+            }
 
             //Adjust the size of the tree to account for the inserted node.
             this.size++;
@@ -148,7 +166,10 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
             new_node.left(null);
             new_node.right(null);
             if (node == null) this.root = new_node;
-            else node.right(new_node);
+            else {
+                node.right(new_node);
+                new_node.parent(node);
+            }
 
             //Adjust the size of the tree to account for the inserted node.
             this.size++;
@@ -172,6 +193,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
                 this.remRight(position);
                 if (node == null) this.root = null;
                 else node.left(null);
+                position.parent(null);
             }
 
             //Adjust the size of the tree to account for the removed node.
@@ -195,6 +217,7 @@ public interface Bitree<D> extends Cleanable , Tree<D> {
                 this.remRight(position.right());
                 if (node == null) this.root = null;
                 else node.right(null);
+                position.parent(null);
             }
 
             //Adjust the size of the tree to account for the removed node.

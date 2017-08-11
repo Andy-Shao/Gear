@@ -97,7 +97,7 @@ public class BitreeTest {
 
         left.insLeft(null , "left");
         right.insLeft(null , "right");
-        Tree<String> bitree = this.bitree.bitreeMeger(left , right , "root");
+        Tree<String , BitreeNode<String>> bitree = this.bitree.bitreeMeger(left , right , "root");
 
         Assert.assertThat(bitree.size() , Matchers.is(3));
         Assert.assertThat(bitree.root().data() , Matchers.is("root"));

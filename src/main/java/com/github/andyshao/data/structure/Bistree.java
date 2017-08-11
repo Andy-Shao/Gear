@@ -3,6 +3,7 @@ package com.github.andyshao.data.structure;
 import java.util.Comparator;
 
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.data.structure.Tree.TreeNode;
 import com.github.andyshao.lang.Cleanable;
 
 /**
@@ -16,8 +17,8 @@ import com.github.andyshao.lang.Cleanable;
  *
  * @param <DATA> data
  */
-public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
-    public interface AvlNode<D> {
+public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,BitreeNode<Bistree.AvlNode<DATA>>> {
+    public interface AvlNode<D> extends TreeNode<D>{
         public static <DATA> AvlNode<DATA> defaultAvlNode() {
             return new AvlNode<DATA>() {
                 private volatile DATA data;
@@ -30,7 +31,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                 }
 
                 @Override
-                public void date(DATA data) {
+                public void data(DATA data) {
                     this.data = data;
                 }
 
@@ -58,7 +59,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
         public D data();
 
-        public void date(D data);
+        public void data(D data);
 
         public int factor();
 
@@ -152,7 +153,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
                 avl_data.factor(Bistree.AVL_BALANCED);
                 avl_data.hidden(false);
-                avl_data.date(data);
+                avl_data.data(data);
 
                 result.balance = 1;
                 result.elmt = this.bitree.insLeft(node , avl_data);
@@ -168,7 +169,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
                         avl_data.factor(Bistree.AVL_BALANCED);
                         avl_data.hidden(false);
-                        avl_data.date(data);
+                        avl_data.data(data);
 
                         result.elmt = this.bitree.insLeft(node , avl_data);
                         result.balance = 0;
@@ -196,7 +197,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
 
                         avl_data.factor(Bistree.AVL_BALANCED);
                         avl_data.hidden(false);
-                        avl_data.date(data);
+                        avl_data.data(data);
 
                         result.elmt = this.bitree.insRight(node , avl_data);
                         result.balance = 0;
@@ -219,7 +220,7 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>> {
                 //Do nothing since the data is in the tree and not hidden.
                 if (node.data().hidden()) {
                     //Insert the new data and mark it as not hidden.
-                    node.data().date(data);
+                    node.data().data(data);
                     node.data().hidden(false);
 
                     //Do not rebalance because the tree structure is unchanged.
