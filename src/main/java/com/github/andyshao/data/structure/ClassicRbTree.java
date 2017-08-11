@@ -87,14 +87,13 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
     }
     
     @Override
-    public V add(K key, V value) {
+    public void add(K key, V value) {
         RbTreeNode<K , V> newNode = this.nodeFactory.get();
         newNode.color(NodeColor.RED);
         newNode.key(key);
         newNode.value(value);
         BitreeNode<RbTreeNode<K , V>> newBn = add(this.root(), newNode);
         // TODO Auto-generated method stub
-        return null;
     }
 
     private BitreeNode<RbTreeNode<K , V>> add(BitreeNode<RbTreeNode<K , V>> bn , RbTreeNode<K , V> newNode) {

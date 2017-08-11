@@ -28,6 +28,6 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
     }
     
     public BitreeNode<RbTreeNode<K , V>> find(K key);
-    public V add(K key, V value);
+    public void add(K key, V value);
     public void remove(K key);
 }
