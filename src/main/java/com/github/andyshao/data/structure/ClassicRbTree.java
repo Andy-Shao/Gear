@@ -23,41 +23,7 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
         this.nodeFactory = nodeFactory;
     }
     public ClassicRbTree() {
-        this(Bitree.defaultBitTree(), () -> new RbTreeNode<K , V>() {
-            private NodeColor color;
-            private K key;
-            private V value;
-
-            @Override
-            public com.github.andyshao.data.structure.RbTree.NodeColor color() {
-                return this.color;
-            }
-
-            @Override
-            public void color(com.github.andyshao.data.structure.RbTree.NodeColor color) {
-                this.color = color;
-            }
-
-            @Override
-            public K key() {
-                return this.key;
-            }
-
-            @Override
-            public void key(K data) {
-                this.key = data;
-            }
-
-            @Override
-            public V value() {
-                return this.value;
-            }
-
-            @Override
-            public void value(V value) {
-                this.value = value;
-            }
-        });
+        this(Bitree.defaultBitTree(), RbTreeNode::defaultNode);
     }
 
     @Override

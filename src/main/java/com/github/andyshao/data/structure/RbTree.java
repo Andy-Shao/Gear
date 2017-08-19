@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.util.Objects;
+
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
 /**
@@ -18,9 +20,69 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
         public NodeColor color();
         public void color(NodeColor color);
         public KEY key();
-        public void key(KEY data);
+        public void key(KEY key);
         public VALUE value();
         public void value(VALUE value);
+        
+        public class MyRbTreeNode<K, V> implements RbTreeNode<K , V> {
+            
+            private NodeColor color;
+            private K key;
+            private V value;
+            
+            @Override
+            public NodeColor color() {
+                return this.color;
+            }
+            
+            @Override
+            public void color(NodeColor color) {
+                this.color = color;
+            }
+            
+            @Override
+            public K key() {
+                return this.key;
+            }
+            
+            @Override
+            public void key(K key) {
+                this.key = key;
+            }
+            
+            @Override
+            public V value() {
+                return this.value;
+            }
+            
+            @Override
+            public void value(V value) {
+                this.value = value;
+            }
+            
+            @SuppressWarnings("unchecked")
+            @Override
+            public boolean equals(Object obj) {
+                if(obj instanceof MyRbTreeNode) {
+                    MyRbTreeNode<K , V> that = (MyRbTreeNode<K , V>) obj;
+                    return Objects.equals(this.key , that.key);
+                } else return false;
+            }
+            
+            @Override
+            public int hashCode() {
+                return Objects.hashCode(this.key);
+            }
+            
+            @Override
+            public String toString() {
+                return "[" + this.key + "-" + this.value + ":" + this.color + "]";
+            }
+        }
+        
+        public static <K,V> RbTreeNode<K,V> defaultNode() {
+            return new MyRbTreeNode<K,V>();
+        }
     }
     
     public enum NodeColor {
