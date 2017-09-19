@@ -207,6 +207,7 @@ public final class ArrayOperation {
      * create a {@link Iterable} object for {@link ArrayWrapper}
      * 
      * @param array the type of array
+     * @param <T> type of array item
      * @return a {@link Iterable}
      */
     public static <T> Iterable<T> iterable(ArrayWrapper array) {
