@@ -59,8 +59,7 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
         newNode.color(NodeColor.RED);
         newNode.key(key);
         newNode.value(value);
-//        BitreeNode<RbTreeNode<K , V>> newBn = add(this.root(), newNode);
-        // TODO Auto-generated method stub
+        addFixUp(this.biTree , add(this.root(), newNode));
     }
 
     BitreeNode<RbTreeNode<K , V>> add(BitreeNode<RbTreeNode<K , V>> bn , RbTreeNode<K , V> newNode) {
@@ -72,16 +71,16 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
                 bn.data().value(newNode.value());
                 return bn;
             } else {
-                BitreeNode<com.github.andyshao.data.structure.RbTree.RbTreeNode<K , V>> left = bn.left();
+                BitreeNode<RbTreeNode<K , V>> left = bn.left();
                 if(left != null) return add(left, newNode);
                 else return this.biTree.insLeft(bn , newNode);
             }
         } else if(comp < 0) {
-            BitreeNode<com.github.andyshao.data.structure.RbTree.RbTreeNode<K , V>> left = bn.left();
+            BitreeNode<RbTreeNode<K , V>> left = bn.left();
             if(left != null) return add(left, newNode);
             else return this.biTree.insLeft(bn , newNode);
         } else {
-            BitreeNode<com.github.andyshao.data.structure.RbTree.RbTreeNode<K , V>> right = bn.right();
+            BitreeNode<RbTreeNode<K , V>> right = bn.right();
             if(right != null) return add(right, newNode);
             else return this.biTree.insRight(bn , newNode);
         }
@@ -124,6 +123,7 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
     
     static final <KEY extends Comparable<KEY>, VALUE> void addFixUp(Bitree<RbTreeNode<KEY , VALUE>> t, BitreeNode<RbTreeNode<KEY , VALUE>> z) {
         while(z.parent() != null && z.parent().data().color() == NodeColor.RED) {
+            if(z.parent().parent() == null) break;
             if(z.parent() == z.parent().parent().left()) {
                 BitreeNode<RbTreeNode<KEY , VALUE>> y = z.parent().parent().right();
                 if(y.data().color() == NodeColor.RED) {
@@ -142,7 +142,7 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
                 //TODO
             }
         }
-        t.root().data().color(NodeColor.RED);
+        t.root().data().color(NodeColor.BLACK);
     }
     
     @Override
