@@ -234,6 +234,11 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
             return this.size;
         }
 
+        @Override
+        public void root(BitreeNode<DATA> node) {
+            this.root = node;
+        }
+
     }
 
     public static <DATA> Bitree<DATA> defaultBitTree() {
@@ -348,7 +353,7 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
 
     @Override
     public BitreeNode<D> root();
-
+    
     @Override
     public int size();
 }

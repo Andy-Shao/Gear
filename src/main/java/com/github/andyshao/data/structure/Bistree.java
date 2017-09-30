@@ -266,6 +266,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
             return this.bitree.size();
         }
 
+        @Override
+        public void root(BitreeNode<AvlNode<D>> node) {
+            this.bitree.root(node);
+        }
+
     }
 
     public class Ret<D> {

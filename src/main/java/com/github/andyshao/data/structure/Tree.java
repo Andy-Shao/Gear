@@ -11,6 +11,6 @@ public interface Tree<D,N extends Tree.TreeNode<D>> extends Cleanable {
     @Override
     public abstract void clear();
     public abstract N root();
+    public abstract void root(N node);
     public abstract int size();
-
 }
