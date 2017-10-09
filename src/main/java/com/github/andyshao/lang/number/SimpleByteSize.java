@@ -1,5 +1,7 @@
 package com.github.andyshao.lang.number;
 
+import java.io.Serializable;
+
 /**
  * 
  * Title:<br>
@@ -9,7 +11,8 @@ package com.github.andyshao.lang.number;
  * @author Andy.Shao
  *
  */
-public class SimpleByteSize implements ByteSize {
+public class SimpleByteSize implements ByteSize, Serializable {
+    private static final long serialVersionUID = 64729209707050872L;
     private long l = 0L;
     private ByteLevel level = ByteLevel.MB;
     
