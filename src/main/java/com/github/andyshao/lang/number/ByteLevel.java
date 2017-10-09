@@ -23,4 +23,20 @@ public enum ByteLevel {
     public String getTag() {
         return this.tag;
     }
+    public static final ByteLevel min(ByteLevel one, ByteLevel two) {
+        if(one == null && two != null) return two;
+        if(one != null && two == null) return one;
+        int oneLevel = one.getLevel();
+        int twoLevel = two.getLevel();
+        if(oneLevel > twoLevel) return two;
+        else return one;
+    }
+    public static final ByteLevel max(ByteLevel one, ByteLevel two) {
+        if(one == null && two != null) return two;
+        if(one != null && two == null) return one;
+        int oneLevel = one.getLevel();
+        int twoLevel = two.getLevel();
+        if(oneLevel > twoLevel) return one;
+        else return two;
+    }
 }

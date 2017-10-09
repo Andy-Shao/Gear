@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Andy.Shao
  *
  */
-public class SimpleByteSize implements ByteSize, Serializable {
+public class SimpleByteSize implements ByteSize, Serializable, Comparable<SimpleByteSize> {
     private static final long serialVersionUID = 64729209707050872L;
     private long l = 0L;
     private ByteLevel level = ByteLevel.MB;
@@ -111,6 +111,17 @@ public class SimpleByteSize implements ByteSize, Serializable {
     @Override
     public ByteLevel getLevel() {
         return this.level;
+    }
+
+    @Override
+    public int compareTo(SimpleByteSize that) {
+        if(that == null) return 1;
+        ByteLevel minLevel = ByteLevel.min(that.getLevel() , this.getLevel());
+        long thatSize = that.getSize(minLevel);
+        long thisSize = this.getSize(minLevel);
+        if(thisSize > thatSize) return 1;
+        else if(thisSize < thatSize) return -1;
+        else return 0;
     }
 
 }
