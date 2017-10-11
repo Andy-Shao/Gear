@@ -18,6 +18,7 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 **What the updating in v3.3.0**
+**What the updating in v3.2.4.RELEASE**
 Updating Bitree methods<br>
 CGlib from 3.2.4 to 3.2.5<br>
 asm-all from 5.1 to 5.2<br>
