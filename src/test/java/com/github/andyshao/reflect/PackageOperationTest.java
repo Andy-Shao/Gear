@@ -1,20 +1,24 @@
 package com.github.andyshao.reflect;
 
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Paths;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.lang.GeneralSystemProperty;
-
 public class PackageOperationTest {
 
     @Test
-    public void testGetClassByJarPath() {
-        String jarPath = GeneralSystemProperty.JAVA_HOME.value() + "/lib/rt.jar";
-        String[] classes = PackageOperation.getClasses(Paths.get(jarPath));
-        Assert.assertThat(ArrayOperation.indexOf(classes , "java.lang.String") != -1 , Matchers.is(true));
+    public void testGetClassByJarPath() throws URISyntaxException {
+//        String jarPath = GeneralSystemProperty.JAVA_HOME.value() + "/lib/rt.jar";//after jdk9 rt.jar does not exist
+//        String[] classes = PackageOperation.getClasses(Paths.get(jarPath));
+//        Assert.assertThat(ArrayOperation.indexOf(classes , "java.lang.String") != -1 , Matchers.is(true));
+    	
+		URL url = Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/reflect/my.jar");
+		String[] classes = PackageOperation.getClasses(Paths.get(url.toURI()));
+		Assert.assertThat(ArrayOperation.indexOf(classes, "my.test.My") != -1, Matchers.is(true));
     }
 
     @Test
