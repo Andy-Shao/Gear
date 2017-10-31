@@ -1,5 +1,7 @@
 package com.github.andyshao.lang.number;
 
+import java.util.Objects;
+
 /**
  * 
  * Title:<br>
@@ -38,5 +40,11 @@ public enum ByteLevel {
         int twoLevel = two.getLevel();
         if(oneLevel > twoLevel) return one;
         else return two;
+    }
+    public static final ByteLevel parse(String tag) {
+        for(ByteLevel level : values()) {
+            if(Objects.equals(level.getTag() , tag)) return level;
+        }
+        return null;
     }
 }
