@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.reflect.FieldOperation;
 
 /**
@@ -45,6 +46,7 @@ public final class EntityOperation {
 	public static class FieldMatch{
 		private Field resField;
 		private Field destField;
+        private Convert<Object, Object> convert;
 		
 		public FieldMatch(Field resField, Field destField){
 			this.resField = resField;
@@ -57,6 +59,11 @@ public final class EntityOperation {
 		
 		public void setDestField(Field destField) {
 			this.destField = destField;
+		}
+		
+		@SuppressWarnings("unchecked")
+        public void setConvert(Convert<?, ?> convert) {
+		    this.convert = (Convert<Object , Object>) convert;
 		}
 	}
 	
@@ -125,7 +132,11 @@ public final class EntityOperation {
 			fieldMatch.resField.setAccessible(true);
 			fieldMatch.destField.setAccessible(true);
 			Object inValue = FieldOperation.getFieldValue(resource, fieldMatch.resField);
-			FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
+			if(fieldMatch.convert == null) {
+			    FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
+			} else {
+			    FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
+			}
 		}
 	}
 	
