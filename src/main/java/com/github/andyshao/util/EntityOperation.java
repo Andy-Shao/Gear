@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 import com.github.andyshao.lang.Convert;
+import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.FieldOperation;
+import com.github.andyshao.util.annotation.CopyConvertor;
+import com.github.andyshao.util.annotation.IgnoreCopy;
 
 /**
  * 
@@ -97,7 +100,8 @@ public final class EntityOperation {
 			for(Field inputField : inputFields){
 				for(Field outputField : outputFields){
 					if(Objects.equals(inputField.getName(), outputField.getName())){
-						if(outputField.getClass().isAssignableFrom(inputField.getClass())) result.add(new FieldMatch(inputField, outputField));
+					    IgnoreCopy ignoreCopy = inputField.getAnnotation(IgnoreCopy.class);
+						if(outputField.getClass().isAssignableFrom(inputField.getClass()) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
 					}
 				}
 			}
@@ -114,7 +118,20 @@ public final class EntityOperation {
 	 * @param <DEST> destination type
 	 */
 	public static final <RES, DEST> void copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper){
-		copyProperties(resource, destination, fieldMapper, (input, inClazz, outClazz)->input);
+	    CopyConvertor classCopyConvertor = resource.getClass().getAnnotation(CopyConvertor.class);
+	    PropertyConvert convert = null;
+	    if(classCopyConvertor == null) {
+	        convert = (input, inClazz, outClazz)->{
+	            CopyConvertor copyConvertor = inClazz.getAnnotation(CopyConvertor.class);
+	            if(copyConvertor == null) return input;
+	            else {
+	                PropertyConvert convertor = ClassOperation.newInstance(copyConvertor.convertor());
+	                return convertor.covert(input , inClazz , outClazz);
+	            }
+	        };
+	    } else convert = ClassOperation.newInstance(classCopyConvertor.convertor());
+	    
+        copyProperties(resource, destination, fieldMapper, convert);
 	}
 	
 	/**

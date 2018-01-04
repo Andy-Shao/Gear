@@ -22,6 +22,7 @@ You could download from the maven repository, now!<br>
 
 **What the updating in 3.2.8.RELEASE**
 
+add @IgnorCopy @CopyConvertor annotation for EntityOperation.copyProperties()<br>
 Fix SimpleByteSize bugs<br>
 Adding running structure<br>
 Adding NotAllowedCreate exception<br>
