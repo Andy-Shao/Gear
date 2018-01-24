@@ -1,5 +1,6 @@
 package com.github.andyshao.run;
 
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 /**
@@ -12,7 +13,7 @@ import java.util.List;
  *
  */
 public interface AfterStartedContext {
-    List<String> getBeanNamesForAnnotation(Class<?> annotation);
+    List<String> getBeanNamesForAnnotation(Class<? extends Annotation> annotation);
     <E> E getBean(String beanName, Class<E> beanClass);
     Object getBean(String beanName);
 }
