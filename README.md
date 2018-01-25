@@ -18,7 +18,10 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 
-**What the updating in 3.3.0.RELEASE**
+**What the updating in 3.2.9.RELEASE**
+
+upgrade cglib from 3.2.5 to 3.2.6<br>
+upgrade lombok from 1.16.18 to 1.16.20<br>  
 
 **What the updating in 3.2.8.RELEASE**
 
