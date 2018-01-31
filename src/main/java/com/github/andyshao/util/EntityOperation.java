@@ -101,12 +101,34 @@ public final class EntityOperation {
 				for(Field outputField : outputFields){
 					if(Objects.equals(inputField.getName(), outputField.getName())){
 					    IgnoreCopy ignoreCopy = inputField.getAnnotation(IgnoreCopy.class);
-					    if(outputField.getType().isAssignableFrom(inputField.getType()) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
+					    if(isMatch(inputField , outputField) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
 					}
 				}
 			}
 			return result;
 		});
+	}
+	
+	static final boolean isMatch(Field inputField, Field outputField) {
+	    final Class<?> outputType = outputField.getType();
+        final Class<?> inputType = inputField.getType();
+        boolean result = outputType.isAssignableFrom(inputType);
+	    if(result) return true;
+	    
+	    if(inputType == short.class || inputType == Short.class) {
+	        result = outputType == short.class || outputType == Short.class || outputType == int.class || outputType == Integer.class || outputType == long.class || outputType == Long.class;
+	    } else if(inputType == int.class || inputType == Integer.class) {
+	        result = outputType == int.class || outputType == Integer.class || outputType == long.class || outputType == Long.class;
+	    } else if (inputType == long.class || inputType == Long.class) {
+	        result = outputType == long.class || outputType == Long.class;
+	    }
+	    
+	    if(inputType == float.class || inputType == Float.class) {
+	        result = outputType == float.class || outputType == Float.class || outputType == double.class || outputType == Double.class;
+	    } else if(inputType == double.class || inputType == Double.class) {
+	        result = outputType == double.class || outputType == double.class;
+	    }
+	    return result;
 	}
 	
 	/**

@@ -15,11 +15,17 @@ public class EntityOperationTest {
         MyClassOne one = new MyClassOne();
         one.setOne("one");
         one.setTwo("two");
+        one.setThree("three");
+        one.setFour(4);
+        one.setFive(5);
         MyClassTwo two = new MyClassTwo();
         EntityOperation.copyProperties(one , two);
         
         Assert.assertThat(two.getOne() , Matchers.is(one.getOne()));
         Assert.assertNull(two.getTwo());
+        Assert.assertNull(two.getThree());
+        Assert.assertThat(two.getFour() , Matchers.is(4));
+        Assert.assertThat(two.getFive() , Matchers.is(5L));
     }
     
     @Test
@@ -49,38 +55,22 @@ public class EntityOperationTest {
         private String[] machines;
     }
     
+    @Data
     static class MyClassOne {
         private String one;
         @IgnoreCopy
         private String two;
-        public String getOne() {
-            return one;
-        }
-        public void setOne(String one) {
-            this.one = one;
-        }
-        public String getTwo() {
-            return two;
-        }
-        public void setTwo(String two) {
-            this.two = two;
-        }
+        private String three;
+        private int four;
+        private int five;
     }
     
+    @Data
     static class MyClassTwo {
         private String one;
         private String two;
-        public String getOne() {
-            return one;
-        }
-        public void setOne(String one) {
-            this.one = one;
-        }
-        public String getTwo() {
-            return two;
-        }
-        public void setTwo(String two) {
-            this.two = two;
-        }
+        private Integer three;
+        private Integer four;
+        private long five;
     }
 }
