@@ -20,7 +20,8 @@ You could download from the maven repository, now!<br>
 
 **What the updating in 3.2.9.RELEASE**
 
-add CollectorImpl class for java.util.stream.Collector
+add IteratorOperation <br>
+add CollectorImpl class for java.util.stream.Collector<br>
 fix bug in EntityOperation.copyProperties() for type match checking<br>
 upgrade cglib from 3.2.5 to 3.2.6<br>
 upgrade lombok from 1.16.18 to 1.16.20<br>  
