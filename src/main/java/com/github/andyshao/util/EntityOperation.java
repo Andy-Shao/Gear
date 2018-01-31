@@ -101,7 +101,7 @@ public final class EntityOperation {
 				for(Field outputField : outputFields){
 					if(Objects.equals(inputField.getName(), outputField.getName())){
 					    IgnoreCopy ignoreCopy = inputField.getAnnotation(IgnoreCopy.class);
-						if(outputField.getClass().isAssignableFrom(inputField.getClass()) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
+					    if(outputField.getType().isAssignableFrom(inputField.getType()) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
 					}
 				}
 			}
