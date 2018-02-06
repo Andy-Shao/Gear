@@ -49,7 +49,7 @@ public interface Result<DATA> extends Serializable{
         return Result.<E>error(ResultCode.ERROR);
     }
     
-    static <E> Result<E> error(String message) {
+    static <E> Result<E> errorMsg(String message) {
         return Result.<E>error(ResultCode.ERROR.getCode(), message);
     }
     
