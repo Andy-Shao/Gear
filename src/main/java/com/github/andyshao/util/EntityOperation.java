@@ -88,10 +88,11 @@ public final class EntityOperation {
 	 * @param resource the object which should be copied
 	 * @param destination the object which should copy
 	 * @param <RES> resource type
-	 * @param <DEST> destionation type
+	 * @param <DEST> destination type
+	 * @return destination object
 	 */
-	public static final <RES, DEST> void copyProperties(RES resource, DEST destination){
-		copyProperties(resource, destination, (input, output) -> {
+	public static final <RES, DEST> DEST copyProperties(RES resource, DEST destination){
+		return copyProperties(resource, destination, (input, output) -> {
 			if(input == null || output == null) return Collections.emptyList();
 			if(input.getClass().isPrimitive() || output.getClass().isPrimitive()) return Collections.emptyList();
 			List<FieldMatch> result = new ArrayList<>();
@@ -138,8 +139,9 @@ public final class EntityOperation {
 	 * @param fieldMapper the field matching definition interface
 	 * @param <RES> resource type
 	 * @param <DEST> destination type
+	 * @return destination object
 	 */
-	public static final <RES, DEST> void copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper){
+	public static final <RES, DEST> DEST copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper){
 	    CopyConvertor classCopyConvertor = resource.getClass().getAnnotation(CopyConvertor.class);
 	    PropertyConvert convert = null;
 	    if(classCopyConvertor == null) {
@@ -153,7 +155,7 @@ public final class EntityOperation {
 	        };
 	    } else convert = ClassOperation.newInstance(classCopyConvertor.convertor());
 	    
-        copyProperties(resource, destination, fieldMapper, convert);
+        return copyProperties(resource, destination, fieldMapper, convert);
 	}
 	
 	/**
@@ -164,8 +166,9 @@ public final class EntityOperation {
 	 * @param covert the properties convert
 	 * @param <RES> resource type
 	 * @param <DEST> destination type
+	 * @return destination object
 	 */
-	public static final <RES,DEST> void copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper, PropertyConvert covert){
+	public static final <RES,DEST> DEST copyProperties(RES resource, DEST destination, FieldMapper<RES, DEST> fieldMapper, PropertyConvert covert){
 		List<FieldMatch> fieldMatchs = fieldMapper.match(resource, destination);
 		for(FieldMatch fieldMatch : fieldMatchs){
 			fieldMatch.resField.setAccessible(true);
@@ -177,6 +180,8 @@ public final class EntityOperation {
 			    FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
 			}
 		}
+		
+		return destination;
 	}
 	
 	private EntityOperation(){
