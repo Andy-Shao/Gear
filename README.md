@@ -17,8 +17,24 @@ You could download from the maven repository, now!<br>
 	&lt;version&gt;${Gear.Version.Number}&lt;/version&gt;<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
-**What the updating in v3.3.0**
-**What the updating in v3.2.4.RELEASE**
+
+**What the updating in 3.2.9.RELEASE**
+
+add IteratorOperation <br>
+add CollectorImpl class for java.util.stream.Collector<br>
+fix bug in EntityOperation.copyProperties() for type match checking<br>
+upgrade cglib from 3.2.5 to 3.2.6<br>
+upgrade lombok from 1.16.18 to 1.16.20<br>  
+
+**What the updating in 3.2.8.RELEASE**
+
+add @IgnorCopy @CopyConvertor annotation for EntityOperation.copyProperties()<br>
+Fix SimpleByteSize bugs<br>
+Adding running structure<br>
+Adding NotAllowedCreate exception<br>
+
+**What the updating in 3.2.4.RELEASE**
+
 Updating Bitree methods<br>
 CGlib from 3.2.4 to 3.2.5<br>
 asm-all from 5.1 to 5.2<br>

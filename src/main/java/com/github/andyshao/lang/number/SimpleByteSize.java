@@ -35,20 +35,20 @@ public class SimpleByteSize implements ByteSize, Serializable, Comparable<Simple
     public long getSize(ByteLevel level) {
         int range = level.getLevel() - this.level.getLevel();
         if(range == 0) return this.getSize();
-        else if(range < 0) {
+        else if(range > 0) {
             long tmp = this.l;
-            range = -range;
             for(int i=0; i<range; i++){
                 tmp = tmp / RANGE_SIZE;
             }
-            if(tmp < 0) throw new ByteSizeOverLoadException();
+            if(tmp <= 0) throw new ByteSizeOverLoadException();
             return tmp;
         } else {
             long tmp = this.l;
+            range = -range;
             for(int i=0; i<range; i++) {
                 tmp = tmp * RANGE_SIZE;
             }
-            if(tmp < 0) throw new ByteSizeOverLoadException();
+            if(tmp <= 0) throw new ByteSizeOverLoadException();
             return tmp;
         }
     }
