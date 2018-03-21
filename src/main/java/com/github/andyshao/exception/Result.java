@@ -29,16 +29,35 @@ public interface Result<DATA> extends Serializable{
     }
     
     static <E> Result<E> success(ResultCode resultCode) {
-        return Result.<E>wrap(null , resultCode.getCode() , resultCode.getMessage() , true);
+        return success(resultCode.getCode(), resultCode.getMessage());
+    }
+    
+    static <E> Result<E> success(String code, String message) {
+        return Result.<E>wrap(null, code, message, true);
     }
     
     static <E> Result<E> success(E data){
-        return Result.<E>wrap(data, ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMessage(), true);
+        return success(data, ResultCode.SUCCESS);
     }
     
+    static <E> Result<E> success(E data, ResultCode resultCode) {
+        return success(data, resultCode.getCode(), resultCode.getMessage());
+    }
+    
+    static <E> Result<E> success(E data, String message){
+        return success(data, ResultCode.SUCCESS.getCode(), message);
+    }
+    
+    static <E> Result<E> success(E data, String code, String message) {
+        return Result.<E>wrap(data, code, message, true);
+    }
     
     static <E> Result<E> success() {
         return Result.<E>success(ResultCode.SUCCESS);
+    }
+    
+    static <E> Result<E> successMsg(String message) {
+        return success(ResultCode.SUCCESS.getCode(), message);
     }
     
     static <E> Result<E> error(ResultCode resultCode) {
