@@ -28,7 +28,7 @@ public class PackageOperationTest {
         Assert.assertThat(ArrayOperation.indexOf(classes , ClassOperation.forName("com.github.andyshao.reflect.PackageOperationTest")) , Matchers.not(-1));
         Assert.assertThat(ArrayOperation.indexOf(classes , ClassOperation.forName("com.github.andyshao.reflect.PackageOperation")) , Matchers.not(-1));
 
-        classes = PackageOperation.getPackageClasses(Package.getPackage("org.objectweb.asm"));
+        classes = PackageOperation.getPackageClasses(Package.getPackage("java.lang"));
     }
 
     @Test
