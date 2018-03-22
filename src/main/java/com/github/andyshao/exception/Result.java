@@ -36,8 +36,8 @@ public interface Result<DATA> extends Serializable{
         return Result.<E>wrap(null, code, message, true);
     }
     
-    static <E> Result<E> success(E data){
-        return success(data, ResultCode.SUCCESS);
+    static <E> Result<E> successData(E data){
+        return success(data, ResultCodeEnum.SUCCESS);
     }
     
     static <E> Result<E> success(E data, ResultCode resultCode) {
@@ -45,7 +45,7 @@ public interface Result<DATA> extends Serializable{
     }
     
     static <E> Result<E> success(E data, String message){
-        return success(data, ResultCode.SUCCESS.getCode(), message);
+        return success(data, ResultCodeEnum.SUCCESS.getCode(), message);
     }
     
     static <E> Result<E> success(E data, String code, String message) {
@@ -53,23 +53,23 @@ public interface Result<DATA> extends Serializable{
     }
     
     static <E> Result<E> success() {
-        return Result.<E>success(ResultCode.SUCCESS);
+        return Result.<E>success(ResultCodeEnum.SUCCESS);
     }
     
     static <E> Result<E> successMsg(String message) {
-        return success(ResultCode.SUCCESS.getCode(), message);
+        return success(ResultCodeEnum.SUCCESS.getCode(), message);
     }
     
-    static <E> Result<E> error(ResultCode resultCode) {
+    static <E> Result<E> errorData(ResultCode resultCode) {
         return Result.<E>error(resultCode.getCode(), resultCode.getMessage());
     }
     
     static <E> Result<E> error() {
-        return Result.<E>error(ResultCode.ERROR);
+        return Result.<E>errorData(ResultCodeEnum.ERROR);
     }
     
     static <E> Result<E> errorMsg(String message) {
-        return Result.<E>error(ResultCode.ERROR.getCode(), message);
+        return Result.<E>error(ResultCodeEnum.ERROR.getCode(), message);
     }
     
     static <E> Result<E> error(String code, String message) {
@@ -77,11 +77,11 @@ public interface Result<DATA> extends Serializable{
     }
     
     static <E> Result<E> error(E data) {
-        return Result.<E>error(data , ResultCode.ERROR.getMessage());
+        return Result.<E>error(data , ResultCodeEnum.ERROR.getMessage());
     }
     
     static <E> Result<E> error(E data, String message) {
-        return Result.<E>error(data, ResultCode.ERROR.getCode(), message);
+        return Result.<E>error(data, ResultCodeEnum.ERROR.getCode(), message);
     }
     
     static <E> Result<E> error(E data, String code, String message) {
