@@ -1,5 +1,7 @@
 package com.github.andyshao.lang.number;
 
+import java.io.Serializable;
+
 import com.github.andyshao.lang.Convert;
 
 /**
@@ -11,7 +13,7 @@ import com.github.andyshao.lang.Convert;
  * @author Andy.Shao
  *
  */
-public interface ByteSize extends Convert<String , ByteSize>{
+public interface ByteSize extends Convert<String , ByteSize>, Serializable{
     int RANGE_SIZE = 1024;
     void setSize(long l, ByteLevel level);
     long getSize(ByteLevel level);
