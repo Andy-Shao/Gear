@@ -12,4 +12,4 @@ Have fun!!
 
 Design
 ------
-Over 99% in this package use the static final method which is totally thread-safe design in Java. Don't worry performance in this projetion, I will try is as best as I can (Unless it has the concurrent issues). 
+Over 99% in this package use the static final method which is totally thread-safe design in Java. Don't worry performance in this projetion, I will try optimize it as best as I can (Unless it has the concurrent issues). 
