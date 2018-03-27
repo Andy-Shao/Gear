@@ -18,6 +18,11 @@ You could download from the maven repository, now!<br>
 &lt;/dependency&gt;<br>
 ###############################################################################
 
+**What the updating in 3.2.11.RELEASE**
+
+ObjectOperation add equalsAnyOne()<br>
+adding dependencies manager in Gear system<br>
+
 **What the updating in 3.2.9.RELEASE**
 
 add IteratorOperation <br>
