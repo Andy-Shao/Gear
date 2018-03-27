@@ -39,6 +39,7 @@
     <properties>
     		<java.version>1.8</java.version>
     		<gear.build.sourceEncoding>UTF-8</gear.build.sourceEncoding>
+    		<gear.maven-manager.version>0.0.1-SNAPSHOT</gear.maven-manager.version>
     </properties>
 
     <dependencyManagement>
@@ -46,7 +47,7 @@
     			<dependency>
     				<groupId>com.github.Andy-Shao</groupId>
     				<artifactId>Gear-Maven-Manager</artifactId>
-    				<version>1.0.0-SNAPSHOT</version>
+    				<version>${gear.maven-manager.version}</version>
     				<type>pom</type>
     				<scope>import</scope>
     			</dependency>
