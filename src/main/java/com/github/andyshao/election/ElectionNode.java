@@ -25,5 +25,5 @@ public class ElectionNode implements Serializable {
     private int port;
     private ByteSize memory;
     private int cpuNum;
-    private Map<String , ? extends Serializable> pros = new HashMap<>();
+    private Map<String , ? super Serializable> pros = new HashMap<>();
 }
