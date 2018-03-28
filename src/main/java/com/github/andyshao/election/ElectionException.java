@@ -1,8 +1,5 @@
 package com.github.andyshao.election;
 
-import com.github.andyshao.exception.Result;
-import com.github.andyshao.exception.ResultException;
-
 /**
  * 
  * Title:<br>
@@ -13,13 +10,19 @@ import com.github.andyshao.exception.ResultException;
  *
  */
 @SuppressWarnings("serial")
-public class ElectionException extends ResultException {
-
-    public ElectionException(Result<?> result) {
-        super(result);
+public class ElectionException extends RuntimeException {
+    public ElectionException(String message) {
+        super(message);
     }
     
-    public ElectionException(Result<?> result, Throwable e) {
-        super(result, e);
+    public ElectionException(String message, Throwable exception) {
+        super(message, exception);
+    }
+    
+    public ElectionException(Throwable exception) {
+        super(exception);
+    }
+    
+    public ElectionException() {
     }
 }
