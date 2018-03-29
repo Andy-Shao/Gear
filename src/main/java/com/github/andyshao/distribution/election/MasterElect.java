@@ -1,4 +1,4 @@
-package com.github.andyshao.election;
+package com.github.andyshao.distribution.election;
 
 import java.util.List;
 

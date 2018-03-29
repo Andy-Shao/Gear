@@ -1,4 +1,4 @@
-package com.github.andyshao.election;
+package com.github.andyshao.distribution.group;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import lombok.Data;
  */
 @Data
 @SuppressWarnings("serial")
-public class ElectionNode implements Serializable {
+public class MemberNode implements Serializable {
     private String name;
     private String host;
     private int port;
