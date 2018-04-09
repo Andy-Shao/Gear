@@ -37,10 +37,10 @@ public interface Result<DATA> extends Serializable{
     }
     
     static <E> Result<E> successData(E data){
-        return success(data, ResultCodeEnum.SUCCESS);
+        return successData(data, ResultCodeEnum.SUCCESS);
     }
     
-    static <E> Result<E> success(E data, ResultCode resultCode) {
+    static <E> Result<E> successData(E data, ResultCode resultCode) {
         return success(data, resultCode.getCode(), resultCode.getMessage());
     }
     
@@ -60,12 +60,12 @@ public interface Result<DATA> extends Serializable{
         return success(ResultCodeEnum.SUCCESS.getCode(), message);
     }
     
-    static <E> Result<E> errorData(ResultCode resultCode) {
+    static <E> Result<E> error(ResultCode resultCode) {
         return Result.<E>error(resultCode.getCode(), resultCode.getMessage());
     }
     
     static <E> Result<E> error() {
-        return Result.<E>errorData(ResultCodeEnum.ERROR);
+        return Result.<E>error(ResultCodeEnum.ERROR);
     }
     
     static <E> Result<E> errorMsg(String message) {
@@ -76,11 +76,11 @@ public interface Result<DATA> extends Serializable{
         return Result.<E>error(null, code, message);
     }
     
-    static <E> Result<E> error(E data) {
-        return Result.<E>error(data , ResultCodeEnum.ERROR.getMessage());
+    static <E> Result<E> errorData(E data) {
+        return Result.<E>errorData(data , ResultCodeEnum.ERROR.getMessage());
     }
     
-    static <E> Result<E> error(E data, String message) {
+    static <E> Result<E> errorData(E data, String message) {
         return Result.<E>error(data, ResultCodeEnum.ERROR.getCode(), message);
     }
     
