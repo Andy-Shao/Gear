@@ -44,7 +44,7 @@ public interface Result<DATA> extends Serializable{
         return success(data, resultCode.getCode(), resultCode.getMessage());
     }
     
-    static <E> Result<E> success(E data, String message){
+    static <E> Result<E> successData(E data, String message){
         return success(data, ResultCodeEnum.SUCCESS.getCode(), message);
     }
     
