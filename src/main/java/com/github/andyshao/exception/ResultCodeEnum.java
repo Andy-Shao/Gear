@@ -10,8 +10,8 @@ package com.github.andyshao.exception;
  *
  */
 public enum ResultCodeEnum implements ResultCode {
-    SUCCESS("200", "Success"),
-    ERROR("500", "Process has an error!");
+    SUCCESS("200", "OK"),
+    ERROR("500", "Internal Server Error");
     private String code;
     private String message;
     private ResultCodeEnum(String code, String message) {
