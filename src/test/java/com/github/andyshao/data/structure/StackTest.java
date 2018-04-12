@@ -26,6 +26,15 @@ public class StackTest {
     public StackTest(Stack<String> stack) {
         this.stack = stack;
     }
+    
+    @Test
+    public void testEmptyStack() {
+        Stack<String> emptyStack = Stack.defaultStack();
+        for(String item : emptyStack) {
+            item.toString();
+            Assert.fail();
+        }
+    }
 
     @Test
     public void testIterator() {
