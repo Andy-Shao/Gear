@@ -67,4 +67,40 @@ public class CollectorImpl<T , A , R> implements Collector<T , A , R> {
         return this.characteristics;
     }
 
+    public static class Builder<TT, AA, RR> {
+        private Supplier<AA> supplier;
+        private BiConsumer<AA , TT> accumulator;
+        private BinaryOperator<AA> combiner;
+        private Function<AA , RR> finisher;
+        private Set<Characteristics> characteristics;
+        
+        public Builder<TT, AA, RR> withCharacteristics(Set<Characteristics> characteristics){
+            this.characteristics = characteristics;
+            return this;
+        }
+        
+        public Builder<TT, AA, RR> withFinisher(Function<AA, RR> finisher){
+            this.finisher = finisher;
+            return this;
+        }
+        
+        public Builder<TT, AA, RR> withCombiner(BinaryOperator<AA> combiner){
+            this.combiner = combiner;
+            return this;
+        }
+        
+        public Builder<TT, AA, RR> withAccumulator(BiConsumer<AA , TT> accumulator){
+            this.accumulator = accumulator;
+            return this;
+        }
+        
+        public CollectorImpl<TT, AA, RR> build() {
+            return new CollectorImpl<>(supplier , accumulator , combiner , finisher , characteristics);
+        }
+        
+        public Builder<TT, AA, RR> withSupplier(Supplier<AA> supplier){
+            this.supplier = supplier;
+            return this;
+        }
+    }
 }
