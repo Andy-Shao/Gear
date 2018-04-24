@@ -7,6 +7,7 @@ import org.junit.Test;
 import com.github.andyshao.util.annotation.IgnoreCopy;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 public class EntityOperationTest {
 
@@ -40,6 +41,23 @@ public class EntityOperationTest {
         Assert.assertNull(two.getIps());
         Assert.assertNull(two.getMachines());
     }
+    
+    @Test
+    public void testCopyParent() {
+        Child child = new Child();
+        child.setFour(4);
+        child.setOne("one");
+        child.setThree(3);
+        child.setTwo("two");
+        MyClassTwo item = new MyClassTwo();
+        
+        EntityOperation.copyProperties(child , item);
+        
+        Assert.assertThat(child.getThree() , Matchers.is(item.getThree()));
+        Assert.assertThat(child.getFour() , Matchers.is(item.getFour()));
+        Assert.assertThat(child.getOne() , Matchers.is(item.getOne()));
+        Assert.assertThat(child.getTwo() , Matchers.is(item.getTwo()));
+    }
 
     @Data
     static class ArrayClassOne {
@@ -72,5 +90,18 @@ public class EntityOperationTest {
         private Integer three;
         private Integer four;
         private long five;
+    }
+    
+    @Data
+    static class Parent {
+        private String one;
+        private String two;
+    }
+    
+    @Data
+    @EqualsAndHashCode(callSuper = true)
+    static class Child extends Parent{
+        private Integer three;
+        private Integer four;
     }
 }
