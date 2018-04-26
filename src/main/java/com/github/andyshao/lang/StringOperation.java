@@ -38,6 +38,15 @@ public final class StringOperation {
     public static boolean isEmptyOrNull(String str) {
         return str == null || str.isEmpty();
     }
+    
+    /**
+     * 
+     * @param str a string which should be tested
+     * @return if str is null or after {@link String#trim()} and {@link String#isEmpty()} return true
+     */
+    public static boolean isTrimEmptyOrNull(String str) {
+        return str == null || str.trim().isEmpty();
+    }
 
     /**
      * more efficient<br>
