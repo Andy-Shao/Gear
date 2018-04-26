@@ -81,12 +81,6 @@ public class SimpleTimeClip implements TimeClip{
         }
         return builder.toString();
     }
-    
-    @Override
-    public String toString() {
-        // TODO Auto-generated method stub
-        return super.toString();
-    }
 
     @Override
     public String description() {

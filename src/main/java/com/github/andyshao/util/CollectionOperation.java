@@ -24,8 +24,12 @@ public final class CollectionOperation {
         for (Object item : array)
             collection.add((E) item);
     }
+    
+    public static <E> boolean isEmptyOrNull(Collection<E> collection) {
+        return collection == null || collection.isEmpty();
+    }
 
-    public CollectionOperation() {
+    private CollectionOperation() {
         throw new AssertionError("No " + CollectionOperation.class + " instance for you!");
     }
 }
