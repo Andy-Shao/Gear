@@ -1,7 +1,9 @@
 package com.github.andyshao.run;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.PriorityQueue;
 
 import com.github.andyshao.data.structure.Graph;
@@ -121,5 +123,27 @@ public class DefaultAfterStaredProcess implements AfterStartedProcess{
             node = graph.adjlist(data);
         }
         return node;
+    }
+
+    @Override
+    public List<AfterStartedNode> sequence(AfterStartedContext context) {
+        final List<AfterStartedNode> result = new ArrayList<>();
+        Graph<AfterStartedNode> graph = Graph.defaultGraph(new Comparator<AfterStartedNode>() {
+            @Override
+            public int compare(AfterStartedNode o1 , AfterStartedNode o2) {
+                return StringOperation.COMPARATOR.compare(o1.getNodeName() , o2.getNodeName());
+            }
+        });
+        
+        fillGraph(context , graph);
+        Stack<AfterStartedNode> stack = Stack.defaultStack();
+        sortBeans(graph , stack);
+        for (AfterStartedNode node : stack) {
+            if(node.getColor() == NodeColor.BLACK) {
+                node.setColor(NodeColor.RED);
+                result.add(node);
+            }
+        }
+        return result;
     }
 }

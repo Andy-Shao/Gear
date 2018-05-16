@@ -1,5 +1,7 @@
 package com.github.andyshao.run;
 
+import java.util.List;
+
 /**
  * 
  * Title:<br>
@@ -11,6 +13,7 @@ package com.github.andyshao.run;
  */
 public interface AfterStartedProcess {
     public void process(AfterStartedContext context);
+    public List<AfterStartedNode> sequence(AfterStartedContext context);
     
     public static AfterStartedProcess DefaultProcess() {
         return new DefaultAfterStaredProcess();
