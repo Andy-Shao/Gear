@@ -78,14 +78,14 @@ public final class ParameterOperation {
         } catch (IOException e) {
             throw new ClassNotFoundException(path);
         }
-        cr.accept(new ClassVisitor(Opcodes.ASM5 , cw) {
+        cr.accept(new ClassVisitor(Opcodes.ASM6 , cw) {
             @Override
             public MethodVisitor visitMethod(final int access , final String name , final String desc , final String signature , final String[] exceptions) {
                 final Type[] args = Type.getArgumentTypes(desc);
                 //Same method name and parameter number
                 if (!name.equals(m.getName()) || !ParameterOperation.sameType(args , m.getParameterTypes())) return super.visitMethod(access , name , desc , signature , exceptions);
                 MethodVisitor v = this.cv.visitMethod(access , name , desc , signature , exceptions);
-                return new MethodVisitor(Opcodes.ASM5 , v) {
+                return new MethodVisitor(Opcodes.ASM6 , v) {
                     @Override
                     public void visitLocalVariable(String name , String desc , String signature , Label start , Label end , int index) {
                         int i = index - 1;
