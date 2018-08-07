@@ -44,6 +44,17 @@ public final class ParameterOperation {
         }
         return result;
     }
+    
+    public static GenericInfo getGenericInfoByParam(Parameter parameter) {
+        Param param = parameter.getAnnotation(Param.class);
+        if (param == null) return null;
+        Generic generic = param.genericInfo();
+        GenericInfo genericInfo = new GenericInfo();
+        genericInfo.isGeneiric = generic.isGeneric();
+        genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
+        genericInfo.declareType = parameter.getType();
+        return genericInfo;
+    }
 
     /**
      * 

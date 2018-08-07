@@ -2,7 +2,10 @@ package com.github.andyshao.reflect;
 
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
@@ -24,6 +27,42 @@ public final class MethodOperation {
         CollectionOperation.addAll(result , clazz.getMethods());
         CollectionOperation.addAll(result , clazz.getDeclaredMethods());
         return result.toArray(new Method[result.size()]);
+    }
+    
+    public static Method[] superGetMethods(Class<?> clazz) {
+        ConcurrentHashMap<String , Method> cache = new ConcurrentHashMap<>();
+        superGetMethods1(cache , clazz);
+        return cache.values().toArray(new Method[cache.size()]);
+    }
+    
+    protected static void superGetMethods1(Map<String, Method> cache, Class<?> clazz) {
+        Class<?> superclass = clazz.getSuperclass();
+        if(superclass != null) superGetMethods1(cache , superclass);
+        Stream.of(clazz.getMethods()).forEach(method -> {
+            StringBuilder key = new StringBuilder().append(method.getName()).append(":");
+            for(Class<?> pType : method.getParameterTypes()) {
+                key.append(pType.getName()).append(":");
+            }
+            cache.put(key.toString() , method);
+        });
+    }
+    
+    public static Method[] superGetDeclaredMethods(Class<?> clazz) {
+        ConcurrentHashMap<String , Method> cache = new ConcurrentHashMap<>();
+        superGetDeclaredMethods1(cache , clazz);
+        return cache.values().toArray(new Method[cache.size()]);
+    }
+    
+    protected static void superGetDeclaredMethods1(Map<String, Method> cache, Class<?> clazz) {
+        Class<?> superclass = clazz.getSuperclass();
+        if(superclass != null) superGetDeclaredMethods1(cache , superclass);
+        Stream.of(clazz.getDeclaredMethods()).forEach(method -> {
+            StringBuilder key = new StringBuilder().append(method.getName()).append(":");
+            for(Class<?> pType : method.getParameterTypes()) {
+                key.append(pType.getName()).append(":");
+            }
+            cache.put(key.toString() , method);
+        });
     }
 
     /**
