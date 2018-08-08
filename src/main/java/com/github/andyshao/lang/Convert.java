@@ -76,5 +76,5 @@ public interface Convert<IN , OUT> {
         return convert.convert(in);
     }
 
-    OUT convert(IN in);
+    OUT convert(IN in) throws NotSupportConvertException;
 }
