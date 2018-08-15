@@ -101,6 +101,15 @@ public final class ParameterOperation {
         } , 0);
         return paramNames;
     }
+    
+    public static String[] getMethodParamNamesByReflect(final Method m) {
+        Parameter[] parameters = m.getParameters();
+        String[] ret = new String[parameters.length];
+        for(int i=0; i<parameters.length; i++) {
+            ret[i] = parameters[i].getName();
+        }
+        return ret;
+    }
 
     public static String[] getParamNamesByAnnotation(Method method) {
         String[] result = new String[method.getParameterCount()];
