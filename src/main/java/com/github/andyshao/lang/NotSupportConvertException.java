@@ -22,4 +22,7 @@ public class NotSupportConvertException extends RuntimeException {
     public NotSupportConvertException(String message, Throwable ex) {
         super(message, ex);
     }
+    
+    public NotSupportConvertException() {
+    }
 }
