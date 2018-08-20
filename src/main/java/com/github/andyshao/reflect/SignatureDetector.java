@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -83,7 +84,10 @@ public class SignatureDetector extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(int access , String name , String desc , String signature , String[] exceptions) {
-        if (signature != null) this.signature.methodSignatures.put(TypeOperation.getMethod(desc , name , this.signature.clazz) , signature);
+        if (signature != null) {
+            if(Objects.equals(name , "<init>")); // ignore
+            else this.signature.methodSignatures.put(TypeOperation.getMethod(desc , name , this.signature.clazz) , signature);
+        }
         return super.visitMethod(access , name , desc , signature , exceptions);
     }
 }

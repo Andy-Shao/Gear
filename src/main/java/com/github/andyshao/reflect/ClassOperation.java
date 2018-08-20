@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
@@ -143,11 +144,23 @@ public final class ClassOperation {
         return ConstructorOperation.newInstance(clazz);
     }
 
+    /**
+     * @deprecated if args has innerclass. e.g. some of innerclass don't have the class name 
+     * which clould bring an {@link NoSuchFieldError}
+     * @param clazz class type
+     * @param args args values
+     * @return the object you want to build
+     */
+    @Deprecated
     public static <T> T newInstance(Class<T> clazz , Object... args) {
         Class<?>[] argTypes = new Class<?>[args.length];
         for (int i = 0 ; i < args.length ; i++)
             argTypes[i] = args[i].getClass();
         return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
+    }
+    
+    public static <T> T newInstance(Constructor<T> constructor, Object...args) {
+        return ConstructorOperation.newInstance(constructor , args);
     }
 
     public static <T> T newInstanceForInterface(Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
