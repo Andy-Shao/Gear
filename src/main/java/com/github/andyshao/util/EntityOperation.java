@@ -1,6 +1,7 @@
 package com.github.andyshao.util;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -110,9 +111,10 @@ public final class EntityOperation {
 		});
 	}
 	
-	static final boolean isMatch(Field inputField, Field outputField) {
+	public static final boolean isMatch(Field inputField, Field outputField) {
 	    final Class<?> outputType = outputField.getType();
         final Class<?> inputType = inputField.getType();
+        if(Modifier.isFinal(outputField.getModifiers())) return false;
         boolean result = outputType.isAssignableFrom(inputType);
 	    if(result) return true;
 	    
