@@ -9,6 +9,7 @@ import java.util.concurrent.CompletionStage;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.objectweb.asm.Type;
 
@@ -16,6 +17,7 @@ import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
 import com.github.andyshao.reflect.annotation.Param;
 
+@Ignore
 @Deprecated
 @Generic(isGeneric = true , componentTypes = "Ljava/lang/Object;")
 public class GenericTest<T> {

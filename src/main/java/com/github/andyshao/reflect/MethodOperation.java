@@ -5,8 +5,15 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.signature.SignatureReader;
+import org.objectweb.asm.signature.SignatureVisitor;
+
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
 import com.github.andyshao.util.CollectionOperation;
@@ -123,6 +130,43 @@ public final class MethodOperation {
         genericInfo.isGeneiric = annotation.isGeneric();
         genericInfo.componentTypes = GenericInfo.analyseScript(annotation.componentTypes());
         return genericInfo;
+    }
+    
+    public static GenericInfo getReturnTypeInfo(Method method, ClassSignature classSignature) {
+        return getReturnTypeInfo(classSignature.methodSignatures.get(method));
+    }
+    
+    public static GenericInfo getReturnTypeInfo(String methodSingnature) {
+        final GenericInfo ret = new GenericInfo();
+        SignatureReader reader = new SignatureReader(methodSingnature);
+        reader.accept(new SignatureVisitor(Opcodes.ASM6) {
+            private volatile boolean isReturn = false;
+
+            @Override
+            public SignatureVisitor visitReturnType() {
+                isReturn = true;
+                return super.visitReturnType();
+            }
+
+            @Override
+            public void visitBaseType(char descriptor) {
+                if(!isReturn) {
+                    //TODO
+                }
+                super.visitBaseType(descriptor);
+            }
+
+            @Override
+            public void visitClassType(String name) {
+                if(!isReturn) {
+                    System.out.println(name);
+                    //TODO
+                }
+                super.visitClassType(name);
+            }
+            
+        });
+        return ret;
     }
 
     /**
