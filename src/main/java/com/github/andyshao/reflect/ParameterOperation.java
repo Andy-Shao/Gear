@@ -27,7 +27,9 @@ import com.github.andyshao.reflect.annotation.Param;
  * @author Andy.Shao
  *
  */
+@SuppressWarnings("deprecation")
 public final class ParameterOperation {
+    @Deprecated
     public static GenericInfo[] getMethodParamGenricInfo(Method method) {
         GenericInfo[] result = new GenericInfo[method.getParameterCount()];
         Parameter[] parameters = method.getParameters();
@@ -45,6 +47,7 @@ public final class ParameterOperation {
         return result;
     }
     
+    @Deprecated
     public static GenericInfo getGenericInfoByParam(Parameter parameter) {
         Param param = parameter.getAnnotation(Param.class);
         if (param == null) return null;

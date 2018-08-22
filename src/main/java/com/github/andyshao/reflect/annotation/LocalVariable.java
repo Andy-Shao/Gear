@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.LOCAL_VARIABLE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface LocalVariable {
+    @Deprecated
     Generic genericInfo() default @Generic
     ;
 

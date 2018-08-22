@@ -20,6 +20,7 @@ import com.github.andyshao.asm.TypeOperation;
  *
  */
 public final class GenericInfo {
+    @Deprecated
     public static GenericInfo[] analyseScript(String... script) {
         GenericInfo[] result = new GenericInfo[script.length];
         for (int i = 0 ; i < result.length ; i++) {
@@ -37,6 +38,7 @@ public final class GenericInfo {
         return result;
     }
 
+    @Deprecated
     static String[] splitScript(String script) {
         List<String> result = new ArrayList<>();
         while (true) {

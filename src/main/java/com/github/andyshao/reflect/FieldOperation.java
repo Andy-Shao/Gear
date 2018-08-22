@@ -18,6 +18,7 @@ import com.github.andyshao.util.CollectionOperation;
  * @author Andy.Shao
  *
  */
+@SuppressWarnings("deprecation")
 public final class FieldOperation {
     public static Field[] getAllField(Class<?> clazz) {
         Set<Field> result = new HashSet<>();
@@ -58,6 +59,7 @@ public final class FieldOperation {
         }
     }
 
+    @Deprecated
     public static final GenericInfo getFieldGenericInfo(Field field) {
         Generic generic = field.getAnnotation(Generic.class);
         if (generic == null) throw new ReflectiveOperationException("Cannot find " + Generic.class);

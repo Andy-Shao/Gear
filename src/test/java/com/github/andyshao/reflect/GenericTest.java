@@ -4,15 +4,19 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.CompletionStage;
 
 import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
+import org.objectweb.asm.Type;
 
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
 import com.github.andyshao.reflect.annotation.Param;
 
+@Deprecated
 @Generic(isGeneric = true , componentTypes = "Ljava/lang/Object;")
 public class GenericTest<T> {
     @Generic(isGeneric = true , componentTypes = { "Ljava/lang/String;" , "Ljava/lang/Object;" })
@@ -52,6 +56,25 @@ public class GenericTest<T> {
     public void
         listParam(@Param(value = "param" , genericInfo = @Generic(isGeneric = true , componentTypes = "Ljava/util/List;<Ljava/util/List;<Ljava/lang/String;>>") ) List<List<List<String>>> param) {
 
+    }
+    
+    public CompletionStage<Optional<String>> forReturnType(){
+        return null;
+    }
+    
+    @Test
+    public void testMethodType() {
+        Method method = MethodOperation.getDeclaredMethod(GenericTest.class , "listParam" , List.class);
+        Type returnType = Type.getReturnType(method);
+        Assert.assertThat(returnType.getSort() , Matchers.is(Type.VOID));
+        Type[] argumentTypes = Type.getArgumentTypes(method);
+        Assert.assertThat(argumentTypes.length , Matchers.is(1));
+        Assert.assertThat(argumentTypes[0].getDescriptor() , Matchers.is("Ljava/util/List;"));
+        Assert.assertThat(argumentTypes[0].getClassName() , Matchers.is("java.util.List"));
+        Assert.assertThat(Type.getMethodDescriptor(method), Matchers.is("(Ljava/util/List;)V"));
+        
+        method = MethodOperation.getDeclaredMethod(GenericTest.class , "forReturnType");
+        System.out.println(Type.getMethodDescriptor(method));
     }
 
     @Test

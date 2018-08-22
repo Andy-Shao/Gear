@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
  *
  */
 @Documented
+@Deprecated
 @Target({ ElementType.FIELD , ElementType.TYPE , ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Generic {

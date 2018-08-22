@@ -17,6 +17,7 @@ import java.lang.annotation.Target;
  *
  */
 @Documented
+@Deprecated
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MethodInfo {

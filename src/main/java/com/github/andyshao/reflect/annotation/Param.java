@@ -20,6 +20,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Param {
+    @Deprecated
     Generic genericInfo() default @Generic
     ;
 

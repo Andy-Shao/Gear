@@ -21,6 +21,7 @@ import com.github.andyshao.util.CollectionOperation;
  * @author Andy.Shao
  *
  */
+@SuppressWarnings("deprecation")
 public final class MethodOperation {
     public static Method[] getAllMethods(Class<?> clazz) {
         Set<Method> result = new HashSet<Method>();
@@ -100,6 +101,7 @@ public final class MethodOperation {
         }
     }
 
+    @Deprecated
     public static GenericInfo getMethodGenericInfo(Method method) {
         MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
         if (methodInfo == null) throw new ReflectiveOperationException("Cannot find " + MethodInfo.class + " Type");
@@ -111,6 +113,7 @@ public final class MethodOperation {
         return genericInfo;
     }
 
+    @Deprecated
     public static GenericInfo getReturnGenericInfo(Method method) {
         MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
         if (methodInfo == null) throw new ReflectiveOperationException("Cannot find " + MethodInfo.class + " Type");

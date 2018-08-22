@@ -32,6 +32,7 @@ import com.github.andyshao.reflect.annotation.Generic;
  * @author Andy.Shao
  *
  */
+@SuppressWarnings("deprecation")
 public final class ClassOperation {
     /**
      * 
@@ -49,6 +50,7 @@ public final class ClassOperation {
         }
     }
 
+    @Deprecated
     public static GenericInfo getClassGenericInfo(Class<?> clazz) {
         Generic generic = clazz.getAnnotation(Generic.class);
         if (generic == null) throw new ReflectiveOperationException("Cannot find " + Generic.class);
