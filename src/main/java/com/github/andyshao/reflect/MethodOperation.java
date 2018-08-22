@@ -5,8 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
 import org.objectweb.asm.Opcodes;
@@ -150,7 +148,7 @@ public final class MethodOperation {
 
             @Override
             public void visitBaseType(char descriptor) {
-                if(!isReturn) {
+                if(isReturn) {
                     //TODO
                 }
                 super.visitBaseType(descriptor);
@@ -158,11 +156,91 @@ public final class MethodOperation {
 
             @Override
             public void visitClassType(String name) {
-                if(!isReturn) {
+                if(isReturn) {
                     System.out.println(name);
                     //TODO
                 }
                 super.visitClassType(name);
+            }
+
+            @Override
+            public SignatureVisitor visitTypeArgument(char wildcard) {
+                if(isReturn) {
+                    System.out.println(String.format("visitTypeArgument: %c" , wildcard));
+                }
+                return super.visitTypeArgument(wildcard);
+            }
+
+            @Override
+            public void visitFormalTypeParameter(String name) {
+                if(isReturn) System.out.println(String.format("visitFormalTypeParameter: %s" , name));
+                super.visitFormalTypeParameter(name);
+            }
+
+            @Override
+            public void visitTypeVariable(String name) {
+                if(isReturn) System.out.println(String.format("visitTypeVariable: %s" , name));
+                super.visitTypeVariable(name);
+            }
+
+            @Override
+            public void visitInnerClassType(String name) {
+                if(isReturn) System.out.println(String.format("visitInnerClassType: %s" , name));
+                super.visitInnerClassType(name);
+            }
+
+            @Override
+            public SignatureVisitor visitClassBound() {
+                if(isReturn) System.out.println("visitClassBound");
+                return super.visitClassBound();
+            }
+
+            @Override
+            public SignatureVisitor visitInterfaceBound() {
+                if(isReturn) System.out.println("visitInterfaceBound");
+                return super.visitInterfaceBound();
+            }
+
+            @Override
+            public SignatureVisitor visitSuperclass() {
+                if(isReturn) System.out.println("visitSuperclass");
+                return super.visitSuperclass();
+            }
+
+            @Override
+            public SignatureVisitor visitInterface() {
+                if(isReturn) System.out.println("visitInterface");
+                return super.visitInterface();
+            }
+
+            @Override
+            public SignatureVisitor visitParameterType() {
+                if(isReturn) System.out.println("visitParameterType");
+                return super.visitParameterType();
+            }
+
+            @Override
+            public SignatureVisitor visitExceptionType() {
+                if(isReturn) System.out.println("visitExceptionType");
+                return super.visitExceptionType();
+            }
+
+            @Override
+            public SignatureVisitor visitArrayType() {
+                if(isReturn) System.out.println("visitArrayType");
+                return super.visitArrayType();
+            }
+
+            @Override
+            public void visitTypeArgument() {
+                if(isReturn) System.out.println("visitTypeArgument");
+                super.visitTypeArgument();
+            }
+
+            @Override
+            public void visitEnd() {
+                if(isReturn) System.out.println("visitEnd");
+                super.visitEnd();
             }
             
         });

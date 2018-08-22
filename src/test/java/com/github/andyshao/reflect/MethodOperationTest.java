@@ -23,7 +23,7 @@ public class MethodOperationTest {
     }
     
     public interface Data<T> extends Map<String, T> {
-        Optional<CompletionStage<List<String>>> testMethod(List<List<Integer>> arg1, int arg2, String str, Map<String , List<String>> map);
+        Optional<CompletionStage<Map<String, List<String>>>> testMethod(List<List<Integer>> arg1, int arg2, String str, Map<String , List<String>> map);
         int intMethod(List<List<Integer>> arg1);
     }
     
