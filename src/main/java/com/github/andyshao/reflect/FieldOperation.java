@@ -94,7 +94,6 @@ public final class FieldOperation {
             public void visitBaseType(char descriptor) {
                 Class<?> clazz = TypeOperation.getClass(Type.getType(String.valueOf(descriptor)));
                 currentNode.setDeclareType(clazz);
-//                System.out.println(String.format("visitBaseType: %c" , descriptor));
                 super.visitBaseType(descriptor);
             }
 
@@ -108,7 +107,6 @@ public final class FieldOperation {
             public void visitEnd() {
                 GenericNode parent = currentNode.getParent();
                 if(parent != null) currentNode = parent;
-//                System.out.println("visitEnd");
                 super.visitEnd();
             }
 
@@ -120,7 +118,6 @@ public final class FieldOperation {
                     isArray = false;
                 }
                 currentNode.setDeclareType(clazz);
-//                System.out.println(String.format("visitClassType: %s" , name));
                 super.visitClassType(name);
             }
 
@@ -131,7 +128,6 @@ public final class FieldOperation {
                 currentNode.setGeneiric(true);
                 currentNode.getComponentTypes().add(node);
                 currentNode = node;
-//                System.out.println(String.format("visitTypeArgument: %s" , wildcard));
                 return super.visitTypeArgument(wildcard);
             }
 
@@ -140,7 +136,6 @@ public final class FieldOperation {
                 currentNode.setTypeVariable(name);
                 GenericNode parent = currentNode.getParent();
                 if(parent != null) currentNode = parent;
-//                System.out.println(String.format("visitTypeVariable: %s" , name));
                 super.visitTypeVariable(name);
             }
         });
