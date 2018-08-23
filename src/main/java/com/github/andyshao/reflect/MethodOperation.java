@@ -1,5 +1,6 @@
 package com.github.andyshao.reflect;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Map;
@@ -8,9 +9,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 
+import com.github.andyshao.asm.TypeOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
@@ -130,123 +133,81 @@ public final class MethodOperation {
         return genericInfo;
     }
     
-    public static GenericInfo getReturnTypeInfo(Method method, ClassSignature classSignature) {
-        return getReturnTypeInfo(classSignature.methodSignatures.get(method));
-    }
-    
-    public static GenericInfo getReturnTypeInfo(String methodSingnature) {
-        final GenericInfo ret = new GenericInfo();
-        SignatureReader reader = new SignatureReader(methodSingnature);
+    public static GenericNode getReturnTypeInfo(Method method, ClassSignature classSignature) {
+        final GenericNode ret = new GenericNode();
+        String signature = classSignature.methodSignatures.get(method);
+        if(signature == null) {
+            ret.setGeneiric(false);
+            ret.setDeclareType(method.getReturnType());
+            return ret;
+        }
+        SignatureReader reader = new SignatureReader(signature);
         reader.accept(new SignatureVisitor(Opcodes.ASM6) {
             private volatile boolean isReturn = false;
-
+            private volatile boolean isArray = false;
+            private volatile GenericNode currentSide = ret;
+        
             @Override
             public SignatureVisitor visitReturnType() {
                 isReturn = true;
                 return super.visitReturnType();
             }
-
+        
             @Override
             public void visitBaseType(char descriptor) {
                 if(isReturn) {
-                    //TODO
+                    Class<?> clazz = TypeOperation.getClass(Type.getType(String.valueOf(descriptor)));
+                    currentSide.setDeclareType(clazz);
                 }
                 super.visitBaseType(descriptor);
             }
-
+        
             @Override
             public void visitClassType(String name) {
                 if(isReturn) {
-                    System.out.println(name);
-                    //TODO
+                    Class<?> clazz = ClassOperation.forName(name.replace('/' , '.'));
+                    if(isArray) {
+                        clazz = Array.newInstance(clazz , 0).getClass();
+                        isArray = false;
+                    }
+                    currentSide.setDeclareType(clazz);
                 }
                 super.visitClassType(name);
             }
-
+        
             @Override
             public SignatureVisitor visitTypeArgument(char wildcard) {
                 if(isReturn) {
-                    System.out.println(String.format("visitTypeArgument: %c" , wildcard));
+                    GenericNode node = new GenericNode();
+                    node.setParent(currentSide);
+                    currentSide.getComponentTypes().add(node);
+                    currentSide.setGeneiric(true);
+                    currentSide = node;
                 }
                 return super.visitTypeArgument(wildcard);
             }
-
-            @Override
-            public void visitFormalTypeParameter(String name) {
-                if(isReturn) System.out.println(String.format("visitFormalTypeParameter: %s" , name));
-                super.visitFormalTypeParameter(name);
-            }
-
-            @Override
-            public void visitTypeVariable(String name) {
-                if(isReturn) System.out.println(String.format("visitTypeVariable: %s" , name));
-                super.visitTypeVariable(name);
-            }
-
-            @Override
-            public void visitInnerClassType(String name) {
-                if(isReturn) System.out.println(String.format("visitInnerClassType: %s" , name));
-                super.visitInnerClassType(name);
-            }
-
-            @Override
-            public SignatureVisitor visitClassBound() {
-                if(isReturn) System.out.println("visitClassBound");
-                return super.visitClassBound();
-            }
-
-            @Override
-            public SignatureVisitor visitInterfaceBound() {
-                if(isReturn) System.out.println("visitInterfaceBound");
-                return super.visitInterfaceBound();
-            }
-
-            @Override
-            public SignatureVisitor visitSuperclass() {
-                if(isReturn) System.out.println("visitSuperclass");
-                return super.visitSuperclass();
-            }
-
-            @Override
-            public SignatureVisitor visitInterface() {
-                if(isReturn) System.out.println("visitInterface");
-                return super.visitInterface();
-            }
-
-            @Override
-            public SignatureVisitor visitParameterType() {
-                if(isReturn) System.out.println("visitParameterType");
-                return super.visitParameterType();
-            }
-
-            @Override
-            public SignatureVisitor visitExceptionType() {
-                if(isReturn) System.out.println("visitExceptionType");
-                return super.visitExceptionType();
-            }
-
-            @Override
-            public SignatureVisitor visitArrayType() {
-                if(isReturn) System.out.println("visitArrayType");
-                return super.visitArrayType();
-            }
-
-            @Override
-            public void visitTypeArgument() {
-                if(isReturn) System.out.println("visitTypeArgument");
-                super.visitTypeArgument();
-            }
-
+        
             @Override
             public void visitEnd() {
-                if(isReturn) System.out.println("visitEnd");
+                if(isReturn) {
+                    GenericNode parent = currentSide.getParent();
+                    if(parent != null) currentSide = parent;
+                }
                 super.visitEnd();
+            }
+        
+            @Override
+            public SignatureVisitor visitArrayType() {
+                if(isReturn) {
+                    isArray = true;
+                }
+                return super.visitArrayType();
             }
             
         });
         return ret;
     }
-
+    
     /**
      * 
      * @param target the object which should run the method
