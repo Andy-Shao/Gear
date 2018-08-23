@@ -31,4 +31,6 @@ public class GenericNode implements Serializable{
     @Setter(AccessLevel.PACKAGE)
     @Getter(AccessLevel.PACKAGE)
     private GenericNode parent;
+    @EqualsAndHashCode.Exclude
+    private String typeVariable;
 }

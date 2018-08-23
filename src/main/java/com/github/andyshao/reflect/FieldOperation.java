@@ -1,10 +1,18 @@
 package com.github.andyshao.reflect;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.signature.SignatureReader;
+import org.objectweb.asm.signature.SignatureVisitor;
+
+import com.github.andyshao.asm.TypeOperation;
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.util.CollectionOperation;
 
@@ -68,6 +76,79 @@ public final class FieldOperation {
         genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
         genericInfo.declareType = field.getType();
         return genericInfo;
+    }
+    
+    public static final GenericNode getFieldTypeInfo(Field field, ClassSignature classSignature) {
+        final GenericNode result = new GenericNode();
+        String singnature = classSignature.fieldSignatures.get(field);
+        if(singnature == null) {
+            result.setDeclareType(field.getType());
+            return result;
+        }
+        SignatureReader reader = new SignatureReader(singnature);
+        reader.accept(new SignatureVisitor(Opcodes.ASM6) {
+            private volatile boolean isArray = false;
+            private volatile GenericNode currentNode = result;
+            
+            @Override
+            public void visitBaseType(char descriptor) {
+                Class<?> clazz = TypeOperation.getClass(Type.getType(String.valueOf(descriptor)));
+                currentNode.setDeclareType(clazz);
+//                System.out.println(String.format("visitBaseType: %c" , descriptor));
+                super.visitBaseType(descriptor);
+            }
+
+            @Override
+            public SignatureVisitor visitArrayType() {
+                isArray = true;
+                return super.visitArrayType();
+            }
+
+            @Override
+            public void visitEnd() {
+                GenericNode parent = currentNode.getParent();
+                if(parent != null) currentNode = parent;
+//                System.out.println("visitEnd");
+                super.visitEnd();
+            }
+
+            @Override
+            public void visitClassType(String name) {
+                Class<?> clazz = ClassOperation.forName(name.replace('/' , '.'));
+                if(isArray) {
+                    clazz = Array.newInstance(clazz , 0).getClass();
+                    isArray = false;
+                }
+                currentNode.setDeclareType(clazz);
+//                System.out.println(String.format("visitClassType: %s" , name));
+                super.visitClassType(name);
+            }
+
+            @Override
+            public SignatureVisitor visitTypeArgument(char wildcard) {
+                GenericNode node = new GenericNode();
+                node.setParent(currentNode);
+                currentNode.setGeneiric(true);
+                currentNode.getComponentTypes().add(node);
+                currentNode = node;
+//                System.out.println(String.format("visitTypeArgument: %s" , wildcard));
+                return super.visitTypeArgument(wildcard);
+            }
+
+            @Override
+            public void visitTypeVariable(String name) {
+                currentNode.setTypeVariable(name);
+                GenericNode parent = currentNode.getParent();
+                if(parent != null) currentNode = parent;
+//                System.out.println(String.format("visitTypeVariable: %s" , name));
+                super.visitTypeVariable(name);
+            }
+        });
+        return result;
+    }
+    
+    public static final GenericNode getFieldTypeInfo(Field field) {
+        return getFieldTypeInfo(field , new SignatureDetector(Opcodes.ASM6).getSignature(field.getDeclaringClass()));
     }
 
     /**

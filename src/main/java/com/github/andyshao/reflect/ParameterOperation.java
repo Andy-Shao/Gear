@@ -154,6 +154,14 @@ public final class ParameterOperation {
                 isParam = false;
                 return super.visitReturnType();
             }
+
+            @Override
+            public void visitTypeVariable(String name) {
+                currentNode.setTypeVariable(name);
+                GenericNode parent = currentNode.getParent();
+                if(parent != null) currentNode = parent;
+                super.visitTypeVariable(name);
+            }
         });
         return result;
     }

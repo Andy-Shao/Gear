@@ -112,6 +112,22 @@ public class MethodOperationTest {
         Assert.assertFalse(node.isGeneiric());
         Assert.assertThat(node.getComponentTypes().size() , Matchers.is(0));
         Assert.assertTrue(node.getDeclareType() == null);
+        
+        method = MethodOperation.getMethod(Data.class , "process" , Map.class);
+        returnType = MethodOperation.getReturnTypeInfo(method);
+        Assert.assertTrue(returnType.isGeneiric());
+        Assert.assertThat(returnType.getComponentTypes().size(), Matchers.is(2));
+        Assert.assertTrue(returnType.getDeclareType() == Map.class);
+        node = returnType.getComponentTypes().get(0);
+        Assert.assertFalse(node.isGeneiric());
+        Assert.assertThat(node.getComponentTypes().size() , Matchers.is(0));
+        Assert.assertTrue(node.getDeclareType() == null);
+        Assert.assertThat(node.getTypeVariable() , Matchers.is("E"));
+        node = returnType.getComponentTypes().get(1);
+        Assert.assertFalse(node.isGeneiric());
+        Assert.assertThat(node.getComponentTypes().size() , Matchers.is(0));
+        Assert.assertTrue(node.getDeclareType() == null);
+        Assert.assertThat(node.getTypeVariable() , Matchers.is("D"));
     }
     
     @Test
@@ -253,6 +269,25 @@ public class MethodOperationTest {
         Assert.assertFalse(node.isGeneiric());
         Assert.assertTrue(node.getDeclareType() == null);
         Assert.assertThat(node.getComponentTypes().size() , Matchers.is(0));
+        
+        method = MethodOperation.getDeclaredMethod(Data.class , "process" , Map.class);
+        parameterTypesInfo = MethodOperation.getParameterTypesInfo(method);
+        Assert.assertThat(parameterTypesInfo.size() , Matchers.is(1));
+        node = parameterTypesInfo.get(0);
+        Assert.assertTrue(node.isGeneiric());
+        Assert.assertTrue(node.getDeclareType() == Map.class);
+        Assert.assertThat(node.getComponentTypes().size() , Matchers.is(2));
+        nodes = node.getComponentTypes();
+        node = nodes.get(0);
+        Assert.assertFalse(node.isGeneiric());
+        Assert.assertTrue(node.getDeclareType() == null);
+        Assert.assertThat(node.getComponentTypes().size() , Matchers.is(0));
+        Assert.assertThat(node.getTypeVariable() , Matchers.is("E"));
+        node = nodes.get(1);
+        Assert.assertFalse(node.isGeneiric());
+        Assert.assertTrue(node.getDeclareType() == null);
+        Assert.assertThat(node.getComponentTypes().size() , Matchers.is(0));
+        Assert.assertThat(node.getTypeVariable() , Matchers.is("D"));
     }
     
     public interface Data<T extends GenericNode> extends List<T> {
@@ -267,5 +302,6 @@ public class MethodOperationTest {
         Void voidMethod(String arg, double d);
         <E> E process(E arg);
         <E> List<E> process(List<E> arg);
+        <E,D> Map<E,D> process(Map<E,D> arg);
     }
 }

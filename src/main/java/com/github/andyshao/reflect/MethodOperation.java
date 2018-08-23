@@ -209,6 +209,14 @@ public final class MethodOperation {
                 }
                 return super.visitArrayType();
             }
+
+            @Override
+            public void visitTypeVariable(String name) {
+                currentSide.setTypeVariable(name);
+                GenericNode parent = currentSide.getParent();
+                if(parent != null) currentSide = parent;
+                super.visitTypeVariable(name);
+            }
             
         });
         return ret;
