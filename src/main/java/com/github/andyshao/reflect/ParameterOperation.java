@@ -2,9 +2,14 @@ package com.github.andyshao.reflect;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Parameter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -13,7 +18,12 @@ import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
+import org.objectweb.asm.signature.SignatureReader;
+import org.objectweb.asm.signature.SignatureVisitor;
 
+import com.github.andyshao.asm.TypeOperation;
+import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.Param;
 
@@ -57,6 +67,95 @@ public final class ParameterOperation {
         genericInfo.componentTypes = GenericInfo.analyseScript(generic.componentTypes());
         genericInfo.declareType = parameter.getType();
         return genericInfo;
+    }
+    
+    public static List<GenericNode> getParameterTypesInfo(Method method){
+        return getParameterTypesInfo(method, new SignatureDetector(Opcodes.ASM6).getSignature(method.getDeclaringClass()));
+    }
+    
+    public static List<GenericNode> getParameterTypesInfo(Method method, ClassSignature classSignature){
+        final List<GenericNode> result = new ArrayList<>();
+        if(method.getParameterTypes().length == 0) return result;
+        
+        String signature = classSignature.methodSignatures.get(method);
+        if(StringOperation.isTrimEmptyOrNull(signature)) return Arrays.stream(method.getParameterTypes()).map(it -> {
+            GenericNode node = new GenericNode();
+            node.setGeneiric(false);
+            node.setDeclareType(it);
+            return node;
+        }).collect(Collectors.toList());
+        SignatureReader reader = new SignatureReader(signature);
+        reader.accept(new SignatureVisitor(Opcodes.ASM6) {
+            private volatile boolean isParam = false;
+            private volatile GenericNode currentNode;
+            private volatile boolean isArray = false;
+            
+            @Override
+            public SignatureVisitor visitParameterType() {
+                isParam = true;
+                currentNode = new GenericNode();
+                result.add(currentNode);
+                return super.visitParameterType();
+            }
+
+            @Override
+            public void visitBaseType(char descriptor) {
+                if(isParam) {
+                    Class<?> clazz = TypeOperation.getClass(Type.getType(String.valueOf(descriptor)));
+                    currentNode.setDeclareType(clazz);
+                }
+                super.visitBaseType(descriptor);
+            }
+
+            @Override
+            public SignatureVisitor visitArrayType() {
+                if(isParam) {
+                    isArray = true;
+                }
+                return super.visitArrayType();
+            }
+
+            @Override
+            public SignatureVisitor visitTypeArgument(char wildcard) {
+                if(isParam) {
+                    GenericNode node = new GenericNode();
+                    node.setParent(currentNode);
+                    currentNode.getComponentTypes().add(node);
+                    currentNode.setGeneiric(true);
+                    currentNode = node;
+                }
+                return super.visitTypeArgument(wildcard);
+            }
+
+            @Override
+            public void visitEnd() {
+                if(isParam) {
+                    GenericNode parent = currentNode.getParent();
+                    if(parent != null) currentNode = parent;
+                }
+                super.visitEnd();
+            }
+
+            @Override
+            public void visitClassType(String name) {
+                if(isParam) {
+                    Class<?> clazz = ClassOperation.forName(name.replace('/' , '.'));
+                    if(isArray) {
+                        clazz = Array.newInstance(clazz , 0).getClass();
+                        isArray = false;
+                    }
+                    currentNode.setDeclareType(clazz);
+                }
+                super.visitClassType(name);
+            }
+
+            @Override
+            public SignatureVisitor visitReturnType() {
+                isParam = false;
+                return super.visitReturnType();
+            }
+        });
+        return result;
     }
 
     /**

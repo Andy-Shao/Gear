@@ -3,6 +3,7 @@ package com.github.andyshao.reflect;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +15,7 @@ import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 
 import com.github.andyshao.asm.TypeOperation;
+import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.reflect.annotation.MethodInfo;
@@ -133,10 +135,14 @@ public final class MethodOperation {
         return genericInfo;
     }
     
+    public static GenericNode getReturnTypeInfo(Method method) {
+        return getReturnTypeInfo(method , new SignatureDetector(Opcodes.ASM6).getSignature(method.getDeclaringClass()));
+    }
+    
     public static GenericNode getReturnTypeInfo(Method method, ClassSignature classSignature) {
         final GenericNode ret = new GenericNode();
         String signature = classSignature.methodSignatures.get(method);
-        if(signature == null) {
+        if(StringOperation.isTrimEmptyOrNull(signature)) {
             ret.setGeneiric(false);
             ret.setDeclareType(method.getReturnType());
             return ret;
@@ -206,6 +212,14 @@ public final class MethodOperation {
             
         });
         return ret;
+    }
+    
+    public static List<GenericNode> getParameterTypesInfo(Method method){
+        return ParameterOperation.getParameterTypesInfo(method);
+    }
+    
+    public static List<GenericNode> getParameterTypesInfo(Method method, ClassSignature classSignature){
+        return ParameterOperation.getParameterTypesInfo(method , classSignature);
     }
     
     /**

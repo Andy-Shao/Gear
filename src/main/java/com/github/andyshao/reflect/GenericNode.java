@@ -21,9 +21,11 @@ import lombok.Setter;
  */
 @Data
 @SuppressWarnings("serial")
-public final class GenericNode implements Serializable{
+public class GenericNode implements Serializable{
     private final List<GenericNode> componentTypes = new ArrayList<>();
+    @Setter(AccessLevel.PACKAGE)
     private Class<?> declareType;
+    @Setter(AccessLevel.PACKAGE)
     private boolean isGeneiric = false;
     @EqualsAndHashCode.Exclude
     @Setter(AccessLevel.PACKAGE)
