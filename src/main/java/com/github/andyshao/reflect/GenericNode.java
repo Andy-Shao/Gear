@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * 
@@ -27,6 +28,7 @@ public class GenericNode implements Serializable{
     private Class<?> declareType;
     @Setter(AccessLevel.PACKAGE)
     private boolean isGeneiric = false;
+    @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Setter(AccessLevel.PACKAGE)
     @Getter(AccessLevel.PACKAGE)
