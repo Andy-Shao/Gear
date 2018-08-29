@@ -2,11 +2,14 @@ package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.objectweb.asm.Opcodes;
@@ -33,6 +36,36 @@ import com.github.andyshao.util.CollectionOperation;
  */
 @SuppressWarnings("deprecation")
 public final class MethodOperation {
+    public static final List<Method> getSetMethods(Class<?> clazz){
+        return Arrays.stream(clazz.getMethods())
+                .filter(method -> {
+                    int modifiers = method.getModifiers();
+                    if(!method.getName().startsWith("set")) return false;
+                    if(!Modifier.isPublic(modifiers)) return false;
+                    if(Modifier.isAbstract(modifiers)) return false;
+                    if(Modifier.isStatic(modifiers)) return false;
+                    if(!method.getReturnType().isAssignableFrom(void.class)) return false;
+                    if(method.getParameterTypes().length != 1) return false;
+                    return true;
+                })
+                .collect(Collectors.toList());
+    }
+    
+    public static final List<Method> getGetMethods(Class<?> clazz){
+        return Arrays.stream(clazz.getMethods())
+                .filter(method -> {
+                    if(!method.getName().startsWith("get")) return false;
+                    int modifiers = method.getModifiers();
+                    if(!Modifier.isPublic(modifiers)) return false;
+                    if(Modifier.isStatic(modifiers)) return false;
+                    if(Modifier.isAbstract(modifiers)) return false;
+                    if(method.getReturnType().isAssignableFrom(void.class)) return false;
+                    if(method.getParameterTypes().length != 0) return false;
+                    return true;
+                })
+                .collect(Collectors.toList());
+    }
+    
     public static Method[] getAllMethods(Class<?> clazz) {
         Set<Method> result = new HashSet<Method>();
         CollectionOperation.addAll(result , clazz.getMethods());
