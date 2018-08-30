@@ -1,6 +1,7 @@
 package com.github.andyshao.lang;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 import com.github.andyshao.reflect.ArrayOperation;
 
@@ -78,6 +79,7 @@ public final class StringOperation {
      * @return the end of the string
      */
     public static String replaceAll(String str , String key , String padding) {
+        if(Objects.equals(key , padding)) return str;
         while (str.indexOf(key) != -1)
             str = StringOperation.replaceFirst(str , key , padding);
         return str;
