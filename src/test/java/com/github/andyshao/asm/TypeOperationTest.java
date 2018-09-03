@@ -64,11 +64,14 @@ public class TypeOperationTest {
     public void testGetType() {
         Type type = Type.getType("Ljava/lang/Object;");
         Assert.assertTrue(TypeOperation.getClass(type) == Object.class);
-        type = Type.getType("Ljava/util/List;<Ljava/lang/Object;>");
+        //type = Type.getType("Ljava/util/List<Ljava/lang/Object;>;");
+        type = Type.getType("Ljava/util/List;");
         Assert.assertTrue(TypeOperation.getClass(type) == List.class);
-        type = Type.getType("Ljava/util/Map;<Ljava/lang/String;Ljava/lang/Object;>");
+        //type = Type.getType("Ljava/util/Map<Ljava/lang/String;Ljava/lang/Object;>;");
+        type = Type.getType("Ljava/util/Map;");
         Assert.assertTrue(TypeOperation.getClass(type) == Map.class);
-        type = Type.getType("Ljava/util/function/BiFunction;<Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Boolean;>");
+        //type = Type.getType("Ljava/util/function/BiFunction<Ljava/lang/String;Ljava/lang/Integer;Ljava/lang/Boolean;>;");
+        type = Type.getType("Ljava/util/function/BiFunction;");
         Assert.assertTrue(TypeOperation.getClass(type) == BiFunction.class);
     }
 }
