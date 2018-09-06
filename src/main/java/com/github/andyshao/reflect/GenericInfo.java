@@ -19,6 +19,7 @@ import com.github.andyshao.asm.TypeOperation;
  * @author Andy.Shao
  *
  */
+@Deprecated
 public final class GenericInfo {
     @Deprecated
     public static GenericInfo[] analyseScript(String... script) {
