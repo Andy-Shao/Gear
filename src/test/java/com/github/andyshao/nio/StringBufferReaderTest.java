@@ -8,8 +8,6 @@ import org.hamcrest.Matchers;
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.github.andyshao.lang.GeneralSystemProperty;
-
 public class StringBufferReaderTest {
     @Test
     public void effeicientTest() throws IOException , URISyntaxException {
@@ -26,7 +24,8 @@ public class StringBufferReaderTest {
     @Test
     public void testReader() throws IOException , URISyntaxException {
         try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getFilePath()); StringBufferReader reader = new StringBufferReader(channel);) {
-            reader.setFindSeparatePoint(new StringBufferReader.SeparateByStr(GeneralSystemProperty.LINE_SEPARATOR.value()));
+//            reader.setFindSeparatePoint(new StringBufferReader.SeparateByStr(GeneralSystemProperty.LINE_SEPARATOR.value()));
+            reader.setFindSeparatePoint(new StringBufferReader.SeparateByStr("\n"));
             Assert.assertThat(reader.read() , Matchers.is("[Desktop Entry]"));
             Assert.assertThat(reader.read() , Matchers.is("Version=1.0"));
         }

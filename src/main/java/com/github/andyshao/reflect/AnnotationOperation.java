@@ -27,8 +27,8 @@ public final class AnnotationOperation {
 
         if (target.isInterface()) {
             Class<?>[] interfaces = target.getInterfaces();
-            for (Class<?> _interface : interfaces) {
-                annotation = AnnotationOperation.superGetAnnotation(_interface , clazz);
+            for (Class<?> it : interfaces) {
+                annotation = AnnotationOperation.superGetAnnotation(it , clazz);
                 if (annotation != null) return annotation;
             }
         } else {
@@ -39,8 +39,8 @@ public final class AnnotationOperation {
             }
 
             Class<?>[] interfaces = target.getInterfaces();
-            for (Class<?> _interface : interfaces) {
-                annotation = AnnotationOperation.superGetAnnotation(_interface , clazz);
+            for (Class<?> it : interfaces) {
+                annotation = AnnotationOperation.superGetAnnotation(it , clazz);
                 if (annotation != null) return annotation;
             }
         }
