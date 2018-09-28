@@ -1,5 +1,7 @@
 package com.github.andyshao.nio;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,9 +12,7 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ReadableByteChannelTest {
 
@@ -27,7 +27,7 @@ public class ReadableByteChannelTest {
             buffer.flip();
             byte[] bs = new byte[4];
             buffer.get(bs);
-            Assert.assertThat(new String(bs) , Matchers.is("[Des"));
+            assertEquals(new String(bs) , ("[Des"));
             bs = new byte[buffer.limit() - buffer.position()];
             buffer.get(bs);
         }

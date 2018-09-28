@@ -6,15 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class HuffmanCompressTest {
 
     private volatile byte[] context;
     private volatile HuffmanCompress huffmanCompress;
 
-    @Before
+    @BeforeEach
     public void before() throws IOException , URISyntaxException {
         Path path = Paths.get(Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/arithmetic/examples").toURI());
         this.context = Files.readAllBytes(path);

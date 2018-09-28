@@ -1,10 +1,10 @@
 package com.github.andyshao.arithmetic;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Comparator;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.reflect.ArrayOperation;
 
@@ -16,15 +16,15 @@ public class ArraySearchTest {
     @Test
     public void testBisearch() {
         int index = ArraySearch.bisearch(this.data , 3 , this.comparator);
-        Assert.assertThat(index , Matchers.is(3));
+        assertEquals(index , 3);
 
         index = ArraySearch.bisearch(this.data , 15 , this.comparator);
-        Assert.assertThat(index , Matchers.is(-1));
+        assertEquals(index , -1);
 
         index = ArraySearch.bisearch(this.dataX , 3 , this.comparator);
-        Assert.assertThat(index , Matchers.is(3));
+        assertEquals(index , 3);
 
         index = ArraySearch.bisearch(this.dataX , 15 , this.comparator);
-        Assert.assertThat(index , Matchers.is(-1));
+        assertEquals(index , -1);
     }
 }

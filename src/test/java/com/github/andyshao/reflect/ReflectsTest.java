@@ -1,10 +1,10 @@
 package com.github.andyshao.reflect;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 import java.io.IOException;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 @SuppressWarnings("deprecation")
 public class ReflectsTest {
@@ -17,6 +17,6 @@ public class ReflectsTest {
     @Test
     public void getParameterNameTest() throws IOException {
         String[] names = Reflects.getMethodParamNames(Reflects.getDeclaredMethod(MyClass.class , "myMethod" , String.class , String.class));
-        Assert.assertThat(names , Matchers.is(new String[] { "myStr" , "myStr2" }));
+        assertArrayEquals(names , (new String[] { "myStr" , "myStr2" }));
     }
 }

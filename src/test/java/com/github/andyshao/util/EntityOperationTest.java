@@ -1,8 +1,9 @@
 package com.github.andyshao.util;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.util.annotation.IgnoreCopy;
 
@@ -22,11 +23,11 @@ public class EntityOperationTest {
         MyClassTwo two = new MyClassTwo();
         EntityOperation.copyProperties(one , two);
         
-        Assert.assertThat(two.getOne() , Matchers.is(one.getOne()));
-        Assert.assertNull(two.getTwo());
-        Assert.assertNull(two.getThree());
-        Assert.assertThat(two.getFour() , Matchers.is(4));
-        Assert.assertThat(two.getFive() , Matchers.is(5L));
+        assertEquals(two.getOne() , (one.getOne()));
+        assertNull(two.getTwo());
+        assertNull(two.getThree());
+        assertEquals(two.getFour() , (Integer)4);
+        assertEquals(two.getFive() , (5L));
     }
     
     @Test
@@ -37,9 +38,9 @@ public class EntityOperationTest {
         one.setMachines("machine01");
         ArrayClassTwo two = new ArrayClassTwo();
         EntityOperation.copyProperties(one , two);
-        Assert.assertThat(two.getIp() , Matchers.is("localhost"));
-        Assert.assertNull(two.getIps());
-        Assert.assertNull(two.getMachines());
+        assertEquals(two.getIp() , ("localhost"));
+        assertNull(two.getIps());
+        assertNull(two.getMachines());
     }
     
     @Test
@@ -53,10 +54,10 @@ public class EntityOperationTest {
         
         EntityOperation.copyProperties(child , item);
         
-        Assert.assertThat(child.getThree() , Matchers.is(item.getThree()));
-        Assert.assertThat(child.getFour() , Matchers.is(item.getFour()));
-        Assert.assertThat(child.getOne() , Matchers.is(item.getOne()));
-        Assert.assertThat(child.getTwo() , Matchers.is(item.getTwo()));
+        assertEquals(child.getThree() , (item.getThree()));
+        assertEquals(child.getFour() , (item.getFour()));
+        assertEquals(child.getOne() , (item.getOne()));
+        assertEquals(child.getTwo() , (item.getTwo()));
     }
 
     @Data

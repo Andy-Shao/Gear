@@ -1,13 +1,13 @@
 package com.github.andyshao.lang;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
 import java.util.function.Supplier;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.nio.BufferReader;
 import com.github.andyshao.nio.ByteBufferReader;
@@ -27,6 +27,6 @@ public class ClassAssemblyTest {
         }
         Class<Supplier<String>> clazz = ClassAssembly.DEFAULT.<Supplier<String>> assemble(ClassAssemblyTest.CLASS_PATH.replace("/" , ".").replace(".class" , "") , classInfo);
         String answer = MethodOperation.<String> invoked(ClassOperation.newInstance(clazz) , MethodOperation.getMethod(clazz , "get"));
-        Assert.assertThat(answer , Matchers.is("Hello,World!"));
+        assertEquals(answer , "Hello,World!");
     }
 }

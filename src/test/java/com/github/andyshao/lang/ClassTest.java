@@ -1,30 +1,30 @@
 package com.github.andyshao.lang;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 public class ClassTest {
 
     @Test
     public void testisPrimitive() {
-        Assert.assertThat(int.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(boolean.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(short.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(char.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(float.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(double.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(long.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(byte.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(void.class.isPrimitive() , Matchers.is(true));
-        Assert.assertThat(Integer.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Boolean.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Short.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Character.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Float.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Double.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Long.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Byte.class.isPrimitive() , Matchers.is(false));
-        Assert.assertThat(Void.class.isPrimitive() , Matchers.is(false));
+        assertEquals(int.class.isPrimitive() , true);
+        assertEquals(boolean.class.isPrimitive() , true);
+        assertEquals(short.class.isPrimitive() , true);
+        assertEquals(char.class.isPrimitive() , true);
+        assertEquals(float.class.isPrimitive() , true);
+        assertEquals(double.class.isPrimitive() , true);
+        assertEquals(long.class.isPrimitive() , true);
+        assertEquals(byte.class.isPrimitive() , true);
+        assertEquals(void.class.isPrimitive() , true);
+        assertEquals(Integer.class.isPrimitive() , false);
+        assertEquals(Boolean.class.isPrimitive() , false);
+        assertEquals(Short.class.isPrimitive() , false);
+        assertEquals(Character.class.isPrimitive() , false);
+        assertEquals(Float.class.isPrimitive() , false);
+        assertEquals(Double.class.isPrimitive() , false);
+        assertEquals(Long.class.isPrimitive() , false);
+        assertEquals(Byte.class.isPrimitive() , false);
+        assertEquals(Void.class.isPrimitive() , false);
     }
 }

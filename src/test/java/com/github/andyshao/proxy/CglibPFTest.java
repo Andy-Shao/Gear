@@ -1,7 +1,9 @@
 package com.github.andyshao.proxy;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.reflect.MethodOperation;
 
@@ -16,7 +18,7 @@ public class CglibPFTest {
     @Test
     public void test() {
         final CglibPFTest.MyClass myClass = new CglibPFTest.MyClass();
-        Assert.assertFalse(myClass.isAllow());
+        assertFalse(myClass.isAllow());
 
         final String methodName = ProxyFactory.buildMethodKey(MethodOperation.getMethod(CglibPFTest.MyClass.class , "isAllow"));
         CglibPF<CglibPFTest.MyClass> cglibProxyF = (target , method , args) -> {
@@ -24,6 +26,6 @@ public class CglibPFTest {
             return method.invoke(myClass , args);
         };
 
-        Assert.assertTrue(cglibProxyF.getProxy(myClass).isAllow());
+        assertTrue(cglibProxyF.getProxy(myClass).isAllow());
     }
 }

@@ -1,12 +1,12 @@
 package com.github.andyshao.arithmetic;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.List;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ListSortTest {
     private final List<Integer> answer = Arrays.asList(310 , 311 , 312 , 313 , 314 , 315 , 316 , 317 , 318 , 319);
@@ -14,7 +14,7 @@ public class ListSortTest {
 
     private volatile List<Integer> data;
 
-    @Before
+    @BeforeEach
     public void befor() {
         this.data = Arrays.asList(313 , 314 , 317 , 319 , 311 , 316 , 312 , 310 , 315 , 318);
     }
@@ -22,9 +22,9 @@ public class ListSortTest {
     @Test
     public void testIssort() {
         ListSort.issort(this.data , 2 , 6 , Integer::compare);
-        Assert.assertThat(this.data.equals(this.clipAnswer) , Matchers.is(true));
+        assertTrue(this.data.equals(this.clipAnswer));
 
         ListSort.issort(this.data , 0 , this.data.size() , Integer::compare);
-        Assert.assertThat(this.data.equals(this.answer) , Matchers.is(true));
+        assertTrue(this.data.equals(this.answer));
     }
 }

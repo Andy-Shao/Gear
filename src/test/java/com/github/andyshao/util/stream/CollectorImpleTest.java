@@ -1,14 +1,15 @@
 package com.github.andyshao.util.stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -35,8 +36,8 @@ public class CollectorImpleTest {
                 a -> a.get(0),
                 CollectorImpl.CH_CONCURRENT_NOID);
         ConcurrentHashMap<String , Person> map = ls.stream().collect(Collectors.groupingBy(Person::getName , ConcurrentHashMap::new, collectorImpl));
-        Assert.assertNotNull(map);
-        Assert.assertThat(map.get("andy") , Matchers.is(new Person("andy", 12)));
-        Assert.assertThat(map.get("shao") , Matchers.is(new Person("shao" , 45)));
+        assertNotNull(map);
+        assertEquals(map.get("andy") , (new Person("andy", 12)));
+        assertEquals(map.get("shao") , (new Person("shao" , 45)));
     }
 }

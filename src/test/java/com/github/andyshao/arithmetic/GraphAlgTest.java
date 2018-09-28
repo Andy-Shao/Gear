@@ -1,5 +1,7 @@
 package com.github.andyshao.arithmetic;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,9 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.arithmetic.GraphAlg.MstVertex;
 import com.github.andyshao.arithmetic.GraphAlg.PathVertex;
@@ -71,7 +71,7 @@ public class GraphAlgTest {
 
         List<MstVertex<String>> list = new ArrayList<>();
         GraphAlg.mst(graph , a , list , comparator);
-        Assert.assertThat(list.toArray() , Matchers.is(new Object[] { a , c , b , d , f , e }));
+        assertArrayEquals(list.toArray() , new Object[] { a , c , b , d , f , e });
     }
 
     @Test
@@ -103,12 +103,12 @@ public class GraphAlgTest {
 
         List<PathVertex<String>> list = new ArrayList<>();
         GraphAlg.findShortest(graph , a , list , comparator);
-        Assert.assertThat(list.toArray() , Matchers.is(new Object[] { a , c , f , b , e , d }));
+        assertArrayEquals(list.toArray() , new Object[] { a , c , f , b , e , d });
 
         Map<PathVertex<String> , Collection<PathVertex<String>>> answer = new HashMap<>();
         GraphAlg.shortest(graph , a , Arrays.asList(e , d) , answer , comparator);
-        Assert.assertThat(answer.get(d).toArray() , Matchers.is(new Object[] { a , c , f , b , d }));
-        Assert.assertThat(answer.get(e).toArray() , Matchers.is(new Object[] { a , c , e }));
+        assertArrayEquals(answer.get(d).toArray() , new Object[] { a , c , f , b , d });
+        assertArrayEquals(answer.get(e).toArray() , new Object[] { a , c , e });
     }
 
     @Test
@@ -125,6 +125,6 @@ public class GraphAlgTest {
 
         final List<TspVertex<String>> result = new ArrayList<>();
         GraphAlg.tsp(list , a , result , comparator);
-        Assert.assertThat(result.toArray() , Matchers.is(new Object[] { a , c , f , d , b , e , g , a }));
+        assertArrayEquals(result.toArray() , new Object[] { a , c , f , d , b , e , g , a });
     }
 }

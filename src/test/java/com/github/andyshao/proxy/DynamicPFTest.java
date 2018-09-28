@@ -1,7 +1,9 @@
 package com.github.andyshao.proxy;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.reflect.MethodOperation;
 
@@ -20,7 +22,7 @@ public class DynamicPFTest {
                 return false;
             }
         };
-        Assert.assertFalse(myInterface.isAllow());
+        assertFalse(myInterface.isAllow());
         final String key = ProxyFactory.buildMethodKey(MethodOperation.getMethod(DynamicPFTest.MyInterface.class , "isAllow"));
 
         DynamicPF<MyInterface> dynamicPF = (target , method , args) -> {
@@ -28,6 +30,6 @@ public class DynamicPFTest {
             return method.invoke(myInterface , args);
         };
 
-        Assert.assertTrue(dynamicPF.getProxy(myInterface).isAllow());
+        assertTrue(dynamicPF.getProxy(myInterface).isAllow());
     }
 }

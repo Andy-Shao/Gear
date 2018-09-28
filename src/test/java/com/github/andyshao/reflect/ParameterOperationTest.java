@@ -1,8 +1,9 @@
 package com.github.andyshao.reflect;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+
+import org.junit.jupiter.api.Test;
 
 public class ParameterOperationTest {
     static class MyClass {
@@ -23,15 +24,15 @@ public class ParameterOperationTest {
     @Test
     public void testGetParameterNames() {
         String[] ps = ParameterOperation.getMethodParamNames(MethodOperation.getMethod(MyClass.class , "myMethod" , String.class));
-        Assert.assertThat(ps , Matchers.is(new String[] { "argOne" }));
+        assertArrayEquals(ps , (new String[] { "argOne" }));
 
         try {
             ps = ParameterOperation.getMethodParamNames(MethodOperation.getMethod(MyInterface.class , "myMethod" , String.class));
-            Assert.fail();
+            fail();
         } catch (ReflectiveOperationException e) {
         }
 
         ps = ParameterOperation.getMethodParamNames(MethodOperation.getMethod(MyClass2.class , "myMethod" , String.class));
-        Assert.assertThat(ps , Matchers.is(new String[] { "argTwo" }));
+        assertArrayEquals(ps , (new String[] { "argTwo" }));
     }
 }

@@ -1,16 +1,17 @@
 package com.github.andyshao.nio;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.nio.ByteBuffer;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ByteBufferOperationTest {
     private volatile ByteBuffer buffer;
 
-    @Before
+    @BeforeEach
     public void before() {
         this.buffer = ByteBuffer.allocate(1024);
     }
@@ -20,7 +21,7 @@ public class ByteBufferOperationTest {
         final ByteBuffer buffer = ByteBuffer.wrap("aaannndddyyyaandyyyyaaannnddd".getBytes());
         final byte[] key = "andy".getBytes();
         final int position = ByteBufferOperation.indexOf(buffer , key);
-        Assert.assertArrayEquals(key , ByteBufferOperation.getBytes(buffer , position , key.length));
+        assertArrayEquals(key , ByteBufferOperation.getBytes(buffer , position , key.length));
     }
 
     @Test
@@ -28,7 +29,7 @@ public class ByteBufferOperationTest {
         final ByteBuffer buffer = ByteBuffer.wrap("aaannndddyyyandyy".getBytes());
         final byte[] key = "andy".getBytes();
         final int position = ByteBufferOperation.lastIndexOf(buffer , key);
-        Assert.assertArrayEquals(key , ByteBufferOperation.getBytes(buffer , position , key.length));
+        assertArrayEquals(key , ByteBufferOperation.getBytes(buffer , position , key.length));
     }
 
     @Test
@@ -38,7 +39,7 @@ public class ByteBufferOperationTest {
         this.buffer.flip();
 
         byte[] after = ByteBufferOperation.usedArray(this.buffer);
-        Assert.assertThat(before.length , Matchers.is(after.length));
-        Assert.assertThat(new String(after) , Matchers.is("Andy-Shao"));
+        assertEquals(before.length , (after.length));
+        assertEquals(new String(after) , ("Andy-Shao"));
     }
 }

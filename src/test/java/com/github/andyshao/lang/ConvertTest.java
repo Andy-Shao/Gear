@@ -1,13 +1,16 @@
 package com.github.andyshao.lang;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.reflect.ArrayOperation;
 
@@ -18,8 +21,8 @@ public class ConvertTest {
         String trueStr = "true";
         String falseStr = "false";
 
-        Assert.assertTrue(Convert.OB_2_BOOLEAN.convert(trueStr));
-        Assert.assertFalse(Convert.OB_2_BOOLEAN.convert(falseStr));
+        assertTrue(Convert.OB_2_BOOLEAN.convert(trueStr));
+        assertFalse(Convert.OB_2_BOOLEAN.convert(falseStr));
     }
 
     @Test
@@ -29,12 +32,12 @@ public class ConvertTest {
 
         {
             String hexStr = Convert.BYTES_2_HEX.convert(ArrayOperation.pack_unpack(bs , Byte[].class));
-            Assert.assertTrue(hexStr.equalsIgnoreCase(hexString));
+            assertTrue(hexStr.equalsIgnoreCase(hexString));
         }
 
         {
             byte[] bs2 = ArrayOperation.pack_unpack(Convert.HEX_2_BYTES.convert(hexString) , byte[].class);
-            Assert.assertArrayEquals(bs , bs2);
+            assertArrayEquals(bs , bs2);
         }
     }
 
@@ -44,7 +47,7 @@ public class ConvertTest {
         String out = Convert.<Object , String> converting(in , (Object input) -> {
             return input.toString();
         });
-        Assert.assertThat(out , Matchers.is("12.34"));
+        assertEquals(out , "12.34");
     }
 
     @Test
@@ -54,10 +57,10 @@ public class ConvertTest {
         BigDecimal bigDecimal = new BigDecimal(dStr);
 
         double myDouble = Convert.OB_2_DOUBLE.convert(bigDecimal);
-        Assert.assertThat(myDouble , Matchers.is(d));
+        assertEquals(myDouble , d);
 
         myDouble = Convert.OB_2_DOUBLE.convert(dStr);
-        Assert.assertThat(myDouble , Matchers.is(d));
+        assertEquals(myDouble , d);
     }
 
     @Test
@@ -67,12 +70,12 @@ public class ConvertTest {
         BigDecimal bigDecimal = new BigDecimal(fStr);
 
         float myFloat = Convert.OB_2_FLOAT.convert(fStr);
-        Assert.assertThat(myFloat , Matchers.is(f));
+        assertEquals(myFloat , f);
 
         myFloat = Convert.OB_2_FLOAT.convert(bigDecimal);
-        Assert.assertThat(myFloat , Matchers.is(f));
+        assertEquals(myFloat , f);
         
-        Assert.assertThat(Convert.OB_2_FLOAT.convert(new Integer(25)) , Matchers.is(25f));
+        assertEquals(Convert.OB_2_FLOAT.convert(new Integer(25)) , (Float)25f);
     }
 
     @Test
@@ -83,13 +86,13 @@ public class ConvertTest {
         BigDecimal bigDecimal = new BigDecimal(iStr);
 
         int myInt = Convert.OB_2_INT.convert(iStr);
-        Assert.assertThat(myInt , Matchers.is(i));
+        assertEquals(myInt , i);
 
         myInt = Convert.OB_2_INT.convert(bigDecimal);
-        Assert.assertThat(myInt , Matchers.is(i));
+        assertEquals(myInt , i);
 
         myInt = Convert.OB_2_INT.convert(bigInteger);
-        Assert.assertThat(myInt , Matchers.is(i));
+        assertEquals(myInt , i);
     }
 
     @Test
@@ -100,13 +103,13 @@ public class ConvertTest {
         BigDecimal bigDecimal = new BigDecimal(lStr);
 
         long myLong = Convert.OB_2_LONG.convert(lStr);
-        Assert.assertThat(myLong , Matchers.is(l));
+        assertEquals(myLong , l);
 
         myLong = Convert.OB_2_LONG.convert(bigDecimal);
-        Assert.assertThat(myLong , Matchers.is(l));
+        assertEquals(myLong , l);
 
         myLong = Convert.OB_2_LONG.convert(bigInteger);
-        Assert.assertThat(myLong , Matchers.is(l));
+        assertEquals(myLong , l);
     }
 
     @Test
@@ -117,13 +120,13 @@ public class ConvertTest {
         BigDecimal bigDecimal = new BigDecimal(sStr);
 
         short myShort = Convert.OB_2_SHORT.convert(sStr);
-        Assert.assertThat(myShort , Matchers.is(s));
+        assertEquals(myShort , s);
 
         myShort = Convert.OB_2_SHORT.convert(bigInteger);
-        Assert.assertThat(myShort , Matchers.is(s));
+        assertEquals(myShort , s);
 
         myShort = Convert.OB_2_SHORT.convert(bigDecimal);
-        Assert.assertThat(myShort , Matchers.is(s));
+        assertEquals(myShort , s);
     }
 
     @Test
@@ -131,6 +134,6 @@ public class ConvertTest {
         List<Character> list = Arrays.asList('a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g');
         String str = "[a, b, c, d, e, f, g]";
 
-        Assert.assertEquals(str , Convert.OB_2_STR.convert(list));
+        assertEquals(str , Convert.OB_2_STR.convert(list));
     }
 }

@@ -1,9 +1,9 @@
 package com.github.andyshao.lang;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class AutoIncreaseArrayTest {
 
@@ -11,7 +11,7 @@ public class AutoIncreaseArrayTest {
     private final Character[] data =
         new Character[] { 'a' , 'b' , 'c' , 'd' , 'e' , 'f' , 'g' , 'h' , 'i' , 'j' , 'k' , 'l' , 'm' , 'n' , 'o' , 'p' , 'q' , 'r' , 's' , 't' , 'u' , 'v' , 'w' , 'x' , 'y' , 'z' };
 
-    @Before
+    @BeforeEach
     public void before() {
         this.array = new AutoIncreaseArray<Character>();
     }
@@ -24,31 +24,31 @@ public class AutoIncreaseArrayTest {
         for (Character c : this.array)
             str += c;
 
-        Assert.assertThat(str , Matchers.is("abcdefghijklmnopqrstuvwxyz"));
+        assertEquals(str , "abcdefghijklmnopqrstuvwxyz");
     }
 
     @Test
     public void testInsertHead() {
-        Assert.assertThat(this.array.size() , Matchers.is(0));
+       assertEquals(this.array.size() , 0);
 
         for (Character c : this.data)
             this.array.addHead(c);
 
-        Assert.assertThat(this.array.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.array.get(0) , Matchers.is(this.data[this.data.length - 1]));
-        Assert.assertThat(this.array.get(this.data.length - 1) , Matchers.is(this.data[0]));
+        assertEquals(this.array.size() , this.data.length);
+        assertEquals(this.array.get(0) , this.data[this.data.length - 1]);
+        assertEquals(this.array.get(this.data.length - 1) , this.data[0]);
     }
 
     @Test
     public void testInsertTail() {
-        Assert.assertThat(this.array.size() , Matchers.is(0));
+        assertEquals(this.array.size() , 0);
 
         for (Character c : this.data)
             this.array.addTail(c);
 
-        Assert.assertThat(this.array.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.array.get(0) , Matchers.is(this.data[0]));
-        Assert.assertThat(this.array.get(this.data.length - 1) , Matchers.is(this.data[this.data.length - 1]));
+        assertEquals(this.array.size() , this.data.length);
+        assertEquals(this.array.get(0) , this.data[0]);
+        assertEquals(this.array.get(this.data.length - 1) , this.data[this.data.length - 1]);
     }
 
     @Test
@@ -57,7 +57,7 @@ public class AutoIncreaseArrayTest {
 
         Character c = this.array.remove(this.data.length - 1);
 
-        Assert.assertThat(this.array.size() , Matchers.is(this.data.length - 1));
-        Assert.assertThat(c , Matchers.is('z'));
+        assertEquals(this.array.size() , this.data.length - 1);
+        assertEquals(c , Character.valueOf('z'));
     }
 }

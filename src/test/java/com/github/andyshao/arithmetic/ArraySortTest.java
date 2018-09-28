@@ -1,12 +1,12 @@
 package com.github.andyshao.arithmetic;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.Arrays;
 import java.util.Comparator;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.reflect.ArrayOperation;
@@ -22,7 +22,7 @@ public class ArraySortTest {
     private volatile Integer[] data;
     private volatile int[] dataX;
 
-    @Before
+    @BeforeEach
     public void before() {
         this.data = new Integer[] { 313 , 314 , 317 , 319 , 311 , 316 , 312 , 310 , 315 , 318 };
         this.dataX = ArrayOperation.pack_unpack(this.data , int[].class);
@@ -31,16 +31,16 @@ public class ArraySortTest {
     @Test
     public void teatIssort() {
         ArraySort.issort(this.data , 2 , 6 , this.comparator);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.clipAnswer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.clipAnswer));
 
         ArraySort.issort(this.data , 0 , this.data.length , this.comparator);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.answer));
 
         ArraySort.issort(this.dataX , 2 , 6 , this.comparator);
-        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.clipAnswerX));
 
         ArraySort.issort(this.dataX , 0 , this.dataX.length , this.comparator);
-        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.answerX));
     }
 
     @Test
@@ -51,60 +51,60 @@ public class ArraySortTest {
         maxValue++;
 
         ArraySort.ctsort(this.data , this.convert , 2 , 6 , maxValue);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.clipAnswer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.clipAnswer));
 
         ArraySort.ctsort(this.data , this.convert , 0 , this.data.length , maxValue);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.answer));
 
         ArraySort.ctsort(this.dataX , this.convert , 2 , 6 , maxValue);
-        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.clipAnswerX));
 
         ArraySort.ctsort(this.dataX , this.convert , 0 , this.dataX.length , maxValue);
-        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.answerX));
     }
 
     @Test
     public void testMgsort() {
         ArraySort.mgsort(this.data , 2 , 6 , this.comparator);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.clipAnswer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.clipAnswer));
 
         ArraySort.mgsort(this.data , 0 , this.data.length , this.comparator);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.answer));
 
         ArraySort.mgsort(this.dataX , 2 , 6 , this.comparator);
-        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.clipAnswerX));
 
         ArraySort.mgsort(this.dataX , 0 , this.dataX.length , this.comparator);
-        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.answerX));
     }
 
     @Test
     public void testQksort() {
         ArraySort.qksort(this.data , 2 , 6 , this.comparator);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.clipAnswer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.clipAnswer));
 
         ArraySort.qksort(this.data , 0 , this.data.length , this.comparator);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.answer));
 
         ArraySort.qksort(this.dataX , 2 , 6 , this.comparator);
-        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.clipAnswerX));
 
         ArraySort.qksort(this.dataX , 0 , this.dataX.length , this.comparator);
-        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.answerX));
     }
 
     @Test
     public void testRxsort() {
         ArraySort.rxsort(this.data , this.convert , 3 , 10 , 2 , 6);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.clipAnswer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.clipAnswer));
 
         ArraySort.rxsort(this.data , this.convert , 3 , 10 , 0 , this.data.length);
-        Assert.assertThat(Arrays.deepEquals(this.data , this.answer) , Matchers.is(true));
+        assertTrue(Arrays.deepEquals(this.data , this.answer));
 
         ArraySort.rxsort(this.dataX , this.convert , 3 , 10 , 2 , 6);
-        Assert.assertThat(Arrays.equals(this.dataX , this.clipAnswerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.clipAnswerX));
 
         ArraySort.rxsort(this.dataX , this.convert , 3 , 10 , 0 , this.dataX.length);
-        Assert.assertThat(Arrays.equals(this.dataX , this.answerX) , Matchers.is(true));
+        assertTrue(Arrays.equals(this.dataX , this.answerX));
     }
 }

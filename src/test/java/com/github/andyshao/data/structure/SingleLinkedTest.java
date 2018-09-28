@@ -1,16 +1,16 @@
 package com.github.andyshao.data.structure;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SingleLinkedTest {
 
     private final String[] data = new String[] { "Andy" , "Shao" , "andy" , "shao" };
     private SingleLinked<String> linked;
 
-    @Before
+    @BeforeEach
     public void before() {
         this.linked = SingleLinked.<String> defaultSingleLinked(CycleLinkedElmt::defaultElmt);
     }
@@ -19,22 +19,22 @@ public class SingleLinkedTest {
     public void testDestroy() {
         this.testInsert();
 
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
+        assertEquals(this.linked.size() , this.data.length);
 
         this.linked.clear();
 
-        Assert.assertThat(this.linked.size() , Matchers.is(0));
+        assertEquals(this.linked.size() , 0);
     }
 
     @Test
     public void testInsert() {
-        Assert.assertThat(this.linked.size() , Matchers.is(0));
+        assertEquals(this.linked.size() , 0);
 
         for (int i = 0 ; i < this.data.length ; i++)
             this.linked.insNext(this.linked.tail() , this.data[i]);
 
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.linked.head().data() , Matchers.is(this.data[0]));
+        assertEquals(this.linked.size() , this.data.length);
+        assertEquals(this.linked.head().data() , this.data[0]);
     }
 
     @Test
@@ -45,30 +45,30 @@ public class SingleLinkedTest {
         for (String str : this.linked)
             string += str;
 
-        Assert.assertThat(string , Matchers.is("AndyShaoandyshao"));
+        assertEquals(string , "AndyShaoandyshao");
     }
 
     @Test
     public void testRemove() {
         this.testInsert();
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
+        assertEquals(this.linked.size() , this.data.length);
 
         this.linked.clear();
-        Assert.assertThat(this.linked.size() , Matchers.is(0));
+        assertEquals(this.linked.size() , 0);
 
         this.testInsert();
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
+        assertEquals(this.linked.size() , this.data.length);
 
         this.linked.remNext(this.linked.head());
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length - 1));
+        assertEquals(this.linked.size() , this.data.length - 1);
     }
 
     @Test
     public void testSize() {
-        Assert.assertThat(this.linked.size() , Matchers.is(0));
+        assertEquals(this.linked.size() , 0);
 
         this.testInsert();
 
-        Assert.assertThat(this.linked.size() , Matchers.is(this.data.length));
+        assertEquals(this.linked.size() , this.data.length);
     }
 }

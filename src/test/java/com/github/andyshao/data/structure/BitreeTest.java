@@ -1,12 +1,12 @@
 package com.github.andyshao.data.structure;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
@@ -14,41 +14,41 @@ public class BitreeTest {
 
     private volatile Bitree<String> bitree;
 
-    @Before
+    @BeforeEach
     public void before() {
         this.bitree = Bitree.<String> defaultBitTree(BitreeNode::defaultBitreeNode);
     }
 
     @Test
     public void testClean() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
 
         this.bitree.insRight(null , "root");
         this.bitree.insLeft(this.bitree.root() , "left");
         this.bitree.insRight(this.bitree.root() , "right");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(3));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
-        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
-        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
+        assertEquals(this.bitree.size() , 3);
+        assertEquals(this.bitree.root().data() , "root");
+        assertEquals(this.bitree.root().left().data() , "left");
+        assertEquals(this.bitree.root().right().data() , "right");
 
         this.bitree.clear();
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
     }
 
     @Test
     public void testInorder() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
 
         this.bitree.insRight(null , "root");
         this.bitree.insLeft(this.bitree.root() , "left");
         this.bitree.insRight(this.bitree.root() , "right");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(3));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
-        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
-        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
+        assertEquals(this.bitree.size() , 3);
+        assertEquals(this.bitree.root().data() , "root");
+        assertEquals(this.bitree.root().left().data() , "left");
+        assertEquals(this.bitree.root().right().data() , "right");
 
         List<String> linked = new ArrayList<String>();
         Bitree.inorder(this.bitree.root() , linked);
@@ -57,37 +57,37 @@ public class BitreeTest {
         for (String str : linked)
             string += str;
 
-        Assert.assertThat(string , Matchers.is("leftrootright"));
+        assertEquals(string , "leftrootright");
     }
 
     @Test
     public void testInsertLeft() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size(), 0);
 
         this.bitree.insLeft(null , "root");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(1));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
+        assertEquals(this.bitree.size() , 1);
+        assertEquals(this.bitree.root().data() , "root");
 
         this.bitree.insLeft(this.bitree.root() , "left");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(2));
-        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
+        assertEquals(this.bitree.size() , 2);
+        assertEquals(this.bitree.root().left().data() , "left");
     }
 
     @Test
     public void testInsertRight() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
 
         this.bitree.insRight(null , "root");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(1));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
+        assertEquals(this.bitree.size() , 1);
+        assertEquals(this.bitree.root().data() , "root");
 
         this.bitree.insRight(this.bitree.root() , "right");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(2));
-        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
+        assertEquals(this.bitree.size() , 2);
+        assertEquals(this.bitree.root().right().data() , "right");
     }
 
     @Test
@@ -99,24 +99,24 @@ public class BitreeTest {
         right.insLeft(null , "right");
         Tree<String , BitreeNode<String>> bitree = this.bitree.bitreeMeger(left , right , "root");
 
-        Assert.assertThat(bitree.size() , Matchers.is(3));
-        Assert.assertThat(bitree.root().data() , Matchers.is("root"));
-        Assert.assertThat(bitree.root().left().data() , Matchers.is("left"));
-        Assert.assertThat(bitree.root().right().data() , Matchers.is("right"));
+        assertEquals(bitree.size() , 3);
+        assertEquals(bitree.root().data() , "root");
+        assertEquals(bitree.root().left().data() , "left");
+        assertEquals(bitree.root().right().data() , "right");
     }
 
     @Test
     public void testPostorder() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
 
         this.bitree.insRight(null , "root");
         this.bitree.insLeft(this.bitree.root() , "left");
         this.bitree.insRight(this.bitree.root() , "right");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(3));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
-        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
-        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
+        assertEquals(this.bitree.size() , 3);
+        assertEquals(this.bitree.root().data() , "root");
+        assertEquals(this.bitree.root().left().data() , "left");
+        assertEquals(this.bitree.root().right().data() , "right");
 
         List<String> linked = new ArrayList<String>();
         Bitree.postorder(this.bitree.root() , linked);
@@ -125,21 +125,21 @@ public class BitreeTest {
         for (String str : linked)
             string += str;
 
-        Assert.assertThat(string , Matchers.is("leftrightroot"));
+        assertEquals(string , "leftrightroot");
     }
 
     @Test
     public void testPreorder() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
 
         this.bitree.insRight(null , "root");
         this.bitree.insLeft(this.bitree.root() , "left");
         this.bitree.insRight(this.bitree.root() , "right");
 
-        Assert.assertThat(this.bitree.size() , Matchers.is(3));
-        Assert.assertThat(this.bitree.root().data() , Matchers.is("root"));
-        Assert.assertThat(this.bitree.root().left().data() , Matchers.is("left"));
-        Assert.assertThat(this.bitree.root().right().data() , Matchers.is("right"));
+        assertEquals(this.bitree.size() , 3);
+        assertEquals(this.bitree.root().data() , "root");
+        assertEquals(this.bitree.root().left().data() , "left");
+        assertEquals(this.bitree.root().right().data() , "right");
 
         List<String> linked = new ArrayList<String>();
         Bitree.preorder(this.bitree.root() , linked);
@@ -148,11 +148,11 @@ public class BitreeTest {
         for (String str : linked)
             string += str;
 
-        Assert.assertThat(string , Matchers.is("rootleftright"));
+        assertEquals(string , "rootleftright");
     }
 
     @Test
     public void testSize() {
-        Assert.assertThat(this.bitree.size() , Matchers.is(0));
+        assertEquals(this.bitree.size() , 0);
     }
 }

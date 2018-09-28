@@ -1,12 +1,12 @@
 package com.github.andyshao.nio;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.channels.FileChannel;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class StringBufferReaderTest {
     @Test
@@ -26,8 +26,8 @@ public class StringBufferReaderTest {
         try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getFilePath()); StringBufferReader reader = new StringBufferReader(channel);) {
 //            reader.setFindSeparatePoint(new StringBufferReader.SeparateByStr(GeneralSystemProperty.LINE_SEPARATOR.value()));
             reader.setFindSeparatePoint(new StringBufferReader.SeparateByStr("\n"));
-            Assert.assertThat(reader.read() , Matchers.is("[Desktop Entry]"));
-            Assert.assertThat(reader.read() , Matchers.is("Version=1.0"));
+            assertEquals(reader.read() , ("[Desktop Entry]"));
+            assertEquals(reader.read() , ("Version=1.0"));
         }
     }
 }

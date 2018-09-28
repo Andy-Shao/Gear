@@ -1,16 +1,19 @@
 package com.github.andyshao.data.structure;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
+
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.data.structure.Graph.BfsVertex;
 import com.github.andyshao.data.structure.Graph.DfsVertex;
 import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.test.CompareOptions;
 
 public class GraphTest {
     static final <DATA> Graph.BfsVertex<DATA> buildBsfvertex(DATA data) {
@@ -27,7 +30,7 @@ public class GraphTest {
 
     private volatile Graph<String> graph;
 
-    @Before
+    @BeforeEach
     public void before() {
         this.graph = Graph.<String> defaultGraph(StringOperation.COMPARATOR , () -> SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt));
     }
@@ -48,7 +51,7 @@ public class GraphTest {
         graph.insVertex(node4);
         graph.insVertex(node5);
         graph.insVertex(node6);
-        Assert.assertThat(graph.vcount() , Matchers.is(6));
+        assertEquals(graph.vcount() , 6);
 
         Graph.addUntowardEdge(graph , node1 , node2);
         Graph.addUntowardEdge(graph , node1 , node3);
@@ -57,18 +60,18 @@ public class GraphTest {
         Graph.addUntowardEdge(graph , node3 , node5);
         Graph.addUntowardEdge(graph , node4 , node5);
         Graph.addUntowardEdge(graph , node5 , node6);
-        Assert.assertThat(graph.ecount() , Matchers.is(14));
+        assertEquals(graph.ecount() , 14);
 
         Queue<BfsVertex<String>> queue = new PriorityQueue<BfsVertex<String>>((obj1 , obj2) -> Integer.compare(obj1.hops() , obj2.hops()));
         Graph.bfs(graph , node6 , queue);
-        Assert.assertThat(queue.poll() , Matchers.is(node6));
-        Assert.assertThat(queue.poll() , Matchers.is(node5));
-        Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(node4) , Matchers.is(node3)));
-        Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(node4) , Matchers.is(node3)));
-        Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(node1) , Matchers.is(node2)));
-        Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(node1) , Matchers.is(node2)));
+        assertEquals(queue.poll() , node6);
+        assertEquals(queue.poll() , node5);
+        assumeTrue(CompareOptions.anyOf(queue.poll(), node4, node3)); 
+        assumeTrue(CompareOptions.anyOf(queue.poll(), node4, node3));
+        assumeTrue(CompareOptions.anyOf(queue.poll() , node1, node2));
+        assumeTrue(CompareOptions.anyOf(queue.poll() , node1, node2));
     }
-
+    
     @Test
     public void testBuildUntowardGraph() {
         final String node1 = "node1";
@@ -83,7 +86,7 @@ public class GraphTest {
         this.graph.insVertex(node4);
         this.graph.insVertex(node5);
         this.graph.insVertex(node6);
-        Assert.assertThat(this.graph.vcount() , Matchers.is(6));
+        assertEquals(this.graph.vcount() , 6);
 
         Graph.addUntowardEdge(this.graph , node1 , node2);
         Graph.addUntowardEdge(this.graph , node1 , node3);
@@ -92,7 +95,7 @@ public class GraphTest {
         Graph.addUntowardEdge(this.graph , node3 , node5);
         Graph.addUntowardEdge(this.graph , node4 , node5);
         Graph.addUntowardEdge(this.graph , node5 , node6);
-        Assert.assertThat(this.graph.ecount() , Matchers.is(14));
+        assertEquals(this.graph.ecount() , 14);
 
     }
 
@@ -113,7 +116,7 @@ public class GraphTest {
         graph.insVertex(ma100);
         graph.insVertex(ma200);
         graph.insVertex(ma300);
-        Assert.assertThat(graph.vcount() , Matchers.is(6));
+        assertEquals(graph.vcount() , 6);
 
         graph.insEdge(cs100 , cs200);
         graph.insEdge(cs200 , cs300);
@@ -122,20 +125,20 @@ public class GraphTest {
         graph.insEdge(cs300 , ma300);
         graph.insEdge(ma100 , ma200);
         graph.insEdge(ma200 , ma300);
-        Assert.assertThat(graph.ecount() , Matchers.is(6));
+        assertEquals(graph.ecount() , 6);
 
         Queue<DfsVertex<String>> queue = new SimpleQueue<>();
         Graph.dfs(graph , queue);
         DfsVertex<String> dfs = queue.peek();
         if (!dfs.data().equals(cs150.data())) {
-            Assert.assertThat(queue.poll() , Matchers.is(ma300));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma200) , Matchers.is(cs300)));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma100) , Matchers.is(cs200)));
+            assertEquals(queue.poll() , ma300);
+            assertTrue(CompareOptions.anyOf(queue.poll() , ma200, cs300));
+            assertTrue(CompareOptions.anyOf(queue.poll() , ma100, cs200));
         } else {
-            Assert.assertThat(queue.poll() , Matchers.is(cs150));
-            Assert.assertThat(queue.poll() , Matchers.is(ma300));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma200) , Matchers.is(cs300)));
-            Assert.assertThat(queue.poll() , Matchers.anyOf(Matchers.is(ma100) , Matchers.is(cs200)));
+            assertEquals(queue.poll() , cs150);
+            assertEquals(queue.poll() , ma300);
+            assertTrue(CompareOptions.anyOf(queue.poll() , ma200, cs300));
+            assertTrue(CompareOptions.anyOf(queue.poll() , ma100, cs200));
         }
     }
 }

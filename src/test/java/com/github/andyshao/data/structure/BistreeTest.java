@@ -1,9 +1,10 @@
 package com.github.andyshao.data.structure;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.data.structure.Bistree.AvlNode;
 
@@ -12,26 +13,26 @@ public class BistreeTest {
     private volatile Bistree<Integer> bistree;
     private final Integer[] data = new Integer[] { 4 , 5 , 9 , 0 , 1 , 6 , 7 , 8 , 2 , 3 };
 
-    @Before
+    @BeforeEach
     public void before() {
         this.bistree = Bistree.<Integer> defaultBistree(Bitree.<AvlNode<Integer>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode) , Bistree.AvlNode::defaultAvlNode , Integer::compare);
     }
 
     @Test
     public void testInsert() {
-        Assert.assertThat(this.bistree.size() , Matchers.is(0));
+        assertEquals(this.bistree.size() , 0);
 
         for (Integer i : this.data)
             this.bistree.bistree_insert(i);
 
-        Assert.assertThat(this.bistree.size() , Matchers.is(this.data.length));
+        assertEquals(this.bistree.size() , this.data.length);
     }
 
     @Test
     public void testLookup() {
         this.testInsert();
 
-        Assert.assertThat(this.bistree.bistree_lookup(this.data[0]).data , Matchers.is(this.data[0]));
+        assertEquals(this.bistree.bistree_lookup(this.data[0]).data , this.data[0]);
     }
 
     @Test
@@ -40,7 +41,7 @@ public class BistreeTest {
 
         this.bistree.bistree_remove(this.data[0]);
 
-        Assert.assertThat(this.bistree.size() , Matchers.is(this.data.length));
-        Assert.assertThat(this.bistree.bistree_lookup(this.data[0]) == null , Matchers.is(true));
+        assertEquals(this.bistree.size() , this.data.length);
+        assertNull(this.bistree.bistree_lookup(this.data[0]));
     }
 }

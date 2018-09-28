@@ -1,32 +1,29 @@
 package com.github.andyshao.reflect;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class PackageOperationTest {
 
     @Test
     public void testGetClassByJarPath() throws URISyntaxException {
-//        String jarPath = GeneralSystemProperty.JAVA_HOME.value() + "/lib/rt.jar";//after jdk9 rt.jar does not exist
-//        String[] classes = PackageOperation.getClasses(Paths.get(jarPath));
-//        Assert.assertThat(ArrayOperation.indexOf(classes , "java.lang.String") != -1 , Matchers.is(true));
-    	
 		URL url = Thread.currentThread().getContextClassLoader().getResource("com/github/andyshao/reflect/my.jar");
 		String[] classes = PackageOperation.getClasses(Paths.get(url.toURI()));
-		Assert.assertThat(ArrayOperation.indexOf(classes, "my.test.My") != -1, Matchers.is(true));
+		assertEquals(ArrayOperation.indexOf(classes, "my.test.My") != -1, (true));
     }
 
     @Test
     public void testGetPackageClasses() {
         Class<?>[] classes = PackageOperation.getPackageClasses(Package.getPackage("com.github.andyshao.reflect"));
-        Assert.assertThat(classes.length , Matchers.not(0));
-        Assert.assertThat(ArrayOperation.indexOf(classes , ClassOperation.forName("com.github.andyshao.reflect.PackageOperationTest")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(classes , ClassOperation.forName("com.github.andyshao.reflect.PackageOperation")) , Matchers.not(-1));
+        assertNotEquals(classes.length , (0));
+        assertNotEquals(ArrayOperation.indexOf(classes , ClassOperation.forName("com.github.andyshao.reflect.PackageOperationTest")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(classes , ClassOperation.forName("com.github.andyshao.reflect.PackageOperation")) , (-1));
 
         classes = PackageOperation.getPackageClasses(Package.getPackage("java.lang"));
     }
@@ -34,13 +31,13 @@ public class PackageOperationTest {
     @Test
     public void testGetPackages() {
         Package[] packages = PackageOperation.getPckages(Package.getPackage("java.util"));
-        Assert.assertThat(packages.length , Matchers.not(0));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util.zip")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util.regex")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util.concurrent")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util.concurrent.atomic")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util.function")) , Matchers.not(-1));
-        Assert.assertThat(ArrayOperation.indexOf(packages , Package.getPackage("java.util.jar")) , Matchers.not(-1));
+        assertNotEquals(packages.length , (0));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.zip")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.regex")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.concurrent")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.concurrent.atomic")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.function")) , (-1));
+        assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.jar")) , (-1));
     }
 }

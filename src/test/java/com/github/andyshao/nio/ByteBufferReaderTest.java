@@ -1,5 +1,9 @@
 package com.github.andyshao.nio;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -8,9 +12,7 @@ import java.nio.channels.FileChannel;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ByteBufferReaderTest {
     public static Path getBigFilePath() throws URISyntaxException {
@@ -29,14 +31,14 @@ public class ByteBufferReaderTest {
         final byte[] spilts = ",".getBytes();
         try (ByteBufferReader bufferReader = new ByteBufferReader(Channels.newChannel(Thread.currentThread().getContextClassLoader().getResourceAsStream(filePath)));) {
             bufferReader.setFindSeparatePoint((buffer) -> new BufferReader.SeparatePoint(ByteBufferOperation.indexOf(buffer , spilts)));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("<New Year's Day><2016-01-01>"));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("\n<New Year's Day><2016-01-02>"));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("\n<New Year's Day><2016-01-03>"));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("\n<the Spring Festival><2016-02-07>"));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("\n<the Spring Festival><2016-02-08>"));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("\n<the Spring Festival><2016-02-09>"));
-            Assert.assertThat(new String(bufferReader.read()) , Matchers.is("\n<the Spring Festival><2016-02-10>"));
-            Assert.assertTrue(bufferReader.read() == null);
+            assertEquals(new String(bufferReader.read()) , "<New Year's Day><2016-01-01>");
+            assertEquals(new String(bufferReader.read()) , "\n<New Year's Day><2016-01-02>");
+            assertEquals(new String(bufferReader.read()) , "\n<New Year's Day><2016-01-03>");
+            assertEquals(new String(bufferReader.read()) , "\n<the Spring Festival><2016-02-07>");
+            assertEquals(new String(bufferReader.read()) , "\n<the Spring Festival><2016-02-08>");
+            assertEquals(new String(bufferReader.read()) , "\n<the Spring Festival><2016-02-09>");
+            assertEquals(new String(bufferReader.read()) , "\n<the Spring Festival><2016-02-10>");
+            assertNull(bufferReader.read());
         }
     }
 
@@ -55,10 +57,9 @@ public class ByteBufferReaderTest {
     @Test
     public void testReader() throws IOException , URISyntaxException {
         try (FileChannel channel = FileChannel.open(ByteBufferReaderTest.getFilePath()); ByteBufferReader reader = new ByteBufferReader(channel);) {
-//            reader.setFindSeparatePoint(new ByteBufferReader.SeparateByBytes(GeneralSystemProperty.LINE_SEPARATOR.value().getBytes()));
             reader.setFindSeparatePoint(new ByteBufferReader.SeparateByBytes("\n".getBytes()));
-            Assert.assertThat(reader.read() , Matchers.is("[Desktop Entry]".getBytes()));
-            Assert.assertThat(reader.read() , Matchers.is("Version=1.0".getBytes()));
+            assertArrayEquals(reader.read() , "[Desktop Entry]".getBytes());
+            assertArrayEquals(reader.read() , "Version=1.0".getBytes());
         }
     }
 }
