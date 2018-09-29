@@ -2,6 +2,8 @@ package com.github.andyshao.test;
 
 import java.util.Objects;
 
+import com.github.andyshao.lang.ArrayWrapper;
+
 /**
  * 
  * Title:<br>
@@ -16,8 +18,16 @@ public final class CompareOptions {
 
     @SafeVarargs
     public static final <T> boolean anyOf(T test, T... cases) {
+        if(test.getClass().isArray()) throw new IllegalArgumentException("argument must be array");
         for(T ca : cases) {
             if(Objects.equals(test , ca)) return true;
+        }
+        return false;
+    }
+    
+    public static final boolean anyArrayOf(ArrayWrapper test, ArrayWrapper... cases) {
+        for(ArrayWrapper ca : cases) {
+            if(Objects.deepEquals(ca , test)) return true;
         }
         return false;
     }
