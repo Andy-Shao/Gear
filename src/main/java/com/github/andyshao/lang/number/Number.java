@@ -14,6 +14,8 @@ public interface Number {
     int getRadix();
 
     String getValueStr();
+    
+    Number instance(String valueStr);
 
     boolean isDecimal();
 
