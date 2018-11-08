@@ -23,12 +23,14 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
         public void key(KEY key);
         public VALUE value();
         public void value(VALUE value);
+        public int numberOfSubtree();
+        public void numberOfSubtree(int numberOfSubtree);
         
         public class MyRbTreeNode<K, V> implements RbTreeNode<K , V> {
-            
             private NodeColor color;
             private K key;
             private V value;
+            private int numberOfSubtree;
             
             @Override
             public NodeColor color() {
@@ -77,6 +79,16 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
             @Override
             public String toString() {
                 return "[" + this.key + "-" + this.value + ":" + this.color + "]";
+            }
+
+            @Override
+            public int numberOfSubtree() {
+                return this.numberOfSubtree;
+            }
+
+            @Override
+            public void numberOfSubtree(int numberOfSubtree) {
+                this.numberOfSubtree = numberOfSubtree;
             }
         }
         
