@@ -1,6 +1,7 @@
 package com.github.andyshao.data.structure;
 
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
@@ -237,6 +238,9 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
         @Override
         public void root(BitreeNode<DATA> node) {
             this.root = node;
+            final AtomicInteger numberOfTree = new AtomicInteger();
+            Bitree.postorder(this.root , n -> numberOfTree.incrementAndGet());
+            this.size = numberOfTree.intValue();
         }
 
     }

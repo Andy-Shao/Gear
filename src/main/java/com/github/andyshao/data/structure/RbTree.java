@@ -104,4 +104,16 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
     public BitreeNode<RbTreeNode<K , V>> find(K key);
     public void add(K key, V value);
     public void remove(K key);
+    @Override
+    public default int size() {
+        if(this.root() == null || this.root().data() == null) return 0;
+        return this.root().data().numberOfSubtree();
+    }
+    public default boolean isEmpty() {
+        return this.size() == 0;
+    }
+    public default int size(BitreeNode<RbTreeNode<K , V>> n) {
+        if(n == null || n.data() == null) return 0;
+        return n.data().numberOfSubtree();
+    }
 }
