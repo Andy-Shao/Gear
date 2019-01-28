@@ -18,6 +18,11 @@ public final class ObjectOperation {
 		return thiz == that;
 	}
 	
+	public static final boolean isBothPassEqualsAndHashCode(Object thiz, Object that) {
+		if(thiz == null || that == null) return false;
+		return thiz.equals(that) && thiz.hashCode() == that.hashCode();
+	}
+	
     public static final <T> T valueOrNull(T value , T nullDefault) {
         if (value == null) return nullDefault;
         else return value;
