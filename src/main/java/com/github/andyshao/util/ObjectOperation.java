@@ -14,6 +14,10 @@ import java.util.Objects;
  *
  */
 public final class ObjectOperation {
+	public static final boolean isSameObj(Object thiz, Object that) {
+		return thiz == that;
+	}
+	
     public static final <T> T valueOrNull(T value , T nullDefault) {
         if (value == null) return nullDefault;
         else return value;
