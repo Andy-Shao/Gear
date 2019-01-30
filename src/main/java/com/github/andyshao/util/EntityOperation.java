@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
 
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.reflect.ClassOperation;
@@ -93,7 +95,15 @@ public final class EntityOperation {
 	 * @return destination object
 	 */
 	public static final <RES, DEST> DEST copyProperties(RES resource, DEST destination){
-		return copyProperties(resource, destination, (input, output) -> {
+		return copyProperties(resource, destination, defaultFieldMapper());
+	}
+	
+	public static final <RES, DEST> FieldMapper<RES, DEST> defaultFieldMapper() {
+		return defaultFieldMapper((in, out) -> false, (in, out) -> null);
+	}
+
+	public static final <RES, DEST> FieldMapper<RES, DEST> defaultFieldMapper(BiPredicate<Field, Field> predicate, BiFunction<Field, Field, FieldMatch> function) {
+		return (input, output) -> {
 			if(input == null || output == null) return Collections.emptyList();
 			if(input.getClass().isPrimitive() || output.getClass().isPrimitive()) return Collections.emptyList();
 			List<FieldMatch> result = new ArrayList<>();
@@ -101,14 +111,16 @@ public final class EntityOperation {
 			Field[] outputFields = FieldOperation.superGetDeclaredFields(output.getClass());
 			for(Field inputField : inputFields){
 				for(Field outputField : outputFields){
-					if(Objects.equals(inputField.getName(), outputField.getName())){
+					if(predicate.test(inputField, outputField)) {
+						result.add(function.apply(inputField, outputField));
+					} else if(Objects.equals(inputField.getName(), outputField.getName())){
 					    IgnoreCopy ignoreCopy = inputField.getAnnotation(IgnoreCopy.class);
 					    if(isMatch(inputField , outputField) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
 					}
 				}
 			}
 			return result;
-		});
+		};
 	}
 	
 	public static final boolean isMatch(Field inputField, Field outputField) {
