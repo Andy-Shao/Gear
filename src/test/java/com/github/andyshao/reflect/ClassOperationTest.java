@@ -1,10 +1,12 @@
 package com.github.andyshao.reflect;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -69,5 +71,12 @@ public class ClassOperationTest {
         file.delete();
         new File("andy/shao").delete();
         new File("andy").delete();
+    }
+    
+    @Test
+    public void testGetSuperClasssGenericInfo() {
+    	Type type = Object.class.getGenericSuperclass();
+    	assertNull(type);
+    	
     }
 }

@@ -6,11 +6,11 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 
+import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.asm.TypeOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
@@ -86,7 +86,7 @@ public final class FieldOperation {
             return result;
         }
         SignatureReader reader = new SignatureReader(singnature);
-        reader.accept(new SignatureVisitor(Opcodes.ASM6) {
+        reader.accept(new SignatureVisitor(ApiConfs.DEFAULT_ASM_VERSION) {
             private volatile boolean isArray = false;
             private volatile GenericNode currentNode = result;
             
@@ -143,7 +143,7 @@ public final class FieldOperation {
     }
     
     public static final GenericNode getFieldTypeInfo(Field field) {
-        return getFieldTypeInfo(field , new SignatureDetector(Opcodes.ASM6).getSignature(field.getDeclaringClass()));
+        return getFieldTypeInfo(field , new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(field.getDeclaringClass()));
     }
 
     /**

@@ -12,11 +12,11 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 
+import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.asm.TypeOperation;
 import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
@@ -169,7 +169,7 @@ public final class MethodOperation {
     }
     
     public static GenericNode getReturnTypeInfo(Method method) {
-        return getReturnTypeInfo(method , new SignatureDetector(Opcodes.ASM6).getSignature(method.getDeclaringClass()));
+        return getReturnTypeInfo(method , new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(method.getDeclaringClass()));
     }
     
     public static GenericNode getReturnTypeInfo(Method method, ClassSignature classSignature) {
@@ -181,7 +181,7 @@ public final class MethodOperation {
             return ret;
         }
         SignatureReader reader = new SignatureReader(signature);
-        reader.accept(new SignatureVisitor(Opcodes.ASM6) {
+        reader.accept(new SignatureVisitor(ApiConfs.DEFAULT_ASM_VERSION) {
             private volatile boolean isReturn = false;
             private volatile boolean isArray = false;
             private volatile GenericNode currentSide = ret;

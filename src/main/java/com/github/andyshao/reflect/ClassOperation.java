@@ -60,6 +60,12 @@ public final class ClassOperation {
         genericInfo.declareType = clazz;
         return genericInfo;
     }
+    
+    public static GenericNode getSuperClasssGenericInfo(Class<?> clazz) {
+    	java.lang.reflect.Type type = clazz.getGenericSuperclass();
+    	if(type == null) return null;
+    	return null;
+    }
 
     public static <T> byte[] getSuperClassForInterface(Class<T> interfaceClass , String targetName , Version version) {
         if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");

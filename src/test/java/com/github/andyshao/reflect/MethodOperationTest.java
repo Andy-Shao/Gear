@@ -11,8 +11,8 @@ import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 import org.junit.jupiter.api.Test;
-import org.objectweb.asm.Opcodes;
 
+import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 
 public class MethodOperationTest {
@@ -134,7 +134,7 @@ public class MethodOperationTest {
     
     @Test
     public void testGetParameterTypesInfo() {
-        ClassSignature signature = new SignatureDetector(Opcodes.ASM6).getSignature(Data.class);
+        ClassSignature signature = new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(Data.class);
         Method method = MethodOperation.getDeclaredMethod(Data.class , "testMethod" , List.class, int.class, String.class, Map.class);
         List<GenericNode> parameterTypesInfo = MethodOperation.getParameterTypesInfo(method , signature);
         assertEquals(parameterTypesInfo.size() , (4));

@@ -16,11 +16,11 @@ import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 
+import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.asm.TypeOperation;
 import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
@@ -70,7 +70,7 @@ public final class ParameterOperation {
     }
     
     public static List<GenericNode> getParameterTypesInfo(Method method){
-        return getParameterTypesInfo(method, new SignatureDetector(Opcodes.ASM6).getSignature(method.getDeclaringClass()));
+        return getParameterTypesInfo(method, new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(method.getDeclaringClass()));
     }
     
     public static List<GenericNode> getParameterTypesInfo(Method method, ClassSignature classSignature){
@@ -85,7 +85,7 @@ public final class ParameterOperation {
             return node;
         }).collect(Collectors.toList());
         SignatureReader reader = new SignatureReader(signature);
-        reader.accept(new SignatureVisitor(Opcodes.ASM6) {
+        reader.accept(new SignatureVisitor(ApiConfs.DEFAULT_ASM_VERSION) {
             private volatile boolean isParam = false;
             private volatile GenericNode currentNode;
             private volatile boolean isArray = false;
@@ -188,14 +188,14 @@ public final class ParameterOperation {
         } catch (IOException e) {
             throw new ClassNotFoundException(path);
         }
-        cr.accept(new ClassVisitor(Opcodes.ASM6 , cw) {
+        cr.accept(new ClassVisitor(ApiConfs.DEFAULT_ASM_VERSION , cw) {
             @Override
             public MethodVisitor visitMethod(final int access , final String name , final String desc , final String signature , final String[] exceptions) {
                 final Type[] args = Type.getArgumentTypes(desc);
                 //Same method name and parameter number
                 if (!name.equals(m.getName()) || !ParameterOperation.sameType(args , m.getParameterTypes())) return super.visitMethod(access , name , desc , signature , exceptions);
                 MethodVisitor v = this.cv.visitMethod(access , name , desc , signature , exceptions);
-                return new MethodVisitor(Opcodes.ASM6 , v) {
+                return new MethodVisitor(ApiConfs.DEFAULT_ASM_VERSION , v) {
                     @Override
                     public void visitLocalVariable(String name , String desc , String signature , Label start , Label end , int index) {
                         int i = index - 1;

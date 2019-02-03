@@ -7,15 +7,15 @@ import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 import org.junit.jupiter.api.Test;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
 
+import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 
 public class SignatureReaderTest {
-    private ClassSignature signature = new SignatureDetector(Opcodes.ASM6).getSignature(MyClass.class);
-    private SignatureVisitor visitor = new SignatureVisitor(Opcodes.ASM6) {
+    private ClassSignature signature = new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(MyClass.class);
+    private SignatureVisitor visitor = new SignatureVisitor(ApiConfs.DEFAULT_ASM_VERSION) {
 
         @Override
         public void visitFormalTypeParameter(String name) {
