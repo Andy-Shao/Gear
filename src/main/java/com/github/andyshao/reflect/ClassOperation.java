@@ -7,7 +7,11 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.lang.reflect.ParameterizedType;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import org.objectweb.asm.ClassWriter;
@@ -15,12 +19,15 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.asm.ClassVisitorOperation;
 import com.github.andyshao.asm.Version;
 import com.github.andyshao.lang.ClassAssembly;
 import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
+
+import lombok.NonNull;
 
 /**
  * 
@@ -49,6 +56,10 @@ public final class ClassOperation {
             throw new ClassNotFoundException(e);
         }
     }
+    
+    public static <T> Class<T> forType(java.lang.reflect.Type typ) {
+    	return forName(typ.getTypeName());
+    }
 
     @Deprecated
     public static GenericInfo getClassGenericInfo(Class<?> clazz) {
@@ -64,12 +75,64 @@ public final class ClassOperation {
     public static GenericNode getSuperClasssGenericInfo(Class<?> clazz) {
     	java.lang.reflect.Type type = clazz.getGenericSuperclass();
     	if(type == null) return null;
-    	return null;
+    	
+    	GenericNode rest = new GenericNode();
+    	rest.setParent(null);
+    	wrapGenericNode(type, rest);
+		return rest; 
+    }
+
+	static void wrapGenericNode(@NonNull java.lang.reflect.Type type, @NonNull GenericNode rest) {
+		if(type instanceof ParameterizedType) {
+    		rest.setGeneiric(true);
+    		setDeclareType(rest, type);
+    		getGenericInfo((ParameterizedType) type, rest);
+    	} else {
+    		rest.setGeneiric(false);
+    		setDeclareType(rest, type);
+    	}
+	}
+    
+    public static Map<Class<?>, GenericNode> getInterfaceGenericInfos(Class<?> clazz) {
+    	HashMap<Class<?>, GenericNode> rest = new HashMap<Class<?>, GenericNode>();
+    	java.lang.reflect.Type[] typs = clazz.getGenericInterfaces();
+    	if(typs.length == 0) return Collections.emptyMap();
+    	
+    	for(java.lang.reflect.Type typ : typs) {
+    		GenericNode genericNode = new GenericNode();
+    		genericNode.setParent(null);
+    		wrapGenericNode(typ, genericNode);
+    		rest.put(genericNode.getDeclareType(), genericNode);
+    	}
+		return rest;
+    }
+
+	static void setDeclareType(@NonNull GenericNode rest,@NonNull java.lang.reflect.Type typ) {
+		if(typ instanceof ParameterizedType) {
+			rest.setDeclareType(ClassOperation.forType(((ParameterizedType) typ).getRawType()));
+		} else {
+			try {
+				rest.setDeclareType(ClassOperation.forType(typ));
+			} catch (ClassNotFoundException e) {
+				rest.setTypeVariable(typ.getTypeName());
+				rest.setDeclareType(Object.class);
+			}
+		}
+	}
+    
+    static GenericNode getGenericInfo(@NonNull ParameterizedType parmtrizdTyp, GenericNode parent) {
+    	GenericNode rest = new GenericNode();
+    	rest.setParent(parent);
+    	parent.getComponentTypes().add(rest);
+    	for(java.lang.reflect.Type typ : parmtrizdTyp.getActualTypeArguments()) {
+    		wrapGenericNode(typ, rest);
+    	}
+		return rest;
     }
 
     public static <T> byte[] getSuperClassForInterface(Class<T> interfaceClass , String targetName , Version version) {
         if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");
-        final ClassSignature csig = new SignatureDetector(Opcodes.ASM5).getSignature(interfaceClass);
+        final ClassSignature csig = new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(interfaceClass);
         String classSignature = null;
         if (csig.classSignature != null) {
             String tail = StringOperation.replaceAll(csig.classSignature , "Ljava/lang/Object" , "");

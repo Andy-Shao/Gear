@@ -12,6 +12,8 @@ import org.objectweb.asm.Opcodes;
  * @author Andy.Shao
  *
  */
-public class ApiConfs {
+public final class ApiConfs {
+	private ApiConfs() {}
+	
 	public static final int DEFAULT_ASM_VERSION = Opcodes.ASM6;
 }
