@@ -29,10 +29,33 @@ import com.github.andyshao.util.CollectionOperation;
 @SuppressWarnings("deprecation")
 public final class FieldOperation {
     public static Field[] getAllField(Class<?> clazz) {
-        Set<Field> result = new HashSet<>();
-        CollectionOperation.addAll(result , clazz.getFields());
-        CollectionOperation.addAll(result , clazz.getDeclaredFields());
+        Set<Field> result = getAllFieldForSet(clazz);
         return result.toArray(new Field[result.size()]);
+    }
+
+	public static Set<Field> getAllFieldForSet(Class<?> clazz) {
+		Set<Field> result = new HashSet<>();
+        getAllFieldForSet(clazz, result);
+		return result;
+	}
+
+	static void getAllFieldForSet(Class<?> clazz, Set<Field> result) {
+		CollectionOperation.addAll(result , clazz.getFields());
+        CollectionOperation.addAll(result , clazz.getDeclaredFields());
+	}
+    
+    public static Set<Field> superGetAllFieldForSet(Class<?> clazz) {
+    	Set<Field> result = new HashSet<>();
+    	superGetAllFieldForSet(clazz, result);
+    	return result;
+    }
+    
+    static void superGetAllFieldForSet(Class<?> clazz, Set<Field> set) {
+    	getAllFieldForSet(clazz, set);
+    	Class<?> superclass = clazz.getSuperclass();
+		if(superclass != null) {
+    		getAllFieldForSet(superclass, set);
+    	}
     }
 
     /**
@@ -226,7 +249,7 @@ public final class FieldOperation {
 
         return result;
     }
-
+    
     private FieldOperation() {
         throw new AssertionError("No support instance " + FieldOperation.class + " for you!");
     }
