@@ -1,9 +1,14 @@
 package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.ArrayWrapper;
@@ -22,6 +27,34 @@ import com.github.andyshao.lang.Convert;
 public final class ArrayOperation {
     public static <T> T backup(T array) {
         return ArrayOperation.splitArray(array , 0 , Array.getLength(array));
+    }
+    
+    @SafeVarargs
+	public static <T> Set<T> asSet(Set<T> set, T...ts){
+    	for(T t : ts) set.add(t);
+    	return set;
+    }
+    
+    @SafeVarargs
+	public static <T> List<T> asList(List<T> list, T...ts){
+    	for(T t : ts) list.add(t);
+    	return list;
+    }
+    
+    @SafeVarargs
+	public static <T> Queue<T> asQueue(Queue<T> queue, T...ts) {
+    	for(T t : ts) queue.offer(t);
+    	return queue;
+    }
+    
+    @SafeVarargs
+	public static <T> Queue<T> asQueue(T...ts) {
+    	return asQueue(new ArrayBlockingQueue<T>(ts.length), ts);
+    }
+    
+    @SafeVarargs
+	public static <T> Set<T> asSet(T...ts) {
+    	return asSet(new HashSet<>(), ts);
     }
 
     /**
