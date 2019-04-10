@@ -66,6 +66,10 @@ public class CollectorImpl<T , A , R> implements Collector<T , A , R> {
     public Set<Characteristics> characteristics() {
         return this.characteristics;
     }
+    
+    public static final <TT, AA, RR> CollectorImpl.Builder<TT, AA, RR> builder() {
+    	return new CollectorImpl.Builder<TT, AA, RR>();
+    }
 
     public static class Builder<TT, AA, RR> {
         private Supplier<AA> supplier;

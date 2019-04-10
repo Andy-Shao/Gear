@@ -15,6 +15,9 @@ import com.github.andyshao.reflect.FieldOperation;
 import com.github.andyshao.util.annotation.CopyConvertor;
 import com.github.andyshao.util.annotation.IgnoreCopy;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * 
  * Title:object properties copy<br>
@@ -49,27 +52,17 @@ public final class EntityOperation {
 	 * @author Andy.Shao
 	 *
 	 */
+	@Getter
+	@Setter
 	public static class FieldMatch{
 		private Field resField;
 		private Field destField;
         private Convert<Object, Object> convert;
+        private BiPredicate<Object, Object> isConvertable;
 		
 		public FieldMatch(Field resField, Field destField){
 			this.resField = resField;
 			this.destField = destField;
-		}
-		
-		public void setResField(Field resField) {
-			this.resField = resField;
-		}
-		
-		public void setDestField(Field destField) {
-			this.destField = destField;
-		}
-		
-		@SuppressWarnings("unchecked")
-        public void setConvert(Convert<?, ?> convert) {
-		    this.convert = (Convert<Object , Object>) convert;
 		}
 	}
 	
@@ -191,7 +184,13 @@ public final class EntityOperation {
 			if(fieldMatch.convert == null) {
 			    FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 			} else {
-			    FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
+				if(Objects.isNull(fieldMatch.isConvertable)) 
+					FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
+				else {
+					Object origin = FieldOperation.getFieldValue(destination, fieldMatch.destField);
+					if(fieldMatch.isConvertable.test(inValue, origin)) 
+						FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
+				}
 			}
 		}
 		
