@@ -1,6 +1,7 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
+import java.util.Comparator;
 
 /**
  * 
@@ -13,6 +14,8 @@ import java.math.BigInteger;
  *
  */
 public final class LongOperation {
+	public static final Comparator<Long> COMPARATOR = Long::compare;
+	
     public static final int bitGet(BigInteger pos , final long[] array) {
         return ByteOperation.bitGet(pos , array , ByteWrapper.LONG_BYTE_WRAPPER);
     }

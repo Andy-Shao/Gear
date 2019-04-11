@@ -23,10 +23,6 @@ public enum GeneralSystemProperty {
 
     private final String keyName;
 
-    private GeneralSystemProperty() {
-        this(null);
-    }
-
     private GeneralSystemProperty(String keyName) {
         this.keyName = keyName;
     }
@@ -37,10 +33,10 @@ public enum GeneralSystemProperty {
 
     @Override
     public String toString() {
-        return System.getProperty(this.keyName == null ? super.toString() : this.keyName);
+        return value();
     }
 
     public String value() {
-        return this.toString();
+        return System.getProperty(this.keyName);
     }
 }

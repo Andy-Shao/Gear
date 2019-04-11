@@ -4,17 +4,22 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
-import com.github.andyshao.lang.Convert;
 import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.FieldOperation;
 import com.github.andyshao.util.annotation.CopyConvertor;
 import com.github.andyshao.util.annotation.IgnoreCopy;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -43,6 +48,11 @@ public final class EntityOperation {
 		List<FieldMatch> match(IN in, OUT out);
 	}
 	
+	public static interface FieldMapperOps<IN, OUT> extends FieldMapper<IN, OUT> {
+		FieldMapperOps<IN, OUT> replaceOrAdd(Field in, Field out, FieldMatch newValue);
+		FieldMapperOps<IN, OUT> remove(Field in, Field out);
+	}
+	
 	/**
 	 * 
 	 * Title: Field matching definition<br>
@@ -57,7 +67,7 @@ public final class EntityOperation {
 	public static class FieldMatch{
 		private Field resField;
 		private Field destField;
-        private Convert<Object, Object> convert;
+        private PropertyConvert convert;
         private BiPredicate<Object, Object> isConvertable;
 		
 		public FieldMatch(Field resField, Field destField){
@@ -91,6 +101,61 @@ public final class EntityOperation {
 		return copyProperties(resource, destination, defaultFieldMapper());
 	}
 	
+	public static final <RES, DEST> FieldMapperOps<RES, DEST> ops(FieldMapper<RES, DEST> origin) {
+		return new FieldMapperOps<RES, DEST>() {
+			private Map<Key, FieldMatch> replace = new HashMap<>();
+			private Set<Key> remove = new HashSet<>();
+			
+			@Override
+			public List<FieldMatch> match(RES in, DEST out) {
+				if(replace.isEmpty() && remove.isEmpty()) {
+					return origin.match(in, out);
+				}
+				
+				List<FieldMatch> ret = origin.match(in, out)
+					.stream()
+					.filter(it -> !remove.contains(new Key(it.resField, it.destField)))
+					.filter(it -> !replace.containsKey(new Key(it.resField, it.destField)))
+					.collect(Collectors.toList());
+				ret.addAll(replace.values());
+				return ret;
+			}
+			
+			@Getter
+			@Setter
+			@AllArgsConstructor
+			class Key {
+				private Field res;
+				private Field dest;
+				
+				@Override
+				public int hashCode() {
+					return Objects.hash(this.res, this.dest);
+				}
+				
+				@Override
+				public boolean equals(Object obj) {
+					if(obj instanceof Key) {
+						Key that = (Key) obj;
+						return Objects.equals(this.res, that.res) && Objects.equals(this.dest, that.dest);
+					} else return false;
+				}
+			}
+
+			@Override
+			public FieldMapperOps<RES, DEST> replaceOrAdd(Field in, Field out, FieldMatch newValue) {
+				replace.put(new Key(in, out), newValue);
+				return this;
+			}
+
+			@Override
+			public FieldMapperOps<RES, DEST> remove(Field in, Field out) {
+				remove.add(new Key(in, out));
+				return this;
+			}
+		};
+	}
+	
 	public static final <RES, DEST> FieldMapper<RES, DEST> defaultFieldMapper() {
 		return defaultFieldMapper((in, out) -> false, (in, out) -> null);
 	}
@@ -108,7 +173,12 @@ public final class EntityOperation {
 						result.add(function.apply(inputField, outputField));
 					} else if(Objects.equals(inputField.getName(), outputField.getName())){
 					    IgnoreCopy ignoreCopy = inputField.getAnnotation(IgnoreCopy.class);
-					    if(isMatch(inputField , outputField) && ignoreCopy == null) result.add(new FieldMatch(inputField, outputField));
+					    if(isMatch(inputField , outputField) && ignoreCopy == null) {
+					    	FieldMatch item = new FieldMatch(inputField, outputField);
+					    	CopyConvertor copyConvertor = inputField.getAnnotation(CopyConvertor.class);
+					    	if(Objects.nonNull(copyConvertor)) item.setConvert(ClassOperation.newInstance(copyConvertor.convertor()));
+							result.add(item);
+					    }
 					}
 				}
 			}
@@ -185,11 +255,11 @@ public final class EntityOperation {
 			    FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 			} else {
 				if(Objects.isNull(fieldMatch.isConvertable)) 
-					FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
+					FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 				else {
 					Object origin = FieldOperation.getFieldValue(destination, fieldMatch.destField);
 					if(fieldMatch.isConvertable.test(inValue, origin)) 
-						FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue));
+						FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 				}
 			}
 		}
