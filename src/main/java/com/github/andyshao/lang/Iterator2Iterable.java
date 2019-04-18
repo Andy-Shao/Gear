@@ -18,5 +18,4 @@ public class Iterator2Iterable<E> implements Convert<Iterator<E> , Iterable<E>> 
     public Iterable<E> convert(Iterator<E> in) {
         return () -> in;
     }
-
 }
