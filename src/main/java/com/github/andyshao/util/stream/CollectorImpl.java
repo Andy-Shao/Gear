@@ -70,6 +70,12 @@ public class CollectorImpl<T , A , R> implements Collector<T , A , R> {
     public static final <TT, AA, RR> CollectorImpl.Builder<TT, AA, RR> builder() {
     	return new CollectorImpl.Builder<TT, AA, RR>();
     }
+    
+    public static final <TT, AA> CollectorImpl.Builder<TT, AA, AA> biBuilder() {
+    	return CollectorImpl.<TT, AA, AA>builder()
+    		.withFinisher(it -> it)
+    		.withCharacteristics(CH_ID);
+    }
 
     public static class Builder<TT, AA, RR> {
         private Supplier<AA> supplier;
