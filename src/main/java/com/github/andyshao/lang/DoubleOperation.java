@@ -1,7 +1,5 @@
 package com.github.andyshao.lang;
 
-import java.util.Comparator;
-
 /**
  * 
  * 
@@ -14,7 +12,7 @@ import java.util.Comparator;
  *
  */
 public final class DoubleOperation {
-	public static final Comparator<Double> COMPARATOR = Double::compare;
+//	public static final Comparator<Double> COMPARATOR = Double::compare;
 	
 	private DoubleOperation() {}
 }

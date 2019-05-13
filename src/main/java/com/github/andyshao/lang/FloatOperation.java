@@ -1,7 +1,5 @@
 package com.github.andyshao.lang;
 
-import java.util.Comparator;
-
 /**
  * 
  * 
@@ -14,7 +12,7 @@ import java.util.Comparator;
  *
  */
 public final class FloatOperation {
-	public static final Comparator<Float> COMPARATOR = Float::compare;
+//	public static final Comparator<Float> COMPARATOR = Float::compare;
 			
 	private FloatOperation() {}
 }
