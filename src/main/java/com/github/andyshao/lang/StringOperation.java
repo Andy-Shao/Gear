@@ -16,12 +16,8 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public final class StringOperation {
-//    public static final Comparator<String> COMPARATOR = (String str1 , String str2) -> {
-//        if (str1 != null) return str1.compareTo(str2);
-//        else if (str2 != null) return ComparableOperation.reversed(str2.compareTo(str1));
-//        else return 0;
-//    };
-
+    public static final Comparator<String> COMPARATOR = Comparator.comparing(it -> it);
+    
     /**
      * 
      * @param str a string which should be flipped
