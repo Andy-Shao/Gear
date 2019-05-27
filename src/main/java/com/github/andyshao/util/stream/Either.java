@@ -6,6 +6,7 @@ import java.util.function.Function;
 
 import com.github.andyshao.util.function.ExceptionableFunction;
 
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -21,7 +22,7 @@ import lombok.RequiredArgsConstructor;
  * @param <L> left type
  * @param <R> right type
  */
-@RequiredArgsConstructor
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Either<L, R> {
 	private final L left;
 	private final R right;
@@ -60,7 +61,7 @@ public final class Either<L, R> {
 		return Optional.empty();
 	}
 	
-	public static <T, R> Function<T, Either<Exception, R>> lift(ExceptionableFunction<T, R> function) {
+	public static <T, R> Function<T, Either<Exception, R>> funExp(ExceptionableFunction<T, R> function) {
 		return t -> {
 			try {
 				return Either.right(function.apply(t));
@@ -70,7 +71,7 @@ public final class Either<L, R> {
 		};
 	}
 	
-	public static <T, R> Function<T, Either<Pair<Exception, T>, R>> liftWithValue(ExceptionableFunction<T, R> function) {
+	public static <T, R> Function<T, Either<Pair<Exception, T>, R>> funExpWithValue(ExceptionableFunction<T, R> function) {
 		return t -> {
 			try {
 				return Either.right(function.apply(t));
