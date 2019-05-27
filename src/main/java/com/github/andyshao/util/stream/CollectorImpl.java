@@ -71,7 +71,7 @@ public class CollectorImpl<T , A , R> implements Collector<T , A , R> {
     	return new CollectorImpl.Builder<TT, AA, RR>();
     }
     
-    public static final <TT, AA> CollectorImpl.Builder<TT, AA, AA> biBuilder() {
+    public static final <TT, AA> CollectorImpl.Builder<TT, AA, AA> idBuilder() {
     	return CollectorImpl.<TT, AA, AA>builder()
     		.withFinisher(it -> it)
     		.withCharacteristics(CH_ID);
