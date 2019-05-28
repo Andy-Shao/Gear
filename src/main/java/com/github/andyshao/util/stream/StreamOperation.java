@@ -1,6 +1,9 @@
 package com.github.andyshao.util.stream;
 
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.github.andyshao.util.function.ExceptionableFunction;
 
@@ -30,5 +33,10 @@ public final class StreamOperation {
 	
 	public static <T, R> Function<T, R> wrap(ExceptionableFunction<T, R> function) {
 		return wrap(function, e -> new RuntimeException(e));
+	}
+	
+	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+		return t -> seen.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
 	}
 }
