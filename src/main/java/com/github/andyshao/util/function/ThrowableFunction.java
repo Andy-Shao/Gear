@@ -26,8 +26,7 @@ public interface ThrowableFunction<T, R> {
 				try {
 					return function.apply(t);
 				} catch (Throwable e) {
-					if(e instanceof Exception) throw (Exception)e;
-					throw new ThrowableException(e);
+					throw ThrowableException.convertToException(e);
 				}
 			}
 		};

@@ -25,10 +25,10 @@ public interface ThrowableConsumer<T> {
 				try {
 					consumer.accept(t);
 				} catch (Throwable e) {
-					if(e instanceof Exception) throw (Exception)e;
-					throw new ThrowableException(e);
+					throw ThrowableException.convertToException(e);
 				}
 			}
+
 		};
 	}
 }

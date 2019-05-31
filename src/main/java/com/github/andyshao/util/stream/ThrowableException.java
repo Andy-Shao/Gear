@@ -17,4 +17,9 @@ public class ThrowableException extends Exception {
 	public ThrowableException(Throwable e) {
 		super(e);
 	}
+
+	public static Exception convertToException(Throwable e) {
+		if(e instanceof Exception) return (Exception)e;
+		return new ThrowableException(e);
+	}
 }

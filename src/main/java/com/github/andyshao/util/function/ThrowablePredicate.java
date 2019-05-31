@@ -26,8 +26,7 @@ public interface ThrowablePredicate<T> {
 				try {
 					return predicate.test(t);
 				} catch (Throwable e) {
-					if(e instanceof Exception) throw (Exception)e;
-					throw new ThrowableException(e);
+					throw ThrowableException.convertToException(e);
 				}
 			}
 		};
