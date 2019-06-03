@@ -75,7 +75,7 @@ public final class Try<T, R> {
 		};
 	}
 	
-	public static <T> Consumer<T> consumerExp(ExceptionableConsumer<T> consumer, Consumer<Try<T, Void>> errorProcess) {
+	public static <T> Consumer<T> consumExp(ExceptionableConsumer<T> consumer, Consumer<Try<T, Void>> errorProcess) {
 		return it -> {
 			try {
 				consumer.accept((T) it);
@@ -85,7 +85,7 @@ public final class Try<T, R> {
 		};
 	}
 	
-	public static <T,U> BiConsumer<T, U> biConsumerExp(ExceptionableBiConsumer<T, U> consumer, 
+	public static <T,U> BiConsumer<T, U> biConsumExp(ExceptionableBiConsumer<T, U> consumer, 
 			Consumer<Try<Pair<T, U>,Void>> errorProcess) {
 		return (t, u) -> {
 			try {
@@ -96,7 +96,7 @@ public final class Try<T, R> {
 		};
 	}
 	
-	public static <T> Predicate<T> predicateExp(ExceptionablePredicate<T> predicate, 
+	public static <T> Predicate<T> predExp(ExceptionablePredicate<T> predicate, 
 			Function<Try<T, Void>, Boolean> errorProcess) {
 		return t -> {
 			try {
@@ -107,7 +107,7 @@ public final class Try<T, R> {
 		};
 	}
 	
-	public static <T, U> BiPredicate<T, U> biPredicateExp(ExceptionableBiPredicate<T, U> predicate, 
+	public static <T, U> BiPredicate<T, U> biPredExp(ExceptionableBiPredicate<T, U> predicate, 
 			Function<Try<Pair<T, U>, Void>, Boolean> errorProcess) {
 		return (t, u) -> {
 			try {
