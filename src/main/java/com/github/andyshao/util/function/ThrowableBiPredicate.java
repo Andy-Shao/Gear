@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
 
 /**
@@ -18,17 +19,19 @@ import com.github.andyshao.util.stream.ThrowableException;
 public interface ThrowableBiPredicate<T, U> {
 	boolean test(T t, U u) throws Throwable;
 	
-	static <T, U> ExceptionableBiPredicate<T, U> exceptionCovert(ThrowableBiPredicate<T, U> predicate) {
-		return new ExceptionableBiPredicate<T, U>() {
-
-			@Override
-			public boolean test(T t, U u) throws Exception {
-				try {
-					return predicate.test(t, u);
-				} catch (Throwable e) {
-					throw ThrowableException.convertToException(e);
+	static <T, U> Convert<ThrowableBiPredicate<T, U>, ExceptionableBiPredicate<T, U>> toExceptionableBiPredicate() {
+		return input -> {
+			return new ExceptionableBiPredicate<T, U>() {
+			
+				@Override
+				public boolean test(T t, U u) throws Exception {
+					try {
+						return input.test(t, u);
+					} catch (Throwable e) {
+						throw ThrowableException.convertToException(e);
+					}
 				}
-			}
+			};
 		};
 	}
 }

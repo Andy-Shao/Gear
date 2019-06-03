@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
 
 /**
@@ -18,17 +19,19 @@ import com.github.andyshao.util.stream.ThrowableException;
 public interface ThrowableConsumer<T> {
 	void accept(T t) throws Throwable;
 	
-	static <T> ExceptionableConsumer<T> exceptionConvert(ThrowableConsumer<T> consumer) {
-		return new ExceptionableConsumer<T>() {
-			@Override
-			public void accept(T t) throws Exception {
-				try {
-					consumer.accept(t);
-				} catch (Throwable e) {
-					throw ThrowableException.convertToException(e);
+	static <T> Convert<ThrowableConsumer<T>, ExceptionableConsumer<T>> toExceptionableConsumer() {
+		return input -> {
+			return new ExceptionableConsumer<T>() {
+				@Override
+				public void accept(T t) throws Exception {
+					try {
+						input.accept(t);
+					} catch (Throwable e) {
+						throw ThrowableException.convertToException(e);
+					}
 				}
-			}
-
+			
+			};
 		};
 	}
 }

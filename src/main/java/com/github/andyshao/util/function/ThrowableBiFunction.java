@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
 
 /**
@@ -19,17 +20,19 @@ import com.github.andyshao.util.stream.ThrowableException;
 public interface ThrowableBiFunction<T, U, R> {
 	R apply(T t, U u) throws Throwable;
 	
-	static <T, U, R> ExceptionableBiFunction<T, U, R> exceptionConvert(ThrowableBiFunction<T, U, R> function) {
-		return new ExceptionableBiFunction<T, U, R>() {
-
-			@Override
-			public R apply(T t, U u) throws Exception {
-				try {
-					return function.apply(t, u);
-				} catch (Throwable e) {
-					throw ThrowableException.convertToException(e);
+	static <T, U, R> Convert<ThrowableBiFunction<T, U, R>, ExceptionableBiFunction<T, U, R>> toExceptionableBiFunction() {
+		return input -> {
+			return new ExceptionableBiFunction<T, U, R>() {
+			
+				@Override
+				public R apply(T t, U u) throws Exception {
+					try {
+						return input.apply(t, u);
+					} catch (Throwable e) {
+						throw ThrowableException.convertToException(e);
+					}
 				}
-			}
+			};
 		};
 	}
 }

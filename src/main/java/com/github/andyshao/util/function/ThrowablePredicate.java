@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
 
 /**
@@ -18,17 +19,19 @@ import com.github.andyshao.util.stream.ThrowableException;
 public interface ThrowablePredicate<T> {
 	boolean test(T t) throws Throwable;
 	
-	static <T> ExceptionablePredicate<T> exceptionConvert(ThrowablePredicate<T> predicate) {
-		return new ExceptionablePredicate<T>() {
-
-			@Override
-			public boolean test(T t) throws Exception {
-				try {
-					return predicate.test(t);
-				} catch (Throwable e) {
-					throw ThrowableException.convertToException(e);
+	static <T> Convert<ThrowablePredicate<T>, ExceptionablePredicate<T>> toExceptionablePredicate() {
+		return input -> {
+			return new ExceptionablePredicate<T>() {
+			
+				@Override
+				public boolean test(T t) throws Exception {
+					try {
+						return input.test(t);
+					} catch (Throwable e) {
+						throw ThrowableException.convertToException(e);
+					}
 				}
-			}
+			};
 		};
 	}
 }

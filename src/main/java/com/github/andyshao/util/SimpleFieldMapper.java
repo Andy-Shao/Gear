@@ -21,10 +21,12 @@ import lombok.Setter;
  * Copyright: Copryright(c) Aug 21, 2018<br>
  * Encoding:UNIX UTF-8
  * @author Andy.Shao
+ * @deprecated useless class
  *
  * @param <IN> input type
  * @param <OUT> output type
  */
+@Deprecated
 public class SimpleFieldMapper<IN , OUT> implements FieldMapper<IN , OUT> {
     @Setter
     private BiPredicate<Field , Field> customPredicate = (input, output) -> Objects.equals(input.getName() , output.getName());
