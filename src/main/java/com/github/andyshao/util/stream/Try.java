@@ -6,6 +6,7 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import com.github.andyshao.util.function.ExceptionableBiConsumer;
 import com.github.andyshao.util.function.ExceptionableBiFunction;
@@ -13,6 +14,7 @@ import com.github.andyshao.util.function.ExceptionableBiPredicate;
 import com.github.andyshao.util.function.ExceptionableConsumer;
 import com.github.andyshao.util.function.ExceptionableFunction;
 import com.github.andyshao.util.function.ExceptionablePredicate;
+import com.github.andyshao.util.function.ExceptionableSupplier;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -53,6 +55,16 @@ public final class Try<T, R> {
 	
 	public boolean isFailure() {
 		return !isSuccess();
+	}
+	
+	public static <R> Supplier<Try<Void, R>> supExp(ExceptionableSupplier<R> supplier) {
+		return () -> {
+			try {
+				return Try.success(null, supplier.get());
+			} catch (Exception e) {
+				return Try.failure(null, e);
+			}
+		};
 	}
 	
 	public static <T, R> Function<T, Try<T, R>> funExp(ExceptionableFunction<T, R> function) {
