@@ -11,7 +11,7 @@ import java.util.function.Function;
  * Encoding:UNIX UTF-8
  * @author Andy.Shao
  */
-public interface Context extends ConcurrentMap<String , Object>{
+public interface Context extends ConcurrentMap<String , Object>, CommonContext {
     @SuppressWarnings("unchecked")
     default <T> T setByType(ContextKey<T> key, T value) {
         return (T) put(key.keyName() , value);
