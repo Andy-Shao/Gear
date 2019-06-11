@@ -2,6 +2,7 @@ package com.github.andyshao.reflect;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -32,21 +33,19 @@ public final class ArrayOperation {
     }
     
     @SafeVarargs
-	public static <T> Collection<T> asCollection(Collection<T> col, T...ts) {
+	public static <T, E extends Collection<T>> E asCollection(E col, T...ts) {
     	for(T t: ts) col.add(t);
     	return col;
     }
     
     @SafeVarargs
 	public static <T> Set<T> asSet(Set<T> set, T...ts){
-    	for(T t : ts) set.add(t);
-    	return set;
+    	return asCollection(set, ts);
     }
     
     @SafeVarargs
 	public static <T> List<T> asList(List<T> list, T...ts){
-    	for(T t : ts) list.add(t);
-    	return list;
+    	return asCollection(list, ts);
     }
     
     @SafeVarargs
@@ -67,7 +66,7 @@ public final class ArrayOperation {
     
     @SafeVarargs
 	public static <T> Collection<T> asCollection(T...ts) {
-    	return asCollection(new ArrayList<T>(ts.length), ts);
+    	return Arrays.asList(ts);
     }
 
     /**
