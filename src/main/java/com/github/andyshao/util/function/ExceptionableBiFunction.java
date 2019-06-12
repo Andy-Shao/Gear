@@ -1,5 +1,10 @@
 package com.github.andyshao.util.function;
 
+import java.util.function.BiFunction;
+
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
 /**
  * 
  * 
@@ -16,4 +21,20 @@ package com.github.andyshao.util.function;
  */
 public interface ExceptionableBiFunction<T, U, R> {
 	R apply(T t, U u) throws Exception;
+	
+	static <T, U, R> Convert<ExceptionableBiFunction<T, U, R>, BiFunction<T, U, R>> toBiFunction(RuntimeExceptionFactory f) {
+		return input -> {
+			return (t, u) -> {
+				try {
+					return input.apply(t, u);
+				} catch (Exception e) {
+					throw f.build(e);
+				}
+			};
+		};
+	}
+	
+	static <T, U, R> Convert<ExceptionableBiFunction<T, U, R>, BiFunction<T, U, R>> toBiFunction() {
+		return toBiFunction(e -> new RuntimeException(e));
+	}
 }

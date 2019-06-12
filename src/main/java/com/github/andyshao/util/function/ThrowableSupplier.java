@@ -18,7 +18,7 @@ import com.github.andyshao.util.stream.ThrowableException;
 public interface ThrowableSupplier<R> {
 	R get() throws Throwable;
 	
-	static <R> Convert<ThrowableSupplier<R>, ExceptionableSupplier<R>> toExceptionableSupplier(ThrowableSupplier<R> supplier) {
+	static <R> Convert<ThrowableSupplier<R>, ExceptionableSupplier<R>> toExceptionableSupplier() {
 		return input -> {
 			return new ExceptionableSupplier<R>() {
 

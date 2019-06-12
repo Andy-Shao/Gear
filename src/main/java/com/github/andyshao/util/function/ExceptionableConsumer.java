@@ -1,5 +1,10 @@
 package com.github.andyshao.util.function;
 
+import java.util.function.Consumer;
+
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
 /**
  * 
  * 
@@ -15,4 +20,24 @@ package com.github.andyshao.util.function;
 @FunctionalInterface
 public interface ExceptionableConsumer<T> {
 	void accept(T t) throws Exception;
+	
+	static <T> Convert<ExceptionableConsumer<T>, Consumer<T>> toConsumer(RuntimeExceptionFactory f) {
+		return input -> {
+			return t -> {
+				try {
+					input.accept(t);
+				} catch (Exception e) {
+					throw f.build(e);
+				}
+			};
+		};
+	}
+	
+	static <T> Convert<ExceptionableConsumer<T>, Consumer<T>> toConsumer() {
+		return toConsumer(e -> new RuntimeException(e));
+	}
+	
+	static final class ExceptionableConsumers {
+		
+	}
 }

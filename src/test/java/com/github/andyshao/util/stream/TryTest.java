@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.github.andyshao.util.function.ExceptionableConsumer;
+
 class TryTest {
 	private List<String> list;
 	
@@ -38,6 +40,29 @@ class TryTest {
 		this.list.stream()
 			.filter(Try.predExp(it -> doTest(it), error -> Boolean.FALSE))
 			.collect(Collectors.toList());
+	}
+	
+	@Test
+	void consumExp() {
+		this.list.stream()
+			.filter(StreamOperation.distinctByKey(it -> it))
+			.forEach(Try.consumExp(
+					it -> {
+						throw new Exception();
+					}, 
+					error -> {
+						assertTrue(error.isFailure());
+						assertNotNull(error.getFailure());
+					}));
+		
+		try {
+			this.list.stream()
+				.filter(StreamOperation.distinctByKey(it -> it))
+				.forEach(ExceptionableConsumer.toConsumer().convert(it -> {
+					throw new Exception();
+				}));
+			fail();
+		} catch (RuntimeException e) {}
 	}
 
 	static <T> T doSomething(T t) {

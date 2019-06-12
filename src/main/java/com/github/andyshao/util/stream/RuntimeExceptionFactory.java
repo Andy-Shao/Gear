@@ -12,6 +12,6 @@ package com.github.andyshao.util.stream;
  *
  */
 @FunctionalInterface
-public interface ExceptionFactory {
+public interface RuntimeExceptionFactory {
 	RuntimeException build(Throwable e);
 }

@@ -1,5 +1,10 @@
 package com.github.andyshao.util.function;
 
+import java.util.function.BiPredicate;
+
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
 /**
  * 
  * 
@@ -15,4 +20,20 @@ package com.github.andyshao.util.function;
  */
 public interface ExceptionableBiPredicate<T, U> {
 	boolean test(T t, U u) throws Exception;
+	
+	static <T, U> Convert<ExceptionableBiPredicate<T, U>, BiPredicate<T, U>> toBiPredicate(RuntimeExceptionFactory f) {
+		return input -> {
+			return (t, u) -> {
+				try {
+					return input.test(t, u);
+				} catch (Exception e) {
+					throw f.build(e);
+				}
+			};
+		};
+	}
+	
+	static <T, U> Convert<ExceptionableBiPredicate<T, U>, BiPredicate<T, U>> toBiPredicate() {
+		return toBiPredicate(e -> new RuntimeException(e));
+	}
 }

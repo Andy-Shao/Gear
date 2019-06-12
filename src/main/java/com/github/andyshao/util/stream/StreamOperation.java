@@ -6,8 +6,6 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import com.github.andyshao.util.function.ExceptionableFunction;
-
 /**
  * 
  * 
@@ -21,20 +19,6 @@ import com.github.andyshao.util.function.ExceptionableFunction;
  */
 public final class StreamOperation {
 	private StreamOperation() {}
-	
-	public static <T, R> Function<T, R> wrap(ExceptionableFunction<T, R> function, ExceptionFactory factory) {
-		return t -> {
-			try {
-				return function.apply(t);
-			} catch(Exception e) {
-				throw factory.build(e);
-			}
-		};
-	}
-	
-	public static <T, R> Function<T, R> wrap(ExceptionableFunction<T, R> function) {
-		return wrap(function, e -> new RuntimeException(e));
-	}
 	
 	public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
 		Map<Object, Boolean> seen = new ConcurrentHashMap<>();
