@@ -16,6 +16,7 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @author Andy.Shao
  *
  * @param <R> return type
+ * @see Supplier
  */
 @FunctionalInterface
 public interface ExceptionableSupplier<R> {
@@ -34,6 +35,6 @@ public interface ExceptionableSupplier<R> {
 	}
 	
 	static <R> Convert<ExceptionableSupplier<R>, Supplier<R>> toSupplier() {
-		return toSupplier(e -> new RuntimeException(e));
+		return toSupplier(RuntimeExceptionFactory.DEFAULT);
 	}
 }

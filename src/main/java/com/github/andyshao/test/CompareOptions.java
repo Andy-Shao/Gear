@@ -18,7 +18,7 @@ public final class CompareOptions {
 
     @SafeVarargs
     public static final <T> boolean anyOf(T test, T... cases) {
-        if(test.getClass().isArray()) throw new IllegalArgumentException("argument must be array");
+        if(test.getClass().isArray()) throw new IllegalArgumentException("argument must not be array");
         for(T ca : cases) {
             if(Objects.equals(test , ca)) return true;
         }

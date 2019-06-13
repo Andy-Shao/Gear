@@ -17,6 +17,7 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  *
  * @param <T> argument type one
  * @param <U> argument type two
+ * @see BiConsumer
  */
 public interface ExceptionableBiConsumer<T, U> {
 	void accept(T t, U u) throws Exception;
@@ -34,6 +35,6 @@ public interface ExceptionableBiConsumer<T, U> {
 	}
 	
 	static <T, U> Convert<ExceptionableBiConsumer<T, U>, BiConsumer<T, U>> toBiConsumer() {
-		return toBiConsumer(e -> new RuntimeException(e));
+		return toBiConsumer(RuntimeExceptionFactory.DEFAULT);
 	}
 }

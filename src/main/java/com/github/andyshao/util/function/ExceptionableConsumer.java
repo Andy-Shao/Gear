@@ -34,10 +34,6 @@ public interface ExceptionableConsumer<T> {
 	}
 	
 	static <T> Convert<ExceptionableConsumer<T>, Consumer<T>> toConsumer() {
-		return toConsumer(e -> new RuntimeException(e));
-	}
-	
-	static final class ExceptionableConsumers {
-		
+		return toConsumer(RuntimeExceptionFactory.DEFAULT);
 	}
 }

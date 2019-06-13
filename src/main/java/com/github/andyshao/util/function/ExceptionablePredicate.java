@@ -16,6 +16,7 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @author Andy.Shao
  *
  * @param <T> argument type
+ * @see Predicate
  */
 public interface ExceptionablePredicate<T> {
 	boolean test(T t) throws Exception;
@@ -33,6 +34,6 @@ public interface ExceptionablePredicate<T> {
 	}
 	
 	static <T> Convert<ExceptionablePredicate<T>, Predicate<T>> toPredicate() {
-		return toPredicate(e -> new RuntimeException(e));
+		return toPredicate(RuntimeExceptionFactory.DEFAULT);
 	}
 }

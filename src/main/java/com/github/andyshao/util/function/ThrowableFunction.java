@@ -1,5 +1,7 @@
 package com.github.andyshao.util.function;
 
+import java.util.function.Function;
+
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
 
@@ -15,6 +17,8 @@ import com.github.andyshao.util.stream.ThrowableException;
  *
  * @param <T> argument type
  * @param <R> return type
+ * @see ExceptionableFunction
+ * @see Function
  */
 @FunctionalInterface
 public interface ThrowableFunction<T, R> {

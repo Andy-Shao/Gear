@@ -17,6 +17,7 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  *
  * @param <T> argument type
  * @param <R> return type
+ * @see Function
  */
 @FunctionalInterface
 public interface ExceptionableFunction<T, R> {
@@ -35,6 +36,6 @@ public interface ExceptionableFunction<T, R> {
 	}
 	
 	static <T, R> Convert<ExceptionableFunction<T, R>, Function<T, R>> toFunction() {
-		return toFunction(e -> new RuntimeException(e));
+		return toFunction(RuntimeExceptionFactory.DEFAULT);
 	}
 }

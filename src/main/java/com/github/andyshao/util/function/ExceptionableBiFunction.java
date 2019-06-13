@@ -18,6 +18,7 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @param <T> argument type one
  * @param <U> argument type two
  * @param <R> return type
+ * @see BiFunction
  */
 public interface ExceptionableBiFunction<T, U, R> {
 	R apply(T t, U u) throws Exception;
@@ -35,6 +36,6 @@ public interface ExceptionableBiFunction<T, U, R> {
 	}
 	
 	static <T, U, R> Convert<ExceptionableBiFunction<T, U, R>, BiFunction<T, U, R>> toBiFunction() {
-		return toBiFunction(e -> new RuntimeException(e));
+		return toBiFunction(RuntimeExceptionFactory.DEFAULT);
 	}
 }

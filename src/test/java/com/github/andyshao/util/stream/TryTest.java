@@ -1,16 +1,18 @@
 package com.github.andyshao.util.stream;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.util.function.ExceptionableConsumer;
 
 class TryTest {
@@ -27,10 +29,10 @@ class TryTest {
 			.map(Try.funExp(it -> doSomething(it)))
 			.forEach(it -> {
 				if(it.isSuccess()) {
-					assertNotNull(it.getSuccess());
+					assertThat(it.getSuccess()).isNotNull();
 				}
 				if(it.isFailure()) {
-					assertNotNull(it.getFailure());
+					assertThat(it.getFailure()).isNotNull();
 				}
 			});
 	}
@@ -51,18 +53,44 @@ class TryTest {
 						throw new Exception();
 					}, 
 					error -> {
-						assertTrue(error.isFailure());
-						assertNotNull(error.getFailure());
+						assertThat(error.isFailure()).isTrue();
+						assertThat(error.getFailure()).isNotNull();
 					}));
 		
 		try {
 			this.list.stream()
 				.filter(StreamOperation.distinctByKey(it -> it))
 				.forEach(ExceptionableConsumer.toConsumer().convert(it -> {
-					throw new Exception();
+					throw new IOException();
 				}));
 			fail();
-		} catch (RuntimeException e) {}
+		} catch (RuntimeException e) {
+			Throwable cause = e.getCause();
+			assertThat(cause).isNotNull();
+			assertThat(cause).isInstanceOf(IOException.class);
+		}
+		
+		try {
+			this.list.parallelStream()
+			.filter(StreamOperation.distinctByKey(it -> it))
+			.forEach(ExceptionableConsumer.toConsumer().convert(it -> {
+				throw new IOException();
+			}));
+			fail();
+		} catch (RuntimeException e) {
+			Throwable cause = e.getCause();
+			assertThat(cause).isNotNull();
+			assertThat(cause).isInstanceOfAny(IOException.class, RuntimeException.class);
+		}
+	}
+	
+	@Test
+	void compExp() {
+		this.list.stream()
+			.sorted(Try.compExp((o1, o2) -> StringOperation.COMPARATOR.compare(o1, o2), 
+					error -> {
+						return -1;
+					}));
 	}
 
 	static <T> T doSomething(T t) {

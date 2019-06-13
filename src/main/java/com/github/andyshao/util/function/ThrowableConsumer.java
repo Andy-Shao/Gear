@@ -1,5 +1,7 @@
 package com.github.andyshao.util.function;
 
+import java.util.function.Consumer;
+
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
 
@@ -14,6 +16,8 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @author Andy.Shao
  *
  * @param <T> argument type
+ * @see ExceptionableConsumer
+ * @see Consumer
  */
 @FunctionalInterface
 public interface ThrowableConsumer<T> {

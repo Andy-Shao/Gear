@@ -1,5 +1,6 @@
 package com.github.andyshao.util.stream;
 
+import java.util.Comparator;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -8,6 +9,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import com.github.andyshao.util.ExceptionableComparator;
 import com.github.andyshao.util.function.ExceptionableBiConsumer;
 import com.github.andyshao.util.function.ExceptionableBiFunction;
 import com.github.andyshao.util.function.ExceptionableBiPredicate;
@@ -55,6 +57,17 @@ public final class Try<T, R> {
 	
 	public boolean isFailure() {
 		return !isSuccess();
+	}
+	
+	public static <T> Comparator<T> compExp(ExceptionableComparator<T> comp, 
+			Function<Try<Pair<T, T>, Void>, Integer> errorProcess) {
+		return (o1, o2) -> {
+			try {
+				return comp.compare(o1, o2);
+			} catch (Exception e) {
+				return errorProcess.apply(Try.failure(Pair.of(o1, o2), e));
+			}
+		};
 	}
 	
 	public static <R> Supplier<Try<Void, R>> supExp(ExceptionableSupplier<R> supplier) {

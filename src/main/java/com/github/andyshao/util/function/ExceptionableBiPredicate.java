@@ -17,6 +17,7 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  *
  * @param <T> argument type one
  * @param <U> argument type two
+ * @see BiPredicate
  */
 public interface ExceptionableBiPredicate<T, U> {
 	boolean test(T t, U u) throws Exception;
@@ -34,6 +35,6 @@ public interface ExceptionableBiPredicate<T, U> {
 	}
 	
 	static <T, U> Convert<ExceptionableBiPredicate<T, U>, BiPredicate<T, U>> toBiPredicate() {
-		return toBiPredicate(e -> new RuntimeException(e));
+		return toBiPredicate(RuntimeExceptionFactory.DEFAULT);
 	}
 }
