@@ -93,6 +93,12 @@ class TryTest {
 			.sorted(ExceptionableComparator.<String>toComparator()
 					.convert((o1, o2) -> StringOperation.COMPARATOR.compare(o1, o2)));
 	}
+	
+	@Test
+	void intFunExp() {
+		this.list.stream()
+			.mapToInt(Try.intFunExp(Integer::valueOf, error -> -1));
+	}
 
 	static <T> T doSomething(T t) {
 		if(new Random().nextBoolean()) return t;
