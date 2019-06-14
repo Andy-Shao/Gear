@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.util.ExceptionableComparator;
 import com.github.andyshao.util.function.ExceptionableConsumer;
 
 class TryTest {
@@ -87,10 +88,10 @@ class TryTest {
 	@Test
 	void compExp() {
 		this.list.stream()
-			.sorted(Try.compExp((o1, o2) -> StringOperation.COMPARATOR.compare(o1, o2), 
-					error -> {
-						return -1;
-					}));
+			.sorted(Try.compExp((o1, o2) -> StringOperation.COMPARATOR.compare(o1, o2), error -> -1));
+		this.list.stream()
+			.sorted(ExceptionableComparator.<String>toComparator()
+					.convert((o1, o2) -> StringOperation.COMPARATOR.compare(o1, o2)));
 	}
 
 	static <T> T doSomething(T t) {

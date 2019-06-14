@@ -8,6 +8,9 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import com.github.andyshao.util.ExceptionableComparator;
 import com.github.andyshao.util.function.ExceptionableBiConsumer;
@@ -17,6 +20,9 @@ import com.github.andyshao.util.function.ExceptionableConsumer;
 import com.github.andyshao.util.function.ExceptionableFunction;
 import com.github.andyshao.util.function.ExceptionablePredicate;
 import com.github.andyshao.util.function.ExceptionableSupplier;
+import com.github.andyshao.util.function.ExceptionableToDoubleFunction;
+import com.github.andyshao.util.function.ExceptionableToIntFunction;
+import com.github.andyshao.util.function.ExceptionableToLongFunction;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -57,6 +63,39 @@ public final class Try<T, R> {
 	
 	public boolean isFailure() {
 		return !isSuccess();
+	}
+	
+	public static <T> ToDoubleFunction<T> doubleFunExp(ExceptionableToDoubleFunction<T> fun, 
+			Function<Try<T, Void>, Double> errorProcess) {
+		return t -> {
+			try {
+				return fun.applyAsDouble(t);
+			} catch (Exception e) {
+				return errorProcess.apply(Try.failure(t, e));
+			}
+		};
+	}
+	
+	public static <T> ToLongFunction<T> longFunExp(ExceptionableToLongFunction<T> fun, 
+			Function<Try<T, Void>, Long> errorProcess) {
+		return t -> {
+			try {
+				return fun.applyAsLong(t);
+			} catch (Exception e) {
+				return errorProcess.apply(Try.failure(t, e));
+			}
+		};
+	}
+	
+	public static <T> ToIntFunction<T> intFunExp(ExceptionableToIntFunction<T> fun, 
+			Function<Try<T, Void>, Integer> errorProcess) {
+		return t -> {
+			try {
+				return fun.applyAsInt(t);
+			} catch (Exception e) {
+				return errorProcess.apply(Try.failure(t, e));
+			}
+		};
 	}
 	
 	public static <T> Comparator<T> compExp(ExceptionableComparator<T> comp, 
