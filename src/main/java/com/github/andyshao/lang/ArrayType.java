@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import lombok.Getter;
+
 /**
  * 
  * Title:<br>
@@ -11,6 +13,11 @@ package com.github.andyshao.lang;
  *
  */
 public enum ArrayType {
-	INT_ARRAY, BYTE_ARRAY, CHAR_ARRAY, SHORT_ARRAY, 
-	FLOAT_ARRAY, DOUBLE_ARRAY, LONG_ARRAY, OBJ_ARRAY;
+	INT_ARRAY(int[].class), BYTE_ARRAY(byte[].class), CHAR_ARRAY(char[].class), SHORT_ARRAY(short[].class), 
+	FLOAT_ARRAY(float[].class), DOUBLE_ARRAY(double[].class), LONG_ARRAY(long[].class), OBJ_ARRAY(null);
+	@Getter
+	private final Class<?> type;
+	private ArrayType(Class<?> type) {
+		this.type = type;
+	}
 }
