@@ -53,15 +53,14 @@ public class FloatArrayWrapper extends ArrayWrapperModel implements ArrayWrapper
 
     @Override
     public Float get(int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        return this.array()[index];
+        return this.array()[this.calculateRealIndex(index)];
     }
 
     @Override
     public Float put(Object value , int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        Float result = this.get(index);
-        this.array()[index] = Convert.OB_2_FLOAT.convert(value);
+    	int realIndex = this.calculateRealIndex(index);
+        Float result = this.get(realIndex);
+        this.array()[realIndex] = Convert.OB_2_FLOAT.convert(value);
         return result;
     }
 

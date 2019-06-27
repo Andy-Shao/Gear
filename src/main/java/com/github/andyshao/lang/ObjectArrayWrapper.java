@@ -57,16 +57,15 @@ public class ObjectArrayWrapper<T> extends ArrayWrapperModel implements ArrayWra
 
     @Override
     public T get(int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        return this.array()[index];
+        return this.array()[this.calculateRealIndex(index)];
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public T put(Object value , int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        T result = this.array()[index];
-        this.array()[index] = (T) value;
+    	int realIndex = this.calculateRealIndex(index);
+        T result = this.array()[realIndex];
+        this.array()[realIndex] = (T) value;
         return result;
     }
 }

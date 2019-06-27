@@ -56,15 +56,14 @@ public class IntArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
 
     @Override
     public Integer get(int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        return this.array()[index];
+		return this.array()[this.calculateRealIndex(index)];
     }
 
     @Override
     public Integer put(Object value , int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        int tmp = this.array()[index];
-        this.array()[index] = Convert.OB_2_INT.convert(value);
+    	int realIndex = this.calculateRealIndex(index);
+		int tmp = this.array()[realIndex];
+        this.array()[realIndex] = Convert.OB_2_INT.convert(value);
         return tmp;
     }
 

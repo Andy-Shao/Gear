@@ -53,15 +53,14 @@ public class ShortArrayWrapper extends ArrayWrapperModel implements ArrayWrapper
 
     @Override
     public Short get(int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        return this.array()[index];
+        return this.array()[this.calculateRealIndex(index)];
     }
 
     @Override
     public Short put(Object value , int index) {
-        if (index < this.position() || index >= this.limit()) throw new ArrayIndexOutOfBoundsException();
-        Short result = this.get(index);
-        this.array()[index] = Convert.OB_2_SHORT.convert(value);
+    	int realIndex = this.calculateRealIndex(index);
+        Short result = this.get(realIndex);
+        this.array()[realIndex] = Convert.OB_2_SHORT.convert(value);
         return result;
     }
 }
