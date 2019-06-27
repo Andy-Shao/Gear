@@ -1,5 +1,8 @@
 package com.github.andyshao.lang;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 /**
  * 
  * 
@@ -12,7 +15,14 @@ package com.github.andyshao.lang;
  *
  */
 public final class FloatOperation {
-//	public static final Comparator<Float> COMPARATOR = Float::compare;
+	public static final Comparator<Float> comparator() {
+		return  (o1, o2) -> {
+			if(Objects.isNull(o1) && Objects.nonNull(o2)) return -1;
+			else if(Objects.isNull(o1) && Objects.isNull(o2)) return 0;
+			else if(Objects.nonNull(o1) && Objects.isNull(o1)) return 1;
+			return Float.compare(o1, o2);
+		};
+	}
 			
 	private FloatOperation() {}
 }

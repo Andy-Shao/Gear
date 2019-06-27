@@ -1,6 +1,8 @@
 package com.github.andyshao.lang;
 
 import java.math.BigInteger;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * 
@@ -13,6 +15,15 @@ import java.math.BigInteger;
  *
  */
 public class CharOperation {
+	public static final Comparator<Character> comparator() {
+		return (l, r) -> {
+			if(Objects.isNull(l) && Objects.nonNull(r)) return -1;
+			else if(Objects.isNull(l) && Objects.isNull(r)) return 0;
+			else if(Objects.nonNull(l) && Objects.isNull(r)) return 1;
+			return Character.compare(l, r);
+		};
+	}
+	
     public static final int bitGet(BigInteger pos , final char[] array) {
         return ByteOperation.bitGet(pos , array , ByteWrapper.CHAR_BYTE_WRAPPER);
     }

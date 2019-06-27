@@ -3,6 +3,7 @@ package com.github.andyshao.reflect;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -14,7 +15,15 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.ArrayWrapper;
+import com.github.andyshao.lang.ByteOperation;
+import com.github.andyshao.lang.CharOperation;
 import com.github.andyshao.lang.Convert;
+import com.github.andyshao.lang.DoubleOperation;
+import com.github.andyshao.lang.FloatOperation;
+import com.github.andyshao.lang.IntegerOperation;
+import com.github.andyshao.lang.LongOperation;
+import com.github.andyshao.lang.ShortOperation;
+import com.github.andyshao.util.CollectionOperation;
 
 /**
  * 
@@ -27,13 +36,98 @@ import com.github.andyshao.lang.Convert;
  *
  */
 public final class ArrayOperation {
+	public static Comparator<float[]> floatArrayComparator() {
+		return floatArrayComparator(FloatOperation.comparator());
+	}
+	
+	public static Comparator<float[]> floatArrayComparator(Comparator<Float> floatComparator) {
+		return (l, r) -> comparator(floatComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	public static Comparator<double[]> doubleArrayComparator() {
+		return doubleArrayComparator(DoubleOperation.comparator());
+	}
+	
+	public static Comparator<double[]> doubleArrayComparator(Comparator<Double> doubleComparator) {
+		return (l, r) -> comparator(doubleComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	public static Comparator<long[]> longArrayComparator() {
+		return longArrayComparator(LongOperation.comparator());
+	}
+	
+	public static Comparator<long[]> longArrayComparator(Comparator<Long> longComparator) {
+		return (l, r) -> {
+			return comparator(longComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+		};
+	}
+	
+	public static Comparator<byte[]> byteArrayComparator() {
+		return byteArrayComparator(ByteOperation.comparator());
+	}
+	
+	public static Comparator<byte[]> byteArrayComparator(Comparator<Byte> byteComparator) {
+		return (l, r) -> comparator(byteComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	public static Comparator<short[]> shortArrayComparator() {
+		return shortArrayComparator(ShortOperation.comparator());
+	}
+	
+	public static Comparator<short[]> shortArrayComparator(Comparator<Short> shortComparator) {
+		return (l, r) -> comparator(shortComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	public static Comparator<char[]> charArrayComparator() {
+		return charArrayComparator(CharOperation.comparator());
+	}
+	
+	public static Comparator<char[]> charArrayComparator(Comparator<Character> charComparator) {
+		return (l, r) -> comparator(charComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	public static Comparator<int[]> intArrayComparator() {
+		return intArrayComparator(IntegerOperation.comparator());
+	}
+	
+	public static Comparator<int[]> intArrayComparator(Comparator<Integer> intComparator) {
+		return (o1, o2) -> {
+			return comparator(intComparator).compare(ArrayWrapper.wrap(o1), ArrayWrapper.wrap(o2));
+		};
+	}
+	
+	public static <T> Comparator<T[]> objArrayComparator(Comparator<T> objComparator) {
+		return (l, r) -> comparator(objComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static Comparator<ArrayWrapper> comparator(Comparator componentComparator) {
+		return (left, right) -> {
+			if(!ArrayWrapper.isSameType(left, right)) throw new IllegalArgumentException("Array type should be same");
+			if(Objects.isNull(left) && Objects.nonNull(right)) return -1;
+			else if(Objects.isNull(left) && Objects.nonNull(right)) return 0;
+			else if(Objects.nonNull(left) && Objects.isNull(right)) return 1;
+			int leftLength = left.length();
+			int rightLenth = right.length();
+			if(leftLength > rightLenth) return 1;
+			else if(leftLength < rightLenth) return -1;
+			int compare = 0;
+			for(int i=0; i<leftLength; i++) {
+				compare = componentComparator.compare(left.get(i), right.get(i));
+				if(compare == 0) continue;
+				else return compare;
+			}
+			return compare;
+		};
+	}
+	
     public static <T> T backup(T array) {
         return ArrayOperation.splitArray(array , 0 , Array.getLength(array));
     }
     
     @SafeVarargs
 	public static <T, E extends Collection<T>> E asCollection(E col, T...ts) {
-    	for(T t: ts) col.add(t);
+    	CollectionOperation.addAll(col, ts);
     	return col;
     }
     

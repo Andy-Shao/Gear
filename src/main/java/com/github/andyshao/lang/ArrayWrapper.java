@@ -43,6 +43,24 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
         else if (long[].class.isInstance(array)) return new LongArrayWrapper((long[]) array);
         else return new ObjectArrayWrapper<E>((E[]) array);
     }
+    
+    public static boolean isSameType(ArrayWrapper left, ArrayWrapper right) {
+    	Class<?> leftType = left.array().getClass().getComponentType();
+    	Class<?> rightType = right.array().getClass().getComponentType();
+    	return leftType == rightType;
+    }
+    
+    public default ArrayType type() {
+    	Class<?> componentType = this.array().getClass().getComponentType();
+    	if(int.class.isInstance(componentType)) return ArrayType.INT_ARRAY;
+    	else if(byte.class.isInstance(componentType)) return ArrayType.BYTE_ARRAY;
+    	else if(char.class.isInstance(componentType)) return ArrayType.CHAR_ARRAY;
+    	else if(short.class.isInstance(componentType)) return ArrayType.SHORT_ARRAY;
+    	else if(float.class.isInstance(componentType)) return ArrayType.SHORT_ARRAY;
+    	else if(double.class.isInstance(componentType)) return ArrayType.DOUBLE_ARRAY;
+    	else if(long.class.isInstance(componentType)) return ArrayType.LONG_ARRAY;
+    	else return ArrayType.OBJ_ARRAY;
+    }
 
     /**
      * get the array which store in this class
