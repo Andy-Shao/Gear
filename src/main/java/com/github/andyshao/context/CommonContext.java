@@ -1,6 +1,7 @@
 package com.github.andyshao.context;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -38,5 +39,9 @@ public interface CommonContext extends Map<String, Object> {
         T ret = getByType(key);
         if(ret == null) return defaultValue;
         return defaultValue;
+    }
+    
+    default <T> Optional<T> getOpByType(ContextKey<T> key) {
+    	return Optional.ofNullable(getByType(key));
     }
 }
