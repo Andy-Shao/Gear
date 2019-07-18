@@ -1,0 +1,213 @@
+package com.github.andyshao.exception;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * 
+ * Title:<br>
+ * Descript:<br>
+ * Copyright: Copryright(c) Jul 18, 2019<br>
+ * Encoding: UNIX UTF-8
+ * 
+ * @author Andy.Shao
+ *
+ */
+public interface AppResult<T> extends Result<AppResult.DataNode<T>> {
+	public static <E> AppResult<E> success() {
+		return successData(null);
+	}
+	
+	public static <E> AppResult<E> success(String code, String message) {
+		return successData(null, ResultCodeEnum.SUCCESS, code, message);
+	}
+	
+	public static <E> AppResult<E> successMsg(String message) {
+		ResultCode resultCode = ResultCodeEnum.SUCCESS;
+		return successData(null, resultCode, resultCode.getCode(), message);
+	}
+	
+	public static <E> AppResult<E> success(ResultCode resultCode) {
+		return successData(null, resultCode, resultCode.getCode(), resultCode.getMessage());
+	}
+	
+	public static <E> AppResult<E> success(ResultCode resultCode, String appMsg){
+		return successData(null, resultCode.getCode(), resultCode.getMessage(), resultCode.getCode(), appMsg);
+	}
+	
+	public static <E> AppResult<E> success(ResultCode resultCode, String appCode, String appMsg) {
+		return successData(null, resultCode.getCode(), resultCode.getMessage(), appCode, appMsg);
+	}
+
+	public static <E> AppResult<E> successData(final E data) {
+		return successData(data, ResultCodeEnum.SUCCESS);
+	}
+
+	public static <E> AppResult<E> successData(final E data, final ResultCode resultCode) {
+		String code = resultCode.getCode();
+		String message = resultCode.getMessage();
+		return successData(data, code, message);
+	}
+	
+	public static <E> AppResult<E> successData(final E data, final ResultCode resultCode, String appCode, 
+			String appMsg) {
+		return successData(data, resultCode.getCode(), resultCode.getMessage(), appCode, appMsg);
+	}
+	
+	public static <E> AppResult<E> successData(final E data, String message) {
+		return successData(data, ResultCodeEnum.SUCCESS.getCode(), message);
+	}
+
+	public static <E> AppResult<E> successData(final E data, String code, String message) {
+		String appCode = code;
+		String appMessage = message;
+		return successData(data, code, message, appCode, appMessage);
+	}
+
+	public static <E> AppResult<E> successData(final E data, String code, String message, String appCode,
+			String appMessage) {
+		return wrap(data, code, message, appCode, appMessage, true);
+	}
+	
+	public static <E> AppResult<E> error() {
+		return errorData(null);
+	}
+	
+	public static <E> AppResult<E> errorMsg(String msg) {
+		return errorData(null, msg);
+	}
+	
+	public static <E> AppResult<E> error(String code, String msg) {
+		return errorData(null, ResultCodeEnum.ERROR, code, msg);
+	}
+	
+	public static <E> AppResult<E> error(ResultCode rc, String message) {
+		return errorData(null, rc, rc.getCode(), message);
+	}
+	
+	public static <E> AppResult<E> error(ResultCode rc, String code, String msg) {
+		return errorData(null, rc, code, msg);
+	}
+	
+	public static <E> AppResult<E> errorData(final E data) {
+		return errorData(data, ResultCodeEnum.ERROR);
+	}
+	
+	public static <E> AppResult<E> errorData(final E data, final ResultCode resultCode) {
+		return errorData(data, resultCode, resultCode.getCode(), resultCode.getMessage());
+	}
+	
+	public static <E> AppResult<E> errorData(final E data, final ResultCode resultCode, String code, String msg) {
+		return errorData(data, resultCode.getCode(), resultCode.getMessage(), code, msg);
+	}
+	
+	public static <E> AppResult<E> errorData(final E data, String msg) {
+		ResultCodeEnum rc = ResultCodeEnum.ERROR;
+		return errorData(data, rc.getCode(), msg);
+	}
+	
+	public static <E> AppResult<E> errorData(final E data, String code, String message) {
+		return errorData(data, code, message, code, message);
+	}
+	
+	public static <E> AppResult<E> errorData(final E data, String code, String msg, String appCode, String appMsg) {
+		return wrap(data, code, msg, appCode, appMsg, false);
+	}
+
+	public static <E> AppResult<E> wrap(final E data, String code, String message, String appCode, String appMessage,
+			boolean isSuccess) {
+		return new DefaultResult.Builder<E>()
+				.code(code)
+				.message(message)
+				.isSuccess(isSuccess)
+				.data(DataNode.<E>builder()
+						.appErrorCode(appCode)
+						.appErrorMsg(appMessage)
+						.data(data)
+						.build())
+				.build();
+	}
+
+	@Getter
+	@Setter(value = AccessLevel.PROTECTED)
+	public static class DataNode<T> {
+		private String appErrorCode;
+		private String appErrorMsg;
+		private T data;
+		
+		public static <E> DataNodeBuilder<E> builder() {
+			return new DataNodeBuilder<E>();
+		}
+		
+		static class DataNodeBuilder<E> {
+			private String appErrorCode;
+			private String appErrorMsg;
+			private E data;
+			
+			public DataNodeBuilder<E> data(E data) {
+				this.data = data;
+				return this;
+			}
+			
+			public DataNodeBuilder<E> appErrorMsg(String appErrorMsg) {
+				this.appErrorMsg = appErrorMsg;
+				return this;
+			}
+			
+			public DataNodeBuilder<E> appErrorCode(String appErrorCode) {
+				this.appErrorCode = appErrorCode;
+				return this;
+			}
+			
+			public DataNode<E> build() {
+				DataNode<E> ret = new DataNode<E>();
+				ret.setAppErrorCode(this.appErrorCode);
+				ret.setAppErrorMsg(this.appErrorMsg);
+				ret.setData(this.data);
+				return ret;
+			}
+		}
+	}
+	
+	static class DefaultResult<E> extends Result.DefaultResult<AppResult.DataNode<E>> implements AppResult<E> {
+		private static final long serialVersionUID = 5733097731106369616L;
+		
+		static class Builder<T> {
+			private AppResult.DataNode<T> data;
+            private String message;
+            private boolean isSuccess;
+            private String code;
+            
+            public Builder<T> code(String code) {
+            	this.code = code;
+            	return this;
+            }
+            
+            public Builder<T> isSuccess(boolean isSuccess) {
+            	this.isSuccess = isSuccess;
+            	return this;
+            }
+            
+            public Builder<T> message(String message) {
+            	this.message = message;
+            	return this;
+            }
+            
+            public Builder<T> data(AppResult.DataNode<T> data) {
+            	this.data = data;
+            	return this;
+            }
+            
+			public AppResult.DefaultResult<T> build() {
+				AppResult.DefaultResult<T> ret = new AppResult.DefaultResult<T>();
+				ret.setData(this.data);
+				ret.setMessage(this.message);
+				ret.setCode(this.code);
+				ret.isSuccess(this.isSuccess);
+				return ret;
+			}
+			
+		}
+	}
+}

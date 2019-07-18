@@ -163,5 +163,45 @@ public interface Result<DATA> extends Serializable{
         public void setCode(String code) {
             this.code = code;
         }
+        
+        public static <T> SelfBuilder<T> builder() {
+        	return new SelfBuilder<T>();
+        }
+        
+        static class SelfBuilder<T> {
+        	private T data;
+            private String message;
+            private boolean isSuccess;
+            private String code;
+            
+            public SelfBuilder<T> code(String code) {
+            	this.code = code;
+            	return this;
+            }
+            
+            public SelfBuilder<T> isSuccess(boolean isSuccess) {
+            	this.isSuccess = isSuccess;
+            	return this;
+            }
+            
+            public SelfBuilder<T> message(String message) {
+            	this.message = message;
+            	return this;
+            }
+            
+            public SelfBuilder<T> data(T data) {
+            	this.data = data;
+            	return this;
+            }
+            
+            public DefaultResult<T> build() {
+            	DefaultResult<T> ret = new DefaultResult<T>();
+            	ret.data = this.data;
+            	ret.message = this.message;
+            	ret.isSuccess = this.isSuccess;
+            	ret.code = this.code;
+				return ret;
+            }
+        }
     }
 }
