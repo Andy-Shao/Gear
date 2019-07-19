@@ -1,6 +1,7 @@
 package com.github.andyshao.util.stream;
 
 import java.util.Comparator;
+import java.util.Optional;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
@@ -44,7 +45,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Try<T, R> {
-	private final Exception failure;
+	private final Throwable failure;
 	private final T argument;
 	private final R success;
 	private final boolean isSuccess;
@@ -63,6 +64,18 @@ public final class Try<T, R> {
 	
 	public boolean isFailure() {
 		return !isSuccess();
+	}
+	
+	public Optional<T> getArgumentOps() {
+		return Optional.ofNullable(this.argument);
+	}
+	
+	public Optional<R> getSuccessOps() {
+		return Optional.ofNullable(this.success);
+	}
+	
+	public Optional<Throwable> getFailure() {
+		return Optional.ofNullable(this.failure);
 	}
 	
 	public static <T> ToDoubleFunction<T> doubleFunExp(ExceptionableToDoubleFunction<T> fun, 

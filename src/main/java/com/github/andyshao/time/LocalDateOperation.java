@@ -2,9 +2,12 @@ package com.github.andyshao.time;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
 import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.stream.Pair;
 
 /**
  * 
@@ -23,7 +26,15 @@ public final class LocalDateOperation {
     public static final Convert<LocalDate, Date> toDate(ZoneId zoneId){
         return ld -> Date.from(ld.atStartOfDay(zoneId).toInstant());
     }
+    
     public static final Convert<LocalDate, Date> toDate(){
         return DEFAULT_CONVERT_TO_DATE;
+    }
+    
+    public static final Convert<Pair<DateTimeFormatter, String>, LocalDate> toLocalDate() {
+    	return pair -> {
+    		TemporalAccessor date = pair.getFirst().parse(pair.getSecond());
+    		return LocalDate.from(date);
+    	};
     }
 }
