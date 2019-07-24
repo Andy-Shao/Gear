@@ -30,11 +30,11 @@ public final class Pair<F, S> {
 		return new Pair<F, S>(first, second);
 	}
 	
-	public F getFirstWithDefault(F def) {
+	public F getFirstOrDefault(F def) {
 		return Objects.isNull(this.first) ? def : this.first;
 	}
 	
-	public S getSecondWithDefault(S def) {
+	public S getSecondOrDefault(S def) {
 		return Objects.isNull(this.second) ? def : this.second;
 	}
 	

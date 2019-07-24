@@ -74,7 +74,7 @@ public final class Try<T, R> {
 		return Optional.ofNullable(this.success);
 	}
 	
-	public Optional<Throwable> getFailure() {
+	public Optional<Throwable> getFailureOps() {
 		return Optional.ofNullable(this.failure);
 	}
 	
