@@ -35,7 +35,7 @@ public interface CommonContext extends Map<String, Object> {
         return (T) get(key.keyName());
     }
     
-    default <T> T getByTypeWithDefault(ContextKey<T> key, T defaultValue) {
+    default <T> T getOrDefaultByType(ContextKey<T> key, T defaultValue) {
         T ret = getByType(key);
         if(ret == null) return defaultValue;
         return defaultValue;
