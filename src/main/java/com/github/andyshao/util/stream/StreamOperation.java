@@ -34,13 +34,13 @@ public final class StreamOperation {
 		return stream.filter(distinctByKey(keyExtractor));
 	}
 	
-	public static <T> Pair<T, Boolean> anyMatch(Predicate<? super T> predicate, Stream<T> stream) {
+	public static <T> Pair<T, Boolean> anyMatch(Stream<T> stream, Predicate<? super T> predicate) {
 		Optional<T> op = stream.filter(predicate)
 			.findAny();
 		return op.isPresent() ? Pair.of(op.get(), true) : Pair.of(null, false);
 	}
 	
-	public static <T> Pair<List<T>, Boolean> allOfMatched(Predicate<? super T> predicate, Stream<T> stream) {
+	public static <T> Pair<List<T>, Boolean> allOfMatched(Stream<T> stream, Predicate<? super T> predicate) {
 		List<T> ls = stream.filter(predicate)
 			.collect(Collectors.toList());
 		return CollectionOperation.isEmptyOrNull(ls) ? Pair.of(ls, false) : Pair.of(ls, true);
