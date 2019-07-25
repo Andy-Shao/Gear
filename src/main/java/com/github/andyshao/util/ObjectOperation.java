@@ -2,7 +2,6 @@ package com.github.andyshao.util;
 
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.stream.Stream;
 
 import com.github.andyshao.util.stream.Pair;
 
