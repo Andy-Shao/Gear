@@ -33,7 +33,8 @@ public final class LocalDateTimeOperation {
     
     public static final Convert<Pair<DateTimeFormatter, String>, LocalDateTime> toLocalDateTime() {
     	return pair -> {
-    		TemporalAccessor date = pair.getFirst().parse(pair.getSecond());
+    		TemporalAccessor date = pair.getFirstOrDefault(DateTimeFormatter.ofPattern("yyyyMMdd HH:mm:ss"))
+    				.parse(pair.getSecond());
     		return LocalDateTime.from(date);
     	};
     }
