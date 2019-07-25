@@ -2,6 +2,9 @@ package com.github.andyshao.util;
 
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.stream.Stream;
+
+import com.github.andyshao.util.stream.Pair;
 
 /**
  * 
@@ -23,31 +26,39 @@ public final class ObjectOperation {
 		return thiz.equals(that) && thiz.hashCode() == that.hashCode();
 	}
 	
-    public static final <T> T valueOrNull(T value , T nullDefault) {
-        if (value == null) return nullDefault;
-        else return value;
+    public static final <T> T valueOrDefault(T value , T def) {
+        return Objects.isNull(value) ? def : value;
+    }
+    
+    public static final Pair<Object, Boolean> equalsAnyOneRetItem(Object value, Object...compareList) {
+    	if(value == null && compareList == null) return Pair.of(null, false);
+        else if(value != null && compareList == null) return Pair.of(null, false);
+    	
+    	for(Object item : compareList) {
+    		if(Objects.equals(value, item)) return Pair.of(item, true);
+    	}
+    	
+    	return Pair.of(null, false);
     }
     
     public static final boolean equalsAnyOne(Object value, Object...compareList) {
-        if(value == null && compareList == null) return true;
-        else if(value != null && compareList == null) return false;
-        
-        for(Object item : compareList) {
-            if(Objects.equals(value , item)) return true;
-        }
-        
-        return false;
+        return equalsAnyOneRetItem(value, compareList).getSecond();
+    }
+    
+    public static final Pair<Object, Boolean> equalsAnyOneRetItem(Object value, Iterator<Object> it) {
+    	if(value == null && it == null) return Pair.of(null, false);
+        else if(value != null && it == null) return Pair.of(null, false);
+    	
+    	while(it.hasNext()) {
+    		Object item = it.next();
+			if(Objects.equals(value, item)) return Pair.of(item, true);
+    	}
+    	
+    	return Pair.of(null, false);
     }
     
     public static final boolean equalsAnyOne(Object value, Iterator<Object> it) {
-        if(value == null && it == null) return true;
-        else if(value != null && it == null) return false;
-        
-        while(it.hasNext()) {
-            if(Objects.equals(value , it.next())) return true;
-        }
-        
-        return false;
+        return equalsAnyOneRetItem(value, it).getSecond();
     }
     
     private ObjectOperation() {
