@@ -33,15 +33,15 @@ public final class MapOperation {
     		Convert<String, V> valueConvert) {
     	final Map<K, V> result = supplier.get();
     	Arrays.stream(valStr.split(","))
-    		.filter(it -> StringOperation.isEmptyOrNull(it))
+    		.filter(it -> !StringOperation.isEmptyOrNull(it))
     		.forEach(it -> {
     			String[] items = it.split(":");
     			switch(items.length) {
     			case 1:
-    				result.put(keyConvert.convert(items[0]), null);
+    				result.put(keyConvert.convert(items[0].trim()), null);
     				break;
     			case 2:
-    				result.put(keyConvert.convert(items[0]), valueConvert.convert(items[1]));
+    				result.put(keyConvert.convert(items[0].trim()), valueConvert.convert(items[1].trim()));
     				break;
     		    default:
     		    	break;
