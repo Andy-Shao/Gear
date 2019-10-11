@@ -58,7 +58,8 @@ public final class Reflects {
      * @param className the name of class
      * @param <T> the type of class
      * @return the type of class
-     * @see Class#forName(String)
+     * @see Class#forName(String) 
+     * @deprecated Use {@link ClassOperation#forName(String)} instead
      */
     public static <T> Class<T> forName(String className) {
         return ClassOperation.forName(className);
@@ -71,6 +72,7 @@ public final class Reflects {
      * @param <T> the type of class
      * @return the constructor of class
      * @see Class#getConstructor(Class...)
+     * @deprecated Use {@link ConstructorOperation#getConstructor(Class, Class...)} instead
      */
     public static <T> Constructor<T> getConstructor(Class<T> clazz , Class<?>... parameterTypes) {
         return ConstructorOperation.getConstructor(clazz , parameterTypes);
@@ -83,6 +85,7 @@ public final class Reflects {
      * @param <T> the type of class
      * @return the constructor of class
      * @see Class#getDeclaredConstructor(Class...)
+     * @deprecated Use {@link ConstructorOperation#getDeclaredConstructor(Class, Class...)} instead
      */
     public static <T> Constructor<T> getDeclaredConstructor(Class<T> clazz , Class<?>... parameterTypes) {
         return ConstructorOperation.getDeclaredConstructor(clazz , parameterTypes);
@@ -94,6 +97,7 @@ public final class Reflects {
      * @param field_name the name of field
      * @return the field of class
      * @see Class#getDeclaredField(String)
+     * @deprecated Use {@link FieldOperation#getDeclaredField(Class, String)} instead
      */
     public static Field getDeclaredField(Class<?> clazz , String field_name) {
         return FieldOperation.getDeclaredField(clazz , field_name);
@@ -106,6 +110,7 @@ public final class Reflects {
      * @param parameterTypes the type of parameters
      * @return the method of class
      * @see Class#getDeclaredMethod(String, Class...)
+     * @deprecated Use {@link MethodOperation#getDeclaredMethod(Class, String, Class...)} instead
      */
     public static Method getDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         return MethodOperation.getDeclaredMethod(clazz , method_name , parameterTypes);
@@ -117,6 +122,7 @@ public final class Reflects {
      * @param field_name the name of field
      * @return the fields of class
      * @see Class#getField(String)
+     * @deprecated Use {@link FieldOperation#getField(Class, String)} instead
      */
     public static Field getField(Class<?> clazz , String field_name) {
         return FieldOperation.getField(clazz , field_name);
@@ -129,6 +135,7 @@ public final class Reflects {
      * @param <T> the type of return
      * @return the value of field
      * @see Field#get(Object)
+     * @deprecated Use {@link FieldOperation#getFieldValue(Object, Field)} instead
      */
     public static <T> T getFieldValue(Object target , Field field) {
         return FieldOperation.getFieldValue(target , field);
@@ -142,6 +149,7 @@ public final class Reflects {
      * @param parameterTypes the parameter types list
      * @return the define of method
      * @see Class#getMethod(String, Class...)
+     * @deprecated Use {@link MethodOperation#getMethod(Class, String, Class...)} instead
      */
     public static Method getMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         return MethodOperation.getMethod(clazz , method_name , parameterTypes);
@@ -155,6 +163,7 @@ public final class Reflects {
      *
      * @param m method
      * @return the parameter name list
+     * @deprecated Use {@link ParameterOperation#getMethodParamNames(Method)} instead
      */
     public static String[] getMethodParamNames(final Method m) {
         return ParameterOperation.getMethodParamNames(m);
@@ -168,6 +177,7 @@ public final class Reflects {
      * @param <T> the type of return
      * @return the result of method's
      * @see Method#invoke(Object, Object...)
+     * @deprecated Use {@link MethodOperation#invoked(Object, Method, Object...)} instead
      */
     public static <T> T invoked(Object target , Method method , Object... values) {
         return MethodOperation.invoked(target , method , values);
@@ -179,6 +189,7 @@ public final class Reflects {
      * @param <T> the object type
      * @return the object which come from clazz
      * @see Class#newInstance()
+     * @deprecated Use {@link ConstructorOperation#newInstance(Class)} instead
      */
     public static <T> T newInstance(Class<T> clazz) {
         return ConstructorOperation.newInstance(clazz);
@@ -191,6 +202,7 @@ public final class Reflects {
      * @param <T> the type of return
      * @return the object which is builded from constructor
      * @see Constructor#newInstance(Object...)
+     * @deprecated Use {@link ConstructorOperation#newInstance(Class)} instead
      */
     public static <T> T newInstance(Constructor<T> constructor , Object... values) {
         return ConstructorOperation.newInstance(constructor , values);
@@ -202,6 +214,7 @@ public final class Reflects {
      * @param field the define of field
      * @param value the values of parameters of constructor's
      * @see Field#set(Object, Object)
+     * @deprecated Use {@link FieldOperation#setFieldValue(Object, Field, Object)} instead
      */
     public static void setFieldValue(Object target , Field field , Object value) {
         FieldOperation.setFieldValue(target , field , value);
@@ -214,6 +227,7 @@ public final class Reflects {
      * @param <T> the type of return
      * @return all of annotation
      * @see Class#getAnnotation(Class)
+     * @deprecated Use {@link AnnotationOperation#superGetAnnotation(Class, Class)} instead
      */
     public static <T extends Annotation> T superGetAnnotation(Class<? extends Object> target , Class<T> clazz) {
         return AnnotationOperation.superGetAnnotation(target , clazz);
@@ -226,6 +240,7 @@ public final class Reflects {
      * @param field_name the name of field
      * @return the field of class
      * @see Class#getDeclaredField(String)
+     * @deprecated Use {@link FieldOperation#superGetDeclaredField(Class, String)} instead
      */
     public static Field superGetDeclaredField(Class<?> clazz , String field_name) {
         return FieldOperation.superGetDeclaredField(clazz , field_name);
@@ -236,6 +251,7 @@ public final class Reflects {
      * @param clazz the type of class
      * @return the fields of class
      * @see Class#getDeclaredField(String)
+     * @deprecated Use {@link FieldOperation#superGetDeclaredFields(Class)} instead
      */
     public static Field[] superGetDeclaredFields(Class<?> clazz) {
         return FieldOperation.superGetDeclaredFields(clazz);
@@ -249,6 +265,7 @@ public final class Reflects {
      * @param parameterTypes the type of parameters
      * @return the method of class
      * @see Class#getDeclaredMethod(String, Class...)
+     * @deprecated Use {@link MethodOperation#superGetDeclaredMethod(Class, String, Class...)} instead
      */
     public static Method superGetDeclaredMethod(Class<?> clazz , String method_name , Class<?>... parameterTypes) {
         return MethodOperation.superGetDeclaredMethod(clazz , method_name , parameterTypes);
@@ -261,6 +278,7 @@ public final class Reflects {
      * @param clazz The type of Object's
      * @param set the collection which store all of interfaces about the clazz.
      * @see Class#getInterfaces()
+     * @deprecated Use {@link ClassOperation#superGetInterfaces(Class, Set)} instead
      */
     public static void superGetInterfaces(Class<?> clazz , Set<Class<?>> set) {
         ClassOperation.superGetInterfaces(clazz , set);
