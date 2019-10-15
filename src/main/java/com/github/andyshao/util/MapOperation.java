@@ -26,6 +26,25 @@ public final class MapOperation {
         return map == null || map.isEmpty();
     }
     
+    public static final <K, K2, V, V2> Convert<Map<K, V>, Map<K2, V2>> convertMap(
+    		Convert<K, K2> kConvert, 
+    		Convert<V, V2> vConvert, 
+    		Supplier<Map<K2, V2>> suplier) {
+    	return origin -> {
+    		Map<K2, V2> ret = suplier.get();
+    		origin.forEach((k, v) -> {
+    			ret.put(kConvert.convert(k), vConvert.convert(v));
+    		});
+			return ret;
+    	};
+    }
+    
+    public static final <K, K2, V, V2> Convert<Map<K, V>, Map<K2, V2>> convertMap(
+    		Convert<K, K2> kConvert, 
+    		Convert<V, V2> vConvert) {
+    	return convertMap(kConvert, vConvert, HashMap::new);
+    }
+    
     public static final <K, V> Map<K, V> wrapMap(
     		Supplier<Map<K, V>> supplier, 
     		String valStr, 
