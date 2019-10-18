@@ -1,6 +1,7 @@
 package com.github.andyshao.context;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -39,6 +40,12 @@ public interface CommonContext extends Map<String, Object> {
         T ret = getByType(key);
         if(ret == null) return defaultValue;
         return defaultValue;
+    }
+    
+    default <T> T computeIfAbsence(ContextKey<T> key, Function<ContextKey<T>, T> function) {
+    	T ret = getByType(key);
+    	if(Objects.isNull(key)) ret = function.apply(key);
+    	return ret;
     }
     
     default <T> Optional<T> getOpByType(ContextKey<T> key) {

@@ -2,6 +2,7 @@ package com.github.andyshao.util.stream;
 
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -34,8 +35,20 @@ public final class Pair<F, S> {
 		return Objects.isNull(this.first) ? def : this.first;
 	}
 	
+	public F computeFirstIfAbsence(Supplier<F> supplier) {
+		Optional<F> ops = this.getFirstOps();
+		if(ops.isPresent()) return ops.get();
+		return supplier.get();
+	}
+	
 	public S getSecondOrDefault(S def) {
 		return Objects.isNull(this.second) ? def : this.second;
+	}
+	
+	public S computeSecondIfAbsence(Supplier<S> supplier) {
+		Optional<S> ops = this.getSecondOps();
+		if(ops.isPresent()) return ops.get();
+		return supplier.get();
 	}
 	
 	public Optional<F> getFirstOps() {

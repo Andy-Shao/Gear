@@ -39,8 +39,20 @@ public final class Either<L, R> {
 		return Optional.ofNullable(this.left);
 	}
 	
+	public Optional<L> computeLeftIfAbsence(Function<Either<L, R>, L> function) {
+		Optional<L> ret = this.getLeft();
+		if(ret.isPresent()) return ret;
+		return Optional.ofNullable(function.apply(this));
+	}
+	
 	public Optional<R> getRight() {
 		return Optional.ofNullable(this.right);
+	}
+	
+	public Optional<R> computeRightIfAbsence(Function<Either<L, R>, R> function) {
+		Optional<R> ret = this.getRight();
+		if(ret.isPresent()) return ret;
+		return Optional.ofNullable(function.apply(this));
 	}
 	
 	public boolean isLeft() {
