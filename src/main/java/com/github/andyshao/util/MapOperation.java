@@ -3,11 +3,14 @@ package com.github.andyshao.util;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
 
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.util.stream.Pair;
 
 /**
  * 
@@ -26,44 +29,55 @@ public final class MapOperation {
         return map == null || map.isEmpty();
     }
     
-    public static final <K, K2, V, V2> Convert<Map<K, V>, Map<K2, V2>> convertMap(
-    		Convert<K, K2> kConvert, 
-    		Convert<V, V2> vConvert, 
-    		Supplier<Map<K2, V2>> suplier) {
+    public static final <K, K2, V, V2, R extends Map<K2, V2>> Convert<Map<K, V>, R> convertMap(
+    		Convert<Pair<K, V>, Optional<Pair<K2, V2>>> convert, 
+    		Supplier<R> suplier) {
     	return origin -> {
-    		Map<K2, V2> ret = suplier.get();
+    		R ret = suplier.get();
     		origin.forEach((k, v) -> {
-    			ret.put(kConvert.convert(k), vConvert.convert(v));
+    			Optional<Pair<K2, V2>> converted = convert.convert(Pair.of(k, v));
+    			if(converted.isPresent()) {
+    				Pair<K2, V2> pair = converted.get();
+    				ret.put(pair.getFirst(), pair.getSecond());
+    			}
     		});
 			return ret;
     	};
     }
     
     public static final <K, K2, V, V2> Convert<Map<K, V>, Map<K2, V2>> convertMap(
-    		Convert<K, K2> kConvert, 
-    		Convert<V, V2> vConvert) {
-    	return convertMap(kConvert, vConvert, HashMap::new);
+    		Convert<Pair<K, V>, Optional<Pair<K2, V2>>> convert) {
+    	return convertMap(convert, HashMap::new);
     }
     
-    public static final <K, V> Map<K, V> wrapMap(
-    		Supplier<Map<K, V>> supplier, 
+    public static final <K, K2, V, V2> Convert<Map<K, V>, ConcurrentMap<K2, V2>> convertConcurrentMap(
+    		Convert<Pair<K, V>, Optional<Pair<K2, V2>>> convert) {
+    	return convertMap(convert, ConcurrentHashMap::new);
+    }
+    
+    public static final <K, V, R extends Map<K, V>> R wrapMap(
+    		Supplier<R> supplier, 
     		String valStr, 
-    		Convert<String, K> keyConvert, 
-    		Convert<String, V> valueConvert) {
-    	final Map<K, V> result = supplier.get();
+    		Convert<Pair<String, String>, Optional<Pair<K, V>>> convert) {
+    	final R result = supplier.get();
     	Arrays.stream(valStr.split(","))
     		.filter(it -> !StringOperation.isEmptyOrNull(it))
     		.forEach(it -> {
     			String[] items = it.split(":");
+    			Optional<Pair<K, V>> op = Optional.empty();
     			switch(items.length) {
     			case 1:
-    				result.put(keyConvert.convert(items[0].trim()), null);
+    				op = convert.convert(Pair.of(items[0].trim(), null));
     				break;
     			case 2:
-    				result.put(keyConvert.convert(items[0].trim()), valueConvert.convert(items[1].trim()));
+    				op = convert.convert(Pair.of(items[0].trim(), items[1].trim()));
     				break;
     		    default:
     		    	break;
+    			}
+    			if(op.isPresent()) {
+    				Pair<K, V> pair = op.get();
+    				result.put(pair.getFirst(), pair.getSecond());
     			}
     		});
 
@@ -72,16 +86,21 @@ public final class MapOperation {
     
     public static final <K, V> Map<K, V> wrapMap(
     		String valStr, 
-    		Convert<String, K> keyConvert, 
-    		Convert<String, V> valueConvert) {
-    	return wrapMap(HashMap::new, valStr, keyConvert, valueConvert);
+    		Convert<Pair<String, String>, Optional<Pair<K, V>>> convert) {
+    	return wrapMap(HashMap::new, valStr, convert);
+    }
+    
+    public static final <K, V> ConcurrentMap<K, V> wrapConcurrentMap(
+    		String valStr, 
+    		Convert<Pair<String, String>, Optional<Pair<K, V>>> convert) {
+    	return wrapMap(ConcurrentHashMap::new, valStr, convert);
     }
     
     public static final Map<String, Object> wrapMap(String valStr) {
-    	return wrapMap(valStr, in -> in.toString(), in -> in);
+    	return wrapMap(valStr, input -> Optional.of(Pair.of(input.getFirst(), input.getSecond())));
     }
     
     public static final Map<String, String> wrapStringMap(String valStr) {
-    	return wrapMap(valStr, in -> in.toString(), in -> Objects.isNull(in) ? null : in.toString());
+    	return wrapMap(valStr, input -> Optional.of(Pair.of(input.getFirst(), input.getSecond())));
     }
 }
