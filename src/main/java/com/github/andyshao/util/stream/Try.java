@@ -70,12 +70,27 @@ public final class Try<T, R> {
 		return Optional.ofNullable(this.argument);
 	}
 	
+	public T computeIfArgumentAbsence(Supplier<T> supplier) {
+		Optional<T> ops = getArgumentOps();
+		return ops.isPresent() ? ops.get() : supplier.get();
+	}
+	
 	public Optional<R> getSuccessOps() {
 		return Optional.ofNullable(this.success);
 	}
 	
+	public R computeIfSuccessAbsence(Supplier<R> supplier) {
+		Optional<R> successOps = this.getSuccessOps();
+		return successOps.isPresent() ? successOps.get() : supplier.get();
+	}
+	
 	public Optional<Throwable> getFailureOps() {
 		return Optional.ofNullable(this.failure);
+	}
+	
+	public Throwable coputeIfThrowableAbsence(Supplier<Throwable> supplier) {
+		Optional<Throwable> failureOps = this.getFailureOps();
+		return failureOps.isPresent() ? failureOps.get() : supplier.get();
 	}
 	
 	public static <T> ToDoubleFunction<T> doubleFunExp(ExceptionableToDoubleFunction<T> fun, 
