@@ -76,6 +76,12 @@ public class CollectorImpl<T , A , R> implements Collector<T , A , R> {
     		.withFinisher(it -> it)
     		.withCharacteristics(CH_ID);
     }
+    
+    public static final <TT, AA> CollectorImpl.Builder<TT, AA, AA> idCurrentBuilder() {
+    	return CollectorImpl.<TT, AA, AA>builder()
+        		.withFinisher(it -> it)
+        		.withCharacteristics(CH_CONCURRENT_ID);
+    }
 
     public static class Builder<TT, AA, RR> {
         private Supplier<AA> supplier;
