@@ -25,7 +25,7 @@ import com.github.andyshao.lang.Convert;
 public final class CollectorOperation {
 	private CollectorOperation() {}
 	
-	public static <T, R> Collector<T, ?, List<R>> toList(Convert<T, R> covert) {
+	public static <T, R> Collector<T, ?, List<R>> toList(Convert<T, R> convert) {
 //		return CollectorImpl.<T, List<R>>idBuilder()
 //				.withSupplier(ArrayList::new)
 //				.withAccumulator((ls, it) -> ls.add(covert.convert(it)))
@@ -34,7 +34,7 @@ public final class CollectorOperation {
 //					return l;
 //				})
 //				.build();
-		return Collectors.mapping(it -> covert.convert(it), Collectors.toList());
+		return Collectors.mapping(it -> convert.convert(it), Collectors.toList());
 	}
 	
 	public static <T, R> Collector<T, Queue<R>, List<R>> toListConcurrent(Convert<T, R> convert) {

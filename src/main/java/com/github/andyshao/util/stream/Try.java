@@ -88,7 +88,7 @@ public final class Try<T, R> {
 		return Optional.ofNullable(this.failure);
 	}
 	
-	public Throwable coputeIfThrowableAbsence(Supplier<Throwable> supplier) {
+	public Throwable computeIfFailureAbsence(Supplier<Throwable> supplier) {
 		Optional<Throwable> failureOps = this.getFailureOps();
 		return failureOps.isPresent() ? failureOps.get() : supplier.get();
 	}

@@ -133,7 +133,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
 
     public int newSize(int size) {
         long result = ((long) size) << 1;
-        return result - (Integer.MAX_VALUE) > 0 ? Integer.MAX_VALUE : (int) result;
+        return (int) Math.min(result, Integer.MAX_VALUE);
     }
 
     public D remove(int index) {
@@ -211,5 +211,22 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
 
         System.arraycopy(AutoIncreaseArray.this.array , this.start , result , 0 , result.length);
         return result;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public void addAll(D[] a) {
+    	int newSize = a.length + this.size;
+    	int newArraySize = this.newSize(newSize);
+    	int newStart = 0;
+        int newEnd = newSize - 1;
+    	D[] newArray = (D[]) Array.newInstance(a.getClass().getComponentType(), newArraySize);
+    	System.arraycopy(this.array, this.start, newArray, 0, this.size);
+    	System.arraycopy(a, 0, newArray, this.size, a.length);
+    	this.actionAccount++;
+    	this.array = newArray;
+    	this.arraySize = newArraySize;
+    	this.size = newSize;
+    	this.start = newStart;
+    	this.end = newEnd;
     }
 }

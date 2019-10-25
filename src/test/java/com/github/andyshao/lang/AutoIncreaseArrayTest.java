@@ -2,6 +2,7 @@ package com.github.andyshao.lang;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -59,5 +60,24 @@ public class AutoIncreaseArrayTest {
 
         assertEquals(this.array.size() , this.data.length - 1);
         assertEquals(c , Character.valueOf('z'));
+    }
+    
+    @Test
+    public void addAll() {
+    	AutoIncreaseArray<Character> array = new AutoIncreaseArray<Character>();
+    	array.add('1');
+    	array.add('2');
+    	array.addAll(new Character[] {'a', 'b', 'c'});
+    	array.add('$');
+    	Character[] cs = array.toArray(new Character[array.size()]);
+    	Assertions.assertThat(cs).isNotNull();
+    	Assertions.assertThat(cs).isNotEmpty();
+    	Assertions.assertThat(cs.length).isEqualTo(6);
+    	Assertions.assertThat(cs[0]).isEqualTo('1');
+    	Assertions.assertThat(cs[1]).isEqualTo('2');
+    	Assertions.assertThat(cs[2]).isEqualTo('a');
+    	Assertions.assertThat(cs[3]).isEqualTo('b');
+    	Assertions.assertThat(cs[4]).isEqualTo('c');
+    	Assertions.assertThat(cs[5]).isEqualTo('$');
     }
 }
