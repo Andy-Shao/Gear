@@ -32,7 +32,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     }
 
     private long actionAccount;
-    private D[] array;
+    private Object[] array;
     private int arraySize;
     private int end;
     private int size;
@@ -62,10 +62,9 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
      * @param data information
      * @return the index which storage the data.
      */
-    @SuppressWarnings("unchecked")
     public int addHead(D data) {
         if (data == null) throw new NullPointerException();
-        if (this.array == null) this.array = (D[]) Array.newInstance(data.getClass() , this.arraySize);
+        if (this.array == null) this.array = new Object[this.arraySize];
 
         //Increase the array space
         if (this.start == 0) this.replaceSpace(data.getClass());
@@ -83,10 +82,9 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
      * @param data information
      * @return the index which storage the data.
      */
-    @SuppressWarnings("unchecked")
     public int addTail(D data) {
         if (data == null) throw new NullPointerException();
-        if (this.array == null) this.array = (D[]) Array.newInstance(data.getClass() , this.arraySize);
+        if (this.array == null) this.array = new Object[this.arraySize];
 
         //Increase the array space
         if (this.end == this.arraySize - 1) this.replaceSpace(data.getClass());
@@ -107,9 +105,10 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         this.size = 0;
     };
 
-    public D get(int index) {
+    @SuppressWarnings("unchecked")
+	public D get(int index) {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
-        return this.array[index + this.start];
+        return (D) this.array[index + this.start];
     }
 
     @Override
@@ -124,9 +123,10 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
                 return this.index < AutoIncreaseArray.this.size;
             }
 
-            @Override
+            @SuppressWarnings("unchecked")
+			@Override
             public D next() {
-                return AutoIncreaseArray.this.array[(this.index++) + AutoIncreaseArray.this.start];
+                return (D) AutoIncreaseArray.this.array[(this.index++) + AutoIncreaseArray.this.start];
             }
         };
     }
@@ -136,10 +136,11 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return (int) Math.min(result, Integer.MAX_VALUE);
     }
 
-    public D remove(int index) {
+    @SuppressWarnings("unchecked")
+	public D remove(int index) {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
         index = index + this.start;
-        D result = this.array[index];
+        D result = (D) this.array[index];
         this.array = ArrayOperation.removeItem(this.array , index);
         this.actionAccount++;
         this.size--;
@@ -156,10 +157,10 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return true;
     }
 
-    @SuppressWarnings("unchecked")
     private void replaceSpace(Class<? extends Object> data_type) {
         int arraySize = this.newSize(this.array.length);
-        D[] temp = (D[]) Array.newInstance(data_type , arraySize);
+//        D[] temp = (D[]) Array.newInstance(data_type , arraySize);
+        Object[] temp = new Object[arraySize];
         int new_start = arraySize >> 2;
         System.arraycopy(this.array , this.start , temp , new_start , this.size);
         this.array = temp;
@@ -175,7 +176,8 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return true;
     }
 
-    public D set(D data , int index) {
+    @SuppressWarnings("unchecked")
+	public D set(D data , int index) {
         D result = null;
         if (data == null) throw new NullPointerException();
         if (index < 0) throw new IndexOutOfBoundsException();
@@ -184,7 +186,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
             this.set(data , index);
         }
         index = index + this.start;
-        result = this.array[index];
+        result = (D) this.array[index];
         this.array[index] = data;
         this.actionAccount++;
         return result;
@@ -228,5 +230,15 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     	this.size = newSize;
     	this.start = newStart;
     	this.end = newEnd;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public void addAll(AutoIncreaseArray<D> array) {
+    	this.addAll((D[]) array.array);
+    }
+    
+    @SuppressWarnings("unchecked")
+	public Class<D> arrayComponentType() {
+    	return (Class<D>) this.array.getClass().getComponentType();
     }
 }

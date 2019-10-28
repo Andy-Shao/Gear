@@ -10,6 +10,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.github.andyshao.data.structure.SimpleQueue;
+import com.github.andyshao.lang.AutoIncreaseArray;
 import com.github.andyshao.lang.Convert;
 
 /**
@@ -24,6 +25,19 @@ import com.github.andyshao.lang.Convert;
  */
 public final class CollectorOperation {
 	private CollectorOperation() {}
+	
+	public static <T, R> Collector<T, ?, R[]> toArray(Convert<T, R> convert, R[] array) {
+		return CollectorImpl.<T, AutoIncreaseArray<R>, R[]>builder()
+				.withSupplier(AutoIncreaseArray::new)
+				.withAccumulator((arr, it) -> arr.add(convert.convert(it)))
+				.withCombiner((l, r) -> {
+					l.addAll(r);
+					return l;
+				})
+				.withFinisher(t -> t.toArray(array))
+				.withCharacteristics(CollectorImpl.CH_ID)
+				.build();
+	}
 	
 	public static <T, R> Collector<T, ?, List<R>> toList(Convert<T, R> convert) {
 //		return CollectorImpl.<T, List<R>>idBuilder()
