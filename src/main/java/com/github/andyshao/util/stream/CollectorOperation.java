@@ -10,6 +10,7 @@ import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import com.github.andyshao.data.structure.SimpleQueue;
+import com.github.andyshao.lang.ArrayWrapper;
 import com.github.andyshao.lang.AutoIncreaseArray;
 import com.github.andyshao.lang.Convert;
 
