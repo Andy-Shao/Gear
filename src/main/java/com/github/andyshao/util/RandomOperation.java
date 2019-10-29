@@ -43,11 +43,20 @@ public final class RandomOperation {
 	
 	public static double nextDouble(Random random, double minimum, double lessThan) {
 		if(lessThan <= minimum) throw new IllegalArgumentException("lessThan must greater than minimum");
-		return random.nextDouble() * (lessThan - minimum);
+		return (random.nextDouble() * lessThan) + minimum;
 	}
 	
 	public static double nextDouble(double minimum, double lessThan) {
 		return nextDouble(new Random(), minimum, lessThan);
+	}
+	
+	public static float nextFloat(Random random, float minimum, float lessThan) {
+		if(lessThan <= minimum) throw new IllegalArgumentException("lessThan must greater than minimum");
+		return (random.nextFloat() * lessThan) + minimum;
+	}
+	
+	public static float nextFloat(float minimum, float lessThan) {
+		return nextFloat(new Random(), minimum, lessThan);
 	}
 	
 	public static boolean choicedByPercent(Random random, double percent) {
