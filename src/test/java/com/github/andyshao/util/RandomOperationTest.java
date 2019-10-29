@@ -2,9 +2,14 @@ package com.github.andyshao.util;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.github.andyshao.util.stream.Pair;
 
 class RandomOperationTest {
 	private int times = 99999;
@@ -46,4 +51,14 @@ class RandomOperationTest {
 		return new BigDecimal(timeStamps).divide(new BigDecimal(times), 4, RoundingMode.HALF_UP);
 	}
 
+	@Test
+	void nextByPercent() {
+		Random random = new Random();
+		Map<String, Double> map = MapOperation.wrapMap("a:0, b:100", input -> {
+			return Optional.of(Pair.of(input.getFirst(), Double.valueOf(input.getSecond())));
+		});
+		Optional<String> next = RandomOperation.nextByPercent(random, map);
+		Assertions.assertThat(next.isPresent()).isTrue();
+		Assertions.assertThat(next.get()).isEqualTo("b");
+	}
 }
