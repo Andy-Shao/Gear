@@ -29,6 +29,12 @@ public final class ObjectOperation {
         return Objects.isNull(value) ? def : value;
     }
     
+    @Deprecated
+    public static final <T> T valueOrNull(T value , T nullDefault) {
+        if (value == null) return nullDefault;
+        else return value;
+    }
+    
     public static final Pair<Object, Boolean> equalsAnyOneRetItem(Object value, Object...compareList) {
     	if(value == null && compareList == null) return Pair.of(null, false);
         else if(value != null && compareList == null) return Pair.of(null, false);
