@@ -18,14 +18,38 @@ import java.util.stream.Collectors;
 public final class RandomOperation {
 	private RandomOperation() {}
 	
-	public static int nextInt(Random random, int mininum, int lessThan) {
-		if(lessThan <= mininum) throw new IllegalArgumentException("lessThan must greater than minimum");
-		int bound = lessThan - mininum;
-		return random.nextInt(bound) + mininum;
+	public static byte nextByte(Random random, byte minimum, byte lessThan) {
+		return (byte) nextInt(random, minimum, lessThan);
 	}
 	
-	public static int nextInt(int mininum, int lessThan) {
-		return nextInt(new Random(), mininum, lessThan);
+	public static byte nextByte(byte minimum, byte lessThan) {
+		return nextByte(new Random(), minimum, lessThan);
+	}
+	
+	public static short nextShort(Random random, short minimum, short lessThan) {
+		return (short) nextInt(random, minimum, lessThan);
+	}
+	
+	public static short nextShort(short minimum, short lessThan) {
+		return nextShort(new Random(), minimum, lessThan);
+	}
+	
+	public static char nextChar(Random random, char mininum, char lessThan) {
+		return (char) nextInt(random, mininum, lessThan);
+	}
+	
+	public static char nextChar(char minimum, char lessThan) {
+		return nextChar(new Random(), minimum, lessThan);
+	}
+	
+	public static int nextInt(Random random, int minimum, int lessThan) {
+		if(lessThan <= minimum) throw new IllegalArgumentException("lessThan must greater than minimum");
+		int bound = lessThan - minimum;
+		return random.nextInt(bound) + minimum;
+	}
+	
+	public static int nextInt(int minimum, int lessThan) {
+		return nextInt(new Random(), minimum, lessThan);
 	}
 	
 	public static long nextLong(Random random, long minimum, long lessThan) {
