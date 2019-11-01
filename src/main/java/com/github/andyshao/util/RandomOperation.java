@@ -3,7 +3,12 @@ package com.github.andyshao.util;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.function.FunctionOperation;
+import com.github.andyshao.util.stream.Pair;
 
 /**
  * 
@@ -89,17 +94,26 @@ public final class RandomOperation {
 	}
 	
 	public static Optional<String> nextByPercent(Random random, Map<String, Double> percentages) {
+		Convert<Map<String, Double>, Map<String, Function<String, Double>>> mapConvert = 
+				MapOperation.<String, String, Double, Function<String, Double>>convertMap(input -> {
+			return Optional.of(Pair.of(input.getFirst(), FunctionOperation.lambda(t -> input.getSecond())));
+		});
+		return nextByPercentFunction(random, mapConvert.convert(percentages));
+	}
+	
+	public static Optional<String> nextByPercentFunction(
+			Random random, Map<String, Function<String, Double>> percentages) {
 		Double ttl = percentages.entrySet()
 			.stream()
-			.map(it -> it.getValue())
+			.map(it -> it.getValue().apply(it.getKey()))
 			.filter(it -> it > 0)
 			.collect(Collectors.reducing((l, r) -> l + r))
 			.orElse(-1.0);
 		if(ttl == -1.0) throw new IllegalArgumentException("total number does not correct");
 		double decision = nextDouble(0.0, ttl);
 		double baseLine = 0;
-		for(Map.Entry<String, Double> entry : percentages.entrySet()) {
-			baseLine += entry.getValue();
+		for(Map.Entry<String, Function<String, Double>> entry : percentages.entrySet()) {
+			baseLine += entry.getValue().apply(entry.getKey());
 			if(baseLine >= decision) return Optional.of(entry.getKey());
 		}
 		return Optional.empty();
