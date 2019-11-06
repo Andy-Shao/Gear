@@ -9,8 +9,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
-import com.github.andyshao.util.function.FunctionOperation;
-
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
