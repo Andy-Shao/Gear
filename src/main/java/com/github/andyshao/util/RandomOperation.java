@@ -1,14 +1,22 @@
 package com.github.andyshao.util;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.function.FunctionOperation;
 import com.github.andyshao.util.stream.Pair;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 
 /**
  * 
@@ -22,6 +30,28 @@ import com.github.andyshao.util.stream.Pair;
  */
 public final class RandomOperation {
 	private RandomOperation() {}
+	
+	public static Stream<Byte> nextBytes(Random random, byte minimum, byte lessThan, long size) {
+		return StreamSupport.stream(new RandomByteSpliterator(random, 0, size, minimum, lessThan), false);
+	}
+	
+	public static Stream<Byte> nextBytes(Random random) {
+		return nextBytes(random, Byte.MIN_VALUE, Byte.MAX_VALUE, Long.MAX_VALUE);
+	}
+	
+	public static Stream<Byte> nextBytes() {
+		return nextBytes(new Random());
+	}
+	
+	public static byte nextByte(Random random) {
+		byte[] bs = new byte[1];
+		random.nextBytes(bs);
+		return bs[0];
+	}
+	
+	public static byte nextByte() {
+		return nextByte(new Random());
+	}
 	
 	public static byte nextByte(Random random, byte minimum, byte lessThan) {
 		return (byte) nextInt(random, minimum, lessThan);
@@ -39,12 +69,52 @@ public final class RandomOperation {
 		return nextShort(new Random(), minimum, lessThan);
 	}
 	
+	public static short nextShort(Random random) {
+		return nextShort(random, Short.MIN_VALUE, Short.MAX_VALUE);
+	}
+	
+	public static short nextShort() {
+		return nextShort(new Random());
+	}
+	
+	public static Stream<Short> nextShorts(Random random, short minimum, short lessThan, long size) {
+		return StreamSupport.stream(new RandomShortSpliterator(random, 0, size, minimum, lessThan), false);
+	}
+	
+	public static Stream<Short> nextShorts(Random random) {
+		return nextShorts(random, Short.MIN_VALUE, Short.MAX_VALUE, Long.MAX_VALUE);
+	}
+	
+	public static Stream<Short> nextShorts() {
+		return nextShorts(new Random());
+	}
+	
 	public static char nextChar(Random random, char mininum, char lessThan) {
 		return (char) nextInt(random, mininum, lessThan);
 	}
 	
 	public static char nextChar(char minimum, char lessThan) {
 		return nextChar(new Random(), minimum, lessThan);
+	}
+	
+	public static char nextChar(Random random) {
+		return nextChar(random, Character.MIN_VALUE, Character.MAX_VALUE);
+	}
+	
+	public static char nextChar() {
+		return nextChar(new Random());
+	}
+	
+	public static Stream<Character> nextChars(Random random, char mininum, char lessThan, long size) {
+		return StreamSupport.stream(new RandomCharSpliterator(random, 0, size, mininum, lessThan), false);
+	}
+	
+	public static Stream<Character> nextChars(Random random) {
+		return nextChars(random, Character.MIN_VALUE, Character.MAX_VALUE, Long.MAX_VALUE);
+	}
+	
+	public static Stream<Character> nextChars() {
+		return nextChars(new Random());
 	}
 	
 	public static int nextInt(Random random, int minimum, int lessThan) {
@@ -117,5 +187,98 @@ public final class RandomOperation {
 			if(baseLine >= decision) return Optional.of(entry.getKey());
 		}
 		return Optional.empty();
+	}
+	
+	static class RandomShortSpliterator extends RandomBaseSpliterator<Short> {
+
+		protected RandomShortSpliterator(Random random, long index, long fence, Short minimum, Short maximum) {
+			super(random, index, fence, minimum, maximum);
+		}
+
+		@Override
+		public Spliterator<Short> trySplit() {
+			long mid = mid(), ol = super.index;
+			return (ol >= mid) ? null : 
+				new RandomShortSpliterator(super.random, ol, super.index = mid, super.minimum, super.maximum);
+		}
+
+		@Override
+		protected Short requireNext() {
+			return RandomOperation.nextShort(super.random, super.minimum, super.maximum);
+		}
+		
+	}
+	
+	static class RandomByteSpliterator extends RandomBaseSpliterator<Byte> {
+		protected RandomByteSpliterator(Random random, long index, long fence, Byte minimum, Byte maximum) {
+			super(random, index, fence, minimum, maximum);
+		}
+
+		@Override
+		public Spliterator<Byte> trySplit() {
+			long mid = mid(), ol = super.index;
+			return (ol >= mid) ? null : 
+				new RandomByteSpliterator(super.random, ol, super.index = mid, minimum, maximum);
+		}
+
+		@Override
+		protected Byte requireNext() {
+			return RandomOperation.nextByte(super.random, super.minimum, super.maximum);
+		}
+	}
+	
+	static class RandomCharSpliterator extends RandomBaseSpliterator<Character> {
+		protected RandomCharSpliterator(Random random, long index, long fence, Character minimum, Character maximum) {
+			super(random, index, fence, minimum, maximum);
+		}
+
+		@Override
+		public Spliterator<Character> trySplit() {
+			long mid = mid(), ol = super.index;
+			return (ol >= mid) ? null : 
+				new RandomCharSpliterator(super.random, ol, super.index = mid, super.minimum, super.maximum);
+		}
+
+		@Override
+		protected Character requireNext() {
+			return RandomOperation.nextChar(super.random, super.minimum, super.maximum);
+		}
+		
+	}
+	
+	@AllArgsConstructor(access = AccessLevel.PROTECTED)
+	static abstract class RandomBaseSpliterator<E> implements Spliterator<E> {
+		protected final Random random;
+		protected long index;
+		protected long fence;
+		protected final E minimum;
+		protected final E maximum;
+		
+		@Override
+		public boolean tryAdvance(Consumer<? super E> action) {
+			Objects.requireNonNull(action);
+			if(this.index++ < this.fence) {
+				E item = requireNext();
+				action.accept(item);
+				return true;
+			}
+			return false;
+		}
+		
+		protected abstract E requireNext();
+
+		protected long mid() {
+			return (this.index + this.fence) >>> 1;
+		}
+		
+		@Override
+		public long estimateSize() {
+			return this.fence - this.index;
+		}
+		
+		@Override
+		public int characteristics() {
+			return Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.NONNULL;
+		}
 	}
 }

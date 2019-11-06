@@ -61,4 +61,14 @@ class RandomOperationTest {
 		Assertions.assertThat(next.isPresent()).isTrue();
 		Assertions.assertThat(next.get()).isEqualTo("b");
 	}
+	
+	@Test
+	void nextChars() {
+		Optional<Character> c = RandomOperation.nextChars(new Random(47))
+			.filter(it -> it > 'c')
+			.findFirst();
+		c.ifPresent(it -> {
+			Assertions.assertThat(it).isEqualTo('繜');
+		});
+	}
 }
