@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import com.github.andyshao.lang.Convert;
@@ -36,6 +37,14 @@ public interface ThrowableConsumer<T> {
 				}
 			
 			};
+		};
+	}
+	
+	default ThrowableConsumer<T> andThen(ThrowableConsumer<? super T> after) {
+		Objects.requireNonNull(after);
+		return it -> {
+			this.accept(it);
+			after.accept(it);
 		};
 	}
 }

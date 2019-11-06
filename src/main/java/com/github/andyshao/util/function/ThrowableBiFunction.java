@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 import com.github.andyshao.lang.Convert;
@@ -39,4 +40,9 @@ public interface ThrowableBiFunction<T, U, R> {
 			};
 		};
 	}
+	
+	default <V> ThrowableBiFunction<T, U, V> andThen(ThrowableFunction<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t, U u) -> after.apply(apply(t, u));
+    }
 }

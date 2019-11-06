@@ -1,8 +1,10 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.Function;
 
 import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.stream.RuntimeExceptionFactory;
 import com.github.andyshao.util.stream.ThrowableException;
 
 /**
@@ -37,5 +39,19 @@ public interface ThrowableFunction<T, R> {
 				}
 			};
 		};
+	}
+	
+	default <V> ThrowableFunction<V, R> compose(ThrowableFunction<? super V, ? extends T> before) {
+		Objects.requireNonNull(before);
+		return v -> this.apply(before.apply(v));
+	}
+	
+	default <V> ThrowableFunction<T, V> andThen(ThrowableFunction<? super R, ? extends V> after) {
+		Objects.requireNonNull(after);
+		return t -> after.apply(this.apply(t));
+	}
+	
+	static <T> ThrowableFunction<T, T> identity() {
+		return t -> t;
 	}
 }

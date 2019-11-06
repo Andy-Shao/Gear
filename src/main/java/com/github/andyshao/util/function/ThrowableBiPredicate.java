@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import com.github.andyshao.lang.Convert;
@@ -38,4 +39,22 @@ public interface ThrowableBiPredicate<T, U> {
 			};
 		};
 	}
+	
+	default ThrowableBiPredicate<T, U> and(ThrowableBiPredicate<? super T, ? super U> other) {
+        Objects.requireNonNull(other);
+        return (T t, U u) -> test(t, u) && other.test(t, u);
+    }
+	
+	default ThrowableBiPredicate<T, U> negate() {
+        return (T t, U u) -> !test(t, u);
+    }
+	
+	static <T, U> ThrowableBiPredicate<T, U> negate(ThrowableBiPredicate<T, U> predicate) {
+		return predicate.negate();
+	}
+	
+	default ThrowableBiPredicate<T, U> or(ThrowableBiPredicate<? super T, ? super U> other) {
+        Objects.requireNonNull(other);
+        return (T t, U u) -> test(t, u) || other.test(t, u);
+    }
 }

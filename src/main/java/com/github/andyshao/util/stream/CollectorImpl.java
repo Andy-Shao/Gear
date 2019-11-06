@@ -9,6 +9,8 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 
+import com.github.andyshao.util.function.FunctionOperation;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -73,13 +75,13 @@ public class CollectorImpl<T , A , R> implements Collector<T , A , R> {
     
     public static final <TT, AA> CollectorImpl.Builder<TT, AA, AA> idBuilder() {
     	return CollectorImpl.<TT, AA, AA>builder()
-    		.withFinisher(it -> it)
+    		.withFinisher(Function.identity())
     		.withCharacteristics(CH_ID);
     }
     
     public static final <TT, AA> CollectorImpl.Builder<TT, AA, AA> idCurrentBuilder() {
     	return CollectorImpl.<TT, AA, AA>builder()
-        		.withFinisher(it -> it)
+        		.withFinisher(Function.identity())
         		.withCharacteristics(CH_CONCURRENT_ID);
     }
 

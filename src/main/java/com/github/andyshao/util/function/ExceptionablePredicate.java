@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import com.github.andyshao.lang.Convert;
@@ -36,4 +37,28 @@ public interface ExceptionablePredicate<T> {
 	static <T> Convert<ExceptionablePredicate<T>, Predicate<T>> toPredicate() {
 		return toPredicate(RuntimeExceptionFactory.DEFAULT);
 	}
+	
+	default ExceptionablePredicate<T> and(ExceptionablePredicate<? super T> other) {
+		Objects.requireNonNull(other);
+		return t -> this.test(t) && other.test(t);
+	}
+	
+	default ExceptionablePredicate<T> negate() {
+		return t -> !this.test(t);
+	}
+	
+	static <T> ExceptionablePredicate<T> negate(ExceptionablePredicate<T> predicate) {
+		return predicate.negate();
+	}
+	
+	default ExceptionablePredicate<T> or(ExceptionablePredicate<? super T> other) {
+		Objects.requireNonNull(other);
+		return t -> this.test(t) || other.test(t);
+	}
+	
+	static <T> ExceptionablePredicate<T> isEqual(Object targetRef) {
+        return (null == targetRef)
+                ? Objects::isNull
+                : object -> targetRef.equals(object);
+    }
 }

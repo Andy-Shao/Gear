@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 
 import com.github.andyshao.lang.Convert;
@@ -38,4 +39,9 @@ public interface ExceptionableBiFunction<T, U, R> {
 	static <T, U, R> Convert<ExceptionableBiFunction<T, U, R>, BiFunction<T, U, R>> toBiFunction() {
 		return toBiFunction(RuntimeExceptionFactory.DEFAULT);
 	}
+	
+	default <V> ExceptionableBiFunction<T, U, V> andThen(ExceptionableFunction<? super R, ? extends V> after) {
+        Objects.requireNonNull(after);
+        return (T t, U u) -> after.apply(apply(t, u));
+    }
 }

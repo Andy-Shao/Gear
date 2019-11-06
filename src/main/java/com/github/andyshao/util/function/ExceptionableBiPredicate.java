@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.BiPredicate;
 
 import com.github.andyshao.lang.Convert;
@@ -37,4 +38,22 @@ public interface ExceptionableBiPredicate<T, U> {
 	static <T, U> Convert<ExceptionableBiPredicate<T, U>, BiPredicate<T, U>> toBiPredicate() {
 		return toBiPredicate(RuntimeExceptionFactory.DEFAULT);
 	}
+	
+	default ExceptionableBiPredicate<T, U> and(ExceptionableBiPredicate<? super T, ? super U> other) {
+        Objects.requireNonNull(other);
+        return (T t, U u) -> test(t, u) && other.test(t, u);
+    }
+	
+	default ExceptionableBiPredicate<T, U> negate() {
+        return (T t, U u) -> !test(t, u);
+    }
+	
+	static <T, U> ExceptionableBiPredicate<T, U> negate(ExceptionableBiPredicate<T, U> predicate) {
+		return predicate.negate();
+	}
+	
+	default ExceptionableBiPredicate<T, U> or(ExceptionableBiPredicate<? super T, ? super U> other) {
+        Objects.requireNonNull(other);
+        return (T t, U u) -> test(t, u) || other.test(t, u);
+    }
 }

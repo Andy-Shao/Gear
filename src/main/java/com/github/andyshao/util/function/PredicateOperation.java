@@ -18,4 +18,8 @@ public final class PredicateOperation {
 	public static final <T> Predicate<T> lambda(Predicate<T> predicate) {
 		return predicate;
 	}
+	
+	public static final <T> Predicate<T> negate(Predicate<T> predicate) {
+		return predicate.negate();
+	}
 }

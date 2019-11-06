@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 import com.github.andyshao.lang.Convert;
@@ -36,5 +37,13 @@ public interface ExceptionableBiConsumer<T, U> {
 	
 	static <T, U> Convert<ExceptionableBiConsumer<T, U>, BiConsumer<T, U>> toBiConsumer() {
 		return toBiConsumer(RuntimeExceptionFactory.DEFAULT);
+	}
+	
+	default ExceptionableBiConsumer<T, U> andThen(ExceptionableBiConsumer<? super T, ? super U> after) {
+		Objects.requireNonNull(after);
+		return (t, u) -> {
+			this.accept(t, u);
+			after.accept(t, u);
+		};
 	}
 }

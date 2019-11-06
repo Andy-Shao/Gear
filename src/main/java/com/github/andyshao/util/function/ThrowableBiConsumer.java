@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.BiConsumer;
 
 import com.github.andyshao.lang.Convert;
@@ -35,6 +36,14 @@ public interface ThrowableBiConsumer<T, U> {
 					}
 				}
 			};
+		};
+	}
+	
+	default ThrowableBiConsumer<T, U> andThen(ThrowableBiConsumer<? super T, ? super U> after) {
+		Objects.requireNonNull(after);
+		return (t, u) -> {
+			this.accept(t, u);
+			after.accept(t, u);
 		};
 	}
 }

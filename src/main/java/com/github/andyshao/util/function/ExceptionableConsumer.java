@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import com.github.andyshao.lang.Convert;
@@ -35,5 +36,13 @@ public interface ExceptionableConsumer<T> {
 	
 	static <T> Convert<ExceptionableConsumer<T>, Consumer<T>> toConsumer() {
 		return toConsumer(RuntimeExceptionFactory.DEFAULT);
+	}
+	
+	default ExceptionableConsumer<T> andThean(ExceptionableConsumer<? super T> after) {
+		Objects.requireNonNull(after);
+		return it -> {
+			this.accept(it);
+			after.accept(it);
+		};
 	}
 }

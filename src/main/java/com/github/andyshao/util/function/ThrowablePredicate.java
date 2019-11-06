@@ -1,5 +1,6 @@
 package com.github.andyshao.util.function;
 
+import java.util.Objects;
 import java.util.function.Predicate;
 
 import com.github.andyshao.lang.Convert;
@@ -38,4 +39,28 @@ public interface ThrowablePredicate<T> {
 			};
 		};
 	}
+	
+	default ThrowablePredicate<T> and(ThrowablePredicate<? super T> other) {
+		Objects.requireNonNull(other);
+		return t -> this.test(t) && other.test(t);
+	}
+	
+	default ThrowablePredicate<T> negate() {
+		return t -> !this.test(t);
+	}
+	
+	static <T> ThrowablePredicate<T> negate(ThrowablePredicate<T> predicate) {
+		return predicate.negate();
+	}
+	
+	default ThrowablePredicate<T> or(ThrowablePredicate<? super T> other) {
+		Objects.requireNonNull(other);
+		return t -> this.test(t) || other.test(t);
+	}
+	
+	static <T> ThrowablePredicate<T> isEqual(Object targetRef) {
+        return (null == targetRef)
+                ? Objects::isNull
+                : object -> targetRef.equals(object);
+    }
 }
