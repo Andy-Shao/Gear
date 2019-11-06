@@ -89,8 +89,7 @@ public final class EntityOperation {
 	 */
 	@FunctionalInterface
 	public static interface PropertyConvert extends Convert<PropertyNode, Object>{
-		@Deprecated
-		default Object covert(Object in, Class<?> inClazz, Class<?> outClazz) {
+		default Object convert(Object in, Class<?> inClazz, Class<?> outClazz) {
 			return this.convert(PropertyNode.builder()
 					.in(in)
 					.inClazz(inClazz)
@@ -271,14 +270,14 @@ public final class EntityOperation {
 			fieldMatch.destField.setAccessible(true);
 			Object inValue = FieldOperation.getFieldValue(resource, fieldMatch.resField);
 			if(fieldMatch.convert == null) {
-			    FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
+			    FieldOperation.setFieldValue(destination, fieldMatch.destField, covert.convert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 			} else {
 				if(Objects.isNull(fieldMatch.isConvertable)) 
-					FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
+					FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 				else {
 					Object origin = FieldOperation.getFieldValue(destination, fieldMatch.destField);
 					if(fieldMatch.isConvertable.test(inValue, origin)) 
-						FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.covert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
+						FieldOperation.setFieldValue(destination , fieldMatch.destField , fieldMatch.convert.convert(inValue, fieldMatch.resField.getType(), fieldMatch.destField.getType()));
 				}
 			}
 		}
