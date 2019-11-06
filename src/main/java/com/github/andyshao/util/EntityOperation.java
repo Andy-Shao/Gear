@@ -14,12 +14,14 @@ import java.util.function.BiFunction;
 import java.util.function.BiPredicate;
 import java.util.stream.Collectors;
 
+import com.github.andyshao.lang.Convert;
 import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.FieldOperation;
 import com.github.andyshao.util.annotation.CopyConvertor;
 import com.github.andyshao.util.annotation.IgnoreCopy;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -85,8 +87,25 @@ public final class EntityOperation {
 	 * @author Andy.Shao
 	 *
 	 */
-	public static interface PropertyConvert{
-		Object covert(Object in, Class<?> inClazz, Class<?> outClazz);
+	@FunctionalInterface
+	public static interface PropertyConvert extends Convert<PropertyNode, Object>{
+		@Deprecated
+		default Object covert(Object in, Class<?> inClazz, Class<?> outClazz) {
+			return this.convert(PropertyNode.builder()
+					.in(in)
+					.inClazz(inClazz)
+					.outClazz(outClazz)
+					.build());
+		}
+	}
+	
+	@Getter
+	@Setter
+	@Builder
+	public static class PropertyNode {
+		private Object in;
+		private Class<?> inClazz;
+		private Class<?> outClazz;
 	}
 	
 	/**
@@ -222,12 +241,12 @@ public final class EntityOperation {
 	    CopyConvertor classCopyConvertor = resource.getClass().getAnnotation(CopyConvertor.class);
 	    PropertyConvert convert = null;
 	    if(classCopyConvertor == null) {
-	        convert = (input, inClazz, outClazz)->{
-	            CopyConvertor copyConvertor = inClazz.getAnnotation(CopyConvertor.class);
-	            if(copyConvertor == null) return input;
+	        convert = it -> {
+	            CopyConvertor copyConvertor = it.getInClazz().getAnnotation(CopyConvertor.class);
+	            if(copyConvertor == null) return it.getIn();
 	            else {
 	                PropertyConvert convertor = ClassOperation.newInstance(copyConvertor.convertor());
-	                return convertor.covert(input , inClazz , outClazz);
+	                return convertor.convert(it);
 	            }
 	        };
 	    } else convert = ClassOperation.newInstance(classCopyConvertor.convertor());
