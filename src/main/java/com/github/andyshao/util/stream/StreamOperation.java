@@ -34,6 +34,12 @@ public final class StreamOperation {
 		return stream.filter(distinctByKey(keyExtractor));
 	}
 	
+	public static <T> Pair<T, Boolean> firstMatch(Stream<T> stream, Predicate<? super T> predicate) {
+		Optional<T> op = stream.filter(predicate)
+			.findFirst();
+		return op.isPresent() ? Pair.of(op.get(), true) : Pair.of(null, false);
+	}
+	
 	public static <T> Pair<T, Boolean> anyMatch(Stream<T> stream, Predicate<? super T> predicate) {
 		Optional<T> op = stream.filter(predicate)
 			.findAny();
