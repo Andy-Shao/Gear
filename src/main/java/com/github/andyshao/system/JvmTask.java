@@ -22,10 +22,12 @@ public class JvmTask implements Task {
     public static final String COMMAND_PATH = "com/github/andyshao/system/jvmCommand.txt";
     public static final String KEY_WORDS = "-jvm";
     public static final String METHOD_PATH = "com/github/andyshao/system/methodDescriptors.txt";
+    public static final String REFERENCE_PATH = "com/github/andyshao/system/reference.txt";
     public static final String SUB_OPTION_ARGS = "--args";
     public static final String SUB_OPTION_COMMAND = "--command";
     public static final String SUB_OPTION_METHOD = "--method";
     public static final String SUB_OPTION_TYPE = "--type";
+    public static final String SUB_OPTION_REFERENCE = "--ref";
     public static final String TYPE_PATH = "com/github/andyshao/system/typeDescription.txt";
 
     static byte[] readFile(String path) throws IOException {
@@ -64,6 +66,8 @@ public class JvmTask implements Task {
                 System.out.println(new String(JvmTask.readFile(JvmTask.COMMAND_PATH) , "UTF-8"));
                 break;
             case SUB_OPTION_ARGS:
+            	System.out.println(new String(JvmTask.readFile(JvmTask.REFERENCE_PATH), "UTF-8"));
+            	break;
             default:
                 System.out.println(new String(JvmTask.readFile(JvmTask.ARGS_PATH) , "UTF-8"));
                 break;

@@ -28,6 +28,7 @@ DESCRIPTION
         java -jar GearXX.jar -jvm --command show the jvm coding command list
         java -jar GearXX.jar -jvm --type show the jvm type define regulation
         java -jar GearXX.jar -jvm --method  show the jvm method define regulation
+        java -jar GearXX.jar -jvm --ref show the reference definition in java
         
     -http show informations of HTTP
         java -jar GearXX.jar -http [--statusCode] show all HTTP status code informations

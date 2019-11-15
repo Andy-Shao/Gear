@@ -5,8 +5,8 @@ Java启动参数共分为三类；
 
 
 
--Xmx20M Java堆的最大值为20M
--Xms20M Java堆的最小值为20M
+-Xmx20M Java堆的最大值为20M -XX:MaxHeapSize
+-Xms20M Java堆的最小值为20M -XX:MinHeapSize, -XX:InitialHepSize
 -Xmn10M 新生代为10MB
 -Xmns25M 新生代默认值为25MB
 -Xmnx25M 新生代最大值为25MB
@@ -26,10 +26,6 @@ Java启动参数共分为三类；
 -Xinit 强制虚拟机运行于"解释模式"(Interpreted Mode)
 -Xcomp 强制虚拟机运行于"编译模式"(Compiled Mode)
 -version 显示虚拟机的运行模式"混合模式"(Mixed Mode)/"解释模式"(Interpreted Mode)/"编译模式"(Compiled Mode)
-
-
-
-
 
 -XX:MaxDirectMemorySize=10M     直接内存容量为10M
 -XX:PermSize=120M 方法区的默认大小
@@ -182,3 +178,21 @@ Java启动参数共分为三类；
 由于sun官方文档中对各参数的描述也都非常少（大多只有一句话），而且大多涉及OS层面的东西，很难描述清楚，所以以下是挑选了一些我们开发中可能会用得比较多的配置项，若需要查看所有参数列表，可以点击HotSpot VM Specific Options.查看原文；
 
 
+ZGC 
+-----------------------------------------------------------------------------------------------------------------------
+# Enabling ZGC
+-XX:+UnlockExperimentalVMOptions , -XX:+UseZGC
+
+# Setting Concurrent GC Threads
+-XX:ConcGCThreads=<number>
+##NOET!
+In general, if low latency(i.e. low application response time)is important for your application, then never 
+over-provision your system. Ideally, your system should never have more than 70% CPU utilization.
+
+# Returing Unused Memory to the Operation System
+By default, ZGC uncommits unused memory, returning it to the operating system(-XX:+ZUncommit). Furthermore, memory will
+not be uncommitted so that the heap size shrinks below the minimum heap size(-Xms). The last but not least, an 
+uncommit delay can be configured using -XX:ZUncommitDelay=<seconds>(default is 300 seconds). This delay specifies for 
+how long memory should have been unused before it's eligible for uncommit.
+
+-----------------------------------------------------------------------------------------------------------------------
