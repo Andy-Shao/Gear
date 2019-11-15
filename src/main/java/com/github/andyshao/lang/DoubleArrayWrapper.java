@@ -1,6 +1,10 @@
 package com.github.andyshao.lang;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import com.github.andyshao.reflect.ArrayOperation;
+import com.github.andyshao.util.stream.StreamOperation;
 
 /**
  * 
@@ -63,5 +67,10 @@ public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrappe
         this.array()[realIndex] = Convert.OB_2_DOUBLE.convert(value);
         return result;
     }
+
+	@Override
+	public Stream<Double> stream() {
+		return StreamOperation.valueOf(Arrays.stream(this.array));
+	}
 
 }

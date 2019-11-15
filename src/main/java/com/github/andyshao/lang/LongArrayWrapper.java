@@ -1,6 +1,10 @@
 package com.github.andyshao.lang;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import com.github.andyshao.reflect.ArrayOperation;
+import com.github.andyshao.util.stream.StreamOperation;
 
 /**
  * 
@@ -66,5 +70,10 @@ public class LongArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
         this.array()[realIndex] = Convert.OB_2_LONG.convert(value);
         return result;
     }
+
+	@Override
+	public Stream<Long> stream() {
+		return StreamOperation.valueOf(Arrays.stream(this.array));
+	}
 
 }

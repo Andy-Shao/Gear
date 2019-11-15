@@ -3,6 +3,7 @@ package com.github.andyshao.lang;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 import com.github.andyshao.reflect.ArrayOperation;
 
@@ -206,6 +207,8 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
      * limit = mark
      */
     public void resetLimit();
+    
+    public Stream<?> stream();
 
     /**
      * the used array which between position and end(exclude) in array

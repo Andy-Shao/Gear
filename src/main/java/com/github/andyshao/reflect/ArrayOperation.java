@@ -11,8 +11,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.function.Function;
+import java.util.stream.DoubleStream;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import com.github.andyshao.lang.ArrayWrapper;
 import com.github.andyshao.lang.ByteOperation;
@@ -24,6 +28,8 @@ import com.github.andyshao.lang.IntegerOperation;
 import com.github.andyshao.lang.LongOperation;
 import com.github.andyshao.lang.ShortOperation;
 import com.github.andyshao.util.CollectionOperation;
+import com.github.andyshao.util.SpliteratorOperation;
+import com.github.andyshao.util.stream.StreamOperation;
 
 /**
  * 
@@ -36,31 +42,46 @@ import com.github.andyshao.util.CollectionOperation;
  *
  */
 public final class ArrayOperation {
-	public static Comparator<float[]> floatArrayComparator() {
-		return floatArrayComparator(FloatOperation.comparator());
-	}
+	@SafeVarargs
+	public static <T, E extends Collection<T>> E asCollection(E col, T...ts) {
+    	CollectionOperation.addAll(col, ts);
+    	return col;
+    }
 	
-	public static Comparator<float[]> floatArrayComparator(Comparator<Float> floatComparator) {
-		return (l, r) -> comparator(floatComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
-	}
+	@SafeVarargs
+	public static <T> Collection<T> asCollection(T...ts) {
+    	return Arrays.asList(ts);
+    }
 	
-	public static Comparator<double[]> doubleArrayComparator() {
-		return doubleArrayComparator(DoubleOperation.comparator());
-	}
+	@SafeVarargs
+	public static <T> List<T> asList(List<T> list, T...ts){
+    	return asCollection(list, ts);
+    }
 	
-	public static Comparator<double[]> doubleArrayComparator(Comparator<Double> doubleComparator) {
-		return (l, r) -> comparator(doubleComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
-	}
+	@SafeVarargs
+	public static <T> Queue<T> asQueue(Queue<T> queue, T...ts) {
+    	for(T t : ts) queue.offer(t);
+    	return queue;
+    }
 	
-	public static Comparator<long[]> longArrayComparator() {
-		return longArrayComparator(LongOperation.comparator());
-	}
+	@SafeVarargs
+	public static <T> Queue<T> asQueue(T...ts) {
+    	return asQueue(new ArrayBlockingQueue<T>(ts.length), ts);
+    }
 	
-	public static Comparator<long[]> longArrayComparator(Comparator<Long> longComparator) {
-		return (l, r) -> {
-			return comparator(longComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
-		};
-	}
+	@SafeVarargs
+	public static <T> Set<T> asSet(Set<T> set, T...ts){
+    	return asCollection(set, ts);
+    }
+	
+	@SafeVarargs
+	public static <T> Set<T> asSet(T...ts) {
+    	return asSet(new HashSet<>(ts.length), ts);
+    }
+	
+	public static <T> T backup(T array) {
+        return ArrayOperation.splitArray(array , 0 , Array.getLength(array));
+    }
 	
 	public static Comparator<byte[]> byteArrayComparator() {
 		return byteArrayComparator(ByteOperation.comparator());
@@ -70,34 +91,12 @@ public final class ArrayOperation {
 		return (l, r) -> comparator(byteComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
 	
-	public static Comparator<short[]> shortArrayComparator() {
-		return shortArrayComparator(ShortOperation.comparator());
-	}
-	
-	public static Comparator<short[]> shortArrayComparator(Comparator<Short> shortComparator) {
-		return (l, r) -> comparator(shortComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
-	}
-	
 	public static Comparator<char[]> charArrayComparator() {
 		return charArrayComparator(CharOperation.comparator());
 	}
 	
 	public static Comparator<char[]> charArrayComparator(Comparator<Character> charComparator) {
 		return (l, r) -> comparator(charComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
-	}
-	
-	public static Comparator<int[]> intArrayComparator() {
-		return intArrayComparator(IntegerOperation.comparator());
-	}
-	
-	public static Comparator<int[]> intArrayComparator(Comparator<Integer> intComparator) {
-		return (o1, o2) -> {
-			return comparator(intComparator).compare(ArrayWrapper.wrap(o1), ArrayWrapper.wrap(o2));
-		};
-	}
-	
-	public static <T> Comparator<T[]> objArrayComparator(Comparator<T> objComparator) {
-		return (l, r) -> comparator(objComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -121,48 +120,7 @@ public final class ArrayOperation {
 		};
 	}
 	
-    public static <T> T backup(T array) {
-        return ArrayOperation.splitArray(array , 0 , Array.getLength(array));
-    }
-    
-    @SafeVarargs
-	public static <T, E extends Collection<T>> E asCollection(E col, T...ts) {
-    	CollectionOperation.addAll(col, ts);
-    	return col;
-    }
-    
-    @SafeVarargs
-	public static <T> Set<T> asSet(Set<T> set, T...ts){
-    	return asCollection(set, ts);
-    }
-    
-    @SafeVarargs
-	public static <T> List<T> asList(List<T> list, T...ts){
-    	return asCollection(list, ts);
-    }
-    
-    @SafeVarargs
-	public static <T> Queue<T> asQueue(Queue<T> queue, T...ts) {
-    	for(T t : ts) queue.offer(t);
-    	return queue;
-    }
-    
-    @SafeVarargs
-	public static <T> Queue<T> asQueue(T...ts) {
-    	return asQueue(new ArrayBlockingQueue<T>(ts.length), ts);
-    }
-    
-    @SafeVarargs
-	public static <T> Set<T> asSet(T...ts) {
-    	return asSet(new HashSet<>(ts.length), ts);
-    }
-    
-    @SafeVarargs
-	public static <T> Collection<T> asCollection(T...ts) {
-    	return Arrays.asList(ts);
-    }
-
-    /**
+	/**
      * Let a Object[][] convert to a Map.
      * Let Object[i][0] is key and Object[i][1] is value.
      * 
@@ -179,8 +137,16 @@ public final class ArrayOperation {
             map.put(convertK.convert(array[0]) , convertV.convert(array[1]));
         return map;
     }
-
-    /**
+	
+	public static Comparator<double[]> doubleArrayComparator() {
+		return doubleArrayComparator(DoubleOperation.comparator());
+	}
+	
+	public static Comparator<double[]> doubleArrayComparator(Comparator<Double> doubleComparator) {
+		return (l, r) -> comparator(doubleComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	/**
      * flip array
      * 
      * @param array the array which is processed.
@@ -197,8 +163,16 @@ public final class ArrayOperation {
             temp.put(arrayWrapper.get(i) , b);
         return (T) temp.array();
     }
-
-    /**
+	
+	public static Comparator<float[]> floatArrayComparator() {
+		return floatArrayComparator(FloatOperation.comparator());
+	}
+	
+	public static Comparator<float[]> floatArrayComparator(Comparator<Float> floatComparator) {
+		return (l, r) -> comparator(floatComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+	
+	/**
      * get the element of array's
      * 
      * @param array the array which is processed.
@@ -212,7 +186,7 @@ public final class ArrayOperation {
         if (ArrayOperation.isAbove(array , index)) return (T) nullDefault;
         return (T) Array.get(array , index);
     }
-
+	
     /**
      * find out the location of first item.
      * 
@@ -225,7 +199,7 @@ public final class ArrayOperation {
             if (Objects.equals(array.get(i) , item)) return i;
         return -1;
     }
-
+    
     /**
      * find out the location of first item.
      * 
@@ -243,7 +217,7 @@ public final class ArrayOperation {
         arrayWrapper.limit(end);
         return ArrayOperation.indexOf(array , item);
     }
-
+    
     /**
      * find out the location of first item.
      * 
@@ -257,7 +231,7 @@ public final class ArrayOperation {
     public static <T> int indexOf(T array , Object item) {
         return ArrayOperation.indexOf(ArrayWrapper.wrap(array) , item);
     }
-
+    
     /**
      * find out the location of first target
      * 
@@ -275,7 +249,7 @@ public final class ArrayOperation {
         arrayWrapper.limit(end);
         return ArrayOperation.indexOfAllWrapper(arrayWrapper , ArrayWrapper.wrap(target));
     }
-
+    
     /**
      * find out the first time of the target.
      * 
@@ -288,7 +262,7 @@ public final class ArrayOperation {
     public static <T> int indexOfAll(T array , T target) {
         return ArrayOperation.indexOfAllWrapper(ArrayWrapper.wrap(array) , ArrayWrapper.wrap(target));
     }
-
+    
     /**
      * find out the first time of the target
      * 
@@ -315,6 +289,16 @@ public final class ArrayOperation {
             }
         return position;
     }
+    
+    public static Comparator<int[]> intArrayComparator() {
+		return intArrayComparator(IntegerOperation.comparator());
+	}
+    
+    public static Comparator<int[]> intArrayComparator(Comparator<Integer> intComparator) {
+		return (o1, o2) -> {
+			return comparator(intComparator).compare(ArrayWrapper.wrap(o1), ArrayWrapper.wrap(o2));
+		};
+	}
 
     /**
      * check the index, is it out of the array length.
@@ -496,6 +480,16 @@ public final class ArrayOperation {
         return position;
     }
 
+    public static Comparator<long[]> longArrayComparator() {
+		return longArrayComparator(LongOperation.comparator());
+	}
+
+    public static Comparator<long[]> longArrayComparator(Comparator<Long> longComparator) {
+		return (l, r) -> {
+			return comparator(longComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+		};
+	}
+
     /**
      * Merge the Arrays.<br>
      * 
@@ -516,6 +510,10 @@ public final class ArrayOperation {
             System.arraycopy(arrays[i] , 0 , result , point , Array.getLength(arrays[i]));
         return result;
     }
+
+    public static <T> Comparator<T[]> objArrayComparator(Comparator<T> objComparator) {
+		return (l, r) -> comparator(objComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
 
     /**
      * Try to convert the array<br>
@@ -651,6 +649,14 @@ public final class ArrayOperation {
         return array;
     }
 
+    public static Comparator<short[]> shortArrayComparator() {
+		return shortArrayComparator(ShortOperation.comparator());
+	}
+
+    public static Comparator<short[]> shortArrayComparator(Comparator<Short> shortComparator) {
+		return (l, r) -> comparator(shortComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
+	}
+
     /**
      * Get a small array from the array.
      * 
@@ -670,7 +676,71 @@ public final class ArrayOperation {
         return result;
     }
 
-    /**
+    public static Stream<Byte> stream(byte[] bs) {
+		return StreamSupport.stream(SpliteratorOperation.spliterator(
+				bs, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+	}
+
+    public static Stream<Byte> stream(byte[] bs, int startInclusive, int endExclusive) {
+		return StreamSupport.stream(SpliteratorOperation.spliterator(
+				bs, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+	}
+
+    public static Stream<Character> stream(char[] cs) {
+		return StreamSupport.stream(SpliteratorOperation.spliterator(
+				cs, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+	}
+
+    public static Stream<Character> stream(char[] cs, int startInclusive, int endExclusive) {
+		return StreamSupport.stream(SpliteratorOperation.spliterator(
+				cs, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+	}
+
+    public static Stream<Double> stream(double[] array) {
+    	return StreamOperation.valueOf(Arrays.stream(array));
+    }
+    
+    public static Stream<Double> stream(double[] array, int startInclusive, int endExclusive) {
+    	return StreamOperation.valueOf(Arrays.stream(array, startInclusive, endExclusive));
+    }
+    
+    public static Stream<Float> stream(float[] array) {
+		return StreamSupport.stream(SpliteratorOperation.spliterator(
+				array, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+	}
+    
+    public static Stream<Float> stream(float[] array, int startInclusive, int endExclusive) {
+    	return StreamSupport.stream(SpliteratorOperation.spliterator(
+    			array, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+    }
+    
+    public static Stream<Integer> stream(int[] array) {
+    	return StreamOperation.valueOf(Arrays.stream(array));
+    }
+    
+    public static Stream<Integer> stream(int[] array, int startInclusive, int endExclusive) {
+    	return StreamOperation.valueOf(Arrays.stream(array, startInclusive, endExclusive));
+    }
+    
+    public static Stream<Long> stream(long[] array) {
+    	return StreamOperation.valueOf(Arrays.stream(array));
+    }
+    
+    public static Stream<Long> stream(long[] array, int startInclusive, int endExclusive) {
+    	return StreamOperation.valueOf(Arrays.stream(array, startInclusive, endExclusive));
+    }
+    
+    public static Stream<Short> stream(short[] array) {
+    	return StreamSupport.stream(SpliteratorOperation.spliterator(
+				array, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+	}
+
+    public static Stream<Short> stream(short[] array, int startInclusive, int endExclusive) {
+    	return StreamSupport.stream(SpliteratorOperation.spliterator(
+    			array, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
+    }
+
+	/**
      * It is a easy way could create a array.
      * 
      * @param clazz subclass of array
@@ -685,7 +755,7 @@ public final class ArrayOperation {
         return targets;
     }
 
-    private ArrayOperation() {
+	private ArrayOperation() {
         throw new AssertionError("No " + ArrayOperation.class + "  instances for you!");
     }
 }

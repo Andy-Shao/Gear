@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import java.util.stream.Stream;
+
 import com.github.andyshao.reflect.ArrayOperation;
 
 /**
@@ -63,4 +65,9 @@ public class ShortArrayWrapper extends ArrayWrapperModel implements ArrayWrapper
         this.array()[realIndex] = Convert.OB_2_SHORT.convert(value);
         return result;
     }
+
+	@Override
+	public Stream<Short> stream() {
+		return ArrayOperation.stream(this.array);
+	}
 }

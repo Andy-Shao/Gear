@@ -1,5 +1,8 @@
 package com.github.andyshao.lang;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import com.github.andyshao.reflect.ArrayOperation;
 
 /**
@@ -68,4 +71,9 @@ public class ObjectArrayWrapper<T> extends ArrayWrapperModel implements ArrayWra
         this.array()[realIndex] = (T) value;
         return result;
     }
+
+	@Override
+	public Stream<?> stream() {
+		return Arrays.stream(this.array);
+	}
 }

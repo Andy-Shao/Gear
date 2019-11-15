@@ -1,5 +1,7 @@
 package com.github.andyshao.lang;
 
+import java.util.stream.Stream;
+
 import com.github.andyshao.reflect.ArrayOperation;
 
 /**
@@ -63,5 +65,10 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
         this.array()[realIndex] = (Byte) value;
         return result;
     }
+
+	@Override
+	public Stream<Byte> stream() {
+		return ArrayOperation.stream(this.array);
+	}
 
 }
