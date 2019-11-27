@@ -75,6 +75,10 @@ public interface Convert<IN , OUT> {
     public static <IN , OUT> OUT converting(IN in , Convert<IN , OUT> convert) {
         return convert.convert(in);
     }
+    
+    public static <E> Convert<E, E> identity() {
+    	return in -> in;
+    }
 
     OUT convert(IN in) throws NotSupportConvertException;
 }

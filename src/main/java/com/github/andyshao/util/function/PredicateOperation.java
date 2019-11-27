@@ -2,6 +2,8 @@ package com.github.andyshao.util.function;
 
 import java.util.function.Predicate;
 
+import com.github.andyshao.lang.Convert;
+
 /**
  * 
  * Title:<br>
@@ -21,5 +23,9 @@ public final class PredicateOperation {
 	
 	public static final <T> Predicate<T> negate(Predicate<T> predicate) {
 		return predicate.negate();
+	}
+	
+	public static final <T> Predicate<T> predicate(Convert<T, Boolean> convert) {
+		return t -> convert.convert(t);
 	}
 }
