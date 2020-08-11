@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -78,8 +79,13 @@ public class SignatureDetector extends ClassVisitor {
     @Override
     public void visitInnerClass(String name , String outerName , String innerName , int access) {
         Class<?> innerClass = ClassOperation.forName(name.replace('/' , '.'));
-        if (!innerClass.equals(this.signature.clazz)) this.signature.innerClassSignatures.put(innerClass , new SignatureDetector(this.api).getSignature(innerClass));
+        if (isTrueInnerClass(innerClass)) this.signature.innerClassSignatures.put(innerClass , new SignatureDetector(this.api).getSignature(innerClass));
         super.visitInnerClass(name , outerName , innerName , access);
+    }
+
+    private boolean isTrueInnerClass(Class<?> innerClass) {
+//        return !innerClass.equals(this.signature.clazz);
+        return this.signature.clazz.equals(innerClass.getSuperclass());
     }
 
     @Override

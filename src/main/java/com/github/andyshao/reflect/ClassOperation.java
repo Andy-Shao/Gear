@@ -8,11 +8,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.MethodVisitor;
@@ -128,6 +124,19 @@ public final class ClassOperation {
     		wrapGenericNode(typ, rest);
     	}
 		return rest;
+    }
+
+    public static List<Class<?>> getSuperClasses(Class<?> clazz) {
+        ArrayList<Class<?>> ret = new ArrayList<>();
+        getSuperClasses01(clazz, ret);
+        return ret;
+    }
+
+    private static void getSuperClasses01(Class<?> clazz, List<Class<?>> bucket) {
+        if(clazz.equals(Object.class)) return;
+        Class<?> superclass = clazz.getSuperclass();
+        bucket.add(superclass);
+        getSuperClasses01(superclass, bucket);
     }
 
     public static <T> byte[] getSuperClassForInterface(Class<T> interfaceClass , String targetName , Version version) {

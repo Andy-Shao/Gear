@@ -7,9 +7,11 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+import com.github.andyshao.asm.ApiConfs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.objectweb.asm.Opcodes;
@@ -51,7 +53,7 @@ public class SignatureDetectorTest {
 
     @BeforeEach
     public void befor() {
-        this.detector = new SignatureDetector(Opcodes.ASM5);
+        this.detector = new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION);
     }
 
     @Test
@@ -96,5 +98,10 @@ public class SignatureDetectorTest {
         assertEquals(classSignature.classSignature , ("<T:Ljava/lang/Object;R:Ljava/lang/Object;>Ljava/lang/Object;Ljava/lang/Iterable<TT;>;"));
         method = MethodOperation.getMethod(MyIt.class , "iterator");
         assertEquals(classSignature.methodSignatures.get(method) , ("()Ljava/util/Iterator<TT;>;"));
+    }
+
+    @Test
+    public void testGetSignature() {
+        ClassSignature list = new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(List.class);
     }
 }
