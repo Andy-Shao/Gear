@@ -15,5 +15,5 @@ import org.objectweb.asm.Opcodes;
 public final class ApiConfs {
 	private ApiConfs() {}
 	
-	public static final int DEFAULT_ASM_VERSION = Opcodes.ASM6;
+	public static final int DEFAULT_ASM_VERSION = Opcodes.ASM7;
 }
