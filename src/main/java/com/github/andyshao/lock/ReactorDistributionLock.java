@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
  * @author Andy.Shao
  */
 public interface ReactorDistributionLock {
+    Mono<Void> unlock();
     Mono<Void> lock();
     Mono<Void> lock(ExpireMode mode, int times);
     Mono<Boolean> tryLock();
