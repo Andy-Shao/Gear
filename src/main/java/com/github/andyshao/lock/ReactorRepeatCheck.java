@@ -13,5 +13,4 @@ import reactor.core.publisher.Mono;
 public interface ReactorRepeatCheck {
     Mono<Boolean> isRepeat(ReactorDistributionLockSign sign, String uniqueKey, ExpireMode mode, int times);
     Mono<Boolean> isRepeat(ReactorDistributionLockSign sign, String uniqueKey);
-    ReactorDistributionLock repeatCheckLock(ReactorDistributionLockSign sign, String uniqueKey, ExpireMode mode, int times);
 }

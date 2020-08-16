@@ -12,5 +12,4 @@ package com.github.andyshao.lock;
 public interface RepeatCheck {
     boolean isRepeat(String uniqueKey, ExpireMode mode, int times);
     boolean isRepeat(String uniqueKey);
-    DistributionLock repeatCheckLock(String uniqueKey, ExpireMode mode, int times);
 }
