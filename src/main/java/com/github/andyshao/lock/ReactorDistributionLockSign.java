@@ -21,6 +21,4 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class ReactorDistributionLockSign {
     private volatile UUID uuid;
-    @EqualsAndHashCode.Exclude
-    private volatile boolean hasLock;
 }

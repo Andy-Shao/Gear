@@ -13,8 +13,8 @@ import reactor.core.publisher.Mono;
 public interface ReactorDistributionLock {
     void unlock(ReactorDistributionLockSign sign);
     Mono<Void> unlockLater(ReactorDistributionLockSign sign);
-    Mono<ReactorDistributionLockSign> lock();
-    Mono<ReactorDistributionLockSign> lock(ExpireMode mode, int times);
-    Mono<ReactorDistributionLockSign> tryLock();
-    Mono<ReactorDistributionLockSign> tryLock(ExpireMode mode, int times);
+    Mono<Void> lock(ReactorDistributionLockSign sign);
+    Mono<Void> lock(ReactorDistributionLockSign sign, ExpireMode mode, int times);
+    Mono<Boolean> tryLock(ReactorDistributionLockSign sign);
+    Mono<Boolean> tryLock(ReactorDistributionLockSign sign, ExpireMode mode, int times);
 }
