@@ -19,6 +19,6 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-public class ReactorDistributionLockSign {
+public class ReactiveDistributionLockSign {
     private volatile UUID uuid;
 }

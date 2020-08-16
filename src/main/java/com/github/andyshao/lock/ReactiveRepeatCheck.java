@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
  *
  * @author Andy.Shao
  */
-public interface ReactorRepeatCheck {
+public interface ReactiveRepeatCheck {
     Mono<Boolean> isRepeat(String uniqueKey, ExpireMode mode, int times);
     Mono<Boolean> isRepeat(String uniqueKey);
 }
