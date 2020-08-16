@@ -1,6 +1,7 @@
 package com.github.andyshao.lock;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,7 +18,9 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@EqualsAndHashCode
 public class ReactorDistributionLockSign {
     private volatile UUID uuid;
+    @EqualsAndHashCode.Exclude
     private volatile boolean hasLock;
 }
