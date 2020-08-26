@@ -1,29 +1,21 @@
 package com.github.andyshao.util;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.stream.Collectors;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.FieldOperation;
 import com.github.andyshao.util.annotation.CopyConvertor;
 import com.github.andyshao.util.annotation.IgnoreCopy;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.BiPredicate;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -118,7 +110,30 @@ public final class EntityOperation {
 	public static final <RES, DEST> DEST copyProperties(RES resource, DEST destination){
 		return copyProperties(resource, destination, defaultFieldMapper());
 	}
-	
+
+	/**
+	 * copy properties and is permitted to ignore resource filed by its name
+	 * @param resource the object which should be copied
+	 * @param destination the object which should copy
+	 * @param ignoreResFieldNames ght ignore list which stores the resources filed names
+	 * @param <RES> resource type
+	 * @param <DEST> destination type
+	 * @return destination object
+	 */
+	public static final <RES, DEST> DEST copyProperties(RES resource, DEST destination,
+														final List<String> ignoreResFieldNames) {
+		final FieldMapper<RES, DEST> fieldMapper = defaultFieldMapper();
+		return copyProperties(resource, destination, new FieldMapper<RES, DEST>() {
+			@Override
+			public List<FieldMatch> match(RES res, DEST dest) {
+				return fieldMapper.match(res, dest)
+						.stream()
+						.filter(fieldMatch -> !ignoreResFieldNames.contains(fieldMatch.resField.getName()))
+						.collect(Collectors.toList());
+			}
+		});
+	}
+
 	public static final <RES, DEST> FieldMapperOps<RES, DEST> ops(FieldMapper<RES, DEST> origin) {
 		return new FieldMapperOps<RES, DEST>() {
 			private Map<Key, FieldMatch> replace = new HashMap<>();
