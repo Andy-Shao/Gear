@@ -1,5 +1,18 @@
 package com.github.andyshao.reflect;
 
+import com.github.andyshao.asm.ApiConfs;
+import com.github.andyshao.asm.ClassVisitorOperation;
+import com.github.andyshao.asm.Version;
+import com.github.andyshao.lang.ClassAssembly;
+import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
+import com.github.andyshao.reflect.annotation.Generic;
+import lombok.NonNull;
+import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.MethodVisitor;
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,21 +22,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.ParameterizedType;
 import java.util.*;
-
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-
-import com.github.andyshao.asm.ApiConfs;
-import com.github.andyshao.asm.ClassVisitorOperation;
-import com.github.andyshao.asm.Version;
-import com.github.andyshao.lang.ClassAssembly;
-import com.github.andyshao.lang.StringOperation;
-import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
-import com.github.andyshao.reflect.annotation.Generic;
-
-import lombok.NonNull;
 
 /**
  * 
@@ -209,10 +207,11 @@ public final class ClassOperation {
         return cw.toByteArray();
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static boolean isPrimitiveObject(Class<?> clazz) {
         if (Integer.class.isAssignableFrom(clazz) || Short.class.isAssignableFrom(clazz) || Character.class.isAssignableFrom(clazz) || Byte.class.isAssignableFrom(clazz)
-            || Long.class.isAssignableFrom(clazz) || Float.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz)
-            || Void.class.isAssignableFrom(clazz)) return true;
+            || Long.class.isAssignableFrom(clazz) || Float.class.isAssignableFrom(clazz) || Double.class.isAssignableFrom(clazz) || Void.class.isAssignableFrom(clazz))
+            return true;
         return false;
     }
 
