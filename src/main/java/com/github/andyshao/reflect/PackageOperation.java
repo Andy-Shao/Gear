@@ -1,5 +1,7 @@
 package com.github.andyshao.reflect;
 
+import com.github.andyshao.lang.GeneralSystemProperty;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.JarURLConnection;
@@ -11,8 +13,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
-
-import com.github.andyshao.lang.GeneralSystemProperty;
 
 /**
  * 
@@ -123,6 +123,7 @@ public final class PackageOperation {
         return result.toArray(new Class<?>[result.size()]);
     }
 
+    @Deprecated(since = "4.0.0.RELEASE")
     public static Package[] getPackages(String regex) {
         List<Package> result = new ArrayList<>();
         Package[] packages = Package.getPackages();
@@ -131,11 +132,11 @@ public final class PackageOperation {
         return result.toArray(new Package[result.size()]);
     }
 
-    public static Package[] getPckages(Package pkg) {
+    public static Package[] getPckages(Package basePackage) {
         List<Package> result = new ArrayList<>();
         Package[] packages = Package.getPackages();
         for (Package ppkg : packages)
-            if (ppkg.getName().startsWith(pkg.getName())) result.add(ppkg);
+            if (ppkg.getName().startsWith(basePackage.getName())) result.add(ppkg);
         return result.toArray(new Package[result.size()]);
     }
 
