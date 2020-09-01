@@ -1,11 +1,12 @@
 package com.github.andyshao.lang;
 
+import com.github.andyshao.reflect.ArrayOperation;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.stream.Stream;
-
-import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -23,6 +24,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  * @see FloatArrayWrapper
  * @see DoubleArrayWrapper
  * @see ObjectArrayWrapper
+ * @see NullArrayWrapper
  */
 public interface ArrayWrapper extends Iterable<Object> , Serializable {
     public static <ARRAY> ArrayWrapper newInstance(Class<ARRAY> arrayType , int length) {
@@ -34,6 +36,7 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
 
     @SuppressWarnings("unchecked")
     public static <ARRAY , E> ArrayWrapper wrap(ARRAY array) {
+        if(Objects.isNull(array)) return new NullArrayWrapper();
         if (!array.getClass().isArray()) throw new IllegalArgumentException();
         if (int[].class.isInstance(array)) return new IntArrayWrapper((int[]) array);
         else if (byte[].class.isInstance(array)) return new ByteArrayWrapper((byte[]) array);

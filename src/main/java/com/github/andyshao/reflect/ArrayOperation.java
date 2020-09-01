@@ -1,35 +1,16 @@
 package com.github.andyshao.reflect;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Spliterator;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.function.Function;
-import java.util.stream.DoubleStream;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
-
-import com.github.andyshao.lang.ArrayWrapper;
-import com.github.andyshao.lang.ByteOperation;
-import com.github.andyshao.lang.CharOperation;
-import com.github.andyshao.lang.Convert;
-import com.github.andyshao.lang.DoubleOperation;
-import com.github.andyshao.lang.FloatOperation;
-import com.github.andyshao.lang.IntegerOperation;
-import com.github.andyshao.lang.LongOperation;
-import com.github.andyshao.lang.ShortOperation;
+import com.github.andyshao.lang.*;
 import com.github.andyshao.util.CollectionOperation;
 import com.github.andyshao.util.SpliteratorOperation;
 import com.github.andyshao.util.stream.StreamOperation;
+
+import java.lang.reflect.Array;
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.function.Function;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * 
@@ -42,6 +23,11 @@ import com.github.andyshao.util.stream.StreamOperation;
  *
  */
 public final class ArrayOperation {
+    public static boolean isEmptyOrNull(ArrayWrapper array) {
+        if(array instanceof NullArrayWrapper) return true;
+        return array.length() == 0;
+    }
+
 	@SafeVarargs
 	public static <T, E extends Collection<T>> E asCollection(E col, T...ts) {
     	CollectionOperation.addAll(col, ts);
