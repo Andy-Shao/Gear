@@ -1,9 +1,11 @@
 package com.github.andyshao.util;
 
+import com.github.andyshao.util.stream.Pair;
+
 import java.util.Iterator;
 import java.util.Objects;
-
-import com.github.andyshao.util.stream.Pair;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * 
@@ -16,6 +18,15 @@ import com.github.andyshao.util.stream.Pair;
  *
  */
 public final class ObjectOperation {
+    public static final <T,R> R functionNonNullOrDefault(T t, Function<T, R> function, R def) {
+        return functionNonNullOrElseGet(t, function, () -> def);
+    }
+
+    public static final <T,R> R functionNonNullOrElseGet(T t, Function<T, R> function, Supplier<R> supplier) {
+        if(Objects.nonNull(t)) return function.apply(t);
+        return supplier.get();
+    }
+
 	public static final boolean isSameObj(Object thiz, Object that) {
 		return thiz == that;
 	}
