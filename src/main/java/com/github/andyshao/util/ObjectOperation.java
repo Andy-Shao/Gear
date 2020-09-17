@@ -5,6 +5,7 @@ import com.github.andyshao.util.stream.Pair;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 /**
@@ -23,7 +24,12 @@ public final class ObjectOperation {
     }
 
     public static final <T,R> R functionNonNullOrElseGet(T t, Function<T, R> function, Supplier<R> supplier) {
-        if(Objects.nonNull(t)) return function.apply(t);
+        return functionAfterTestOrElseGet(t, it -> Objects.nonNull(t), function, supplier);
+    }
+
+    public static final <T,R> R functionAfterTestOrElseGet(
+            T t, Predicate<T> predicate, Function<T, R> function, Supplier<R> supplier) {
+        if(predicate.test(t)) return function.apply(t);
         return supplier.get();
     }
 
