@@ -41,9 +41,3 @@ DESCRIPTION
     
     -search search info 
         java -jar GearXX.jar -search [regex] finding the location of the class which name match 'regex'
-    
-    -classPrint print class info
-        java -jar GearXX.jar -classPrint [className] print all info
-        java -jar GearXX.jar -classPrint --methods [className] print methods define info
-        java -jar GearXX.jar -classPrint --fields [className] print fields define info
-        java -jar GearXX.jar -classPrint --class [className] print class define info

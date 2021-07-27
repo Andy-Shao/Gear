@@ -1,13 +1,12 @@
 package com.github.andyshao.system;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 /**
  * 
@@ -19,6 +18,7 @@ import javax.script.ScriptException;
  * @author Andy.Shao
  *
  */
+@Deprecated
 public class Main {
     public static void main(String[] args) throws IOException , ScriptException {
         final ScriptEngineManager factory = new ScriptEngineManager();

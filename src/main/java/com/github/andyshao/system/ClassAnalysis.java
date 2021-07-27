@@ -1,14 +1,14 @@
 package com.github.andyshao.system;
 
+import com.github.andyshao.reflect.ClassOperation;
+import com.github.andyshao.reflect.FieldOperation;
+import com.github.andyshao.reflect.MethodOperation;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.github.andyshao.reflect.ClassOperation;
-import com.github.andyshao.reflect.FieldOperation;
-import com.github.andyshao.reflect.MethodOperation;
 
 /**
  * 
@@ -16,7 +16,11 @@ import com.github.andyshao.reflect.MethodOperation;
  * Descript:<br>
  * Copyright: Copryright(c) Apr 30, 2016<br>
  * Encoding:UNIX UTF-8
- * 
+ *     -classPrint print class info
+ *         java -jar GearXX.jar -classPrint [className] print all info
+ *         java -jar GearXX.jar -classPrint --methods [className] print methods define info
+ *         java -jar GearXX.jar -classPrint --fields [className] print fields define info
+ *         java -jar GearXX.jar -classPrint --class [className] print class define info
  * @author Andy.Shao
  *
  */

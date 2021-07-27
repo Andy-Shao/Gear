@@ -114,7 +114,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>com.github.andyshao.system.Main</mainClass>
+                            <mainClass>com.github.andyshao.system.JarMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
