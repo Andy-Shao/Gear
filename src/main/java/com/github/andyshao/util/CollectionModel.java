@@ -31,6 +31,24 @@ public interface CollectionModel<E> extends Collection<E> {
         return false;
     }
 
+    default int indexOf(Object o) {
+        int index = 0;
+        for(E e : this) {
+            if(Objects.equals(e, o)) return index;
+            index++;
+        }
+        return -1;
+    }
+
+    default int lastIndexOf(Object o) {
+        int index = 0;
+        for(E e : this) {
+            index++;
+            if(Objects.equals(e, o)) return this.size() - index;
+        }
+        return -1;
+    }
+
     @Override
     public default boolean containsAll(Collection<?> c) {
         for (Object o : c)

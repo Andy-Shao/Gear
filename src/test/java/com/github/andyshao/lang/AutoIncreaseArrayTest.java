@@ -1,10 +1,10 @@
 package com.github.andyshao.lang;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AutoIncreaseArrayTest {
 
@@ -79,5 +79,21 @@ public class AutoIncreaseArrayTest {
     	Assertions.assertThat(cs[3]).isEqualTo('b');
     	Assertions.assertThat(cs[4]).isEqualTo('c');
     	Assertions.assertThat(cs[5]).isEqualTo('$');
+    }
+
+    @Test
+    public void inject() {
+        final AutoIncreaseArray<Integer> array = new AutoIncreaseArray<>();
+        array.addAll(new Integer[] {1, 2, 3, 4});
+        array.inject(5, 1);
+        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {1, 5, 2, 3, 4});
+    }
+
+    @Test
+    public void contain() {
+        final AutoIncreaseArray<Integer> array = new AutoIncreaseArray<>();
+        array.addAll(new Integer[] {1, 2, 3, 4});
+        Assertions.assertThat(array.contains(5)).isEqualTo(false);
+        Assertions.assertThat(array.contains(3)).isEqualTo(true);
     }
 }

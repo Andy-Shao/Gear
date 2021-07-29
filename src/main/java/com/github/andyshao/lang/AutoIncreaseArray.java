@@ -1,13 +1,13 @@
 package com.github.andyshao.lang;
 
+import com.github.andyshao.reflect.ArrayOperation;
+import com.github.andyshao.util.CollectionModel;
+
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
-
-import com.github.andyshao.reflect.ArrayOperation;
-import com.github.andyshao.util.CollectionModel;
 
 /**
  * 
@@ -48,6 +48,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         this.start = this.end;
         this.actionAccount = 0;
         this.size = 0;
+        this.array = new Object[arraySize];
     }
 
     @Override
@@ -179,17 +180,38 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     @SuppressWarnings("unchecked")
 	public D set(D data , int index) {
         D result = null;
-        if (data == null) throw new NullPointerException();
+        if (data == null) throw new IllegalArgumentException("data cannot be null");
         if (index < 0) throw new IndexOutOfBoundsException();
         else if (index >= this.size) {
             this.replaceSpace(data.getClass());
             this.set(data , index);
         }
-        index = index + this.start;
-        result = (D) this.array[index];
-        this.array[index] = data;
+        int realIndex = index + this.start;
+        result = (D) this.array[realIndex];
+        this.array[realIndex] = data;
         this.actionAccount++;
         return result;
+    }
+
+    public void inject(D data, int index) {
+        if(this.size == this.array.length) this.replaceSpace(data.getClass());
+        if(data == null) throw new IllegalArgumentException("data cannot be null");
+        if(index < 0) throw new IndexOutOfBoundsException();
+        else if(index >= this.size) throw new IllegalArgumentException("index is outside this array");
+        int realIndex = index + this.start;
+        Object[] head = new Object[realIndex];
+        Object[] tail = new Object[this.arraySize - realIndex];
+        System.arraycopy(this.array, this.start, head, 0, head.length);
+        System.arraycopy(this.array, realIndex, tail, 0, tail.length);
+        Object[] newArray = new Object[this.arraySize + 1];
+        System.arraycopy(head, 0, newArray, 0, head.length);
+        newArray[head.length] = data;
+        System.arraycopy(tail, 0, newArray, head.length+1, tail.length);
+        this.array = newArray;
+        this.size++;
+        this.end++;
+        this.arraySize++;
+        this.actionAccount++;
     }
 
     @Override
