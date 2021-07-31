@@ -1,11 +1,11 @@
 package com.github.andyshao.proxy;
 
+import com.github.andyshao.reflect.ClassOperation;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import com.github.andyshao.reflect.ClassOperation;
 
 /**
  * 
@@ -18,6 +18,7 @@ import com.github.andyshao.reflect.ClassOperation;
  *
  * @param <T> the type of target which will be proxy
  */
+@Deprecated
 @FunctionalInterface
 public interface ProxyFactory<T> {
     public static String buildMethodKey(Method method) {

@@ -1,19 +1,17 @@
 package com.github.andyshao.reflect;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
+import com.github.andyshao.asm.TypeOperation;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
-import com.github.andyshao.asm.TypeOperation;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * 
@@ -53,7 +51,7 @@ public class SignatureDetector extends ClassVisitor {
         try {
             cr = new ClassReader(clazz.getName());
         } catch (IOException e) {
-            throw new ClassNotFoundException(e);
+            throw new ClassNotFoundException(clazz.getName(), e);
         }
         this.signature.clazz = clazz;
         cr.accept(this , 0);
