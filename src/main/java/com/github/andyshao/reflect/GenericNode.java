@@ -1,15 +1,11 @@
 package com.github.andyshao.reflect;
 
+import lombok.*;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.Objects;
 
 /**
  * 
@@ -36,4 +32,12 @@ public class GenericNode implements Serializable{
     @Setter(AccessLevel.PACKAGE)
     @EqualsAndHashCode.Exclude
     private String typeVariable;
+
+    public boolean isTypeVariable() {
+        return Objects.isNull(this.getDeclareType()) && Objects.nonNull(this.getTypeVariable());
+    }
+
+    public boolean isMediocreClazz() {
+        return !this.isGeneiric() && Objects.nonNull(this.getDeclareType());
+    }
 }
