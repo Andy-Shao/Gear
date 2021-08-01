@@ -19,6 +19,7 @@ import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -182,6 +183,7 @@ public final class ParameterOperation {
         final String path = m.getDeclaringClass().getName().replace('.' , '/') + ".class";
         ClassReader cr = null;
         try (InputStream inputStream = m.getDeclaringClass().getClassLoader().getResourceAsStream(path)) {
+            if(Objects.isNull(inputStream)) throw new ClassNotFoundException(path);
             cr = new ClassReader(inputStream);
         } catch (IOException e) {
             throw new ClassNotFoundException(path);
@@ -214,6 +216,12 @@ public final class ParameterOperation {
             }
         } , 0);
         return paramNames;
+    }
+
+    public static List<String> getMethodParamNamesByNative(Method m) {
+        return Arrays.stream(m.getParameters())
+                .map(Parameter::getName)
+                .collect(Collectors.toList());
     }
 
     public static String[] getMethodParamNamesByReflect(final Method m) {

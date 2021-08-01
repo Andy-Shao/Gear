@@ -266,6 +266,10 @@ public final class MethodOperation {
     public static List<GenericNode> getParameterTypeInfoByNative(Method method) {
         return ParameterOperation.getParameterTypesInfoByNative(method);
     }
+
+    public static List<String> getParameterNamesByNative(Method m) {
+        return ParameterOperation.getMethodParamNamesByNative(m);
+    }
     
     /**
      * 
