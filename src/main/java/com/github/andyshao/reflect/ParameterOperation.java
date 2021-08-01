@@ -1,5 +1,15 @@
 package com.github.andyshao.reflect;
 
+import com.github.andyshao.asm.ApiConfs;
+import com.github.andyshao.asm.TypeOperation;
+import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
+import com.github.andyshao.reflect.annotation.Generic;
+import com.github.andyshao.reflect.annotation.Param;
+import org.objectweb.asm.*;
+import org.objectweb.asm.signature.SignatureReader;
+import org.objectweb.asm.signature.SignatureVisitor;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
@@ -10,22 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.signature.SignatureReader;
-import org.objectweb.asm.signature.SignatureVisitor;
-
-import com.github.andyshao.asm.ApiConfs;
-import com.github.andyshao.asm.TypeOperation;
-import com.github.andyshao.lang.StringOperation;
-import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
-import com.github.andyshao.reflect.annotation.Generic;
-import com.github.andyshao.reflect.annotation.Param;
 
 /**
  * 
@@ -68,11 +62,11 @@ public final class ParameterOperation {
         genericInfo.declareType = parameter.getType();
         return genericInfo;
     }
-    
+
     public static List<GenericNode> getParameterTypesInfo(Method method){
         return getParameterTypesInfo(method, new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(method.getDeclaringClass()));
     }
-    
+
     public static List<GenericNode> getParameterTypesInfo(Method method, ClassSignature classSignature){
         final List<GenericNode> result = new ArrayList<>();
         if(method.getParameterTypes().length == 0) return result;
@@ -166,6 +160,12 @@ public final class ParameterOperation {
         return result;
     }
 
+    public static List<GenericNode> getParameterTypesInfoByNative(Method method) {
+        return Arrays.stream(method.getGenericParameterTypes())
+                .map(ClassOperation::analysisGenericType)
+                .collect(Collectors.toList());
+    }
+
     /**
      * 
      * <p>
@@ -179,15 +179,19 @@ public final class ParameterOperation {
      */
     public static String[] getMethodParamNames(final Method m) {
         if (m.getDeclaringClass().isInterface()) throw new ReflectiveOperationException("No Support the interface!");
-        final String[] paramNames = new String[m.getParameterTypes().length];
         final String path = m.getDeclaringClass().getName().replace('.' , '/') + ".class";
-        final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         ClassReader cr = null;
         try (InputStream inputStream = m.getDeclaringClass().getClassLoader().getResourceAsStream(path)) {
             cr = new ClassReader(inputStream);
         } catch (IOException e) {
             throw new ClassNotFoundException(path);
         }
+        return getMethodParamNames(m, cr);
+    }
+
+    public static String[] getMethodParamNames(Method m, ClassReader cr) {
+        final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+        final String[] paramNames = new String[m.getParameterTypes().length];
         cr.accept(new ClassVisitor(ApiConfs.DEFAULT_ASM_VERSION , cw) {
             @Override
             public MethodVisitor visitMethod(final int access , final String name , final String desc , final String signature , final String[] exceptions) {
@@ -211,7 +215,7 @@ public final class ParameterOperation {
         } , 0);
         return paramNames;
     }
-    
+
     public static String[] getMethodParamNamesByReflect(final Method m) {
         Parameter[] parameters = m.getParameters();
         String[] ret = new String[parameters.length];

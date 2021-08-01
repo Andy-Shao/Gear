@@ -1,8 +1,8 @@
 package com.github.andyshao.reflect;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.github.andyshao.asm.ApiConfs;
+import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -10,10 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
-import org.junit.jupiter.api.Test;
-
-import com.github.andyshao.asm.ApiConfs;
-import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MethodOperationTest {
 
@@ -290,6 +287,33 @@ public class MethodOperationTest {
         assertTrue(node.getDeclareType() == null);
         assertEquals(node.getComponentTypes().size() , (0));
         assertEquals(node.getTypeVariable() , ("D"));
+    }
+
+    @Test
+    public void getGenericReturnType() {
+        GenericNode node = MethodOperation.getReturnTypeInfoByNative(MethodOperation.getMethod(Data.class, "testMethod", List.class, int.class, String.class, Map.class));
+        assertNotNull(node);
+        assertTrue(node.isGeneiric());
+        assertEquals(node.getDeclareType(), Optional.class);
+        assertEquals(node.getComponentTypes().size(), 1);
+        assertEquals(node.getComponentTypes().get(0).getDeclareType(), CompletionStage.class);
+        assertEquals(node.getComponentTypes().get(0).getComponentTypes().size(), 1);
+        assertEquals(node.getComponentTypes().get(0).getComponentTypes().get(0).getDeclareType(), Map.class);
+        assertEquals(node.getComponentTypes().get(0).getComponentTypes().get(0).getComponentTypes().size(), 2);
+        assertEquals(node.getComponentTypes().get(0).getComponentTypes().get(0).getComponentTypes().get(0).getDeclareType(), String.class);
+        assertFalse(node.getComponentTypes().get(0).getComponentTypes().get(0).getComponentTypes().get(0).isGeneiric());
+
+        node = MethodOperation.getReturnTypeInfoByNative(MethodOperation.getMethod(Data.class, "process", Map.class));
+        assertNotNull(node);
+        assertTrue(node.isGeneiric());
+        assertEquals(node.getDeclareType(), Map.class);
+        assertEquals(node.getComponentTypes().size(), 2);
+        assertFalse(node.getComponentTypes().get(0).isGeneiric());
+        assertEquals(node.getComponentTypes().get(0).getTypeVariable(), "E");
+        assertNull(node.getComponentTypes().get(0).getDeclareType());
+        assertFalse(node.getComponentTypes().get(1).isGeneiric());
+        assertEquals(node.getComponentTypes().get(1).getTypeVariable(), "D");
+        assertNull(node.getComponentTypes().get(1).getDeclareType());
     }
     
     public interface Data<T extends GenericNode> extends List<T> {

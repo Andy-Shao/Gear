@@ -7,6 +7,7 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -55,6 +56,24 @@ public class SignatureDetector extends ClassVisitor {
         }
         this.signature.clazz = clazz;
         cr.accept(this , 0);
+        return this.signature;
+    }
+
+    /**
+     *
+     * @param clazz class type
+     * @param inputStream class file input stream (Sometime, the inputStream is hard to get)
+     * @return return type
+     */
+    public ClassSignature getSignature(Class<?> clazz, InputStream inputStream) {
+        ClassReader cr;
+        try {
+            cr = new ClassReader(inputStream);
+        } catch (IOException e) {
+            throw new ClassNotFoundException(e);
+        }
+        this.signature.clazz = clazz;
+        cr.accept(this, 0);
         return this.signature;
     }
 

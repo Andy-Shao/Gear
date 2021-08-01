@@ -17,10 +17,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.*;
 import java.util.*;
 
 /**
@@ -275,5 +272,33 @@ public final class ClassOperation {
 
     private ClassOperation() {
         throw new AssertionError("No support instance " + ClassOperation.class + " for you!");
+    }
+
+    @SuppressWarnings("rawtypes")
+    static GenericNode analysisGenericType(java.lang.reflect.Type type) {
+        final GenericNode genericNode = new GenericNode();
+        if(type instanceof ParameterizedType) {
+            genericNode.setGeneiric(true);
+            final ParameterizedType parameterizedType = (ParameterizedType) type;
+            final java.lang.reflect.Type[] types = parameterizedType.getActualTypeArguments();
+            Arrays.stream(types)
+                    .forEach(it -> {
+                        final GenericNode node = analysisGenericType(it);
+                        genericNode.getComponentTypes()
+                                .add(node);
+                        node.setParent(genericNode);
+                    });
+            genericNode.setDeclareType((Class<?>) parameterizedType.getRawType());
+        }
+        else if (type instanceof TypeVariable) {
+            final TypeVariable typeVariable = (TypeVariable) type;
+            genericNode.setTypeVariable(typeVariable.getName());
+            genericNode.setGeneiric(false);
+        }
+        else {
+            genericNode.setDeclareType((Class<?>) type);
+            genericNode.setGeneiric(false);
+        }
+        return genericNode;
     }
 }
