@@ -1,14 +1,14 @@
 package com.github.andyshao.reflect;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import com.github.andyshao.lang.ArrayWrapper;
+import com.github.andyshao.lang.Convert;
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
-import com.github.andyshao.lang.Convert;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 
@@ -113,5 +113,12 @@ public class ArrayOperationTest {
         int[] array = new int[] { 1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9 };
         assertArrayEquals(ArrayOperation.removeItem(array , 3) , (new int[] { 1 , 2 , 3 , 5 , 6 , 7 , 8 , 9 }));
         assertArrayEquals(ArrayOperation.removeItem(array , 1 , 4) , (new int[] { 1 , 5 , 6 , 7 , 8 , 9 }));
+    }
+
+    @Test
+    public void inject() {
+        int[] array = new int[] {1, 2, 3, 4, 5};
+        int[] rest = (int[]) ArrayOperation.injectItem(ArrayWrapper.wrap(array), 6, 3);
+        assertArrayEquals(rest, (new int[] {1, 2, 3, 6, 4, 5}));
     }
 }

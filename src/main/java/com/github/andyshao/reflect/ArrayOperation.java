@@ -619,6 +619,24 @@ public final class ArrayOperation {
         return array;
     }
 
+    public static Object injectItem(ArrayWrapper arrayWrapper, Object value, int index) {
+        if(index < 0 || index >= arrayWrapper.length()) throw new ArrayIndexOutOfBoundsException();
+        final Object array = arrayWrapper.array();
+        final Class<?> componentType = array.getClass().getComponentType();
+        Object head = Array.newInstance(componentType, index);
+        Object tail = Array.newInstance(componentType, arrayWrapper.length() - index);
+        Object rest = Array.newInstance(componentType, arrayWrapper.length() + 1);
+
+        System.arraycopy(array, 0, head, 0, index);
+        System.arraycopy(array, index, tail, 0, arrayWrapper.length() - index);
+
+        System.arraycopy(head, 0, rest, 0, index);
+        System.arraycopy(tail, 0, rest, index + 1, arrayWrapper.length() - index);
+        ArrayWrapper.wrap(rest).put(value, index);
+
+        return rest;
+    }
+
     /**
      * Remove the last location of item from array.
      * 

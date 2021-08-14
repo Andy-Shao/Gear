@@ -153,9 +153,9 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         for (int i = 0 ; i < this.size() ; i++)
             if (Objects.equals(o , AutoIncreaseArray.this.get(i))) {
                 AutoIncreaseArray.this.remove(i);
-                break;
+                return true;
             }
-        return true;
+        return false;
     }
 
     private void replaceSpace(Class<? extends Object> data_type) {
