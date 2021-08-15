@@ -214,6 +214,11 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         this.actionAccount++;
     }
 
+    public void move(int index, int newIndex) {
+        final D item = this.remove(index);
+        this.inject(item, newIndex);
+    }
+
     @Override
     public int size() {
         return this.size;
