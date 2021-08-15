@@ -199,15 +199,8 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         if(index < 0) throw new IndexOutOfBoundsException();
         else if(index >= this.size) throw new IllegalArgumentException("index is outside this array");
         int realIndex = index + this.start;
-        Object[] head = new Object[realIndex];
-        Object[] tail = new Object[this.arraySize - realIndex];
-        System.arraycopy(this.array, this.start, head, 0, head.length);
-        System.arraycopy(this.array, realIndex, tail, 0, tail.length);
-        Object[] newArray = new Object[this.arraySize + 1];
-        System.arraycopy(head, 0, newArray, 0, head.length);
-        newArray[head.length] = data;
-        System.arraycopy(tail, 0, newArray, head.length+1, tail.length);
-        this.array = newArray;
+        if(realIndex > this.end) throw new IndexOutOfBoundsException();
+        this.array = (Object[]) ArrayOperation.injectItem(ArrayWrapper.wrap(this.array), data, index);
         this.size++;
         this.end++;
         this.arraySize++;
