@@ -208,8 +208,15 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     }
 
     public void move(int index, int newIndex) {
-        final D item = this.remove(index);
-        this.inject(item, newIndex);
+        if(index == newIndex) return;
+        else if(index < newIndex) {
+            final D item = this.remove(index);
+            this.inject(item, newIndex - 1);
+        }
+        else {
+            final D item = this.remove(index);
+            this.inject(item, newIndex);
+        }
     }
 
     @Override
