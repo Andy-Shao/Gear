@@ -90,6 +90,23 @@ public class AutoIncreaseArrayTest {
     }
 
     @Test
+    public void move() {
+        final AutoIncreaseArray<Integer> array = new AutoIncreaseArray<>();
+        final Integer[] originArray = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        array.addAll(originArray);
+        array.move(3, 7);
+        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {0, 1, 2, 4, 5, 6, 7, 3, 8, 9});
+        array.clear();
+        array.addAll(originArray);
+        array.move(7, 3);
+        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {0, 1, 2, 7, 3, 4, 5, 6, 8, 9});
+        array.clear();
+        array.addAll(originArray);
+        array.move(0, array.size() - 1);
+        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0});
+    }
+
+    @Test
     public void contain() {
         final AutoIncreaseArray<Integer> array = new AutoIncreaseArray<>();
         array.addAll(new Integer[] {1, 2, 3, 4});
