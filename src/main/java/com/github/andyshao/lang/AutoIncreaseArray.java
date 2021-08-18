@@ -200,7 +200,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         else if(index >= this.size) throw new IllegalArgumentException("index is outside this array");
         int realIndex = index + this.start;
         if(realIndex > this.end) throw new IndexOutOfBoundsException();
-        this.array = (Object[]) ArrayOperation.injectItem(ArrayWrapper.wrap(this.array), data, index);
+        this.array = (Object[]) ArrayOperation.injectItem(ArrayWrapper.wrap(this.array), data, realIndex);
         this.size++;
         this.end++;
         this.arraySize++;
