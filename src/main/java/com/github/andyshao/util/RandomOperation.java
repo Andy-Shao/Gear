@@ -1,22 +1,17 @@
 package com.github.andyshao.util;
 
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Random;
-import java.util.Spliterator;
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.util.function.FunctionOperation;
+import com.github.andyshao.util.stream.Pair;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-
-import com.github.andyshao.lang.Convert;
-import com.github.andyshao.util.function.FunctionOperation;
-import com.github.andyshao.util.stream.Pair;
-
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 
 /**
  * 
@@ -142,7 +137,10 @@ public final class RandomOperation {
 	
 	public static double nextDouble(Random random, double minimum, double lessThan) {
 		if(lessThan <= minimum) throw new IllegalArgumentException("lessThan must greater than minimum");
-		return (random.nextDouble() * lessThan) + minimum;
+		return random.doubles(1, minimum, lessThan)
+				.findFirst()
+				.getAsDouble();
+//		return (random.nextDouble() * lessThan) + minimum;
 	}
 	
 	public static double nextDouble(double minimum, double lessThan) {
@@ -151,11 +149,23 @@ public final class RandomOperation {
 	
 	public static float nextFloat(Random random, float minimum, float lessThan) {
 		if(lessThan <= minimum) throw new IllegalArgumentException("lessThan must greater than minimum");
-		return (random.nextFloat() * lessThan) + minimum;
+		float result = (random.nextFloat() * (lessThan - minimum)) + minimum;
+		if(result >= lessThan) result = Math.nextDown(lessThan);
+		return result;
+//		return (random.nextFloat() * lessThan) + minimum;
 	}
 	
 	public static float nextFloat(float minimum, float lessThan) {
 		return nextFloat(new Random(), minimum, lessThan);
+	}
+
+	public static Stream<Float> nextFloats(Random random, float minimum, float maximum, long size) {
+		if(maximum < minimum) throw new IllegalArgumentException("maximum less than minimum");
+		return StreamSupport.stream(new RandomFloatSpliterator(random, 0, size, minimum, maximum), false);
+	}
+
+	public static Stream<Float> nextFloats(Random random) {
+		return nextFloats(random, Float.MIN_VALUE, Float.MAX_VALUE, Long.MAX_VALUE);
 	}
 	
 	public static boolean choicedByPercent(Random random, double percent) {
@@ -188,7 +198,7 @@ public final class RandomOperation {
 		}
 		return Optional.empty();
 	}
-	
+
 	static class RandomShortSpliterator extends RandomBaseSpliterator<Short> {
 
 		protected RandomShortSpliterator(Random random, long index, long fence, Short minimum, Short maximum) {
@@ -245,7 +255,25 @@ public final class RandomOperation {
 		}
 		
 	}
-	
+
+	static class RandomFloatSpliterator extends RandomBaseSpliterator<Float> {
+
+		protected RandomFloatSpliterator(Random random, long index, long fence, Float minimum, Float maximum) {
+			super(random, index, fence, minimum, maximum);
+		}
+
+		@Override
+		protected Float requireNext() {
+			return RandomOperation.nextFloat(super.random, super.minimum, super.maximum);
+		}
+
+		@Override
+		public Spliterator<Float> trySplit() {
+			long mid = mid(), ol = super.index;
+			return (ol >= mid) ? null : new RandomFloatSpliterator(super.random, ol, super.index = mid, super.minimum, super.maximum);
+		}
+	}
+
 	@AllArgsConstructor(access = AccessLevel.PROTECTED)
 	static abstract class RandomBaseSpliterator<E> implements Spliterator<E> {
 		protected final Random random;

@@ -13,7 +13,7 @@ package com.github.andyshao.util.stream;
  */
 @FunctionalInterface
 public interface RuntimeExceptionFactory {
-	static RuntimeExceptionFactory DEFAULT = e -> new RuntimeException(e);
+	static RuntimeExceptionFactory DEFAULT = RuntimeException::new;
 	
 	RuntimeException build(Throwable e);
 }
