@@ -90,8 +90,14 @@ public class AutoIncreaseArrayTest {
 
         array = new AutoIncreaseArray<>(6);
         array.addAll(new Integer[] {1, 2, 3, 4, 5, 6});
-        array.inject(7, 6);
-        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {1,2,3,4,5,6,7});
+        try {
+            array.inject(7, 6);
+            Assertions.fail("This is an incorrect operation");
+        } catch (IndexOutOfBoundsException e) {
+
+        } catch (Exception e) {
+            Assertions.fail("Unexpected exception");
+        }
     }
 
     @Test
@@ -112,8 +118,8 @@ public class AutoIncreaseArrayTest {
 
         array = new AutoIncreaseArray<>(originArray.length);
         array.addAll(originArray);
-        array.move(3, 7);
-        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {0, 1, 2, 4, 5, 6, 7, 3, 8, 9});
+        array.move(0, array.size() -1);
+        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0});
         array.clear();
     }
 

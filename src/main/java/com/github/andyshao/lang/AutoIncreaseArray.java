@@ -200,10 +200,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         if(index < 0) throw new IndexOutOfBoundsException();
         else if(index > this.size) throw new IllegalArgumentException("index is outside this array");
         int realIndex = index + this.start;
-        if(realIndex == this.end) {
-            this.replaceSpace();
-        }
-        if(realIndex > this.end+1) throw new IndexOutOfBoundsException();
+        if(realIndex > end) throw new IndexOutOfBoundsException("index is outside this array");
         this.array = (Object[]) ArrayOperation.injectItem(ArrayWrapper.wrap(this.array), data, realIndex);
         this.size++;
         this.end++;
@@ -212,9 +209,12 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     }
 
     public void move(int index, int newIndex) {
+        if(newIndex < 0) throw new IndexOutOfBoundsException("newIndex cannot be less than zero");
         if(index == newIndex) return;
         final D item = this.remove(index);
-        this.inject(item, newIndex);
+        if(newIndex > this.size) throw new IndexOutOfBoundsException("newIndex is outside this array");
+        else if(newIndex == this.size) this.add(item);
+        else this.inject(item, newIndex);
     }
 
     @Override
