@@ -83,10 +83,15 @@ public class AutoIncreaseArrayTest {
 
     @Test
     public void inject() {
-        final AutoIncreaseArray<Integer> array = new AutoIncreaseArray<>();
+        AutoIncreaseArray<Integer> array = new AutoIncreaseArray<>();
         array.addAll(new Integer[] {1, 2, 3, 4});
         array.inject(5, 1);
         Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {1, 5, 2, 3, 4});
+
+        array = new AutoIncreaseArray<>(6);
+        array.addAll(new Integer[] {1, 2, 3, 4, 5, 6});
+        array.inject(7, 6);
+        Assertions.assertThat(array.toArray()).isEqualTo(new Object[] {1,2,3,4,5,6,7});
     }
 
     @Test

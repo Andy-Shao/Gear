@@ -68,7 +68,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         if (this.array == null) this.array = new Object[this.arraySize];
 
         //Increase the array space
-        if (this.start == 0) this.replaceSpace(data.getClass());
+        if (this.start == 0) this.replaceSpace();
 
         if (this.size == 0) this.array[this.start] = data;
         else this.array[--this.start] = data;
@@ -88,7 +88,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         if (this.array == null) this.array = new Object[this.arraySize];
 
         //Increase the array space
-        if (this.end == this.arraySize - 1) this.replaceSpace(data.getClass());
+        if (this.end == this.arraySize - 1) this.replaceSpace();
 
         if (this.size == 0) this.array[this.end] = data;
         else this.array[++this.end] = data;
@@ -145,6 +145,8 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         this.array = ArrayOperation.removeItem(this.array , index);
         this.actionAccount++;
         this.size--;
+        this.arraySize--;
+        this.end--;
         return result;
     }
 
@@ -158,9 +160,8 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return false;
     }
 
-    private void replaceSpace(Class<? extends Object> data_type) {
+    private void replaceSpace() {
         int arraySize = this.newSize(this.array.length);
-//        D[] temp = (D[]) Array.newInstance(data_type , arraySize);
         Object[] temp = new Object[arraySize];
         int new_start = arraySize >> 2;
         System.arraycopy(this.array , this.start , temp , new_start , this.size);
@@ -183,7 +184,7 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         if (data == null) throw new IllegalArgumentException("data cannot be null");
         if (index < 0) throw new IndexOutOfBoundsException();
         else if (index >= this.size) {
-            this.replaceSpace(data.getClass());
+            this.replaceSpace();
             this.set(data , index);
         }
         int realIndex = index + this.start;
@@ -194,12 +195,15 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     }
 
     public void inject(D data, int index) {
-        if(this.size == this.array.length) this.replaceSpace(data.getClass());
+        if(this.size == this.array.length) this.replaceSpace();
         if(data == null) throw new IllegalArgumentException("data cannot be null");
         if(index < 0) throw new IndexOutOfBoundsException();
         else if(index > this.size) throw new IllegalArgumentException("index is outside this array");
         int realIndex = index + this.start;
-        if(realIndex > this.end) throw new IndexOutOfBoundsException();
+        if(realIndex == this.end) {
+            this.replaceSpace();
+        }
+        if(realIndex > this.end+1) throw new IndexOutOfBoundsException();
         this.array = (Object[]) ArrayOperation.injectItem(ArrayWrapper.wrap(this.array), data, realIndex);
         this.size++;
         this.end++;
