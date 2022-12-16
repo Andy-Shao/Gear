@@ -18,7 +18,6 @@ import java.util.Set;
  *
  * @param <T> the type of target which will be proxy
  */
-@Deprecated
 @FunctionalInterface
 public interface ProxyFactory<T> {
     public static String buildMethodKey(Method method) {
