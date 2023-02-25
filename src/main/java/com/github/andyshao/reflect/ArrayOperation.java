@@ -23,6 +23,45 @@ import java.util.stream.StreamSupport;
  *
  */
 public final class ArrayOperation {
+    public static int[] of(int[] array, int value){
+        array[0] = value;
+        return array;
+    }
+    public static <T> T[] of(T[] array, T value){
+        array[0] = value;
+        return array;
+    }
+
+    public static short[] of(short[] array, short value){
+        array[0] = value;
+        return array;
+    }
+
+    public static byte[] of(byte[] array, byte value){
+        array[0] = value;
+        return array;
+    }
+
+    public static char[] of(char[] array, char value){
+        array[0] = value;
+        return array;
+    }
+
+    public static long[] of(long[] array, long value){
+        array[0] = value;
+        return array;
+    }
+
+    public static float[] of(float[] array, float value){
+        array[0] = value;
+        return array;
+    }
+
+    public static double[] of(double[] array, double value){
+        array[0] = value;
+        return array;
+    }
+
     public static boolean isEmptyOrNull(ArrayWrapper array) {
         if(array instanceof NullArrayWrapper) return true;
         return array.length() == 0;

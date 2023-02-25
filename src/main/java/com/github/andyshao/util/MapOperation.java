@@ -1,5 +1,9 @@
 package com.github.andyshao.util;
 
+import com.github.andyshao.lang.Convert;
+import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.util.stream.Pair;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,10 +11,6 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
-
-import com.github.andyshao.lang.Convert;
-import com.github.andyshao.lang.StringOperation;
-import com.github.andyshao.util.stream.Pair;
 
 /**
  * 
@@ -24,7 +24,12 @@ import com.github.andyshao.util.stream.Pair;
 public final class MapOperation {
     private MapOperation() {
     }
-    
+
+	@SuppressWarnings({"rawtypes", "unchecked"})
+	public static Map of(Map map, Object key, Object value){
+		map.put(key, value);
+		return map;
+	}
     public static final <K,V> boolean isEmptyOrNull(Map<K, V> map) {
         return map == null || map.isEmpty();
     }

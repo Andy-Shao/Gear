@@ -17,6 +17,11 @@ import java.util.function.Function;
  *
  */
 public final class CollectionOperation {
+    public static <E> Collection<E> of(Collection<E> col, E item){
+        col.add(item);
+        return col;
+    }
+
     public static <E> Iterator<E> range(int start, int end, int step, Function<Integer, E> fun){
         return new Iterator<E>() {
             private int start;
