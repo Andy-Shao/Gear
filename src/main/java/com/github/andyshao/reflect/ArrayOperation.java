@@ -760,6 +760,16 @@ public final class ArrayOperation {
         return targets;
     }
 
+    public static int[] range(int start, int end, int step){
+        int len = (end - start) / step;
+        if((end - start) % step != 0) len++;
+        int[] array = new int[len];
+        for(int i=start,j=0; i < end; i+=step, j++){
+            array[j] = i;
+        }
+        return array;
+    }
+
 	private ArrayOperation() {
         throw new AssertionError("No " + ArrayOperation.class + "  instances for you!");
     }

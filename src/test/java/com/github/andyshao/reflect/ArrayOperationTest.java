@@ -121,4 +121,14 @@ public class ArrayOperationTest {
         int[] rest = (int[]) ArrayOperation.injectItem(ArrayWrapper.wrap(array), 6, 3);
         assertArrayEquals(rest, (new int[] {1, 2, 3, 6, 4, 5}));
     }
+
+    @Test
+    public void testRange(){
+        int[] array = ArrayOperation.range(0, 5, 1);
+        assertArrayEquals(array, new int[] {0, 1, 2, 3, 4});
+        array = ArrayOperation.range(0, 5, 2);
+        assertArrayEquals(array, new int[] {0, 2, 4});
+        array = ArrayOperation.range(0, 10, 3);
+        assertArrayEquals(array, new int[]{0, 3, 6, 9});
+    }
 }
