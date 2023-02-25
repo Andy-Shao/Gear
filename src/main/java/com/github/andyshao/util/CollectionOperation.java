@@ -1,8 +1,10 @@
 package com.github.andyshao.util;
 
-import java.util.Collection;
-
 import com.github.andyshao.lang.ArrayWrapper;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.function.Function;
 
 /**
  * 
@@ -14,7 +16,27 @@ import com.github.andyshao.lang.ArrayWrapper;
  * @author Andy.Shao
  *
  */
-public final class CollectionOperation {	
+public final class CollectionOperation {
+    public static <E> Iterator<E> range(int start, int end, int step, Function<Integer, E> fun){
+        return new Iterator<E>() {
+            private int start;
+            Iterator<E> setStart(int st){
+                start = st;
+                return this;
+            }
+            @Override
+            public boolean hasNext() {
+                return start < end;
+            }
+
+            @Override
+            public E next() {
+                E ret = fun.apply(start);
+                start += step;
+                return ret;
+            }
+        }.setStart(start);
+    }
     public static <E , ARRAY> void addAll(Collection<E> collection , ARRAY array) {
         CollectionOperation.addAll(collection , ArrayWrapper.wrap(array));
     }
