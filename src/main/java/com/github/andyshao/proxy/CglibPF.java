@@ -1,9 +1,9 @@
 package com.github.andyshao.proxy;
 
-import java.lang.reflect.Method;
-
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.InvocationHandler;
+
+import java.lang.reflect.Method;
 
 /**
  * 
@@ -16,6 +16,7 @@ import net.sf.cglib.proxy.InvocationHandler;
  *
  * @param <T> the type of proxied class
  */
+@Deprecated
 @FunctionalInterface
 public interface CglibPF<T> extends ProxyFactory<T> {
     @Override

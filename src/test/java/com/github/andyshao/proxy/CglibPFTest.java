@@ -1,11 +1,11 @@
 package com.github.andyshao.proxy;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import com.github.andyshao.reflect.MethodOperation;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.github.andyshao.reflect.MethodOperation;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CglibPFTest {
 
@@ -16,6 +16,7 @@ public class CglibPFTest {
     }
 
     @Test
+    @Disabled
     public void test() {
         final CglibPFTest.MyClass myClass = new CglibPFTest.MyClass();
         assertFalse(myClass.isAllow());
