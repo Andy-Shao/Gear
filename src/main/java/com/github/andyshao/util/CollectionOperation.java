@@ -4,7 +4,9 @@ import com.github.andyshao.lang.ArrayWrapper;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * 
@@ -53,6 +55,63 @@ public final class CollectionOperation {
     
     public static <E> boolean isEmptyOrNull(Collection<E> collection) {
         return collection == null || collection.isEmpty();
+    }
+
+    public static <E, T extends Collection<E>> T or(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
+        T ret = supplier.get();
+        if(Objects.isNull(left) && Objects.isNull(right)) {
+            return ret;
+        } else if(Objects.isNull(left)) {
+            ret.addAll(right);
+            return ret;
+        } else if(Objects.isNull(right)) {
+            ret.addAll(left);
+            return ret;
+        } else {
+            ret.addAll(left);
+            ret.addAll(right);
+            return ret;
+        }
+    }
+
+    public static <E, T extends Collection<E>> T and(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
+        T ret = supplier.get();
+        if(Objects.isNull(left) || Objects.isNull(right)) {
+            return ret;
+        }
+        left.stream()
+                .filter(right::contains)
+                .forEach(ret::add);
+        return ret;
+    }
+
+    /**
+     * return a collection which includes items that are included in left but
+     * are not included in right.
+     * @param left
+     * @param right
+     * @param supplier
+     * @return
+     * @param <E>
+     * @param <T>
+     */
+    public static <E, T extends Collection<E>> T not(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
+        T ret = supplier.get();
+        if(Objects.isNull(left)) {
+            return ret;
+        } else if(Objects.isNull(right)) {
+            ret.addAll(left);
+            return ret;
+        } else {
+            left.stream()
+                    .filter(it -> !right.contains(it))
+                    .forEach(ret::add);
+            return ret;
+        }
+    }
+
+    public static <E, T extends Collection<E>> T xor(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
+        return or(not(left, right, supplier), not(right, left, supplier), supplier);
     }
 
     private CollectionOperation() {
