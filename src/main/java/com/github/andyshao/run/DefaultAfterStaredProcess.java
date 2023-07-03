@@ -1,20 +1,19 @@
 package com.github.andyshao.run;
 
+import com.github.andyshao.data.structure.Graph;
+import com.github.andyshao.data.structure.Graph.AdjList;
+import com.github.andyshao.data.structure.Stack;
+import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.reflect.MethodOperation;
+import com.github.andyshao.run.AfterStartedNode.NodeColor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
-
-import com.github.andyshao.data.structure.Graph;
-import com.github.andyshao.data.structure.Stack;
-import com.github.andyshao.data.structure.Graph.AdjList;
-import com.github.andyshao.lang.StringOperation;
-import com.github.andyshao.reflect.MethodOperation;
-import com.github.andyshao.run.AfterStartedNode.NodeColor;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 
@@ -27,9 +26,10 @@ import lombok.EqualsAndHashCode;
  */
 public class DefaultAfterStaredProcess implements AfterStartedProcess{
     @Data
-    @EqualsAndHashCode(of = { "order" })
+    @EqualsAndHashCode(onlyExplicitlyIncluded = true)
     static class MethodNode {
         private Method method;
+        @EqualsAndHashCode.Include
         private int order = 0;
     }
     

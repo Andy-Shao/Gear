@@ -1,10 +1,11 @@
 package com.github.andyshao.run;
 
-import java.io.Serializable;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 /**
  * 
@@ -16,15 +17,23 @@ import lombok.NonNull;
  *
  */
 @Data
-@EqualsAndHashCode(of = {"nodeName"})
-@SuppressWarnings("serial")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class AfterStartedNode implements Serializable{
+    @Serial
+    private static final long serialVersionUID = -2468151760859909130L;
     private NodeColor color = NodeColor.BLACK;
     @NonNull
+    @EqualsAndHashCode.Include
     private String nodeName;
     private boolean isTail = true;
-    
+
+    /**
+     * The color of the bean
+     */
     public static enum NodeColor {
-        BLACK,RED;
+        /**Black color*/
+        BLACK,
+        /**Red color*/
+        RED;
     }
 }

@@ -19,6 +19,15 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Documented
 public @interface AfterStartedOpsBean {
+    /**
+     * run bean's initialization after other beans' initializations.
+     * @return the bean name list
+     */
     String[] runAfter() default {};
+
+    /**
+     * run bean's initialization before other beans' initializations.
+     * @return the bean name list
+     */
     String[] runBefore() default {};
 }

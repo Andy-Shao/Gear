@@ -19,5 +19,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Documented
 public @interface AfterStartedMethod {
+    /**
+     * the bean generation sequence.
+     * From small to big.
+     * @return the number of the order
+     */
     int order() default 0;
 }
