@@ -38,6 +38,7 @@
     
     <properties>
         <java.version>17</java.version>
+        <java.doc.version>17.0.7</java.doc.version>
         <gear.build.sourceEncoding>UTF-8</gear.build.sourceEncoding>
         <gear.maven-manager.version>3.0.0.RELEASE</gear.maven-manager.version>
     </properties>
@@ -171,7 +172,7 @@
                     <charset>${gear.build.sourceEncoding}</charset>
                     <encoding>${gear.build.sourceEncoding}</encoding>
                     <docencoding>${gear.build.sourceEncoding}</docencoding>
-                    <javadocVersion>${java.version}</javadocVersion>
+                    <javadocVersion>${java.doc.version}</javadocVersion>
                 </configuration>
                 <executions>
                     <execution>
