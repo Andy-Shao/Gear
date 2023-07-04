@@ -1,10 +1,9 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Comparator;
-
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
-import com.github.andyshao.data.structure.Tree.TreeNode;
 import com.github.andyshao.lang.Cleanable;
+
+import java.util.Comparator;
 
 /**
  * 
@@ -18,7 +17,16 @@ import com.github.andyshao.lang.Cleanable;
  * @param <DATA> data
  */
 public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,BitreeNode<Bistree.AvlNode<DATA>>> {
+    /**
+     * Tree node
+     * @param <D> data type
+     */
     public interface AvlNode<D> extends TreeNode<D>{
+        /**
+         * Get the default avl node
+         * @return avl node
+         * @param <DATA> data type
+         */
         public static <DATA> AvlNode<DATA> defaultAvlNode() {
             return new AvlNode<DATA>() {
                 private volatile DATA data;
@@ -57,24 +65,57 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
             };
         }
 
+        /**
+         * Get the data
+         * @return the data
+         */
         public D data();
 
+        /**
+         * Set the data
+         * @param data the data
+         */
         public void data(D data);
 
+        /**
+         * Get the factor
+         * @return the factor
+         */
         public int factor();
 
+        /**
+         * Set the factor
+         * @param factor the factor
+         */
         public void factor(int factor);
 
+        /**
+         * Is hidden
+         * @return if it is hidden, then return true
+         */
         public boolean hidden();
 
+        /**
+         * Set the hidden tag
+         * @param hidden the hidden tag
+         */
         public void hidden(boolean hidden);
     }
 
+    /**
+     * Avl node factory
+     * @param <D> data type
+     * @param <T> {@link AvlNode} type
+     */
     @FunctionalInterface
     public interface AvlNodeFactory<D , T extends AvlNode<D>> {
         public T build();
     }
 
+    /**
+     * Default binary tree
+     * @param <D> data type
+     */
     public class MyBistree<D> implements Bistree<D> {
         private final AvlNodeFactory<D , AvlNode<D>> avlNodeFactory;
         private final Bitree<AvlNode<D>> bitree;
@@ -82,6 +123,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
             return 0;
         };
 
+        /**
+         * Default binary tree construction
+         * @param bitree binary tree
+         * @param avlNodeFactory avl node factory
+         */
         public MyBistree(Bitree<AvlNode<D>> bitree , AvlNodeFactory<D , AvlNode<D>> avlNodeFactory) {
             this.avlNodeFactory = avlNodeFactory;
             this.bitree = bitree;
@@ -117,6 +163,12 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
             this.bitree.remRight(node);
         }
 
+        /**
+         * hide the data
+         * @param node the binary tree
+         * @param data the data
+         * @return {@link Ret}
+         */
         public Ret<D> hide(BitreeNode<AvlNode<D>> node , final D data) {
             Ret<D> result = null;
             int cmpval;
@@ -139,6 +191,12 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
             return result;
         }
 
+        /**
+         * Insert data into binary tree
+         * @param node the binary tree
+         * @param data the data
+         * @return {@link Ret}
+         */
         public Ret<D> insert(BitreeNode<AvlNode<D>> node , D data) {
             AvlNode<D> avl_data;
             int cmpval;
@@ -231,6 +289,12 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
             return result;
         }
 
+        /**
+         * search the data in the binary tree
+         * @param node the binary tree
+         * @param data the data
+         * @return {@link Ret}
+         */
         public Ret<D> lookup(BitreeNode<AvlNode<D>> node , D data) {
             Ret<D> result = null;
             int cmpval;
@@ -273,6 +337,10 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
 
     }
 
+    /**
+     * The criteria result in binary tree
+     * @param <D> data type
+     */
     public class Ret<D> {
         public int balance;
         public D data;
@@ -288,16 +356,36 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
     /** right heavy */
     public static final int AVL_RGT_HEAVY = -1;
 
+    /**
+     * Build the default tree
+     * @param bitree binary tree
+     * @param avlNodeFactory {@link AvlNodeFactory}
+     * @param comparator {@link Comparator}
+     * @return the binary tree
+     * @param <D> data type
+     */
     public static <D> Bistree<D> defaultBistree(Bitree<AvlNode<D>> bitree , AvlNodeFactory<D , AvlNode<D>> avlNodeFactory , Comparator<D> comparator) {
         Bistree<D> bistree = new Bistree.MyBistree<>(bitree , avlNodeFactory);
         bistree.setComparator(comparator);
         return bistree;
     }
 
+    /**
+     * Build the binary tree with {@link Comparator}
+     * @param comparator {@link Comparator}
+     * @return the binary tree
+     * @param <D> data type
+     */
     public static <D> Bistree<D> defaultBistree(Comparator<D> comparator) {
         return Bistree.defaultBistree(Bitree.<AvlNode<D>> defaultBitTree(Bitree.BitreeNode::defaultBitreeNode) , Bistree.AvlNode::defaultAvlNode , comparator);
     }
 
+    /**
+     * rotate left action
+     * @param node the binary tree
+     * @return the binary tree node
+     * @param <D> data type
+     */
     public static <D> BitreeNode<AvlNode<D>> rotate_left(BitreeNode<AvlNode<D>> node) {
         BitreeNode<AvlNode<D>> left , grandchild;
 
@@ -338,6 +426,12 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
         return node;
     }
 
+    /**
+     * rotate right action
+     * @param node the binary tree
+     * @return the tree node
+     * @param <D> data type
+     */
     public static <D> BitreeNode<AvlNode<D>> rotate_right(BitreeNode<AvlNode<D>> node) {
         BitreeNode<AvlNode<D>> right , grandchild;
         right = node.right();
@@ -398,6 +492,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
      */
     public Ret<DATA> bistree_insert(final DATA data);
 
+    /**
+     * binary tree search
+     * @param data the data which should be searched
+     * @return {@link Ret}
+     */
     public Ret<DATA> bistree_lookup(final DATA data);
 
     /**
@@ -410,10 +509,22 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
      */
     public Ret<DATA> bistree_remove(final DATA data);
 
+    /**
+     * destroy left
+     * @param node the tree node
+     */
     public void destroy_left(BitreeNode<AvlNode<DATA>> node);
 
+    /**
+     * destroy right
+     * @param node the tree node
+     */
     public void destroy_right(BitreeNode<AvlNode<DATA>> node);
 
+    /**
+     * set the {@link Comparator}
+     * @param comparator {@link Comparator}
+     */
     public void setComparator(Comparator<DATA> comparator);
 
     @Override

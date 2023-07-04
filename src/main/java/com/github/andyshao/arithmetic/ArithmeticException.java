@@ -1,5 +1,7 @@
 package com.github.andyshao.arithmetic;
 
+import java.io.Serial;
+
 /**
  * 
  * Title:<br>
@@ -11,6 +13,7 @@ package com.github.andyshao.arithmetic;
  *
  */
 public class ArithmeticException extends RuntimeException {
+    @Serial
     private static final long serialVersionUID = 4905425831762516882L;
 
     /**

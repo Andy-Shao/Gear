@@ -17,7 +17,17 @@ import java.util.function.Function;
  * @param <D> data
  */
 public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElmt<D>> {
+    /**
+     * Double linked element
+     * @param <DATA> data type
+     */
     public interface DoubleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , DoubleLinkedElmt<DATA>> {
+        /**
+         * Get default {@link DoubleLinkedElmt}
+         * @param data data
+         * @return {@link DoubleLinkedElmt}
+         * @param <DATA> data type
+         */
         public static <DATA> DoubleLinkedElmt<DATA> defaultElmt(DATA data) {
             DoubleLinkedElmt<DATA> result = new DoubleLinkedElmt<DATA>() {
                 private DATA data;
@@ -74,11 +84,23 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
             return result;
         }
 
+        /**
+         * Get previous {@link DoubleLinkedElmt}
+         * @return {@link DoubleLinkedElmt}
+         */
         public DoubleLinkedElmt<DATA> getPrev();
 
+        /**
+         * Set previous {@link DoubleLinkedElmt}
+         * @param prev {@link DoubleLinkedElmt}
+         */
         public void setPrev(DoubleLinkedElmt<DATA> prev);
     }
 
+    /**
+     * Default {@link DoubleLinked}
+     * @param <DATA> data type
+     */
     public class MyDoubleLinked<DATA> implements DoubleLinked<DATA> {
         private long actionCount = 0;
         private final Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory;
@@ -87,6 +109,10 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
 
         private DoubleLinked.DoubleLinkedElmt<DATA> tail;
 
+        /**
+         * Build {@link MyDoubleLinked}
+         * @param elmtFactory {@link DoubleLinkedElmt} factory
+         */
         public MyDoubleLinked(Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
             this.elmtFactory = elmtFactory;
         }
@@ -276,15 +302,36 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
         }
     }
 
+    /**
+     * Get default {@link DoubleLinked}
+     * @return {@link DoubleLinked}
+     * @param <DATA> data type
+     */
     public static <DATA> DoubleLinked<DATA> defaultDoubleLinked() {
         return DoubleLinked.defaultDoubleLinked(DoubleLinkedElmt::defaultElmt);
     }
 
+    /**
+     * Get default {@link DoubleLinked}
+     * @param elmtFactory {@link DoubleLinkedElmt} factory
+     * @return {@link DoubleLinked}
+     * @param <DATA> data type
+     */
     public static <DATA> DoubleLinked<DATA> defaultDoubleLinked(Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory) {
         return new MyDoubleLinked<>(elmtFactory);
     }
 
+    /**
+     * Insert in the previous position of the {@link DoubleLinkedElmt}
+     * @param element {@link DoubleLinkedElmt}
+     * @param data the data
+     */
     public void insPrev(DoubleLinkedElmt<D> element , final D data);
 
+    /**
+     * Remove the {@link DoubleLinkedElmt}
+     * @param element {@link DoubleLinkedElmt}
+     * @return the data which is omitted
+     */
     public D remove(DoubleLinkedElmt<D> element);
 }

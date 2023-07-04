@@ -1,17 +1,16 @@
 package com.github.andyshao.data.structure;
 
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.lang.Cleanable;
+
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import com.github.andyshao.data.structure.Bitree.BitreeNode;
-import com.github.andyshao.data.structure.Tree.TreeNode;
-import com.github.andyshao.lang.Cleanable;
-
 /**
  * 
- * Title:<br>
+ * Title: Binary tree<br>
  * Descript:<br>
  * Copyright: Copryright(c) Feb 11, 2015<br>
  * Encoding:UNIX UTF-8
@@ -21,7 +20,16 @@ import com.github.andyshao.lang.Cleanable;
  * @param <D> data
  */
 public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
+    /**
+     * Binary tree node
+     * @param <DATA> data type
+     */
     public interface BitreeNode<DATA> extends TreeNode<DATA>{
+        /**
+         * Build the default binary tree node
+         * @return {@link BitreeNode}
+         * @param <D> data type
+         */
         public static <D> BitreeNode<D> defaultBitreeNode() {
             return new BitreeNode<D>() {
                 private D data;
@@ -71,30 +79,79 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
             };
         }
 
+        /**
+         * Get data
+         * @return the data
+         */
         public DATA data();
 
+        /**
+         * Set data
+         * @param data the data
+         */
         public void data(DATA data);
 
+        /**
+         * Get left Node
+         * @return {@link BitreeNode}
+         */
         public BitreeNode<DATA> left();
 
+        /**
+         * Set the left node
+         * @param left {@link BitreeNode}
+         */
         public void left(BitreeNode<DATA> left);
 
+        /**
+         * Get right node
+         * @return {@link BitreeNode}
+         */
         public BitreeNode<DATA> right();
 
+        /**
+         * Set right node
+         * @param right {@link BitreeNode}
+         */
         public void right(BitreeNode<DATA> right);
+
+        /**
+         * The parent node
+         * @return {@link BitreeNode}
+         */
         public BitreeNode<DATA> parent();
+
+        /**
+         * Set parent node
+         * @param parent {@link BitreeNode}
+         */
         public void parent(BitreeNode<DATA> parent);
     }
 
+    /**
+     * The criteria binary tree
+     * @param <DATA> data type
+     */
     public class MyBitree<DATA> implements Bitree<DATA> {
         protected BitreeNode<DATA> root;
         protected int size;
         protected final Supplier<BitreeNode<DATA>> treeNodeFactory;
 
+        /**
+         * build the default binary tree
+         * @param treeNodeFactory {@link BitreeNode}
+         */
         public MyBitree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
             this.treeNodeFactory = treeNodeFactory;
         }
 
+        /**
+         * Build default binary tree
+         * @param treeNodeFactory {@link BitreeNode}
+         * @param left {@link Bitree}
+         * @param right {@link Bitree}
+         * @param data the data
+         */
         public MyBitree(Supplier<BitreeNode<DATA>> treeNodeFactory , Bitree<DATA> left , Bitree<DATA> right , DATA data) {
             this.treeNodeFactory = treeNodeFactory;
             this.insLeft(null , data);
@@ -245,19 +302,43 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
 
     }
 
+    /**
+     * Get default binary tree
+     * @return {@link Bitree}
+     * @param <DATA> data type
+     */
     public static <DATA> Bitree<DATA> defaultBitTree() {
         return Bitree.defaultBitTree(BitreeNode::defaultBitreeNode);
     }
 
+    /**
+     * Get default binary tree
+     * @param treeNodeFactory {@link BitreeNode}
+     * @return {@link Bitree}
+     * @param <DATA> data type
+     */
     public static <DATA> Bitree<DATA> defaultBitTree(Supplier<BitreeNode<DATA>> treeNodeFactory) {
         return new Bitree.MyBitree<>(treeNodeFactory);
     }
 
+    /**
+     * inorder foreach in {@link Bitree}
+     * @param node {@link Bitree}
+     * @param result the result {@link Collection}
+     * @return {@link Collection}
+     * @param <DATA> data type
+     */
     public static <DATA> Collection<DATA> inorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         inorder(node , item -> result.add(item.data()));
         return result;
     }
-    
+
+    /**
+     * inorder foreach the {@link Bitree}
+     * @param node {@link Bitree}
+     * @param consumer the consumer of the tree node
+     * @param <DATA> data type
+     */
     public static <DATA> void inorder(final BitreeNode<DATA> node, Consumer<BitreeNode<DATA>> consumer) {
         //Load the list with an inorder listing of the tree.
         if (!Bitree.isEob(node)) {
@@ -267,19 +348,44 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
         }
     }
 
+    /**
+     * is Eob
+     * @param node {@link BitreeNode}
+     * @return true, if it is Eob
+     * @param <DATA> data type
+     */
     public static <DATA> boolean isEob(BitreeNode<DATA> node) {
         return node == null;
     }
 
+    /**
+     * is leaf
+     * @param node {@link BitreeNode}
+     * @return true, if it is leaf
+     * @param <DATA> data type
+     */
     public static <DATA> boolean isLeaf(BitreeNode<DATA> node) {
         return node.left() == null && node.right() == null;
     }
 
+    /**
+     * post order foreach the {@link Bitree}
+     * @param node {@link Bitree}
+     * @param result the search sequence {@link Collection}
+     * @return {@link Collection}
+     * @param <DATA> data type
+     */
     public static <DATA> Collection<DATA> postorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         postorder(node , item -> result.add(item.data()));
         return result;
     }
 
+    /**
+     * post order foreach the {@link Bitree}
+     * @param node {@link Bitree}
+     * @param consumer the consumer of the {@link Bitree} node
+     * @param <DATA> data type
+     */
     public static <DATA> void postorder(final BitreeNode<DATA> node , Consumer<BitreeNode<DATA>> consumer) {
         if (!Bitree.isEob(node)) {
             if (!Bitree.isEob(node.left())) Bitree.postorder(node.left() , consumer);
@@ -287,12 +393,25 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
             consumer.accept(node);
         }
     }
-    
+
+    /**
+     * preorder foreach the {@link Bitree}
+     * @param node {@link Bitree}
+     * @param result the foreach sequence {@link Collection}
+     * @return {@link Collection}
+     * @param <DATA> data type
+     */
     public static <DATA> Collection<DATA> preorder(final BitreeNode<DATA> node , final Collection<DATA> result) {
         preorder(node , item -> result.add(item.data()));
         return result;
     }
 
+    /**
+     * preorder foreach the {@link Bitree}
+     * @param node {@link Bitree}
+     * @param consumer the consumer of the {@link Bitree} node
+     * @param <DATA> data type
+     */
     public static <DATA> void preorder(BitreeNode<DATA> node , Consumer<BitreeNode<DATA>> consumer) {
         if (!Bitree.isEob(node)) {
             consumer.accept(node);
@@ -301,6 +420,13 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
         }
     }
 
+    /**
+     * merge two {@link Bitree}s
+     * @param left the left tree
+     * @param right the right tree
+     * @param data the root position data
+     * @return new {@link Bitree}
+     */
     public Bitree<D> bitreeMeger(Bitree<D> left , Bitree<D> right , D data);
 
     @Override
@@ -309,6 +435,10 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
         this.remLeft(null);
     }
 
+    /**
+     * Get tree node factory
+     * @return {@link BitreeNode}
+     */
     public Supplier<BitreeNode<D>> getTreeNodeFactory();
 
     /**

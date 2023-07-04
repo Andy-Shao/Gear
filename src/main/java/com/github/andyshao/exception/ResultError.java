@@ -1,5 +1,7 @@
 package com.github.andyshao.exception;
 
+import java.io.Serial;
+
 /**
  * 
  * Title:<br>
@@ -10,6 +12,7 @@ package com.github.andyshao.exception;
  *
  */
 public class ResultError extends RuntimeException{
+    @Serial
     private static final long serialVersionUID = 4909234766541027522L;
     private Result<?> result;
 

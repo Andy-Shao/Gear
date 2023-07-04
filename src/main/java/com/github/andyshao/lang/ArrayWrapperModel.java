@@ -1,5 +1,6 @@
 package com.github.andyshao.lang;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -13,9 +14,13 @@ import java.util.Objects;
  *
  */
 public abstract class ArrayWrapperModel implements ArrayWrapper {
+    @Serial
     private static final long serialVersionUID = 3637722120786952465L;
+    /**the capacity of the {@link ArrayWrapperModel}*/
     protected int limit;
+    /**the mark of the {@link ArrayWrapperModel}*/
     protected int mark;
+    /**the current position of {@link ArrayWrapperModel}*/
     protected int position;
 
     @Override

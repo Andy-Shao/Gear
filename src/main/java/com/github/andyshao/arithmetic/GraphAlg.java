@@ -1,18 +1,13 @@
 package com.github.andyshao.arithmetic;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.github.andyshao.data.structure.CycleLinkedElmt;
 import com.github.andyshao.data.structure.Graph;
 import com.github.andyshao.data.structure.Graph.AdjList;
 import com.github.andyshao.data.structure.Graph.VertexColor;
 import com.github.andyshao.data.structure.SingleLinked;
 import com.github.andyshao.data.structure.Stack;
+
+import java.util.*;
 
 /**
  * 
@@ -25,6 +20,10 @@ import com.github.andyshao.data.structure.Stack;
  *
  */
 public final class GraphAlg {
+    /**
+     * MstVertex
+     * @param <DATA> data type
+     */
     public static class MstVertex<DATA> {
         public static final <DATA> void setUntowardEdge(Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             Graph.addUntowardEdge(graph , one , two);
@@ -43,6 +42,10 @@ public final class GraphAlg {
         public final Map<MstVertex<DATA> , Double> weight = new HashMap<>();
     }
 
+    /**
+     * Path vertex
+     * @param <DATA> data type
+     */
     public static class PathVertex<DATA> {
         public static final <DATA> void setDoubleEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> one , PathVertex<DATA> two , double one2two , double two2one) {
             Graph.addUntowardEdge(graph , one , two);

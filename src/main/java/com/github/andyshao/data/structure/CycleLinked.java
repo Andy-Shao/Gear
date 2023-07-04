@@ -16,6 +16,9 @@ import java.util.function.Function;
  * @param <DATA> data
  */
 public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
+    /**
+     * Default Iterator
+     */
     class MyIterator implements Iterator<DATA> {
         private final long actionCount = CycleLinked.this.actionAcount;
         private volatile CycleLinkedElmt<DATA> index = CycleLinked.this.head();
@@ -37,10 +40,21 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
     }
 
+    /**
+     * Get default {@link CycleLinked}
+     * @return {@link CycleLinked}
+     * @param <DATA> data type
+     */
     public static <DATA> CycleLinked<DATA> defaultCycleLinked() {
         return CycleLinked.defaultCycleLinked(CycleLinkedElmt::defaultElmt);
     }
 
+    /**
+     * Get default {@link CycleLinked}
+     * @param elmtFactory {@link CycleLinkedElmt} factory
+     * @return {@link CycleLinked}
+     * @param <DATA> data type
+     */
     public static <DATA> CycleLinked<DATA> defaultCycleLinked(Function<DATA , CycleLinkedElmt<DATA>> elmtFactory) {
         return new CycleLinked<DATA>(elmtFactory);
     }
@@ -53,6 +67,10 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
     private int size;
 
+    /**
+     * Build {@link CycleLinked}
+     * @param elmtFactory {@link CycleLinkedElmt} factory
+     */
     public CycleLinked(Function<DATA , CycleLinkedElmt<DATA>> elmtFactory) {
         this.elmtFactory = elmtFactory;
     }

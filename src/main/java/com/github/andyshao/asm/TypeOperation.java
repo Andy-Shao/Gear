@@ -1,13 +1,12 @@
 package com.github.andyshao.asm;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Method;
-
-import org.objectweb.asm.Type;
-
 import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.MethodOperation;
 import com.github.andyshao.reflect.NoSuchMethodException;
+import org.objectweb.asm.Type;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 
 /**
  * Title:<br>
@@ -19,10 +18,20 @@ import com.github.andyshao.reflect.NoSuchMethodException;
  *
  */
 public final class TypeOperation {
+    /**
+     * get argument class
+     * @param descriptor the descriptor
+     * @return the argument array
+     */
     public static final Class<?>[] getArgumentClasses(String descriptor) {
         return TypeOperation.getArgumentClasses(Type.getType(descriptor));
     }
 
+    /**
+     * Get argument class
+     * @param type {@link Type}
+     * @return the argument array
+     */
     public static final Class<?>[] getArgumentClasses(Type type) {
         if (type.getSort() != Type.METHOD) throw new ASMOperationException("Type should be method type");
         Type[] types = type.getArgumentTypes();
@@ -32,6 +41,11 @@ public final class TypeOperation {
         return result;
     }
 
+    /**
+     * Get class
+     * @param type {@link Type}
+     * @return the java {@link Class}
+     */
     public static final Class<?> getClass(Type type) {
         Class<?> result = null;
         switch (type.getSort()) {
@@ -82,10 +96,24 @@ public final class TypeOperation {
         return result;
     }
 
+    /**
+     * Get {@link Method}
+     * @param descriptor the descriptor
+     * @param methodName the method name
+     * @param superClass the super class
+     * @return the {@link Method}
+     */
     public static final Method getMethod(String descriptor , String methodName , Class<?> superClass) {
         return TypeOperation.getMethod(Type.getType(descriptor) , methodName , superClass);
     }
 
+    /**
+     * Get {@link Method}
+     * @param type the {@link Type}
+     * @param methodName the method name
+     * @param superClass the super class
+     * @return the {@link Method}
+     */
     public static final Method getMethod(Type type , String methodName , Class<?> superClass) {
         if (type.getSort() != Type.METHOD) throw new ASMOperationException("Type should be method type");
         final Class<?>[] arguments = TypeOperation.getArgumentClasses(type.getDescriptor());
@@ -102,11 +130,21 @@ public final class TypeOperation {
         return method;
     }
 
+    /**
+     * Get return class of the method
+     * @param descriptor descriptor
+     * @return the return {@link Class} of the method
+     */
     public static final Class<?> getReturnClass(String descriptor) {
         Type type = Type.getType(descriptor).getReturnType();
         return TypeOperation.getClass(type);
     }
 
+    /**
+     * Get return class of the method
+     * @param type {@link Type}
+     * @return the return {@link Class} of the method
+     */
     public static final Class<?> getReturnClass(Type type) {
         if (type.getSort() != Type.METHOD) throw new ASMOperationException("Type should be method type");
         return TypeOperation.getClass(type.getReturnType());

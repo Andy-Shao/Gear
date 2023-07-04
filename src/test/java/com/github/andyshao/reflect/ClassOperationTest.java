@@ -1,10 +1,7 @@
 package com.github.andyshao.reflect;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.github.andyshao.asm.Version;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,9 +11,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
-import com.github.andyshao.asm.Version;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ClassOperationTest {
     public static interface MyGenericInterface<T> {
@@ -101,24 +96,24 @@ public class ClassOperationTest {
 
     @Test
     public void testNewInstanceForInterface() throws IOException {
-        MyInterface myInterface = ClassOperation.newInstanceForInterface(ClassOperationTest.MyInterface.class , "andy.shao.MyClass" , false , Version.V1_8);
+        MyInterface myInterface = ClassOperation.newInstanceForInterface(ClassOperationTest.MyInterface.class , "andy.shao.MyClass" , false , Version.V17);
         myInterface.doVoid();
         assertEquals(myInterface.doDefault() , ("doDefault"));
         assertEquals(myInterface.doInt() , (0));
         assertEquals(myInterface.doBoolean() , (false));
-        assertTrue(myInterface.doString() == null);
+        assertNull(myInterface.doString());
         assertEquals(myInterface.doList("" , "") == null , (true));
 
         @SuppressWarnings("unchecked")
-        MyGenericInterface<String> myGenericInterface = ClassOperation.newInstanceForInterface(MyGenericInterface.class , "andy.shao.MyGenericClass" , false , Version.V1_8);
+        MyGenericInterface<String> myGenericInterface = ClassOperation.newInstanceForInterface(MyGenericInterface.class , "andy.shao.MyGenericClass" , false , Version.V17);
         myGenericInterface.doVoid();
         assertEquals(myGenericInterface.doDefault() , ("doDefault"));
         assertEquals(myGenericInterface.doInt() , (0));
         assertEquals(myGenericInterface.doBoolean() , (false));
-        assertTrue(myGenericInterface.doString() == null);
-        assertTrue(myGenericInterface.doGeneric() == null);
+        assertNull(myGenericInterface.doString());
+        assertNull(myGenericInterface.doGeneric());
 
-        myInterface = ClassOperation.newInstanceForInterface(MyInterface.class , "andy.shao.MyClass2" , true , Version.V1_8);
+        myInterface = ClassOperation.newInstanceForInterface(MyInterface.class , "andy.shao.MyClass2" , true , Version.V17);
         File file = new File("andy/shao/MyClass2.class");
         assertEquals(file.exists() , (true));
         file.delete();

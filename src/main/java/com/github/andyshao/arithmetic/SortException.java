@@ -1,5 +1,7 @@
 package com.github.andyshao.arithmetic;
 
+import java.io.Serial;
+
 /**
  * 
  * Title:<br>
@@ -11,21 +13,38 @@ package com.github.andyshao.arithmetic;
  *
  */
 public class SortException extends ArithmeticException {
+    @Serial
     private static final long serialVersionUID = -6634240428324974480L;
 
+    /**
+     * No arg construction
+     */
     public SortException() {
         super();
     }
 
+    /**
+     * With error message
+     * @param message error message
+     */
     public SortException(String message) {
         super(message);
     }
 
+    /**
+     * With error message and previous exception
+     * @param message error message
+     * @param exception previous exception
+     */
     public SortException(String message , Throwable exception) {
         super(message , exception);
     }
 
-    public SortException(Throwable exceptoin) {
-        super(exceptoin);
+    /**
+     * With previous exception
+     * @param exception previous exception
+     */
+    public SortException(Throwable exception) {
+        super(exception);
     }
 }

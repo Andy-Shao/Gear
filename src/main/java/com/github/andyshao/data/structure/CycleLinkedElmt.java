@@ -2,11 +2,26 @@ package com.github.andyshao.data.structure;
 
 import java.util.Objects;
 
+/**
+ * Cycle Linked Element
+ * @param <DATA> data type
+ */
 public class CycleLinkedElmt<DATA> implements Linked.LinkedElmt<DATA , CycleLinkedElmt<DATA>> {
+    /**
+     * Build {@link CycleLinked}
+     * @return {@link CycleLinked}
+     * @param <DAT> data type
+     */
     public static <DAT> CycleLinkedElmt<DAT> defaultElmt() {
         return new CycleLinkedElmt<DAT>();
     }
 
+    /**
+     * Build {@link CycleLinked}
+     * @param data data
+     * @return {@link CycleLinked}
+     * @param <DAT> data type
+     */
     public static <DAT> CycleLinkedElmt<DAT> defaultElmt(DAT data) {
         CycleLinkedElmt<DAT> result = CycleLinkedElmt.defaultElmt();
         result.setData(data);

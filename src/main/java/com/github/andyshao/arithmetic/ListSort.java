@@ -79,6 +79,15 @@ public final class ListSort {
         return tail;
     }
 
+    /**
+     * gk sort
+     * @param data a unordered list
+     * @param start start position (inclusive)
+     * @param end end position (exclusive)
+     * @param comparator {@link Comparator}
+     * @return a sorted list
+     * @param <E> data type
+     */
     public static final <E> List<E> qksort(final List<E> data , int start , int end , Comparator<E> comparator) {
         if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         //Stop the recursion when it is not possible to partition further.

@@ -11,5 +11,9 @@ package com.github.andyshao.context;
  * @param <E> value type
  */
 public interface ContextKey<E> {
+    /**
+     * the name of the key
+     * @return key name
+     */
     String keyName();
 }

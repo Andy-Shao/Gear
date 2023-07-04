@@ -1,9 +1,9 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Comparator;
-
 import com.github.andyshao.lang.AutoIncreaseArray;
 import com.github.andyshao.lang.Cleanable;
+
+import java.util.Comparator;
 
 /**
  * 
@@ -18,6 +18,10 @@ import com.github.andyshao.lang.Cleanable;
  * @param <D> data
  */
 public interface Heap<D> extends Cleanable {
+    /**
+     * Default heap
+     * @param <DATA> data type
+     */
     public class MyHeap<DATA> implements Heap<DATA> {
         private Comparator<DATA> comparator = (obj1 , obj2) -> {
             return 0;
@@ -115,29 +119,66 @@ public interface Heap<D> extends Cleanable {
 
     }
 
+    /**
+     * Get the default {@link Heap}
+     * @param comparator {@link Comparator}
+     * @return {@link Heap}
+     * @param <DATA> data type
+     */
     public static <DATA> Heap<DATA> defaultHeap(Comparator<DATA> comparator) {
         Heap<DATA> result = new MyHeap<DATA>();
         result.setComparator(comparator);
         return result;
     }
 
+    /**
+     * the left position of node
+     * @param npos the node position
+     * @return the left position of the node
+     */
     public static int left(int npos) {
         return (npos * 2) + 1;
     }
 
+    /**
+     * the parent position of the node
+     * @param npos the position of the node
+     * @return the parent position
+     */
     public static int parent(int npos) {
         return (npos - 1) / 2;
     }
 
+    /**
+     * the right position of the node
+     * @param npos the node position
+     * @return the right position
+     */
     public static int right(int npos) {
         return (npos * 2) + 2;
     }
 
+    /**
+     * get the data from the top
+     * @return the data
+     */
     public D extract();
 
+    /**
+     * insert the data
+     * @param data the data
+     */
     public void insert(final D data);
 
+    /**
+     * Set {@link Comparator}
+     * @param comparator {@link Comparator}
+     */
     public void setComparator(Comparator<D> comparator);
 
+    /**
+     * Get the size of the {@link Graph}
+     * @return size number
+     */
     public int size();
 }

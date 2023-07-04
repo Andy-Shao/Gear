@@ -27,6 +27,13 @@ import java.util.stream.Stream;
  * @see NullArrayWrapper
  */
 public interface ArrayWrapper extends Iterable<Object> , Serializable {
+    /**
+     * build a new array by array type
+     * @param arrayType the array type
+     * @param length the size of the array
+     * @return a new array
+     * @param <ARRAY> array type
+     */
     public static <ARRAY> ArrayWrapper newInstance(Class<ARRAY> arrayType , int length) {
         if (!arrayType.isArray()) throw new IllegalArgumentException();
         @SuppressWarnings("unchecked")
@@ -34,6 +41,13 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
         return ArrayWrapper.wrap(array);
     }
 
+    /**
+     * wrap a array
+     * @param array a array
+     * @return a {@link ArrayWrapper}
+     * @param <ARRAY> array type
+     * @param <E> the member type of the array
+     */
     @SuppressWarnings("unchecked")
     public static <ARRAY , E> ArrayWrapper wrap(ARRAY array) {
         if(Objects.isNull(array)) return new NullArrayWrapper();
@@ -47,13 +61,24 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
         else if (long[].class.isInstance(array)) return new LongArrayWrapper((long[]) array);
         else return new ObjectArrayWrapper<E>((E[]) array);
     }
-    
+
+    /**
+     * Compare the array type between two {@link ArrayWrapper}
+     * @param left a {@link ArrayWrapper}
+     * @param right a {@link ArrayWrapper}
+     * @return if the two {@link ArrayWrapper} have same member type,
+     * then return true.
+     */
     public static boolean isSameType(ArrayWrapper left, ArrayWrapper right) {
     	Class<?> leftType = left.array().getClass().getComponentType();
     	Class<?> rightType = right.array().getClass().getComponentType();
     	return leftType == rightType;
     }
-    
+
+    /**
+     * Get the {@link ArrayType} of {@link ArrayWrapper}
+     * @return the {@link ArrayType}
+     */
     public default ArrayType type() {
     	Class<?> componentType = this.array().getClass().getComponentType();
     	if(int.class.isInstance(componentType)) return ArrayType.INT_ARRAY;
@@ -210,7 +235,11 @@ public interface ArrayWrapper extends Iterable<Object> , Serializable {
      * limit = mark
      */
     public void resetLimit();
-    
+
+    /**
+     * Get the stream of the {@link ArrayWrapper}
+     * @return a stream
+     */
     public Stream<?> stream();
 
     /**

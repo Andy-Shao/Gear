@@ -1,12 +1,12 @@
 package com.github.andyshao.data.structure;
 
-import java.util.function.Supplier;
-
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
+
+import java.util.function.Supplier;
 
 /**
  * 
- * Title:<br>
+ * Title:Classical red-black tree<br>
  * Descript:<br>
  * Copyright: Copryright(c) Nov 9, 2018<br>
  * Encoding:UNIX UTF-8
@@ -20,10 +20,18 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
     protected final Supplier<BitreeNode<RbTreeNode<K , V>>> treeNodeFactory;
     private volatile BitreeNode<RbTreeNode<K , V>> root;
 
+    /**
+     * Build {@link ClassicRbTree}
+     */
     public ClassicRbTree() {
         this(RbTreeNode::defaultNode, BitreeNode::defaultBitreeNode);
     }
 
+    /**
+     * Build {@link ClassicRbTree}
+     * @param nodeFactory {@link com.github.andyshao.data.structure.RbTree.RbTreeNode} factory
+     * @param treeNodeFactory {@link BitreeNode} factory
+     */
     public ClassicRbTree(Supplier<RbTreeNode<K , V>> nodeFactory, Supplier<BitreeNode<RbTreeNode<K , V>>> treeNodeFactory) {
         this.nodeFactory = nodeFactory;
         this.treeNodeFactory = treeNodeFactory;
@@ -179,7 +187,10 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
         if(!isRed(h.left().left())) h = rotateRight(h);
         return h;
     }
-    
+
+    /**
+     * delete the minimum item
+     */
     public void deleteMin() {
         if(!isRed(this.root().left()) && !isRed(this.root().right())) this.root().data().color(NodeColor.RED);
         this.root(deleteMin(this.root()));
@@ -200,7 +211,10 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
         h.right(deleteMax(h.right()));
         return balance(h);
     }
-    
+
+    /**
+     * delete the maximum item
+     */
     public void deleteMax() {
         if(!isRed(this.root().left()) && !isRed(this.root().right())) this.root().data().color(NodeColor.RED);
         this.root(deleteMax(this.root()));

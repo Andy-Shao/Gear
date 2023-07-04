@@ -190,6 +190,15 @@ public final class ArraySort {
         return (ARRAY) ArraySort.mgsort(arrayWrapper , start , end , comparator).array();
     }
 
+    /**
+     * Merge sort
+     * @param data a unordered array
+     * @param start the start position
+     * @param end the end position
+     * @param comparator {@link Comparator}
+     * @return a ordered array
+     * @param <DATA> the data type
+     */
     public static final <DATA> ArrayWrapper mgsort(ArrayWrapper data , int start , int end , Comparator<DATA> comparator) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         //Stop the recursion when no more divisions can be made.

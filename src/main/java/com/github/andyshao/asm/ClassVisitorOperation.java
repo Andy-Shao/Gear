@@ -13,6 +13,11 @@ import java.lang.reflect.Method;
  *
  */
 public final class ClassVisitorOperation {
+    /**
+     * count basic local
+     * @param method {@link Method}
+     * @return the number of basic local
+     */
     public static final int countBasicLocal(Method method) {
         int result = method.getParameterCount() + 1;
         Class<?>[] types = method.getParameterTypes();
@@ -21,6 +26,11 @@ public final class ClassVisitorOperation {
         return result;
     }
 
+    /**
+     * count basic stack
+     * @param method {@link Method}
+     * @return the number of basic stack
+     */
     public static final int countBasicStack(Method method) {
         Class<?> type = method.getReturnType();
         if (type.isPrimitive()) {

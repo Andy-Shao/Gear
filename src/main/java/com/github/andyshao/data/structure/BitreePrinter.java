@@ -14,18 +14,40 @@ import com.github.andyshao.lang.Convert;
  */
 public final class BitreePrinter {
     private static final String nonPad = "  ";
-    
+
+    /**
+     * Print {@link Bitree}
+     * @param tree {@link Bitree}
+     * @param convert the data convert
+     * @return the printed {@link StringBuilder}
+     * @param <DATA> data type
+     */
     public static final <DATA> StringBuilder printForGraph(Bitree<DATA> tree, Convert<DATA , String> convert){
         BitreeNode<DATA> root = tree.root();
         return printForGraph(root , convert);
     }
-    
+
+    /**
+     * Print the {@link Bitree}
+     * @param treeNode {@link BitreeNode}
+     * @param convert the data convert
+     * @return the printed {@link StringBuilder}
+     * @param <DATA> data type
+     */
     public static final <DATA> StringBuilder printForGraph(BitreeNode<DATA> treeNode, Convert<DATA , String> convert) {
         StringBuilder ret = new StringBuilder();
         printForGraph(treeNode , convert , 0, ret);
         return ret;
     }
-    
+
+    /**
+     * Print the {@link Bitree}
+     * @param treeNode {@link BitreeNode}
+     * @param convert the data convert
+     * @param depth the depth of the {@link Bitree}
+     * @param sb {@link StringBuilder}
+     * @param <DATA> data type
+     */
     public static final <DATA> void printForGraph(BitreeNode<DATA> treeNode, Convert<DATA , String> convert, int depth, 
         StringBuilder sb) {
         if(treeNode == null) return;

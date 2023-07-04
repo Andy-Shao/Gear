@@ -2,6 +2,7 @@ package com.github.andyshao.reflect;
 
 import lombok.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +18,9 @@ import java.util.Objects;
  *
  */
 @Data
-@SuppressWarnings("serial")
 public class GenericNode implements Serializable{
+    @Serial
+    private static final long serialVersionUID = 3073863989335642029L;
     private final List<GenericNode> componentTypes = new ArrayList<>();
     @Setter(AccessLevel.PACKAGE)
     private Class<?> declareType;

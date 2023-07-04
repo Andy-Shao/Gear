@@ -1,14 +1,10 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Queue;
-import java.util.Set;
+import com.github.andyshao.lang.Cleanable;
+
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-
-import com.github.andyshao.lang.Cleanable;
 
 /**
  * 
@@ -23,7 +19,17 @@ import com.github.andyshao.lang.Cleanable;
  */
 public interface Graph<D> extends Cleanable {
 
+    /**
+     * AdjList
+     * @param <DATA> data type
+     */
     public interface AdjList<DATA> {
+        /**
+         * Get default {@link AdjList}
+         * @param setFactory {@link Set} factory
+         * @return {@link AdjList}
+         * @param <D> data type
+         */
         public static <D> AdjList<D> defaultAdjList(Supplier<Set<D>> setFactory) {
             return new AdjList<D>() {
                 private final Set<D> adjacent = setFactory.get();
@@ -46,15 +52,30 @@ public interface Graph<D> extends Cleanable {
             };
         }
 
+        /**
+         * adjacent
+         * @return {@link Set}
+         */
         public Set<DATA> adjacent();
 
+        /**
+         * clean the space
+         */
         public default void free() {
             this.vertex(null);
             this.adjacent().clear();
         }
 
+        /**
+         * Get the vertex
+         * @return the vertex data
+         */
         public DATA vertex();
 
+        /**
+         * Set the vertex
+         * @param vertex the vertex data
+         */
         public void vertex(DATA vertex);
     }
 
@@ -70,6 +91,10 @@ public interface Graph<D> extends Cleanable {
      * @param <DATA> data
      */
     public interface BfsVertex<DATA> {
+        /**
+         * Default Breath First Vertex
+         * @param <DAT> data type
+         */
         public class MyBfsVertex<DAT> implements BfsVertex<DAT> {
             private VertexColor color;
             private DAT data;
@@ -111,20 +136,49 @@ public interface Graph<D> extends Cleanable {
             }
         }
 
+        /**
+         * Get default {@link BfsVertex}
+         * @return {@link BfsVertex}
+         * @param <DAT> data type
+         */
         public static <DAT> MyBfsVertex<DAT> defaultBfsVertex() {
             return new MyBfsVertex<>();
         }
 
+        /**
+         * Get the color of {@link BfsVertex}
+         * @return {@link VertexColor}
+         */
         VertexColor color();
 
+        /**
+         * Set the color of the {@link BfsVertex}
+         * @param color {@link VertexColor}
+         */
         void color(VertexColor color);
 
+        /**
+         * Get the data of the {@link BfsVertex}
+         * @return the data
+         */
         DATA data();
 
+        /**
+         * Set the data
+         * @param data the data
+         */
         void data(DATA data);
 
+        /**
+         * get hops
+         * @return hops
+         */
         int hops();
 
+        /**
+         * set hops
+         * @param hops the hops
+         */
         void hops(int hops);
     }
 
@@ -140,6 +194,10 @@ public interface Graph<D> extends Cleanable {
      * @param <DATA> data
      */
     public interface DfsVertex<DATA> {
+        /**
+         * Default Deep first Vertex
+         * @param <DAT> data type
+         */
         public class MyDfsVertex<DAT> implements DfsVertex<DAT> {
             private VertexColor color;
             private DAT data;
@@ -171,19 +229,44 @@ public interface Graph<D> extends Cleanable {
 
         }
 
+        /**
+         * Get the default {@link DfsVertex}
+         * @return {@link DfsVertex}
+         * @param <DAT> data type
+         */
         public static <DAT> DfsVertex<DAT> defaultDfsVertex() {
             return new MyDfsVertex<>();
         }
 
+        /**
+         * Get the color of the {@link DfsVertex}
+         * @return {@link VertexColor}
+         */
         public VertexColor color();
 
+        /**
+         * Set the color of the {@link DfsVertex}
+         * @param color {@link DfsVertex}
+         */
         public void color(VertexColor color);
 
+        /**
+         * Get the data
+         * @return the data
+         */
         public DATA data();
 
+        /**
+         * Set the data
+         * @param data the data
+         */
         public void data(DATA data);
     }
 
+    /**
+     * Default graph
+     * @param <DATA> data type
+     */
     public class MyGraph<DATA> implements Graph<DATA> {
         private long actionAcount;
         protected Supplier<AdjList<DATA>> adjListFactory = () -> {
@@ -197,6 +280,11 @@ public interface Graph<D> extends Cleanable {
         protected final Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory;
         protected int vcount;
 
+        /**
+         * Build the default {@link Graph}
+         * @param comparator {@link Comparator}
+         * @param linkedFactory {@link CycleLinked} factory
+         */
         public MyGraph(Comparator<DATA> comparator , Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory) {
             this.linkedFactory = linkedFactory;
             this.comparator = comparator;
@@ -383,10 +471,25 @@ public interface Graph<D> extends Cleanable {
         }
     }
 
+    /**
+     * Vertex Color
+     */
     public enum VertexColor {
-        BLACK , GRAY , WHITE
+        /**Black*/
+        BLACK ,
+        /**Gray*/
+        GRAY ,
+        /**White*/
+        WHITE;
     }
 
+    /**
+     * Add untoward edge
+     * @param graph {@link Graph}
+     * @param data1 data one
+     * @param data2 data two
+     * @param <DATA> data type
+     */
     public static <DATA> void addUntowardEdge(Graph<DATA> graph , DATA data1 , DATA data2) {
         graph.insEdge(data1 , data2);
         graph.insEdge(data2 , data1);
@@ -456,14 +559,34 @@ public interface Graph<D> extends Cleanable {
         return result;
     }
 
+    /**
+     * Get default {@link Graph}
+     * @param comparator {@link Comparator}
+     * @return {@link Comparator}
+     * @param <DATA> data type
+     */
     public static <DATA> Graph<DATA> defaultGraph(Comparator<DATA> comparator) {
         return Graph.defaultGraph(comparator , () -> SingleLinked.<AdjList<DATA>> defaultSingleLinked(CycleLinkedElmt::defaultElmt));
     }
 
+    /**
+     * Get default {@link Graph}
+     * @param comparator {@link Comparator}
+     * @param singleLinkedFactory {@link Linked} factory
+     * @return {@link Graph}
+     * @param <DATA> data type
+     */
     public static <DATA> Graph<DATA> defaultGraph(Comparator<DATA> comparator , Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> singleLinkedFactory) {
         return new MyGraph<DATA>(comparator , singleLinkedFactory);
     }
 
+    /**
+     * deep first search
+     * @param graph {@link Graph}
+     * @param result the search sequence {@link Collection}
+     * @return {@link Collection}
+     * @param <DATA> data type
+     */
     public static <DATA> Collection<DfsVertex<DATA>> dfs(Graph<DfsVertex<DATA>> graph , Collection<DfsVertex<DATA>> result) {
         DfsVertex<DATA> vertex;
         CycleLinkedElmt<AdjList<DfsVertex<DATA>>> element;
@@ -485,6 +608,14 @@ public interface Graph<D> extends Cleanable {
         return result;
     }
 
+    /**
+     * The deep first search
+     * @param graph {@link Graph}
+     * @param adjlist {@link AdjList}
+     * @param result the search sequence {@link Collection}
+     * @return {@link Collection}
+     * @param <DATA> data type
+     */
     public static <DATA> Collection<DfsVertex<DATA>> dfsMain(Graph<DfsVertex<DATA>> graph , AdjList<DfsVertex<DATA>> adjlist , Collection<DfsVertex<DATA>> result) {
         //Color the vertex gray and traverse its adjacency list.
         adjlist.vertex().color(VertexColor.GRAY);
@@ -514,25 +645,76 @@ public interface Graph<D> extends Cleanable {
      */
     public AdjList<D> adjlist(final D data);
 
+    /**
+     * Get the adjLists
+     * @return {@link Linked}
+     */
     public Linked<AdjList<D> , CycleLinkedElmt<AdjList<D>>> adjlists();
 
+    /**
+     * The number of the edge
+     * @return edge number
+     */
     public int ecount();
 
+    /**
+     * Get Adj list factory
+     * @return {@link AdjList} factory
+     */
     public Supplier<AdjList<D>> getAdjListFactory();
 
+    /**
+     * Insert edge between two data
+     * @param data1 data one
+     * @param data2 data two
+     */
     public void insEdge(final D data1 , final D data2);
 
+    /**
+     * Insert vertex in {@link Graph}
+     * @param data the data
+     */
     public void insVertex(final D data);
 
+    /**
+     * is Adjacent between two data
+     * @param data1 data one
+     * @param data2 data two
+     * @return if it is, then true
+     */
     public boolean isAdjacent(final D data1 , final D data2);
 
+    /**
+     * has edge between two data
+     * @param data1 data one
+     * @param data2 dat two
+     * @return if it matches, then true
+     */
     public boolean match(D data1 , D data2);
 
+    /**
+     * Remove the edge between two data
+     * @param data1 data one
+     * @param data2 data two
+     */
     public void remEdge(final D data1 , final D data2);
 
+    /**
+     * Remove vertex by data
+     * @param data the data
+     * @return the origin data
+     */
     public D remVertex(D data);
 
+    /**
+     * set {@link AdjList} factory
+     * @param adjListFactory {@link AdjList} factory
+     */
     public void setAdjListFactory(Supplier<AdjList<D>> adjListFactory);
 
+    /**
+     * The number of vertex
+     * @return vertex number
+     */
     public int vcount();
 }
