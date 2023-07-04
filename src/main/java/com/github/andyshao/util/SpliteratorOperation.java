@@ -51,7 +51,9 @@ public final class SpliteratorOperation {
 				.build();
 	}
 
-	private SpliteratorOperation() {}
+	private SpliteratorOperation() {
+		throw new AssertionError("No constructor support");
+	}
 
 	public static Spliterator<Float> spliterator(float[] array, int additionalCharacteristics) {
 		return spliterator(array, additionalCharacteristics);

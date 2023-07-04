@@ -329,7 +329,12 @@ public interface AppResult<T> extends Result<AppResult.DataNode<T>> {
 		private String appErrorCode;
 		private String appErrorMsg;
 		private T data;
-		
+
+		/**
+		 * {@link DataNodeBuilder}
+		 * @return a {@link DataNodeBuilder}
+		 * @param <E> the type of the data
+		 */
 		public static <E> DataNodeBuilder<E> builder() {
 			return new DataNodeBuilder<E>();
 		}

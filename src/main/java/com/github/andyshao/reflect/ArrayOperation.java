@@ -23,118 +23,248 @@ import java.util.stream.StreamSupport;
  *
  */
 public final class ArrayOperation {
+    /**
+     * Set value into the array at zero position
+     * @param array a int array
+     * @param value a int value
+     * @return the origin array
+     */
     public static int[] of(int[] array, int value){
         array[0] = value;
         return array;
     }
+
+    /**
+     * Set value into the array at zero position
+     * @param array a object array
+     * @param value a object value
+     * @return the origin array
+     * @param <T> the type of the array member's
+     */
     public static <T> T[] of(T[] array, T value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * Set value into the array at zero position
+     * @param array a short array
+     * @param value a short value
+     * @return the origin array
+     */
     public static short[] of(short[] array, short value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * Set value into the array at zero position
+     * @param array a byte array
+     * @param value a byte value
+     * @return the origin array
+     */
     public static byte[] of(byte[] array, byte value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * Set value into the array at zero position
+     * @param array a char array
+     * @param value a char value
+     * @return the origin array
+     */
     public static char[] of(char[] array, char value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * Set value into the array at zero position
+     * @param array a long array
+     * @param value a long value
+     * @return the origin array
+     */
     public static long[] of(long[] array, long value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * Set value into the array at zero position
+     * @param array a float array
+     * @param value a float value
+     * @return the origin array
+     */
     public static float[] of(float[] array, float value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * Set value into the array at zero position
+     * @param array a double array
+     * @param value a double value
+     * @return the origin array
+     */
     public static double[] of(double[] array, double value){
         array[0] = value;
         return array;
     }
 
+    /**
+     * check the array type
+     * @param array the {@link ArrayWrapper}
+     * @return the it is empty or null, then return true
+     */
     public static boolean isEmptyOrNull(ArrayWrapper array) {
         if(array instanceof NullArrayWrapper) return true;
         return array.length() == 0;
     }
 
+    /**
+     * Generate a collection
+     * @param col the collection object
+     * @param ts the members of the collection
+     * @return a collection
+     * @param <T> the type of the collection
+     * @param <E> the type of the member
+     */
 	@SafeVarargs
 	public static <T, E extends Collection<T>> E asCollection(E col, T...ts) {
     	CollectionOperation.addAll(col, ts);
     	return col;
     }
-	
+
+    /**
+     * Generate a list
+     * @param ts the members of the list
+     * @return a list
+     * @param <T> the type of the data
+     */
 	@SafeVarargs
 	public static <T> Collection<T> asCollection(T...ts) {
     	return Arrays.asList(ts);
     }
-	
+
+    /**
+     * Add items into the list
+     * @param list the list
+     * @param ts the new members of the list
+     * @return the origin list
+     * @param <T> the type of the data
+     */
 	@SafeVarargs
 	public static <T> List<T> asList(List<T> list, T...ts){
     	return asCollection(list, ts);
     }
-	
+
+    /**
+     * Add items into the queue
+     * @param queue the queue which is added the list
+     * @param ts the new members of the queue
+     * @return the origin queue
+     * @param <T> the type of the data
+     */
 	@SafeVarargs
 	public static <T> Queue<T> asQueue(Queue<T> queue, T...ts) {
     	for(T t : ts) queue.offer(t);
     	return queue;
     }
-	
+
+    /**
+     * Get a {@link ArrayBlockingQueue} which includes the members
+     * @param ts the members of the queue
+     * @return the {@link ArrayBlockingQueue}
+     * @param <T> the type of the data
+     */
 	@SafeVarargs
 	public static <T> Queue<T> asQueue(T...ts) {
     	return asQueue(new ArrayBlockingQueue<T>(ts.length), ts);
     }
-	
+
+    /**
+     * add items into a set
+     * @param set the set which should add members
+     * @param ts the new members of the set
+     * @return the origin set
+     * @param <T> the type of data
+     */
 	@SafeVarargs
 	public static <T> Set<T> asSet(Set<T> set, T...ts){
     	return asCollection(set, ts);
     }
-	
+
+    /**
+     * get a {@link HashSet} which includes the ts members
+     * @param ts the new members of the set
+     * @return a {@link HashSet}
+     * @param <T> the type of data
+     */
 	@SafeVarargs
 	public static <T> Set<T> asSet(T...ts) {
     	return asSet(new HashSet<>(ts.length), ts);
     }
-	
+
+    /**
+     * Copy all members of the array
+     * @param array the array which should be copied
+     * @return the new array which has same members of the array
+     * @param <T> the type of the array
+     */
 	public static <T> T backup(T array) {
         return ArrayOperation.splitArray(array , 0 , Array.getLength(array));
     }
-	
+
+    /**
+     * Get a byte array comparator
+     * @return a byte array comparator
+     */
 	public static Comparator<byte[]> byteArrayComparator() {
 		return byteArrayComparator(ByteOperation.comparator());
 	}
-	
+
+    /**
+     * Use byte comparator in order to generate the byte array comparator
+     * @param byteComparator a byte comparator
+     * @return a byte array comparator
+     */
 	public static Comparator<byte[]> byteArrayComparator(Comparator<Byte> byteComparator) {
 		return (l, r) -> comparator(byteComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
-	
+
+    /**
+     * Get a char array comparator
+     * @return a char array comparator
+     */
 	public static Comparator<char[]> charArrayComparator() {
 		return charArrayComparator(CharOperation.comparator());
 	}
-	
+
+    /**
+     * Use a char comparator in order to generate a char array comparator
+     * @param charComparator a char comparator
+     * @return a char array comparator
+     */
 	public static Comparator<char[]> charArrayComparator(Comparator<Character> charComparator) {
 		return (l, r) -> comparator(charComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
-	
+
+    /**
+     * Get a general array comparator by the array member's comparator
+     * @param componentComparator the array member's comparator
+     * @return the array comparator
+     */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Comparator<ArrayWrapper> comparator(Comparator componentComparator) {
 		return (left, right) -> {
 			if(!ArrayWrapper.isSameType(left, right)) throw new IllegalArgumentException("Array type should be same");
 			if(Objects.isNull(left) && Objects.nonNull(right)) return -1;
-			else if(Objects.isNull(left) && Objects.nonNull(right)) return 0;
 			else if(Objects.nonNull(left) && Objects.isNull(right)) return 1;
 			int leftLength = left.length();
-			int rightLenth = right.length();
-			if(leftLength > rightLenth) return 1;
-			else if(leftLength < rightLenth) return -1;
+			int rightLength = right.length();
+			if(leftLength > rightLength) return 1;
+			else if(leftLength < rightLength) return -1;
 			int compare = 0;
 			for(int i=0; i<leftLength; i++) {
 				compare = componentComparator.compare(left.get(i), right.get(i));
@@ -162,11 +292,20 @@ public final class ArrayOperation {
             map.put(convertK.convert(array[0]) , convertV.convert(array[1]));
         return map;
     }
-	
+
+    /**
+     * Get a double array comparator
+     * @return a double array comparator
+     */
 	public static Comparator<double[]> doubleArrayComparator() {
 		return doubleArrayComparator(DoubleOperation.comparator());
 	}
-	
+
+    /**
+     * Use double comparator in order to generate a double array comparator
+     * @param doubleComparator a double comparator
+     * @return a double array comparator
+     */
 	public static Comparator<double[]> doubleArrayComparator(Comparator<Double> doubleComparator) {
 		return (l, r) -> comparator(doubleComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
@@ -188,11 +327,20 @@ public final class ArrayOperation {
             temp.put(arrayWrapper.get(i) , b);
         return (T) temp.array();
     }
-	
+
+    /**
+     * Get a float array comparator
+     * @return a float array comparator
+     */
 	public static Comparator<float[]> floatArrayComparator() {
 		return floatArrayComparator(FloatOperation.comparator());
 	}
-	
+
+    /**
+     * Use a float comparator in order to generate a float array comparator
+     * @param floatComparator a float comparator
+     * @return a float array comparator
+     */
 	public static Comparator<float[]> floatArrayComparator(Comparator<Float> floatComparator) {
 		return (l, r) -> comparator(floatComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
@@ -314,11 +462,20 @@ public final class ArrayOperation {
             }
         return position;
     }
-    
+
+    /**
+     * Get a int array comparator
+     * @return a array comparator
+     */
     public static Comparator<int[]> intArrayComparator() {
 		return intArrayComparator(IntegerOperation.comparator());
 	}
-    
+
+    /**
+     * Use a int comparator in order to generate int array comparator
+     * @param intComparator a int comparator
+     * @return a int array comparator
+     */
     public static Comparator<int[]> intArrayComparator(Comparator<Integer> intComparator) {
 		return (o1, o2) -> {
 			return comparator(intComparator).compare(ArrayWrapper.wrap(o1), ArrayWrapper.wrap(o2));
@@ -505,10 +662,19 @@ public final class ArrayOperation {
         return position;
     }
 
+    /**
+     * Get a long array comparator
+     * @return a long array comparator
+     */
     public static Comparator<long[]> longArrayComparator() {
 		return longArrayComparator(LongOperation.comparator());
 	}
 
+    /**
+     * Use a long comparator in order to generate a long array comparator
+     * @param longComparator a long array comparator
+     * @return a long array comparator
+     */
     public static Comparator<long[]> longArrayComparator(Comparator<Long> longComparator) {
 		return (l, r) -> {
 			return comparator(longComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
@@ -536,6 +702,12 @@ public final class ArrayOperation {
         return result;
     }
 
+    /**
+     * Use a object comparator in order to generate a object array comparator
+     * @param objComparator a object comparator
+     * @return a object array comparator
+     * @param <T> the type of the data
+     */
     public static <T> Comparator<T[]> objArrayComparator(Comparator<T> objComparator) {
 		return (l, r) -> comparator(objComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
@@ -658,6 +830,18 @@ public final class ArrayOperation {
         return array;
     }
 
+    /**
+     * inject a new value in {@link ArrayWrapper}
+     * <pre> {@code
+     * ArrayWrapper intArray = ArrayWrapper.wrap(new int[]{1, 2, 3});
+     * int[] array = (int[]) injectItem(intArray, 4, 1);
+     * }</pre>
+     * As show in the example, the array will be {1, 4, 2, 3}.
+     * @param arrayWrapper a {@link ArrayWrapper}
+     * @param value the new value
+     * @param index the position of the {@link ArrayWrapper}
+     * @return the new array
+     */
     public static Object injectItem(ArrayWrapper arrayWrapper, Object value, int index) {
         if(index < 0 || index >= arrayWrapper.length()) throw new ArrayIndexOutOfBoundsException();
         final Object array = arrayWrapper.array();
@@ -693,10 +877,19 @@ public final class ArrayOperation {
         return array;
     }
 
+    /**
+     * Get a short array comparator
+     * @return a short array comparator
+     */
     public static Comparator<short[]> shortArrayComparator() {
 		return shortArrayComparator(ShortOperation.comparator());
 	}
 
+    /**
+     * Use a short comparator in order to generate a short array comparator
+     * @param shortComparator a short comparator
+     * @return a short array comparator
+     */
     public static Comparator<short[]> shortArrayComparator(Comparator<Short> shortComparator) {
 		return (l, r) -> comparator(shortComparator).compare(ArrayWrapper.wrap(l), ArrayWrapper.wrap(r));
 	}
@@ -720,65 +913,149 @@ public final class ArrayOperation {
         return result;
     }
 
+    /**
+     * Get a byte stream
+     * @param bs a byte array
+     * @return a byte stream
+     */
     public static Stream<Byte> stream(byte[] bs) {
 		return StreamSupport.stream(SpliteratorOperation.spliterator(
 				bs, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 	}
 
+    /**
+     * Get a byte stream
+     * @param bs a byte array
+     * @param startInclusive the start point of byte array (include)
+     * @param endExclusive the end point of byte array (exclude)
+     * @return a byte stream
+     */
     public static Stream<Byte> stream(byte[] bs, int startInclusive, int endExclusive) {
 		return StreamSupport.stream(SpliteratorOperation.spliterator(
 				bs, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 	}
 
+    /**
+     * Get a char stream
+     * @param cs a char array
+     * @return a byte stream
+     */
     public static Stream<Character> stream(char[] cs) {
 		return StreamSupport.stream(SpliteratorOperation.spliterator(
 				cs, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 	}
 
+    /**
+     * Get a char stream
+     * @param cs the char array
+     * @param startInclusive the start position of the char array (include)
+     * @param endExclusive the end position of the char array (exlude)
+     * @return a char stream
+     */
     public static Stream<Character> stream(char[] cs, int startInclusive, int endExclusive) {
 		return StreamSupport.stream(SpliteratorOperation.spliterator(
 				cs, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 	}
 
+    /**
+     * Get a double stream
+     * @param array a double array
+     * @return a double stream
+     */
     public static Stream<Double> stream(double[] array) {
     	return StreamOperation.valueOf(Arrays.stream(array));
     }
-    
+
+    /**
+     * Get a double stream
+     * @param array a double array
+     * @param startInclusive the start position of the array (include)
+     * @param endExclusive the end position of the array (exclude)
+     * @return a double stream
+     */
     public static Stream<Double> stream(double[] array, int startInclusive, int endExclusive) {
     	return StreamOperation.valueOf(Arrays.stream(array, startInclusive, endExclusive));
     }
-    
+
+    /**
+     * Get a float stream
+     * @param array a float array
+     * @return a float stream
+     */
     public static Stream<Float> stream(float[] array) {
 		return StreamSupport.stream(SpliteratorOperation.spliterator(
 				array, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 	}
-    
+
+    /**
+     * Get a float stream from a float array
+     * @param array a float array
+     * @param startInclusive the start position of the array (include)
+     * @param endExclusive the end position of the array (exclude)
+     * @return a float stream
+     */
     public static Stream<Float> stream(float[] array, int startInclusive, int endExclusive) {
     	return StreamSupport.stream(SpliteratorOperation.spliterator(
     			array, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
     }
-    
+
+    /**
+     * Get a int stream
+     * @param array a int array
+     * @return a int stream
+     */
     public static Stream<Integer> stream(int[] array) {
     	return StreamOperation.valueOf(Arrays.stream(array));
     }
-    
+
+    /**
+     * Get a int stream
+     * @param array a int array
+     * @param startInclusive the start position of the array (include)
+     * @param endExclusive the end position of the array (exclude)
+     * @return a int stream
+     */
     public static Stream<Integer> stream(int[] array, int startInclusive, int endExclusive) {
     	return StreamOperation.valueOf(Arrays.stream(array, startInclusive, endExclusive));
     }
-    
+
+    /**
+     * Get a long stream
+     * @param array a long array
+     * @return a long stream
+     */
     public static Stream<Long> stream(long[] array) {
     	return StreamOperation.valueOf(Arrays.stream(array));
     }
-    
+
+    /**
+     * Get a long stream
+     * @param array a long array
+     * @param startInclusive the start position of the array (include)
+     * @param endExclusive the end position of the array (exclude)
+     * @return a long stream
+     */
     public static Stream<Long> stream(long[] array, int startInclusive, int endExclusive) {
     	return StreamOperation.valueOf(Arrays.stream(array, startInclusive, endExclusive));
     }
-    
+
+    /**
+     * Get a short stream
+     * @param array a short array
+     * @return a short stream
+     */
     public static Stream<Short> stream(short[] array) {
     	return StreamSupport.stream(SpliteratorOperation.spliterator(
 				array, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
 	}
 
+    /**
+     * Get a short stream
+     * @param array a short array
+     * @param startInclusive the start position of the array (include)
+     * @param endExclusive the end position of the array (exclude)
+     * @return a short stream
+     */
     public static Stream<Short> stream(short[] array, int startInclusive, int endExclusive) {
     	return StreamSupport.stream(SpliteratorOperation.spliterator(
     			array, startInclusive, endExclusive, Spliterator.ORDERED | Spliterator.IMMUTABLE), false);
@@ -799,6 +1076,17 @@ public final class ArrayOperation {
         return targets;
     }
 
+    /**
+     * Looks like the python's range method.
+     * <pre>{@code
+     * int[] array = range(0, 10, 2);
+     * }</pre>
+     * the array will be {0, 2, 4, 6, 8}.
+     * @param start start position (include)
+     * @param end end position (exclude)
+     * @param step the add step
+     * @return a int array
+     */
     public static int[] range(int start, int end, int step){
         int len = (end - start) / step;
         if((end - start) % step != 0) len++;

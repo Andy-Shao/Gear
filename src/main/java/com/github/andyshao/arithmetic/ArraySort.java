@@ -1,12 +1,12 @@
 package com.github.andyshao.arithmetic;
 
+import com.github.andyshao.lang.ArrayWrapper;
+import com.github.andyshao.lang.Convert;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
-
-import com.github.andyshao.lang.ArrayWrapper;
-import com.github.andyshao.lang.Convert;
 
 /**
  * 
@@ -42,6 +42,18 @@ public final class ArraySort {
         return (ARRAY) ArraySort.ctsort(arrayWrapper , convert , start , end , max).array();
     }
 
+    /**
+     * count sort
+     * @param array the array which should be sorted
+     * @param convert calculate the data to a integer
+     * @param start start position (include)
+     * @param end end position (exclude)
+     * @param max the max value(k) of array clip which from start side to end
+     *            side but never include the end side.
+     *            the max = k + 1
+     * @return the array which has been sorted
+     * @param <DATA> data type
+     */
     @SuppressWarnings("unchecked")
     public static final <DATA> ArrayWrapper ctsort(ArrayWrapper array , Convert<DATA , Integer> convert , int start , int end , int max) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
@@ -89,6 +101,15 @@ public final class ArraySort {
         return (ARRAY) ArraySort.issort(arrayWrapper , start , end , comparator).array();
     }
 
+    /**
+     * insert sort
+     * @param data a unordered array
+     * @param start the start position (include)
+     * @param end the end position (exclude)
+     * @param comparator {@link Comparator}
+     * @return if the data is null then return it
+     * @param <DATA> data type
+     */
     @SuppressWarnings("unchecked")
     public static final <DATA> ArrayWrapper issort(final ArrayWrapper data , int start , int end , Comparator<DATA> comparator) {
         if (start > end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
@@ -105,6 +126,16 @@ public final class ArraySort {
         return data;
     }
 
+    /**
+     * merge sort
+     * @param array a unordered array
+     * @param start the start position (include)
+     * @param division the divided position
+     * @param end the end position (exclude)
+     * @param comparator {@link Comparator}
+     * @return an ordered array
+     * @param <DATA> data type
+     */
     @SuppressWarnings("unchecked")
     static final <DATA> ArrayWrapper merge(ArrayWrapper array , int start , int division , int end , Comparator<DATA> comparator) {
         //initialize the counters used in merging.
@@ -238,6 +269,15 @@ public final class ArraySort {
         return (ARRAY) ArraySort.qksort(arrayWrapper , start , end , comparator).array();
     }
 
+    /**
+     * quick sort
+     * @param array a unordered array
+     * @param start the start position
+     * @param end the end position
+     * @param comparator {@link Comparator}
+     * @return the array which is sorted
+     * @param <DATA> data type
+     */
     public static final <DATA> ArrayWrapper qksort(final ArrayWrapper array , int start , int end , Comparator<DATA> comparator) {
         if (start >= end) throw new IllegalArgumentException(start + " bigger than or equal " + end);
         //Stop the recursion when it is not possible to partition further.
@@ -278,6 +318,17 @@ public final class ArraySort {
         return (ARRAY) ArraySort.rxsort(arrayWrapper , convert , p , k , start , end).array();
     }
 
+    /**
+     * radix sort
+     * @param array a unordered array
+     * @param convert {@link Convert} the DATA covert to {@link Integer}
+     * @param p the position
+     * @param k k&lt;=data.length at the comment time.
+     * @param start the start position (inclusive)
+     * @param end the end position (exclusive)
+     * @return an ordered array
+     * @param <DATA> data type
+     */
     @SuppressWarnings("unchecked")
     public static final <DATA> ArrayWrapper rxsort(ArrayWrapper array , Convert<DATA , Integer> convert , int p , int k , int start , int end) {
         if (start >= end) throw new IllegalArgumentException(start + " can't bigger than or equal " + end);

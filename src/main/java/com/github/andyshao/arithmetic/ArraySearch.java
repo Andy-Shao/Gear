@@ -1,8 +1,8 @@
 package com.github.andyshao.arithmetic;
 
-import java.util.Comparator;
-
 import com.github.andyshao.lang.ArrayWrapper;
+
+import java.util.Comparator;
 
 /**
  * 
@@ -19,7 +19,7 @@ public final class ArraySearch {
      * binary search(二分查找)
      * 
      * @param sorted sorted array
-     * @param target the data which want to be found out
+     * @param target the data which wants to be found out
      * @param comparator {@link Comparator}
      * @param <ARRAY> array type
      * @param <DATA> data type
@@ -30,6 +30,14 @@ public final class ArraySearch {
         return ArraySearch.bisearch(arrayWrapper , target , comparator);
     }
 
+    /**
+     * binary search
+     * @param sorted a sorted array
+     * @param target the data which wants to be found out
+     * @param comparator {@link Comparator}
+     * @return if the answer cannot be found out then return -1
+     * @param <DATA> data type
+     */
     @SuppressWarnings("unchecked")
     public static final <DATA> int bisearch(ArrayWrapper sorted , DATA target , Comparator<DATA> comparator) {
         //Continue searching until the left and right indices cross.
