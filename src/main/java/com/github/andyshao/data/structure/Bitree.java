@@ -3,6 +3,7 @@ package com.github.andyshao.data.structure;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.lang.Cleanable;
 
+import java.io.Serial;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -133,6 +134,8 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
      * @param <DATA> data type
      */
     public class MyBitree<DATA> implements Bitree<DATA> {
+        @Serial
+        private static final long serialVersionUID = -509145251435765498L;
         protected BitreeNode<DATA> root;
         protected int size;
         protected final Supplier<BitreeNode<DATA>> treeNodeFactory;

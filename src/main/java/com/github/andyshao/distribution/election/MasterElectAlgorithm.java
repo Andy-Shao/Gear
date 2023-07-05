@@ -13,5 +13,10 @@ import java.util.Optional;
  *
  */
 public interface MasterElectAlgorithm {
+    /**
+     * Find master {@link ElectionNode}
+     * @param nodes {@link ElectionNode} list
+     * @return the master {@link ElectionNode}
+     */
     Optional<ElectionNode> findMaster(List<ElectionNode> nodes);
 }

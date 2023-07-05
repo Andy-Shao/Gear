@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
@@ -16,12 +18,12 @@ import java.util.function.Function;
  *
  * @param <D> data
  */
-public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElmt<D>> {
+public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElmt<D>>, Serializable {
     /**
      * Double linked element
      * @param <DATA> data type
      */
-    public interface DoubleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , DoubleLinkedElmt<DATA>> {
+    public interface DoubleLinkedElmt<DATA> extends Linked.LinkedElmt<DATA , DoubleLinkedElmt<DATA>>, Serializable {
         /**
          * Get default {@link DoubleLinkedElmt}
          * @param data data
@@ -30,6 +32,8 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
          */
         public static <DATA> DoubleLinkedElmt<DATA> defaultElmt(DATA data) {
             DoubleLinkedElmt<DATA> result = new DoubleLinkedElmt<DATA>() {
+                @Serial
+                private static final long serialVersionUID = -107307947887970784L;
                 private DATA data;
                 private DoubleLinkedElmt<DATA> next;
                 private DoubleLinkedElmt<DATA> prev;
@@ -102,6 +106,8 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
      * @param <DATA> data type
      */
     public class MyDoubleLinked<DATA> implements DoubleLinked<DATA> {
+        @Serial
+        private static final long serialVersionUID = 8162911921677856435L;
         private long actionCount = 0;
         private final Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory;
         private DoubleLinked.DoubleLinkedElmt<DATA> head;

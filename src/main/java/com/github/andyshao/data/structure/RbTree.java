@@ -1,8 +1,8 @@
 package com.github.andyshao.data.structure;
 
-import java.util.Objects;
-
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
+
+import java.util.Objects;
 
 /**
  * 
@@ -16,6 +16,11 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
  * @param <V> value type
  */
 public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNode<K , V> , BitreeNode<RbTree.RbTreeNode<K,V>>> {
+    /**
+     * The default red-black tree
+     * @param <KEY> the key
+     * @param <VALUE> the value
+     */
     public interface RbTreeNode<KEY,VALUE> {
         public NodeColor color();
         public void color(NodeColor color);
@@ -96,22 +101,55 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
             return new MyRbTreeNode<K,V>();
         }
     }
-    
+
+    /**
+     * Node color
+     */
     public enum NodeColor {
-        RED,BLACK;
+        /**red*/
+        RED,
+        /**black*/
+        BLACK;
     }
-    
+
+    /**
+     * Find {@link RbTreeNode} by key
+     * @param key the key
+     * @return {@link RbTreeNode}
+     */
     public BitreeNode<RbTreeNode<K , V>> find(K key);
+
+    /**
+     * Add element
+     * @param key the key
+     * @param value the value
+     */
     public void add(K key, V value);
+
+    /**
+     * Remove element
+     * @param key the key of the element
+     */
     public void remove(K key);
     @Override
     public default int size() {
         if(this.root() == null || this.root().data() == null) return 0;
         return this.root().data().numberOfSubtree();
     }
+
+    /**
+     * is empty
+     * @return if it is empty then true
+     */
     public default boolean isEmpty() {
         return this.size() == 0;
     }
+
+    /**
+     * The size of the {@link RbTree}
+     * @param n the root node of the {@link RbTree}
+     * @return the size number
+     */
     public default int size(BitreeNode<RbTreeNode<K , V>> n) {
         if(n == null || n.data() == null) return 0;
         return n.data().numberOfSubtree();

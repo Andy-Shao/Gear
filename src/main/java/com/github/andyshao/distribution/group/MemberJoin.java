@@ -12,6 +12,15 @@ import java.util.List;
  *
  */
 public interface MemberJoin {
+    /**
+     * on member change even method
+     * @param members {@link MemberNode} list
+     */
     void onMembersChange(List<MemberNode> members);
+
+    /**
+     * Itself
+     * @return {@link MemberNode}
+     */
     MemberNode selfNode();
 }

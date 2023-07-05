@@ -1,5 +1,6 @@
 package com.github.andyshao.data.structure;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -7,6 +8,9 @@ import java.util.Objects;
  * @param <DATA> data type
  */
 public class CycleLinkedElmt<DATA> implements Linked.LinkedElmt<DATA , CycleLinkedElmt<DATA>> {
+    @Serial
+    private static final long serialVersionUID = -5760089081060466955L;
+
     /**
      * Build {@link CycleLinked}
      * @return {@link CycleLinked}

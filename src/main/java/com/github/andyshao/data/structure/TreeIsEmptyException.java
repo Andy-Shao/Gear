@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.io.Serial;
+
 /**
  * 
  * Title:<br>
@@ -11,20 +13,37 @@ package com.github.andyshao.data.structure;
  *
  */
 public class TreeIsEmptyException extends TreeOperationException {
+    @Serial
     private static final long serialVersionUID = 7029818648399686287L;
 
+    /**
+     * No arg construction
+     */
     public TreeIsEmptyException() {
         super();
     }
 
+    /**
+     * With error message
+     * @param errorMsg error message
+     */
     public TreeIsEmptyException(String errorMsg) {
         super(errorMsg);
     }
 
+    /**
+     * With error message and previous exception
+     * @param errorMsg error message
+     * @param cause previous exception
+     */
     public TreeIsEmptyException(String errorMsg , Throwable cause) {
         super(errorMsg , cause);
     }
 
+    /**
+     * Previous exception
+     * @param cause previous exception
+     */
     public TreeIsEmptyException(Throwable cause) {
         super(cause);
     }

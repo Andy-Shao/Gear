@@ -1,5 +1,7 @@
 package com.github.andyshao.exception;
 
+import java.io.Serializable;
+
 /**
  * 
  * Title:<br>
@@ -9,10 +11,18 @@ package com.github.andyshao.exception;
  * @author andy.shao
  *
  */
-public interface ResultCode {
+public interface ResultCode extends Serializable {
 
+    /**
+     * Get the code
+     * @return code
+     */
     String getCode();
 
+    /**
+     * Get the message
+     * @return the message
+     */
     String getMessage();
 
 }

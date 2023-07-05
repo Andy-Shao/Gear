@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
@@ -15,7 +17,9 @@ import java.util.Queue;
  *
  * @param <D> data
  */
-public class SimpleQueue<D> implements Queue<D> {
+public class SimpleQueue<D> implements Queue<D>, Serializable {
+    @Serial
+    private static final long serialVersionUID = -4518863973315443170L;
     private final SingleLinked<D> linked = SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
 
     @Override

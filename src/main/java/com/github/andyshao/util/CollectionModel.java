@@ -1,5 +1,6 @@
 package com.github.andyshao.util;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Objects;
@@ -15,7 +16,7 @@ import java.util.Objects;
  *
  * @param <E> element
  */
-public interface CollectionModel<E> extends Collection<E> {
+public interface CollectionModel<E> extends Collection<E>, Serializable {
     @Override
     public default boolean addAll(Collection<? extends E> c) {
         boolean result = true;

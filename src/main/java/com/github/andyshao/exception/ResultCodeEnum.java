@@ -80,6 +80,13 @@ public enum ResultCodeEnum implements ResultCode {
     public String getMessage() {
         return this.message;
     }
+
+    /**
+     * Copy it's code and message to new result
+     * @param result new result
+     * @return new result
+     * @param <DATA> data type
+     */
     public <DATA> Result<DATA> wrap(Result<DATA> result) {
         result.setCode(this.getCode());
         result.setMessage(this.getMessage());

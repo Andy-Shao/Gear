@@ -16,6 +16,10 @@ import com.github.andyshao.lang.Cleanable;
  */
 public interface PriorityQueue<D> extends Cleanable {
 
+    /**
+     * Default priority queue
+     * @param <DATA> data type
+     */
     public class MyPriorityQueue<DATA> extends MyHeap<DATA> implements PriorityQueue<DATA> {
 
         @Override
@@ -25,11 +29,28 @@ public interface PriorityQueue<D> extends Cleanable {
 
     }
 
+    /**
+     * GET the top element from the {@link PriorityQueue} and remove it
+     * @return data
+     */
     public D extract();
 
+    /**
+     * Insert data into the {@link PriorityQueue}
+     * @param data data
+     */
     public void insert(D data);
 
+    /**
+     * Get the top element from the {@link PriorityQueue}, but
+     * do not omit it
+     * @return data
+     */
     public D peek();
 
+    /**
+     * The size of the {@link PriorityQueue}
+     * @return the size number
+     */
     public int size();
 }

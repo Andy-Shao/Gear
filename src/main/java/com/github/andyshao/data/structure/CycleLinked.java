@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.function.Function;
@@ -16,10 +18,15 @@ import java.util.function.Function;
  * @param <DATA> data
  */
 public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
+    @Serial
+    private static final long serialVersionUID = -1242792864988506815L;
+
     /**
      * Default Iterator
      */
-    class MyIterator implements Iterator<DATA> {
+    class MyIterator implements Iterator<DATA>, Serializable {
+        @Serial
+        private static final long serialVersionUID = -4771582456239944351L;
         private final long actionCount = CycleLinked.this.actionAcount;
         private volatile CycleLinkedElmt<DATA> index = CycleLinked.this.head();
         private volatile int position = 0;

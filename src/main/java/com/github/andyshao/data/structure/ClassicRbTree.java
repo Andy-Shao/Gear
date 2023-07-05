@@ -2,6 +2,7 @@ package com.github.andyshao.data.structure;
 
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
+import java.io.Serial;
 import java.util.function.Supplier;
 
 /**
@@ -16,6 +17,8 @@ import java.util.function.Supplier;
  * @param <V> value type
  */
 public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V> {
+    @Serial
+    private static final long serialVersionUID = -2644066545159104607L;
     private final Supplier<RbTreeNode<K , V>> nodeFactory;
     protected final Supplier<BitreeNode<RbTreeNode<K , V>>> treeNodeFactory;
     private volatile BitreeNode<RbTreeNode<K , V>> root;

@@ -1,5 +1,7 @@
 package com.github.andyshao.data.structure;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
@@ -17,7 +19,15 @@ import java.util.function.Function;
  * @param <D> data
  */
 public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
-    private class MyIterator implements Iterator<D> {
+    @Serial
+    private static final long serialVersionUID = -10212710722830693L;
+
+    /**
+     * Default iterator
+     */
+    private class MyIterator implements Iterator<D>, Serializable {
+        @Serial
+        private static final long serialVersionUID = -8175296928562043751L;
         private final long actionCount = SingleLinked.this.actionCount;
         private volatile CycleLinkedElmt<D> index = SingleLinked.this.head();
 
@@ -36,10 +46,21 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
 
     }
 
+    /**
+     * Get the default {@link SingleLinked}
+     * @return {@link SingleLinked}
+     * @param <DATA> data type
+     */
     public static <DATA> SingleLinked<DATA> defaultSingleLinked() {
         return SingleLinked.defaultSingleLinked(CycleLinkedElmt::defaultElmt);
     }
 
+    /**
+     * Get the default {@link SingleLinked}
+     * @param cycleLinkedElmt {@link CycleLinkedElmt} factory
+     * @return {@link SingleLinked}
+     * @param <DATA> data type
+     */
     public static <DATA> SingleLinked<DATA> defaultSingleLinked(Function<DATA , CycleLinkedElmt<DATA>> cycleLinkedElmt) {
         return new SingleLinked<DATA>(cycleLinkedElmt);
     }
@@ -51,6 +72,10 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
 
     private CycleLinkedElmt<D> tail;
 
+    /**
+     * Build the {@link SingleLinked}
+     * @param cycleLinkedElmtFactory the {@link CycleLinkedElmt} factory
+     */
     public SingleLinked(Function<D , CycleLinkedElmt<D>> cycleLinkedElmtFactory) {
         this.cycleLinkedElmtFactory = cycleLinkedElmtFactory;
     }

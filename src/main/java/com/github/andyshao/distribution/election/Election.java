@@ -10,6 +10,16 @@ package com.github.andyshao.distribution.election;
  *
  */
 public interface Election {
+    /**
+     * elect operation
+     * @param elect {@link MasterElect}
+     * @throws ElectionException any type election error
+     */
     void elect(MasterElect elect) throws ElectionException;
+
+    /**
+     * cancel operation
+     * @throws ElectionException any type election error
+     */
     void cancel() throws ElectionException;
 }

@@ -3,6 +3,8 @@ package com.github.andyshao.data.structure;
 import com.github.andyshao.lang.AutoIncreaseArray;
 import com.github.andyshao.lang.Cleanable;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Comparator;
 
 /**
@@ -17,12 +19,14 @@ import java.util.Comparator;
  *
  * @param <D> data
  */
-public interface Heap<D> extends Cleanable {
+public interface Heap<D> extends Cleanable , Serializable {
     /**
      * Default heap
      * @param <DATA> data type
      */
     public class MyHeap<DATA> implements Heap<DATA> {
+        @Serial
+        private static final long serialVersionUID = -4077792585328556219L;
         private Comparator<DATA> comparator = (obj1 , obj2) -> {
             return 0;
         };

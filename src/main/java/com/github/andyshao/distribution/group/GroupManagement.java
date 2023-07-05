@@ -10,6 +10,16 @@ package com.github.andyshao.distribution.group;
  *
  */
 public interface GroupManagement {
+    /**
+     * Join the group
+     * @param join {@link MemberJoin}
+     * @throws GroupManageException any group manage error
+     */
     void joinGroup(MemberJoin join) throws GroupManageException;
+
+    /**
+     * Cancel operation
+     * @throws GroupManageException any group manage error
+     */
     void cancel() throws GroupManageException;
 }

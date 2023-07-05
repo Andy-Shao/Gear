@@ -2,6 +2,8 @@ package com.github.andyshao.data.structure;
 
 import com.github.andyshao.lang.Cleanable;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -17,13 +19,13 @@ import java.util.function.Supplier;
  *
  * @param <D> data
  */
-public interface Graph<D> extends Cleanable {
+public interface Graph<D> extends Cleanable, Serializable {
 
     /**
      * AdjList
      * @param <DATA> data type
      */
-    public interface AdjList<DATA> {
+    public interface AdjList<DATA> extends Serializable{
         /**
          * Get default {@link AdjList}
          * @param setFactory {@link Set} factory
@@ -32,6 +34,8 @@ public interface Graph<D> extends Cleanable {
          */
         public static <D> AdjList<D> defaultAdjList(Supplier<Set<D>> setFactory) {
             return new AdjList<D>() {
+                @Serial
+                private static final long serialVersionUID = 8557667818400609180L;
                 private final Set<D> adjacent = setFactory.get();
                 private D vertex;
 
@@ -90,12 +94,14 @@ public interface Graph<D> extends Cleanable {
      *
      * @param <DATA> data
      */
-    public interface BfsVertex<DATA> {
+    public interface BfsVertex<DATA> extends Serializable{
         /**
          * Default Breath First Vertex
          * @param <DAT> data type
          */
         public class MyBfsVertex<DAT> implements BfsVertex<DAT> {
+            @Serial
+            private static final long serialVersionUID = 6404213558812061680L;
             private VertexColor color;
             private DAT data;
             private int hops;
@@ -193,12 +199,14 @@ public interface Graph<D> extends Cleanable {
      *
      * @param <DATA> data
      */
-    public interface DfsVertex<DATA> {
+    public interface DfsVertex<DATA> extends Serializable{
         /**
          * Default Deep first Vertex
          * @param <DAT> data type
          */
         public class MyDfsVertex<DAT> implements DfsVertex<DAT> {
+            @Serial
+            private static final long serialVersionUID = 8854641678739879112L;
             private VertexColor color;
             private DAT data;
 
@@ -268,6 +276,8 @@ public interface Graph<D> extends Cleanable {
      * @param <DATA> data type
      */
     public class MyGraph<DATA> implements Graph<DATA> {
+        @Serial
+        private static final long serialVersionUID = 7536136593612372614L;
         private long actionAcount;
         protected Supplier<AdjList<DATA>> adjListFactory = () -> {
             return AdjList.<DATA> defaultAdjList(() -> {

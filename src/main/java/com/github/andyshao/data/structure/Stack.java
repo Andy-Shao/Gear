@@ -1,10 +1,12 @@
 package com.github.andyshao.data.structure;
 
+import com.github.andyshao.util.CollectionModel;
+
+import java.io.Serial;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Collection;
 import java.util.Iterator;
-
-import com.github.andyshao.util.CollectionModel;
 
 /**
  * 
@@ -18,8 +20,15 @@ import com.github.andyshao.util.CollectionModel;
  * @param <D> data
  */
 public interface Stack<D> extends CollectionModel<D> {
+    /**
+     * Default stack
+     * @param <DATA> data type
+     * @param <E> {@link com.github.andyshao.data.structure.Linked.LinkedElmt} type
+     */
     public class MyStack<DATA , E extends Linked.LinkedElmt<DATA , E>> implements Stack<DATA> {
-        class MyIterator implements Iterator<DATA> {
+        class MyIterator implements Iterator<DATA>, Serializable {
+            @Serial
+            private static final long serialVersionUID = 594173755450325084L;
             private final DATA[] data = initArray();
             private int index = 0;
 
@@ -93,18 +102,43 @@ public interface Stack<D> extends CollectionModel<D> {
         }
     }
 
+    /**
+     * Get the default {@link Stack}
+     * @return {@link Stack}
+     * @param <DATA> data type
+     * @param <E> {@link com.github.andyshao.data.structure.Linked.LinkedElmt} type
+     */
     public static <DATA , E extends Linked.LinkedElmt<DATA , E>> Stack<DATA> defaultStack() {
         return Stack.defaultStack(SingleLinked.defaultSingleLinked());
     }
 
+    /**
+     * Get the default {@link Stack} from the {@link Linked}
+     * @param linked {@link Linked}
+     * @return {@link Stack}
+     * @param <DATA> data type
+     * @param <E> {@link com.github.andyshao.data.structure.Linked.LinkedElmt} type
+     */
     public static <DATA , E extends Linked.LinkedElmt<DATA , E>> Stack<DATA> defaultStack(Linked<DATA , E> linked) {
         return new MyStack<>(linked);
     }
 
+    /**
+     * Get the element but does not eliminate it
+     * @return the data
+     */
     public D peek();
 
+    /**
+     * Get the element and omit it
+     * @return the data
+     */
     public D pop();
 
+    /**
+     * Add the element
+     * @param data the data
+     */
     public void push(final D data);
 
     @Override

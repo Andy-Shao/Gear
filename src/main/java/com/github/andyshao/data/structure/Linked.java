@@ -1,10 +1,11 @@
 package com.github.andyshao.data.structure;
 
+import com.github.andyshao.util.CollectionModel;
+
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.function.Function;
-
-import com.github.andyshao.util.CollectionModel;
 
 /**
  * 
@@ -20,21 +21,45 @@ import com.github.andyshao.util.CollectionModel;
  * @param <D> data
  * @param <T> element type
  */
-public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends CollectionModel<D> {
+public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends CollectionModel<D>, Serializable {
 
-    public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> {
+    /**
+     * Link element
+     * @param <DATA> data type
+     * @param <T> element type
+     */
+    public interface LinkedElmt<DATA , T extends Linked.LinkedElmt<DATA , T>> extends Serializable {
 
+        /**
+         * Get data
+         * @return the data
+         */
         public abstract DATA data();
 
+        /**
+         * Clean element data
+         */
         public default void free() {
             this.setData(null);
             this.setNext(null);
         }
 
+        /**
+         * Get next {@link LinkedElmt}
+         * @return {@link LinkedElmt}
+         */
         public abstract T next();
 
+        /**
+         * Set data
+         * @param data the data
+         */
         public abstract void setData(DATA data);
 
+        /**
+         * Set next {@link LinkedElmt}
+         * @param next {@link LinkedElmt}
+         */
         public abstract void setNext(T next);
     }
 
@@ -44,10 +69,23 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Collecti
         return true;
     }
 
+    /**
+     * Get {@link LinkedElmt} factory
+     * @return {@link LinkedElmt} factory
+     */
     public Function<D , T> getElmtFactory();
 
+    /**
+     * The head {@link LinkedElmt}
+     * @return {@link LinkedElmt}
+     */
     public T head();
 
+    /**
+     * Insert next {@link LinkedElmt} from element
+     * @param element {@link LinkedElmt}
+     * @param data data
+     */
     public void insNext(T element , final D data);
 
     /**
@@ -85,6 +123,10 @@ public interface Linked<D , T extends Linked.LinkedElmt<D , T>> extends Collecti
     @Override
     public int size();
 
+    /**
+     * The tail {@link LinkedElmt} of {@link Linked}
+     * @return {@link LinkedElmt}
+     */
     public T tail();
 
 }

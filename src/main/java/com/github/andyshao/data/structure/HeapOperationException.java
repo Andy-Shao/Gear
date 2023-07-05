@@ -3,7 +3,7 @@ package com.github.andyshao.data.structure;
 import java.io.Serial;
 
 /**
- *
+ * Heap Operation Exception
  */
 public class HeapOperationException extends DataStructureException {
     @Serial
