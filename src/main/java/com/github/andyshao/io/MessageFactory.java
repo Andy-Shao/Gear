@@ -149,5 +149,5 @@ public interface MessageFactory {
      * @param context {@link MessageContext}
      * @return {@link MessageReadable}
      */
-    public MessageReadable builMessageReadable(MessageContext context);
+    public MessageReadable buildMessageReadable(MessageContext context);
 }

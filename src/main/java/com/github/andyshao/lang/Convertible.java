@@ -10,6 +10,6 @@ package com.github.andyshao.lang;
  *
  * @param <OUT> output
  */
-public interface Convertable<OUT> {
+public interface Convertible<OUT> {
     OUT convert();
 }

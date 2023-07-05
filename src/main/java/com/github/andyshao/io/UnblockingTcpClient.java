@@ -39,22 +39,36 @@ public class UnblockingTcpClient implements TcpClient {
         }
     }
 
+    /**exception*/
     public static final String EXCEPTION = UnblockingTcpClient.class.getName() + "_EXCEPTION";
+    /**socket channel*/
     public static final String SOCKET_CHANNEL = UnblockingTcpClient.class.getName() + "_SOCKET_CHANNEL";
+    /**error process*/
     protected Consumer<MessageContext> errorProcess = (context) -> {
         Exception e = (Exception) context.get(UnblockingTcpClient.EXCEPTION);
         e.printStackTrace();
     };
+    /**{@link ExecutorService}*/
     protected ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
 
+    /**is processing (default value is false)*/
     protected volatile boolean isProcessing = false;
 
+    /**is waiting for close (default value is false)*/
     protected volatile boolean isWaitingForClose = false;
+    /**{@link MessageFactory}*/
     protected MessageFactory messageFactory;
+    /**{@link Selector}*/
     protected Selector selector;
+    /**send task deque*/
     protected ConcurrentLinkedDeque<SendTask> sendTasks = new ConcurrentLinkedDeque<UnblockingTcpClient.SendTask>();
+    /**{@link SocketChannel}*/
     protected SocketChannel socketChannel;
 
+    /**
+     * Build {@link UnblockingTcpClient}
+     * @param messageFactory
+     */
     public UnblockingTcpClient(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
     }
@@ -91,7 +105,7 @@ public class UnblockingTcpClient implements TcpClient {
         this.isWaitingForClose = false;
         this.socketChannel = SocketChannel.open();
         InetAddress is = (InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS);
-        InetSocketAddress isa = new InetSocketAddress(is , (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
+        InetSocketAddress isa = new InetSocketAddress(is , (Integer) context.get(TcpMessageContext.OUTPUT_INET_PORT));
         this.socketChannel.connect(isa);
         this.socketChannel.configureBlocking(false);
         this.selector = Selector.open();
@@ -116,9 +130,9 @@ public class UnblockingTcpClient implements TcpClient {
     private void processRead(SelectionKey key) throws IOException {
         if (this.sendTasks.size() == 0) return;
         MessageContext context = this.sendTasks.getLast().messageContext;
-        if (context.isWaitingForRecieve()) {
-            this.messageFactory.builMessageReadable(context).read((SocketChannel) key.channel() , context);
-            if (!context.isWaitingForRecieve()) {
+        if (context.isWaitingForReceive()) {
+            this.messageFactory.buildMessageReadable(context).read((SocketChannel) key.channel() , context);
+            if (!context.isWaitingForReceive()) {
                 context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                 this.executorService.submit(new Callable<Void>() {
 
@@ -167,10 +181,18 @@ public class UnblockingTcpClient implements TcpClient {
         this.sendTasks.add(new SendTask(context , process));
     }
 
+    /**
+     * Set error process
+     * @param errorProcess {@link Consumer}
+     */
     public void setErrorProcess(Consumer<MessageContext> errorProcess) {
         this.errorProcess = errorProcess;
     }
 
+    /**
+     * Set {@link ExecutorService}
+     * @param executorService {@link ExecutorService}
+     */
     public void setExecutorService(ExecutorService executorService) {
         this.executorService = executorService;
     }

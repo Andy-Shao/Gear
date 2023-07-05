@@ -1,5 +1,6 @@
 package com.github.andyshao.lang.number;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -12,15 +13,24 @@ import java.io.Serializable;
  *
  */
 public class SimpleByteSize implements ByteSize, Serializable, Comparable<SimpleByteSize> {
+    @Serial
     private static final long serialVersionUID = 64729209707050872L;
     private long l = 0L;
     private ByteLevel level = ByteLevel.MB;
-    
+
+    /**
+     * build {@link SimpleByteSize}
+     * @param l size number
+     * @param level {@link ByteLevel}
+     */
     public SimpleByteSize(long l, ByteLevel level) {
         this.l = l;
         this.level = level;
     }
-    
+
+    /**
+     * No arg construction
+     */
     public SimpleByteSize() {
     }
 
@@ -60,10 +70,15 @@ public class SimpleByteSize implements ByteSize, Serializable, Comparable<Simple
 
     @Override
     public ByteSize convert(String in) {
-        return covertToString(in);
+        return parse(in);
     }
 
-    public static ByteSize covertToString(String in) {
+    /**
+     * parse from {@link String}
+     * @param in {@link String}
+     * @return {@link ByteSize}
+     */
+    public static ByteSize parse(String in) {
         ByteSize result = null;
         ByteLevel[] values = ByteLevel.values();
         for (ByteLevel byteLevel : values) {

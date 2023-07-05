@@ -12,23 +12,23 @@ public class SimpleByteSizeTest {
 
     @Test
     public void testCovert() {
-        ByteSize byteSize = SimpleByteSize.covertToString("15B");
+        ByteSize byteSize = SimpleByteSize.parse("15B");
         System.out.println(byteSize);
-        byteSize = SimpleByteSize.covertToString("20MB");
+        byteSize = SimpleByteSize.parse("20MB");
         System.out.println(byteSize);
     }
     
     @Test
     public void testGetSize() {
-        ByteSize byteSize = SimpleByteSize.covertToString("1024B");
+        ByteSize byteSize = SimpleByteSize.parse("1024B");
         assertEquals(byteSize.getSize() , (1024L));
         assertEquals(byteSize.getLevel() , (ByteLevel.BYTE));
         assertEquals(byteSize.getSize(ByteLevel.KB) , (1L));
         
-        byteSize = SimpleByteSize.covertToString("4184342528B");
+        byteSize = SimpleByteSize.parse("4184342528B");
         assertEquals(byteSize.getSize(ByteLevel.MB) , (3990L));
         
-        byteSize = SimpleByteSize.covertToString("3990MB");
+        byteSize = SimpleByteSize.parse("3990MB");
         assertEquals(byteSize.getSize(ByteLevel.BYTE), (4183818240L));
     }
 }

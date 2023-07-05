@@ -1,10 +1,10 @@
 package com.github.andyshao.io;
 
+import com.github.andyshao.nio.ByteBufferOperation;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
-
-import com.github.andyshao.nio.ByteBufferOperation;
 
 public class BlockingEchoMessageFactory implements BlockingMessageFactory {
 
@@ -33,7 +33,7 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
             public void encode(MessageContext context) throws IOException , UnsupportedEncodingException {
                 String output_message = (String) context.get(MessageContext.OUTPUT_MESSAGE_OBJECT);
                 output_message = BlockingEchoMessageFactory.addMessageHead(output_message);
-                context.put(MessageContext.OUTPUT_MESSAGE_BYTES , output_message.getBytes((String) context.get(MessageContext.OUTPU_MESSAGE_ENCODING)));
+                context.put(MessageContext.OUTPUT_MESSAGE_BYTES , output_message.getBytes((String) context.get(MessageContext.OUTPUT_MESSAGE_ENCODING)));
                 System.out.println("Encode Message: " + output_message);
             }
         };
@@ -53,7 +53,7 @@ public class BlockingEchoMessageFactory implements BlockingMessageFactory {
     }
 
     @Override
-    public MessageReadable builMessageReadable(MessageContext context) {
+    public MessageReadable buildMessageReadable(MessageContext context) {
         return (channel , ctxt) -> {
             ByteBuffer headBuffer = ByteBuffer.allocate(8);
             channel.read(headBuffer);

@@ -16,10 +16,18 @@ public final class FileOperation {
         throw new AssertionError(String.format("No %s construction support!", FileOperation.class.getName()));
     }
 
+    /**
+     * force omit
+     * @param filePath {@link Path}
+     */
     public static void forceOmit(Path filePath){
         forceOmit(filePath.toFile());
     }
 
+    /**
+     * force omit
+     * @param file {@link File}
+     */
     public static void forceOmit(File file){
         if(file.isDirectory()){
             for(File child : file.listFiles())

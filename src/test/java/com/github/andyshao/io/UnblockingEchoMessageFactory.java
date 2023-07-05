@@ -56,7 +56,7 @@ public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
         return (ctxt) -> {
             String sending_message = (String) ctxt.get(MessageContext.OUTPUT_MESSAGE_OBJECT);
             sending_message = BlockingEchoMessageFactory.addMessageHead(sending_message);
-            byte[] sending_bytes = sending_message.getBytes((String) ctxt.get(MessageContext.OUTPU_MESSAGE_ENCODING));
+            byte[] sending_bytes = sending_message.getBytes((String) ctxt.get(MessageContext.OUTPUT_MESSAGE_ENCODING));
             ctxt.put(MessageContext.OUTPUT_MESSAGE_BYTES , sending_bytes);
             System.out.println("Encoder: " + sending_message);
         };
@@ -72,7 +72,7 @@ public class UnblockingEchoMessageFactory implements UnblockingMessageFactory {
     }
 
     @Override
-    public MessageReadable builMessageReadable(MessageContext context) {
+    public MessageReadable buildMessageReadable(MessageContext context) {
         Object object = context.get(UnblockingEchoMessageFactory.MESSAGE_READABLE_OBJECT);
         if (object == null) {
             object = this.new MyMessageReadable();

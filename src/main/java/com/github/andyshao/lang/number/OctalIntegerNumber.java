@@ -1,5 +1,6 @@
 package com.github.andyshao.lang.number;
 
+import java.io.Serial;
 import java.math.BigInteger;
 
 /**
@@ -17,6 +18,8 @@ public class OctalIntegerNumber implements IntegerNumber {
         '6','7'
     };
     private static final BigInteger radix = new BigInteger("8");
+    @Serial
+    private static final long serialVersionUID = 7596279325238872381L;
     private volatile BigInteger cache = BigInteger.ZERO;
     private volatile String valueStr = "0";
 

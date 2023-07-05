@@ -15,5 +15,11 @@ import java.nio.channels.ReadableByteChannel;
  */
 public interface MessageReadable {
 
+    /**
+     * read information
+     * @param channel {@link ReadableByteChannel}
+     * @param context {@link MessageContext}
+     * @throws IOException any IO exception
+     */
     public void read(ReadableByteChannel channel , MessageContext context) throws IOException;
 }

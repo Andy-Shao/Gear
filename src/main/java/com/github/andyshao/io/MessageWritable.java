@@ -16,6 +16,9 @@ import java.nio.channels.WritableByteChannel;
  */
 public interface MessageWritable {
 
+    /**
+     * Blocking {@link MessageWritable}
+     */
     public static final MessageWritable BLOCKING_MESSAGE_WRITABLE = (channel , context) -> {
         if ((Boolean) context.get(MessageContext.IS_WAITING_FOR_SENDING)) {
             byte[] information = (byte[]) context.get(MessageContext.OUTPUT_MESSAGE_BYTES);
@@ -27,5 +30,11 @@ public interface MessageWritable {
         }
     };
 
+    /**
+     * write message
+     * @param channel {@link WritableByteChannel}
+     * @param context {@link MessageContext}
+     * @throws IOException any IO error
+     */
     public void write(WritableByteChannel channel , MessageContext context) throws IOException;
 }

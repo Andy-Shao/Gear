@@ -125,11 +125,11 @@ public class UnblockingTcpServer implements TcpServer {
 
     protected void processReadable(SelectionKey key) throws IOException {
         final MessageContext context = (MessageContext) key.attachment();
-        if (context.isWaitingForRecieve()) {
+        if (context.isWaitingForReceive()) {
             final SocketChannel socketChannel = (SocketChannel) key.channel();
             context.put(UnblockingTcpServer.SOCKET_CHANNEL , socketChannel);
-            this.messageFactory.builMessageReadable(context).read(socketChannel , context);
-            if (!context.isWaitingForRecieve()) {
+            this.messageFactory.buildMessageReadable(context).read(socketChannel , context);
+            if (!context.isWaitingForReceive()) {
                 context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                 this.executorService.submit(new Callable<Void>() {
                     @Override

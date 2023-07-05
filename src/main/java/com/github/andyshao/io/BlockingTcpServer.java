@@ -24,19 +24,32 @@ import java.util.function.Consumer;
  *
  */
 public class BlockingTcpServer implements TcpServer {
+    /**Exception*/
     public static final String EXCEPTION = BlockingTcpServer.class.getName() + "_EXCEPTION";
+    /**Socket Channel*/
     public static final String SOCKET_CHANNEL = BlockingTcpServer.class.getName() + "_SOCKET_CHANNEL";
+    /**error process*/
     protected Consumer<MessageContext> errorProcess = (context) -> {
         Exception e = (Exception) context.get(BlockingTcpServer.EXCEPTION);
         e.printStackTrace();
     };
+    /**{@link ExecutorService}*/
     protected ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    /**is processing (default value is false)*/
     protected volatile boolean isProcessing = false;
+    /**is waiting for close (default value is false)*/
     protected volatile boolean isWaitingForClose = false;
+    /**{@link MessageFactory}*/
     protected MessageFactory messageFactory;
+    /**port (default number is 8000)*/
     protected int port = 8000;
+    /**{@link ServerSocketChannel}*/
     protected ServerSocketChannel serverSocketChannel = null;
 
+    /**
+     * Build {@link BlockingTcpServer}
+     * @param messageFactory {@link MessageFactory}
+     */
     public BlockingTcpServer(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
     }
@@ -73,7 +86,7 @@ public class BlockingTcpServer implements TcpServer {
                     context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
 
                     try {
-                        BlockingTcpServer.this.messageFactory.builMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) , context);
+                        BlockingTcpServer.this.messageFactory.buildMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) , context);
                         context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
                         context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
                         BlockingTcpServer.this.messageFactory.buildMessageDecoder(context).decode(context);
@@ -110,14 +123,26 @@ public class BlockingTcpServer implements TcpServer {
         });
     }
 
+    /**
+     * Set error process
+     * @param errorProcess {@link MessageContext}
+     */
     public void setErrorProcess(Consumer<MessageContext> errorProcess) {
         this.errorProcess = errorProcess;
     }
 
+    /**
+     * Set {@link ExecutorService}
+     * @param executorService {@link ExecutorService}
+     */
     public void setExecutorService(ExecutorService executorService) {
         this.executorService = executorService;
     }
 
+    /**
+     * Set port
+     * @param port port number
+     */
     public void setPort(int port) {
         this.port = port;
     }

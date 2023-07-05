@@ -27,6 +27,10 @@ public class BlockingTcpClient implements TcpClient {
     protected MessageFactory messageFactory;
     protected SocketChannel socketChannel = null;
 
+    /**
+     * Build {@link BlockingTcpClient}
+     * @param messageFactory {@link MessageFactory}
+     */
     public BlockingTcpClient(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
     }
@@ -47,7 +51,7 @@ public class BlockingTcpClient implements TcpClient {
     @Override
     public void open(MessageContext context) throws IOException {
         this.socketChannel = SocketChannel.open();
-        InetSocketAddress isa = new InetSocketAddress((InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS) , (Integer) context.get(TcpMessageContext.OUTPU_INET_PORT));
+        InetSocketAddress isa = new InetSocketAddress((InetAddress) context.get(TcpMessageContext.OUTPUT_INET_ADDRESS) , (Integer) context.get(TcpMessageContext.OUTPUT_INET_PORT));
         this.socketChannel.connect(isa);
     }
 
@@ -68,7 +72,7 @@ public class BlockingTcpClient implements TcpClient {
             this.messageFactory.buildMessageWritable(context).write(Channels.newChannel(socket.getOutputStream()) , context);
             context.put(MessageContext.IS_WAITING_FOR_SENDING , false);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , true);
-            this.messageFactory.builMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) , context);
+            this.messageFactory.buildMessageReadable(context).read(Channels.newChannel(socket.getInputStream()) , context);
             context.put(MessageContext.IS_WAITING_FOR_RECEIVE , false);
             context.put(MessageContext.IS_WAITING_FOR_DECODE , true);
             this.messageFactory.buildMessageDecoder(context).decode(context);
@@ -86,6 +90,10 @@ public class BlockingTcpClient implements TcpClient {
         }
     }
 
+    /**
+     * Set error process
+     * @param errorProcess {@link MessageContext}
+     */
     public void setErrorProcess(Consumer<MessageContext> errorProcess) {
         this.errorProcess = errorProcess;
     }

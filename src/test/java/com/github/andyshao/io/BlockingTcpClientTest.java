@@ -13,7 +13,7 @@ public class BlockingTcpClientTest {
         try (TcpClient tcpClient = new BlockingTcpClient(messageFactory); BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));) {
             MessageContext context = messageFactory.buildMessageContext();
             context.put(TcpMessageContext.OUTPUT_INET_ADDRESS , InetAddress.getLocalHost());
-            context.put(TcpMessageContext.OUTPU_INET_PORT , 8000);
+            context.put(TcpMessageContext.OUTPUT_INET_PORT, 8000);
             context.put(MessageContext.OUTPUT_MESSAGE_OBJECT , reader.readLine());
             tcpClient.open(context);
             tcpClient.send(context);

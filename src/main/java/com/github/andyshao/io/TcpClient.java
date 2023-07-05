@@ -18,10 +18,26 @@ public interface TcpClient extends Closeable {
     @Override
     public abstract void close() throws IOException;
 
+    /**
+     * open the connection
+     * @param context {@link MessageContext}
+     * @throws IOException any IO error
+     */
     public abstract void open(MessageContext context) throws IOException;
 
+    /**
+     * send the message
+     * @param context {@link MessageContext}
+     * @throws IOException any IO error
+     */
     public abstract void send(MessageContext context) throws IOException;
 
+    /**
+     * send the message
+     * @param context {@link MessageContext}
+     * @param process {@link MessageProcess}
+     * @throws IOException any IO error
+     */
     public abstract void send(MessageContext context , MessageProcess process) throws IOException;
 
 }
