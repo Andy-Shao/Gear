@@ -3,6 +3,9 @@ package com.github.andyshao.lang;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Objects;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * General convert interface.
@@ -81,4 +84,15 @@ public interface Convert<IN , OUT> {
     }
 
     OUT convert(IN in) throws NotSupportConvertException;
+
+    public static <E> void fill(Function<E, Boolean> condition, Supplier<E> getOp, Consumer<E> setOp) {
+        E val = getOp.get();
+        if(condition.apply(val)) {
+            setOp.accept(val);
+        }
+    }
+
+    public static <E> void fill(Supplier<E> getOp, Consumer<E> setOp) {
+        fill(Objects::nonNull, getOp, setOp);
+    }
 }
