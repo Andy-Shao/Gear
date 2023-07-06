@@ -18,8 +18,13 @@ import java.util.Objects;
  */
 public final class ByteOperation {
     private static final BigInteger EIGHT = BigInteger.valueOf(8);
+    /**Un char max*/
     public static final int UNCHAR_MAX = 0xff;
-    
+
+    /**
+     * byte {@link Comparator}
+     * @return {@link Comparator}
+     */
     public static final Comparator<Byte> comparator() {
     	return (l, r) -> {
     		if(Objects.isNull(l) && Objects.nonNull(r)) return -1;
@@ -29,6 +34,14 @@ public final class ByteOperation {
     	};
     }
 
+    /**
+     * copy array from bit level
+     * @param src resource
+     * @param srcPos resource position
+     * @param dest destination
+     * @param destPos destination position
+     * @param length length of the copy operation
+     */
     public static final void bitCopy(byte[] src , int srcPos , byte[] dest , int destPos , int length) {
         int srcStart = srcPos >> 3;
         int destStart = destPos >> 3;
@@ -48,6 +61,14 @@ public final class ByteOperation {
         dest[destStart + length_] |= tailTemp;
     }
 
+    /**
+     * Get data from bit level
+     * @param pos the position of read
+     * @param array the array
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the value of the required position
+     * @param <ARRAY> array type
+     */
     public static final <ARRAY> int bitGet(BigInteger pos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
         int value = 0x01 << pos.remainder(ByteOperation.EIGHT).intValue();
@@ -67,6 +88,15 @@ public final class ByteOperation {
         return (b[pos >> 3] & value) != 0x00 ? 1 : 0;
     }
 
+    /**
+     * Oxr operation in bit level
+     * @param b1 one
+     * @param b2 two
+     * @param size size of the operation
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the answer
+     * @param <ARRAY> array type
+     */
     @SuppressWarnings("unchecked")
     public static final <ARRAY> ARRAY bitOxr(final ARRAY b1 , final ARRAY b2 , BigInteger size , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger answers[] = size.divideAndRemainder(ByteOperation.EIGHT);
@@ -79,7 +109,7 @@ public final class ByteOperation {
     }
 
     /**
-     * 
+     * oxr operation in bit level
      * @param b1 byte array 1
      * @param b2 byte array 2
      * @param size the size of oxr operation bit
@@ -94,6 +124,14 @@ public final class ByteOperation {
         return result;
     }
 
+    /**
+     * (带进位左移)
+     * @param count 总移位次数
+     * @param array array
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the answer
+     * @param <ARRAY> array type
+     */
     public static final <ARRAY> ARRAY bitRotLeft(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger length = byteWrapper.size(array);
         final BigInteger size = length.multiply(ByteOperation.EIGHT);
@@ -146,6 +184,14 @@ public final class ByteOperation {
         return b;
     }
 
+    /**
+     * 带进位右移
+     * @param count 总移位次数
+     * @param array array
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the answer
+     * @param <ARRAY> array type
+     */
     public static final <ARRAY> ARRAY bitRotRight(int count , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         final BigInteger length = byteWrapper.size(array);
         final BigInteger size = length.multiply(ByteOperation.EIGHT);
@@ -165,6 +211,12 @@ public final class ByteOperation {
         return array;
     }
 
+    /**
+     * 带进位右移
+     * @param count 总移位次数
+     * @param bs {@link ArrayType#BYTE_ARRAY}
+     * @return the answer
+     */
     public static final byte[] bitRotRight(int count , final byte... bs) {
         int size = bs.length << 3;
         if (size > 0) for (int j = 0 ; j < count ; j++) {
@@ -180,6 +232,15 @@ public final class ByteOperation {
         return bs;
     }
 
+    /**
+     * Set value in bit level
+     * @param pos the position
+     * @param state the value
+     * @param array the array
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the answer
+     * @param <ARRAY> array type
+     */
     public static final <ARRAY> ARRAY bitSet(BigInteger pos , int state , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neighter 0 nor 1");
         if (pos.compareTo(BigInteger.ZERO) == -1) throw new IllegalArgumentException("pos less than 0");
@@ -207,6 +268,16 @@ public final class ByteOperation {
         return b;
     }
 
+    /**
+     * fill data
+     * @param state the state
+     * @param startPos start position
+     * @param endPos end position
+     * @param array the array
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the answer
+     * @param <ARRAY> array type
+     */
     public static final <ARRAY> ARRAY fill(int state , BigInteger startPos , BigInteger endPos , final ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
         if (startPos.compareTo(endPos) == 1) throw new IllegalArgumentException("startPos bigger than endPos");
@@ -215,6 +286,14 @@ public final class ByteOperation {
         return array;
     }
 
+    /**
+     * Fill data in bit level
+     * @param state state
+     * @param startPos start position
+     * @param endPos end position
+     * @param bs {@link ArrayType#BYTE_ARRAY}
+     * @return
+     */
     public static final byte[] fill(int state , int startPos , int endPos , final byte... bs) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
         if (startPos > endPos) throw new IllegalArgumentException("startPos bigger than endPos");
@@ -224,10 +303,20 @@ public final class ByteOperation {
         return bs;
     }
 
+    /**
+     * 16进制字符串
+     * @param b {@link Byte}
+     * @return hex string
+     */
     public static final String toHexString(byte b) {
         return Convert.BYTE_2_STR.convert(b);
     }
 
+    /**
+     * 16 进制字符串
+     * @param bs {@link Byte}
+     * @return hex string
+     */
     public static final String toHexString(byte... bs) {
         return Convert.BYTES_TO_HEX.convert(bs);
     }
@@ -256,18 +345,39 @@ public final class ByteOperation {
         return result.substring(0 , result.length() - 1);
     }
 
+    /**
+     * unsigned int
+     * @param unsignedByte unsigned byte
+     * @return unsigned int
+     */
     public static final int toUnsignedInt(byte unsignedByte) {
         return 0x000000ff & unsignedByte;
     }
 
+    /**
+     * unsigned long
+     * @param unsignedByte unsigned byte
+     * @return unsigned long
+     */
     public static final long toUnsignedLong(byte unsignedByte) {
         return 0x00000000000000ffL & unsignedByte;
     }
 
+    /**
+     * unsigned short
+     * @param unsignedByte unsigned byte
+     * @return unsigned short
+     */
     public static final short toUnsignedShort(byte unsignedByte) {
         return (short) (0x00ff & unsignedByte);
     }
 
+    /**
+     * unsigned right shift
+     * @param times times
+     * @param bs {@link ArrayType#BYTE_ARRAY}
+     * @return {@link ArrayType#BYTE_ARRAY}
+     */
     public static final byte[] unsigedRightShif(int times , byte... bs) {
         ByteOperation.bitRotRight(times , bs);
         for (int i = 0 ; i < times ; i++)
@@ -275,6 +385,14 @@ public final class ByteOperation {
         return bs;
     }
 
+    /**
+     * unsigned right shif
+     * @param times times
+     * @param array array
+     * @param byteWrapper {@link ByteWrapper}
+     * @return the answer
+     * @param <ARRAY> array type
+     */
     public static final <ARRAY> ARRAY unsignedRigthShif(int times , ARRAY array , ByteWrapper<ARRAY> byteWrapper) {
         ByteOperation.bitRotRight(times , array , byteWrapper);
         for (int i = 0 ; i < times ; i++)
@@ -282,6 +400,12 @@ public final class ByteOperation {
         return array;
     }
 
+    /**
+     * unsinged right shift
+     * @param times times
+     * @param b {@link Byte}
+     * @return {@link Byte}
+     */
     public static final byte unsingedRightShift(int times , byte b) {
         for (int i = 0 ; i < times ; i++) {
             b >>= b;

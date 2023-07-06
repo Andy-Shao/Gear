@@ -11,8 +11,16 @@ package com.github.andyshao.lang;
  */
 @FunctionalInterface
 public interface ClassAssembly {
+    /**Default {@link ClassAssembly}*/
     public static final ClassAssembly DEFAULT = new ClassAssembly() {
 
+        /**
+         * assemble
+         * @param name class name
+         * @param bs class data
+         * @return the class
+         * @param <E> class type
+         */
         @SuppressWarnings("unchecked")
         @Override
         public <E> Class<E> assemble(String name , byte[] bs) {
@@ -33,5 +41,12 @@ public interface ClassAssembly {
         }
     };
 
+    /**
+     * assemble class
+     * @param name class name
+     * @param bs class data
+     * @return {@link Class}
+     * @param <E> class type
+     */
     <E> Class<E> assemble(String name , byte[] bs);
 }

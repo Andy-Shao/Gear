@@ -1,10 +1,10 @@
 package com.github.andyshao.lang;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import com.github.andyshao.reflect.ArrayOperation;
 import com.github.andyshao.util.stream.StreamOperation;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * 
@@ -20,6 +20,10 @@ public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrappe
     private static final long serialVersionUID = 7582951027306249651L;
     private final double[] array;
 
+    /**
+     * build {@link DoubleArrayWrapper}
+     * @param array
+     */
     public DoubleArrayWrapper(double[] array) {
         this.array = array;
         this.position = 0;

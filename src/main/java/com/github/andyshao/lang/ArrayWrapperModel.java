@@ -70,7 +70,12 @@ public abstract class ArrayWrapperModel implements ArrayWrapper {
         if (position < 0 || position > this.limit()) throw new ArrayIndexOutOfBoundsException();
         this.position = position;
     }
-    
+
+    /**
+     * calculate real index
+     * @param index index value
+     * @return real index
+     */
     protected int calculateRealIndex(int index) {
     	int realIndex = index + this.position();
     	if(realIndex >= this.limit() || realIndex < 0) throw new ArrayIndexOutOfBoundsException();

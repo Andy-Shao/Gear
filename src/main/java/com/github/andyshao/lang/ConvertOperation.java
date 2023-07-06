@@ -15,11 +15,24 @@ import java.util.function.Predicate;
  */
 public final class ConvertOperation {
 	private ConvertOperation() {}
-	
+
+	/**
+	 * convert operation
+	 * @param function operation
+	 * @return output
+	 * @param <T> input type
+	 * @param <R> output type
+	 */
 	public static final <T, R> Convert<T, R> convert(Function<T, R> function) {
 		return in -> function.apply(in);
 	}
-	
+
+	/**
+	 * convert operation
+	 * @param predicate operation
+	 * @return output
+	 * @param <T> input type
+	 */
 	public static final <T> Convert<T, Boolean> convert(Predicate<T> predicate) {
 		return in -> predicate.test(in);
 	}

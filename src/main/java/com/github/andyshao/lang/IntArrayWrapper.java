@@ -1,10 +1,11 @@
 package com.github.andyshao.lang;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import com.github.andyshao.reflect.ArrayOperation;
 import com.github.andyshao.util.stream.StreamOperation;
+
+import java.io.Serial;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 /**
  * 
@@ -17,12 +18,14 @@ import com.github.andyshao.util.stream.StreamOperation;
  *
  */
 public class IntArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
-    /**
-     * 
-     */
+    @Serial
     private static final long serialVersionUID = 9196038926763439775L;
     private final int[] array;
 
+    /**
+     * build {@link IntArrayWrapper}
+     * @param array array
+     */
     public IntArrayWrapper(int[] array) {
         this.array = array;
         this.position = 0;

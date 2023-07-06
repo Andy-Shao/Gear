@@ -17,6 +17,11 @@ public class ConvertStr2Byte implements Convert<String , Byte[]> {
         return (byte) "0123456789ABCDEF".indexOf(c);
     }
 
+    /**
+     * hex string to bytes
+     * @param hexString hex string
+     * @return {@link ArrayType#BYTE_ARRAY}
+     */
     public static byte[] hexStringTobytes(String hexString) {
         if (Objects.isNull(hexString) || hexString.isEmpty()) return null;
 
@@ -32,6 +37,11 @@ public class ConvertStr2Byte implements Convert<String , Byte[]> {
         return d;
     }
 
+    /**
+     * hex string to bytes
+     * @param hexString hex string
+     * @return {@link ArrayType#BYTE_ARRAY}
+     */
     public static Byte[] hexStringToBytes(String hexString) {
         if (Objects.isNull(hexString) || hexString.isEmpty()) return null;
 

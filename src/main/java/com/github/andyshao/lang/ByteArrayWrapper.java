@@ -1,8 +1,8 @@
 package com.github.andyshao.lang;
 
-import java.util.stream.Stream;
-
 import com.github.andyshao.reflect.ArrayOperation;
+
+import java.util.stream.Stream;
 
 /**
  * 
@@ -18,6 +18,10 @@ public class ByteArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
     private static final long serialVersionUID = 1819607580863945576L;
     private final byte[] array;
 
+    /**
+     * Build {@link ByteArrayWrapper}
+     * @param array {@link ArrayType#BYTE_ARRAY}
+     */
     public ByteArrayWrapper(byte[] array) {
         this.array = array;
         this.limit = this.array.length;

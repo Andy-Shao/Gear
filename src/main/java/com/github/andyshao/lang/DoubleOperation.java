@@ -15,6 +15,10 @@ import java.util.Objects;
  *
  */
 public final class DoubleOperation {
+	/**
+	 * get double {@link Comparator}
+	 * @return {@link Comparator}
+	 */
 	public static final Comparator<Double> comparator() {
 		return  (o1, o2) -> {
 			if(Objects.isNull(o1) && Objects.nonNull(o2)) return -1;

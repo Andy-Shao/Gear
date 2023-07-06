@@ -4,8 +4,6 @@ import java.util.Comparator;
 import java.util.Objects;
 
 /**
- * 
- * 
  * Title:<br>
  * Descript:<br>
  * Copyright: Copryright(c) Apr 11, 2019<br>
@@ -15,6 +13,10 @@ import java.util.Objects;
  *
  */
 public final class FloatOperation {
+	/**
+	 * get float {@link Comparator}
+	 * @return {@link Comparator}
+	 */
 	public static final Comparator<Float> comparator() {
 		return  (o1, o2) -> {
 			if(Objects.isNull(o1) && Objects.nonNull(o2)) return -1;

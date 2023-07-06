@@ -21,6 +21,12 @@ import java.util.Objects;
  * @param <D> data
  */
 public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
+    /**
+     * Build {@link AutoIncreaseArray} from array
+     * @param array the array
+     * @return {@link AutoIncreaseArray}
+     * @param <E> data type
+     */
     public static final <E> AutoIncreaseArray<E> toAutoIncreaseArray(E[] array) {
         AutoIncreaseArray<E> autoIncreaseArray = new AutoIncreaseArray<E>();
         autoIncreaseArray.array = array;
@@ -38,10 +44,17 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     private int size;
     private int start;
 
+    /**
+     * Build {@link AutoIncreaseArray}
+     */
     public AutoIncreaseArray() {
         this(16);
     }
 
+    /**
+     * Build {@link AutoIncreaseArray}
+     * @param arraySize the array size
+     */
     public AutoIncreaseArray(int arraySize) {
         this.arraySize = arraySize;
         this.end = this.arraySize >> 1;
@@ -106,6 +119,11 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         this.size = 0;
     };
 
+    /**
+     * get data by index
+     * @param index the index of the data
+     * @return the data
+     */
     @SuppressWarnings("unchecked")
 	public D get(int index) {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
@@ -132,11 +150,21 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         };
     }
 
+    /**
+     * new size of {@link AutoIncreaseArray}
+     * @param size give size
+     * @return new size
+     */
     public int newSize(int size) {
         long result = ((long) size) << 1;
         return (int) Math.min(result, Integer.MAX_VALUE);
     }
 
+    /**
+     * remove item
+     * @param index the index of the element
+     * @return the element
+     */
     @SuppressWarnings("unchecked")
 	public D remove(int index) {
         if (index < 0 || index >= this.size) throw new IndexOutOfBoundsException();
@@ -178,6 +206,13 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return true;
     }
 
+    /**
+     * Set the data at index position
+     * @param data the data which should be saved
+     * @param index the saved position
+     * @return the origin data of that position
+     * @exception IndexOutOfBoundsException index is out of the bounds
+     */
     @SuppressWarnings("unchecked")
 	public D set(D data , int index) {
         D result = null;
@@ -194,6 +229,11 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return result;
     }
 
+    /**
+     * inject data at the index position
+     * @param data save data
+     * @param index inject position
+     */
     public void inject(D data, int index) {
         if(this.size == this.array.length) this.replaceSpace();
         if(data == null) throw new IllegalArgumentException("data cannot be null");
@@ -208,6 +248,12 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         this.actionAccount++;
     }
 
+    /**
+     * move data from index to new index
+     * @param index origin position
+     * @param newIndex new position
+     * @throws IndexOutOfBoundsException index or newIndex is out of the bounds
+     */
     public void move(int index, int newIndex) {
         if(newIndex < 0) throw new IndexOutOfBoundsException("newIndex cannot be less than zero");
         if(index == newIndex) return;
@@ -239,7 +285,11 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         System.arraycopy(AutoIncreaseArray.this.array , this.start , result , 0 , result.length);
         return result;
     }
-    
+
+    /**
+     * Add all data from array
+     * @param a the array
+     */
     @SuppressWarnings("unchecked")
 	public void addAll(D[] a) {
     	int newSize = a.length + this.size;
@@ -256,12 +306,20 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
     	this.start = newStart;
     	this.end = newEnd;
     }
-    
+
+    /**
+     * Add all data from a another {@link AutoIncreaseArray}
+     * @param array {@link AutoIncreaseArray}
+     */
     @SuppressWarnings("unchecked")
 	public void addAll(AutoIncreaseArray<D> array) {
     	this.addAll((D[]) array.array);
     }
-    
+
+    /**
+     * Give the element type
+     * @return {@link Class}
+     */
     @SuppressWarnings("unchecked")
 	public Class<D> arrayComponentType() {
     	return (Class<D>) this.array.getClass().getComponentType();

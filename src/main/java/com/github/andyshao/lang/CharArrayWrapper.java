@@ -1,8 +1,8 @@
 package com.github.andyshao.lang;
 
-import java.util.stream.Stream;
-
 import com.github.andyshao.reflect.ArrayOperation;
+
+import java.util.stream.Stream;
 
 /**
  * 
@@ -18,6 +18,10 @@ public class CharArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
     private static final long serialVersionUID = 2019041095527286099L;
     private final char[] array;
 
+    /**
+     * Build {@link CharArrayWrapper}
+     * @param array the array
+     */
     public CharArrayWrapper(char[] array) {
         this.array = array;
         this.limit = this.array.length;

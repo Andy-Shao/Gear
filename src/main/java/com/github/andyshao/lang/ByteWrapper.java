@@ -15,14 +15,30 @@ import java.util.Iterator;
  * @param <ARRAY> the array type
  */
 public interface ByteWrapper<ARRAY> {
+    /**Byte byte wrapper*/
     public static final ByteWrapper<byte[]> BYTE_BYTE_WRAPPER = new ByteByteWrapper();
+    /**Char byte wrapper*/
     public static final ByteWrapper<char[]> CHAR_BYTE_WRAPPER = new CharByteWrapper();
+    /**int byte wrapper*/
     public static final ByteWrapper<int[]> INT_BYTE_WRAPPER = new IntByteWrapper();
+    /**long byte wrapper*/
     public static final ByteWrapper<long[]> LONG_BYTE_WRAPPER = new LongByteWrapper();
+    /**short byte wrapper*/
     public static final ByteWrapper<short[]> SHORT_BYTE_WRAPPER = new ShortByteWrapper();
 
+    /**
+     * get byte
+     * @param array the array
+     * @param index the position
+     * @return the answer
+     */
     public byte getByte(final ARRAY array , BigInteger index);
 
+    /**
+     * get {@link Iterator}
+     * @param array the array
+     * @return {@link Iterator}
+     */
     public default Iterator<Byte> iterator(final ARRAY array) {
         return new Iterator<Byte>() {
             private volatile BigInteger index = BigInteger.ZERO;
@@ -42,7 +58,18 @@ public interface ByteWrapper<ARRAY> {
         };
     }
 
+    /**
+     * set byte
+     * @param array the array
+     * @param index the position
+     * @param b the byte
+     */
     public void setByte(final ARRAY array , BigInteger index , byte b);
 
+    /**
+     * the size of the array
+     * @param array array
+     * @return the size
+     */
     public BigInteger size(final ARRAY array);
 }

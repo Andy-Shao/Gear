@@ -14,5 +14,11 @@ package com.github.andyshao.lang;
  * @param <OUT> output type
  */
 public interface BiConvert<IN,IN2, OUT> {
+	/**
+	 * binary covert
+	 * @param in one
+	 * @param in2 two
+	 * @return output object
+	 */
 	OUT convert(IN in, IN2 in2);
 }

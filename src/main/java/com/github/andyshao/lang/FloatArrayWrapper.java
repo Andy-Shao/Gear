@@ -1,8 +1,8 @@
 package com.github.andyshao.lang;
 
-import java.util.stream.Stream;
-
 import com.github.andyshao.reflect.ArrayOperation;
+
+import java.util.stream.Stream;
 
 /**
  * 
@@ -18,6 +18,10 @@ public class FloatArrayWrapper extends ArrayWrapperModel implements ArrayWrapper
     private static final long serialVersionUID = -3301939189721674721L;
     private final float[] array;
 
+    /**
+     * Build {@link FloatArrayWrapper}
+     * @param array array
+     */
     public FloatArrayWrapper(float[] array) {
         this.array = array;
         this.position = 0;

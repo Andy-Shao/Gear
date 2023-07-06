@@ -11,5 +11,9 @@ package com.github.andyshao.lang;
  * @param <OUT> output
  */
 public interface Convertible<OUT> {
+    /**
+     * convert action
+     * @return output
+     */
     OUT convert();
 }
