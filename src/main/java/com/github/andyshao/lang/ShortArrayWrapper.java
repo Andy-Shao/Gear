@@ -1,8 +1,8 @@
 package com.github.andyshao.lang;
 
-import java.util.stream.Stream;
-
 import com.github.andyshao.reflect.ArrayOperation;
+
+import java.util.stream.Stream;
 
 /**
  * 
@@ -18,6 +18,10 @@ public class ShortArrayWrapper extends ArrayWrapperModel implements ArrayWrapper
     private static final long serialVersionUID = 8712917356401328024L;
     private final short[] array;
 
+    /**
+     * build {@link ShortArrayWrapper}
+     * @param array the array
+     */
     public ShortArrayWrapper(short[] array) {
         this.array = array;
         this.position = 0;

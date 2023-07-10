@@ -15,14 +15,30 @@ import java.util.Iterator;
  * @param <ARRAY> array type
  */
 public interface LongWrapper<ARRAY> {
+    /**byte long wrapper*/
     public static final LongWrapper<byte[]> BYTE_LONG_WRAPPER = new ByteLongWrapper();
+    /**char long wrapper*/
     public static final LongWrapper<char[]> CHAR_LONG_WRAPPER = new CharLongWrapper();
+    /**int long wrapper*/
     public static final LongWrapper<int[]> INT_LONG_WRAPPER = new IntLongWrapper();
+    /**long to long wrapper*/
     public static final LongWrapper<long[]> LONG_LONG_WRAPPER = new LongLongWrapper();
+    /**short long wrapper*/
     public static final LongWrapper<short[]> SHORT_LONG_WRAPPER = new ShortLongWrapper();
 
+    /**
+     * get long from array
+     * @param array the array
+     * @param position the position
+     * @return the value
+     */
     public long getLong(ARRAY array , BigInteger position);
 
+    /**
+     * Default long {@link Iterator}
+     * @param array the array
+     * @return {@link Iterator}
+     */
     public default Iterator<Long> iterator(ARRAY array) {
         return new Iterator<Long>() {
             private volatile BigInteger index = BigInteger.ZERO;
@@ -42,7 +58,18 @@ public interface LongWrapper<ARRAY> {
         };
     }
 
+    /**
+     * set long value
+     * @param array the array
+     * @param position the position
+     * @param l long value
+     */
     public void setLong(ARRAY array , BigInteger position , long l);
 
+    /**
+     * the size of the array
+     * @param array the array
+     * @return the size number
+     */
     public BigInteger size(ARRAY array);
 }

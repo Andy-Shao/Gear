@@ -1,9 +1,9 @@
 package com.github.andyshao.lang;
 
+import com.github.andyshao.reflect.ArrayOperation;
+
 import java.util.Comparator;
 import java.util.Objects;
-
-import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -16,10 +16,11 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public final class StringOperation {
+    /**Default String {@link java.util.Comparator}*/
     public static final Comparator<String> COMPARATOR = Comparator.comparing(it -> it);
     
     /**
-     * 
+     * flip string
      * @param str a string which should be flipped
      * @return A string which has flipped.
      */
@@ -28,7 +29,7 @@ public final class StringOperation {
     }
 
     /**
-     * 
+     * is empty or null
      * @param str a string which should be tested.
      * @return if the str is null or "", return the true
      */
@@ -37,7 +38,7 @@ public final class StringOperation {
     }
     
     /**
-     * 
+     * is trim empty or null
      * @param str a string which should be tested
      * @return if str is null or after {@link String#trim()} and {@link String#isEmpty()} return true
      */

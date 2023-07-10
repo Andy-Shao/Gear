@@ -2,6 +2,8 @@ package com.github.andyshao.lang;
 
 import lombok.Getter;
 
+import java.util.Optional;
+
 /**
  * 
  * Title:<br>
@@ -33,5 +35,24 @@ public enum ArrayType {
 	private final Class<?> type;
 	private ArrayType(Class<?> type) {
 		this.type = type;
+	}
+
+	/**
+	 * match the {@link ArrayType} from {@link Class}
+	 * @param clazz {@link Class}
+	 * @return {@link ArrayType}
+	 */
+	public static final Optional<ArrayType> match(Class<?> clazz) {
+		if(clazz.isArray()) {
+			if(clazz.isAssignableFrom(char[].class)) return Optional.of(CHAR_ARRAY);
+			else if(clazz.isAssignableFrom(byte[].class)) return Optional.of(BYTE_ARRAY);
+			else if(clazz.isAssignableFrom(short[].class)) return Optional.of(SHORT_ARRAY);
+			else if(clazz.isAssignableFrom(int[].class)) return Optional.of(INT_ARRAY);
+			else if(clazz.isAssignableFrom(long[].class)) return Optional.of(LONG_ARRAY);
+			else if(clazz.isAssignableFrom(double[].class)) return Optional.of(DOUBLE_ARRAY);
+			else if(clazz.isAssignableFrom(float[].class)) return Optional.of(FLOAT_ARRAY);
+			else return Optional.of(OBJ_ARRAY);
+		}
+		return Optional.empty();
 	}
 }

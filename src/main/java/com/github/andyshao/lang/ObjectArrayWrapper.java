@@ -1,9 +1,10 @@
 package com.github.andyshao.lang;
 
+import com.github.andyshao.reflect.ArrayOperation;
+
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.stream.Stream;
-
-import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -17,12 +18,14 @@ import com.github.andyshao.reflect.ArrayOperation;
  * @param <T> the element of array's type
  */
 public class ObjectArrayWrapper<T> extends ArrayWrapperModel implements ArrayWrapper {
-    /**
-     * 
-     */
+    @Serial
     private static final long serialVersionUID = 5377791899938965809L;
     private final T[] array;
 
+    /**
+     * build {@link ObjectArrayWrapper}
+     * @param array {@link ArrayType#OBJ_ARRAY}
+     */
     public ObjectArrayWrapper(T[] array) {
         this.array = array;
         this.position = 0;
