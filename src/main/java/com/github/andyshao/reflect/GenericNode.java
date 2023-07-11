@@ -35,10 +35,18 @@ public class GenericNode implements Serializable{
     @EqualsAndHashCode.Exclude
     private String typeVariable;
 
+    /**
+     * is type variable
+     * @return if it is then true
+     */
     public boolean isTypeVariable() {
         return Objects.isNull(this.getDeclareType()) && Objects.nonNull(this.getTypeVariable());
     }
 
+    /**
+     * is mediocre clazz
+     * @return if it is then true
+     */
     public boolean isMediocreClazz() {
         return !this.isGeneiric() && Objects.nonNull(this.getDeclareType());
     }

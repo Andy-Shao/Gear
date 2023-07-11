@@ -20,6 +20,11 @@ import java.util.Set;
  */
 @FunctionalInterface
 public interface ProxyFactory<T> {
+    /**
+     * build method key
+     * @param method {@link Method}
+     * @return the method key
+     */
     public static String buildMethodKey(Method method) {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(method.getReturnType()).append(":");
@@ -36,6 +41,11 @@ public interface ProxyFactory<T> {
      */
     T getProxy(T target);
 
+    /**
+     * proxy interfaces
+     * @param target target object
+     * @return all interfaces of target
+     */
     public default Class<?>[] proxyInterfaces(T target) {
         Set<Class<?>> set = new HashSet<>();
         ClassOperation.superGetInterfaces(target.getClass() , set);

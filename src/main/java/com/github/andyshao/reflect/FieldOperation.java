@@ -1,20 +1,19 @@
 package com.github.andyshao.reflect;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.objectweb.asm.Type;
-import org.objectweb.asm.signature.SignatureReader;
-import org.objectweb.asm.signature.SignatureVisitor;
-
 import com.github.andyshao.asm.ApiConfs;
 import com.github.andyshao.asm.TypeOperation;
 import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 import com.github.andyshao.reflect.annotation.Generic;
 import com.github.andyshao.util.CollectionOperation;
+import org.objectweb.asm.Type;
+import org.objectweb.asm.signature.SignatureReader;
+import org.objectweb.asm.signature.SignatureVisitor;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -28,11 +27,21 @@ import com.github.andyshao.util.CollectionOperation;
  */
 @SuppressWarnings("deprecation")
 public final class FieldOperation {
+    /**
+     * get all fields
+     * @param clazz class type
+     * @return filed array
+     */
     public static Field[] getAllField(Class<?> clazz) {
         Set<Field> result = getAllFieldForSet(clazz);
         return result.toArray(new Field[result.size()]);
     }
 
+    /**
+     * get all fields
+     * @param clazz class type
+     * @return filed set
+     */
 	public static Set<Field> getAllFieldForSet(Class<?> clazz) {
 		Set<Field> result = new HashSet<>();
         getAllFieldForSet(clazz, result);
@@ -43,7 +52,12 @@ public final class FieldOperation {
 		CollectionOperation.addAll(result , clazz.getFields());
         CollectionOperation.addAll(result , clazz.getDeclaredFields());
 	}
-    
+
+    /**
+     * get all fields (include superclass)
+     * @param clazz class type
+     * @return fields
+     */
     public static Set<Field> superGetAllFieldForSet(Class<?> clazz) {
     	Set<Field> result = new HashSet<>();
     	superGetAllFieldForSet(clazz, result);
@@ -90,6 +104,12 @@ public final class FieldOperation {
         }
     }
 
+    /**
+     * get field generic information
+     * @param field filed define
+     * @return {@link GenericInfo}
+     * @deprecated new java version includes the advanced methods
+     */
     @Deprecated
     public static final GenericInfo getFieldGenericInfo(Field field) {
         Generic generic = field.getAnnotation(Generic.class);
@@ -100,7 +120,13 @@ public final class FieldOperation {
         genericInfo.declareType = field.getType();
         return genericInfo;
     }
-    
+
+    /**
+     * get field type information
+     * @param field {@link Field}
+     * @param classSignature {@link ClassSignature}
+     * @return {@link GenericNode}
+     */
     public static final GenericNode getFieldTypeInfo(Field field, ClassSignature classSignature) {
         final GenericNode result = new GenericNode();
         String singnature = classSignature.fieldSignatures.get(field);
@@ -164,15 +190,20 @@ public final class FieldOperation {
         });
         return result;
     }
-    
+
+    /**
+     * get field type information
+     * @param field {@link Field}
+     * @return {@link GenericNode}
+     */
     public static final GenericNode getFieldTypeInfo(Field field) {
         return getFieldTypeInfo(field , new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(field.getDeclaringClass()));
     }
 
     /**
-     * 
+     * get field value
      * @param target the Object which store the value of field
-     * @param field the define of field
+     * @param field the defines of field
      * @param <T> the type of return
      * @return the value of field
      * @see Field#get(Object)
@@ -186,6 +217,12 @@ public final class FieldOperation {
         }
     }
 
+    /**
+     * get value by get method
+     * @param target target object
+     * @param paramName param name
+     * @return param value
+     */
     public static final Object getValueByGetMethod(Object target , String paramName) {
         final String methodName = "get" + paramName.substring(0 , 1).toUpperCase() + paramName.substring(1);
         final Method method = MethodOperation.getMethod(target.getClass() , methodName);
@@ -193,7 +230,7 @@ public final class FieldOperation {
     }
 
     /**
-     * 
+     * get file value
      * @param target the object which has define and value about field
      * @param field the define of field
      * @param value the values of parameters of constructor's
@@ -207,6 +244,13 @@ public final class FieldOperation {
         }
     }
 
+    /**
+     * set value by set method
+     * @param target target object
+     * @param paramName param name
+     * @param paramType param type
+     * @param value value
+     */
     public static final void setValueBySetMethod(Object target , String paramName , Class<?> paramType , Object value) {
         final String methodName = "set" + paramName.substring(0 , 1).toUpperCase() + paramName.substring(1);
         final Method method = MethodOperation.getMethod(target.getClass() , methodName , paramType);

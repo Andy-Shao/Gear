@@ -47,7 +47,13 @@ public final class ClassOperation {
             throw new ClassNotFoundException(e);
         }
     }
-    
+
+    /**
+     * find class by {@link java.lang.reflect.Type}
+     * @param typ {@link java.lang.reflect.Type}
+     * @return {@link Class}
+     * @param <T> class type
+     */
     public static <T> Class<T> forType(java.lang.reflect.Type typ) {
     	return forName(typ.getTypeName());
     }
@@ -62,8 +68,13 @@ public final class ClassOperation {
         genericInfo.declareType = clazz;
         return genericInfo;
     }
-    
-    public static GenericNode getSuperClasssGenericInfo(Class<?> clazz) {
+
+    /**
+     * get supper class generic information
+     * @param clazz clazz
+     * @return generic information
+     */
+    public static GenericNode getSuperClassGenericInfo(Class<?> clazz) {
     	java.lang.reflect.Type type = clazz.getGenericSuperclass();
     	if(type == null) return null;
     	
@@ -73,6 +84,11 @@ public final class ClassOperation {
 		return rest; 
     }
 
+    /**
+     * add information into {@link GenericNode}
+     * @param type {@link java.lang.reflect.Type}
+     * @param rest {@link GenericNode}
+     */
 	static void wrapGenericNode(@NonNull java.lang.reflect.Type type, @NonNull GenericNode rest) {
 		if(type instanceof ParameterizedType) {
     		rest.setGeneiric(true);
@@ -83,13 +99,18 @@ public final class ClassOperation {
     		setDeclareType(rest, type);
     	}
 	}
-    
-    public static Map<Class<?>, GenericNode> getInterfaceGenericInfos(Class<?> clazz) {
+
+    /**
+     * get interface generic info
+     * @param clazz interface class
+     * @return generic information
+     */
+    public static Map<Class<?>, GenericNode> getInterfaceGenericInfo(Class<?> clazz) {
     	HashMap<Class<?>, GenericNode> rest = new HashMap<Class<?>, GenericNode>();
-    	java.lang.reflect.Type[] typs = clazz.getGenericInterfaces();
-    	if(typs.length == 0) return Collections.emptyMap();
+    	java.lang.reflect.Type[] types = clazz.getGenericInterfaces();
+    	if(types.length == 0) return Collections.emptyMap();
     	
-    	for(java.lang.reflect.Type typ : typs) {
+    	for(java.lang.reflect.Type typ : types) {
     		GenericNode genericNode = new GenericNode();
     		genericNode.setParent(null);
     		wrapGenericNode(typ, genericNode);
@@ -121,6 +142,11 @@ public final class ClassOperation {
 		return rest;
     }
 
+    /**
+     * get super classes
+     * @param clazz target class
+     * @return {@link Class}
+     */
     public static List<Class<?>> getSuperClasses(Class<?> clazz) {
         ArrayList<Class<?>> ret = new ArrayList<>();
         getSuperClasses01(clazz, ret);
@@ -134,6 +160,14 @@ public final class ClassOperation {
         getSuperClasses01(superclass, bucket);
     }
 
+    /**
+     * get super class from interfaces
+     * @param interfaceClass interfaces
+     * @param targetName target class name
+     * @param version {@link Version}
+     * @return super class data
+     * @param <T> data type
+     */
     public static <T> byte[] getSuperClassForInterface(Class<T> interfaceClass , String targetName , Version version) {
         if (!interfaceClass.isInterface()) throw new InstantiationException("Class is not interface");
         final ClassSignature csig = new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(interfaceClass);
@@ -204,6 +238,11 @@ public final class ClassOperation {
         return cw.toByteArray();
     }
 
+    /**
+     * is primitive object
+     * @param clazz target class
+     * @return if it is then true
+     */
     @SuppressWarnings("ConstantConditions")
     public static boolean isPrimitiveObject(Class<?> clazz) {
         if (Integer.class.isAssignableFrom(clazz) || Short.class.isAssignableFrom(clazz) || Character.class.isAssignableFrom(clazz) || Byte.class.isAssignableFrom(clazz)
@@ -212,10 +251,21 @@ public final class ClassOperation {
         return false;
     }
 
+    /**
+     * is primitive type
+     * @param clazz
+     * @return
+     */
     public static boolean isPrimitiveType(Class<?> clazz) {
         return clazz.isPrimitive() || ClassOperation.isPrimitiveObject(clazz);
     }
 
+    /**
+     * new instance operation
+     * @param clazz the {@link Class}
+     * @return the instance of {@link Class}
+     * @param <T> class type
+     */
     public static <T> T newInstance(Class<T> clazz) {
         return ConstructorOperation.newInstance(clazz);
     }
@@ -235,11 +285,28 @@ public final class ClassOperation {
             argTypes[i] = args[i].getClass();
         return ConstructorOperation.newInstance(ConstructorOperation.getConstructor(clazz , argTypes) , args);
     }
-    
+
+    /**
+     * new instance
+     * @param constructor {@link Constructor}
+     * @param args constructor arguments
+     * @return instance of {@link Constructor}
+     * @param <T> class type
+     */
     public static <T> T newInstance(Constructor<T> constructor, Object...args) {
         return ConstructorOperation.newInstance(constructor , args);
     }
 
+    /**
+     * new instance from interfaces
+     * @param interfaceClass interface defines
+     * @param targetName target name
+     * @param isKeep is keeped
+     * @param version {@link Version}
+     * @return the instance
+     * @param <T> class type
+     * @throws IOException any IO error
+     */
     public static <T> T newInstanceForInterface(Class<T> interfaceClass , String targetName , boolean isKeep , Version version) throws IOException {
         byte[] bs = ClassOperation.getSuperClassForInterface(interfaceClass , targetName , version);
         if (isKeep) {

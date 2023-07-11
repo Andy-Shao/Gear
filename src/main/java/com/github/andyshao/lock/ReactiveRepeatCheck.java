@@ -11,6 +11,19 @@ import reactor.core.publisher.Mono;
  * @author Andy.Shao
  */
 public interface ReactiveRepeatCheck {
+    /**
+     * is repeated
+     * @param uniqueKey unique key
+     * @param mode expired mode
+     * @param times time value
+     * @return {@link Mono}
+     */
     Mono<Boolean> isRepeat(String uniqueKey, ExpireMode mode, int times);
+
+    /**
+     * is repeated
+     * @param uniqueKey unique key
+     * @return {@link Mono}
+     */
     Mono<Boolean> isRepeat(String uniqueKey);
 }

@@ -24,6 +24,12 @@ public interface CglibPF<T> extends ProxyFactory<T> {
         return this.getProxy(target , (Object proxy , Method method , Object[] args) -> CglibPF.this.invoke(target , method , args));
     }
 
+    /**
+     * get proxy
+     * @param target target object
+     * @param invocationHandler proxy handler
+     * @return new object
+     */
     @SuppressWarnings("unchecked")
     public default T getProxy(T target , InvocationHandler invocationHandler) {
         Enhancer enhancer = new Enhancer();

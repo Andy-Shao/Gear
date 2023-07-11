@@ -1,12 +1,12 @@
 package com.github.andyshao.nio;
 
+import com.github.andyshao.lang.GeneralSystemProperty;
+
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.function.Function;
-
-import com.github.andyshao.lang.GeneralSystemProperty;
 
 /**
  * 
@@ -32,6 +32,10 @@ public class ByteBufferReader implements BufferReader<byte[]> {
     public static class SeparateByBytes implements Function<ByteBuffer , BufferReader.SeparatePoint> {
         private final byte[] key;
 
+        /**
+         * build {@link SeparateByBytes}
+         * @param key the key
+         */
         public SeparateByBytes(byte[] key) {
             this.key = key;
         }

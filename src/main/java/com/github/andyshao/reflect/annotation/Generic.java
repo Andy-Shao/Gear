@@ -21,7 +21,15 @@ import java.lang.annotation.Target;
 @Target({ ElementType.FIELD , ElementType.TYPE , ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Generic {
+    /**
+     * component type
+     * @return type definites
+     */
     String[] componentTypes() default {};
 
+    /**
+     * is generic
+     * @return if it is generic then true
+     */
     boolean isGeneric() default false;
 }

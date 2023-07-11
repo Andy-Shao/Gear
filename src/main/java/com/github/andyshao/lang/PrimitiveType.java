@@ -28,7 +28,9 @@ public enum PrimitiveType {
     /**double type*/
     DOUBLE(double.class),
     /**byte type*/
-    BYTE(byte.class)
+    BYTE(byte.class),
+    /**void type*/
+    VOID(void.class)
     ;
     @Getter
     private final Class<?> type;
@@ -47,6 +49,7 @@ public enum PrimitiveType {
             else if(clazz.isAssignableFrom(float.class)) return Optional.of(FLOAT);
             else if(clazz.isAssignableFrom(double.class)) return Optional.of(DOUBLE);
             else if(clazz.isAssignableFrom(byte.class)) return Optional.of(BYTE);
+            else if(clazz.isAssignableFrom(void.class)) return Optional.of(VOID);
         }
         return Optional.empty();
     }

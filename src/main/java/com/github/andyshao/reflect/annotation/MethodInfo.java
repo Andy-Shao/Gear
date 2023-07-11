@@ -21,9 +21,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MethodInfo {
+    /**
+     * method generic info
+     * @return {@link Generic}
+     */
     Generic methodGenericInfo() default @Generic
     ;
 
+    /**
+     * method return type generic info
+     * @return {@link Generic}
+     */
     Generic returnGenericInfo() default @Generic
     ;
 }

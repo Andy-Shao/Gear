@@ -29,6 +29,11 @@ import java.util.stream.Stream;
  */
 @SuppressWarnings("deprecation")
 public final class MethodOperation {
+    /**
+     * get set methods
+     * @param clazz {@link Class}
+     * @return the methods
+     */
     public static final List<Method> getSetMethods(Class<?> clazz){
         return Arrays.stream(clazz.getMethods())
                 .filter(method -> {
@@ -43,7 +48,12 @@ public final class MethodOperation {
                 })
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * get getter methods
+     * @param clazz {@link Class}
+     * @return methods
+     */
     public static final List<Method> getGetMethods(Class<?> clazz){
         return Arrays.stream(clazz.getMethods())
                 .filter(method -> {
@@ -58,14 +68,24 @@ public final class MethodOperation {
                 })
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * get all methods
+     * @param clazz {@link Class}
+     * @return {@link Method} array
+     */
     public static Method[] getAllMethods(Class<?> clazz) {
         Set<Method> result = new HashSet<Method>();
         CollectionOperation.addAll(result , clazz.getMethods());
         CollectionOperation.addAll(result , clazz.getDeclaredMethods());
         return result.toArray(new Method[result.size()]);
     }
-    
+
+    /**
+     * get getter method (include supper class)
+     * @param clazz {@link Class}
+     * @return {@link Method} array
+     */
     public static Method[] superGetMethods(Class<?> clazz) {
         ConcurrentHashMap<String , Method> cache = new ConcurrentHashMap<>();
         superGetMethods1(cache , clazz);
@@ -83,7 +103,12 @@ public final class MethodOperation {
             cache.put(key.toString() , method);
         });
     }
-    
+
+    /**
+     * get declared methods (include super class)
+     * @param clazz {@link Class}
+     * @return {@link Method} array
+     */
     public static Method[] superGetDeclaredMethods(Class<?> clazz) {
         ConcurrentHashMap<String , Method> cache = new ConcurrentHashMap<>();
         superGetDeclaredMethods1(cache , clazz);
@@ -103,7 +128,7 @@ public final class MethodOperation {
     }
 
     /**
-     * 
+     * get declared method
      * @param clazz the type of class
      * @param method_name the name of method
      * @param parameterTypes the type of parameters
@@ -137,6 +162,12 @@ public final class MethodOperation {
         }
     }
 
+    /**
+     * get method generic info
+     * @param method {@link Method}
+     * @return {@link GenericInfo}
+     * @deprecated too complicated
+     */
     @Deprecated
     public static GenericInfo getMethodGenericInfo(Method method) {
         MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
@@ -149,6 +180,12 @@ public final class MethodOperation {
         return genericInfo;
     }
 
+    /**
+     * get return {@link GenericNode}
+     * @param method {@link Method}
+     * @return {@link GenericInfo}
+     * @deprecated too complicated
+     */
     @Deprecated
     public static GenericInfo getReturnGenericInfo(Method method) {
         MethodInfo methodInfo = method.getAnnotation(MethodInfo.class);
@@ -161,10 +198,20 @@ public final class MethodOperation {
         return genericInfo;
     }
 
+    /**
+     * get return type information
+     * @param method {@link Method}
+     * @return {@link GenericNode}
+     */
     public static GenericNode getReturnTypeInfo(Method method) {
         return getReturnTypeInfo(method , new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(method.getDeclaringClass()));
     }
 
+    /**
+     * get return type information
+     * @param method {@link Method}
+     * @return {@link GenericNode}
+     */
     public static GenericNode getReturnTypeInfoByNative(Method method) {
         final java.lang.reflect.Type type = method.getGenericReturnType();
         final GenericNode result = ClassOperation.analysisGenericType(type);
@@ -172,6 +219,12 @@ public final class MethodOperation {
         return result;
     }
 
+    /**
+     * get return type information
+     * @param method {@link Method}
+     * @param classSignature {@link ClassSignature}
+     * @return {@link GenericNode}
+     */
     public static GenericNode getReturnTypeInfo(Method method, ClassSignature classSignature) {
         final GenericNode ret = new GenericNode();
         String signature = classSignature.methodSignatures.get(method);

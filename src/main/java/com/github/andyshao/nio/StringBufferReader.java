@@ -1,11 +1,11 @@
 package com.github.andyshao.nio;
 
+import com.github.andyshao.lang.GeneralSystemProperty;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.ReadableByteChannel;
 import java.util.function.Function;
-
-import com.github.andyshao.lang.GeneralSystemProperty;
 
 /**
  * 
@@ -31,6 +31,10 @@ public class StringBufferReader implements BufferReader<String> {
     public static class SeparateByStr implements Function<String , BufferReader.SeparatePoint> {
         private final String key;
 
+        /**
+         * build {@link SeparateByStr}
+         * @param key
+         */
         public SeparateByStr(String key) {
             this.key = key;
         }

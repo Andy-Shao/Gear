@@ -126,26 +126,26 @@ public class ClassOperationTest {
     	Type type = Object.class.getGenericSuperclass();
     	assertNull(type);
     	
-    	GenericNode info = ClassOperation.getSuperClasssGenericInfo(MyGenericInterface.class);
+    	GenericNode info = ClassOperation.getSuperClassGenericInfo(MyGenericInterface.class);
     	assertNull(info);
     	
-    	info = ClassOperation.getSuperClasssGenericInfo(MyGenericClass.class);
+    	info = ClassOperation.getSuperClassGenericInfo(MyGenericClass.class);
     	assertNotNull(info);
     	assertFalse(info.isGeneiric());
     	
-    	info = ClassOperation.getSuperClasssGenericInfo(MyChildClass.class);
+    	info = ClassOperation.getSuperClassGenericInfo(MyChildClass.class);
     	assertNotNull(info);
     	assertFalse(info.isGeneiric());
     	
-    	info = ClassOperation.getSuperClasssGenericInfo(ChildClass.class);
+    	info = ClassOperation.getSuperClassGenericInfo(ChildClass.class);
     	assertNotNull(info);
     	assertTrue(info.isGeneiric());
     	
-    	info = ClassOperation.getSuperClasssGenericInfo(ChildClass2.class);
+    	info = ClassOperation.getSuperClassGenericInfo(ChildClass2.class);
     	assertNotNull(info);
     	assertTrue(info.isGeneiric());
     	
-    	info = ClassOperation.getSuperClasssGenericInfo(ChildClass3.class);
+    	info = ClassOperation.getSuperClassGenericInfo(ChildClass3.class);
     	assertNotNull(info);
     	assertTrue(info.isGeneiric());
     }

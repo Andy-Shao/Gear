@@ -10,5 +10,10 @@ package com.github.andyshao.lock;
  *
  */
 public enum ExpireMode {
-    SECONDS,MILISECONDS,IGNORE;
+    /**second*/
+    SECONDS,
+    /**milli second*/
+    MILLISECONDS,
+    /**ignore*/
+    IGNORE;
 }

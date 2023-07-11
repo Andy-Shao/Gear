@@ -17,14 +17,26 @@ import java.util.Objects;
  */
 public interface BufferReader<ARRAY> extends Closeable {
 
+    /**
+     * separate point
+     */
     public static class SeparatePoint {
         private int nextStartSit;
         private int separatePoint;
 
+        /**
+         * build {@link SeparatePoint}
+         * @param separatePoint point number
+         */
         public SeparatePoint(int separatePoint) {
             this(separatePoint , separatePoint + 1);
         }
 
+        /**
+         * build {@link SeparatePoint}
+         * @param separatePoint point number
+         * @param nextStartSit next sit
+         */
         public SeparatePoint(int separatePoint , int nextStartSit) {
             this.separatePoint = separatePoint;
             this.nextStartSit = nextStartSit;
@@ -38,10 +50,18 @@ public interface BufferReader<ARRAY> extends Closeable {
             } else return false;
         }
 
+        /**
+         * get method
+         * @return next start sit
+         */
         public int getNextStartSit() {
             return this.nextStartSit;
         }
 
+        /**
+         * get method
+         * @return separate point
+         */
         public int getSeparatePoint() {
             return this.separatePoint;
         }

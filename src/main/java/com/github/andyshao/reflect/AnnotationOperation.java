@@ -14,7 +14,7 @@ import java.lang.annotation.Annotation;
  */
 public final class AnnotationOperation {
     /**
-     * 
+     * get all {@link Annotation} form target's all interfaces and superclass
      * @param target the object which has define and value about field
      * @param clazz the type of object
      * @param <T> the type of return

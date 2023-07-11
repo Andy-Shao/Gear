@@ -10,6 +10,19 @@ package com.github.andyshao.lock;
  *
  */
 public interface RepeatCheck {
+    /**
+     * is repeated
+     * @param uniqueKey unique key
+     * @param mode expired mode
+     * @param times time value
+     * @return if it can be repeated then true
+     */
     boolean isRepeat(String uniqueKey, ExpireMode mode, int times);
+
+    /**
+     * is repeated
+     * @param uniqueKey unique key
+     * @return if it can be repeated then true
+     */
     boolean isRepeat(String uniqueKey);
 }

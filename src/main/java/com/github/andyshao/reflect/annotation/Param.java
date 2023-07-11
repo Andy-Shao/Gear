@@ -20,9 +20,17 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Param {
+    /**
+     * param generic info
+     * @return generic info
+     */
     @Deprecated
     Generic genericInfo() default @Generic
     ;
 
+    /**
+     * param name
+     * @return param name
+     */
     String value();
 }
