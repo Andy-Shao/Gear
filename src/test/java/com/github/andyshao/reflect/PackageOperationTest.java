@@ -30,7 +30,7 @@ public class PackageOperationTest {
 
     @Test
     public void testGetPackages() {
-        Package[] packages = PackageOperation.getPckages(Package.getPackage("java.util"));
+        Package[] packages = PackageOperation.getPackages(Package.getPackage("java.util"));
         assertNotEquals(packages.length , (0));
         assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util")) , (-1));
         assertNotEquals(ArrayOperation.indexOf(packages , Package.getPackage("java.util.zip")) , (-1));

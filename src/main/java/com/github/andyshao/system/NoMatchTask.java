@@ -46,6 +46,10 @@ public class NoMatchTask implements Task {
         } else this.getNextTask().run(ArrayOperation.splitArray(args , position , args.length));
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

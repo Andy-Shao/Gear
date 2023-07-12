@@ -14,7 +14,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  */
 public class PrintChar implements Task {
     public static final String KEY_WORDS = "-printChar";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -40,6 +40,10 @@ public class PrintChar implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

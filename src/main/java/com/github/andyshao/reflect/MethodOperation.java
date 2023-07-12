@@ -308,24 +308,45 @@ public final class MethodOperation {
         return ret;
     }
 
+    /**
+     * get parameter type information
+     * @param method {@link Method}
+     * @return {@link GenericNode} list
+     */
     public static List<GenericNode> getParameterTypesInfo(Method method){
         return ParameterOperation.getParameterTypesInfo(method);
     }
 
+    /**
+     * get parameter type information
+     * @param method {@link Method}
+     * @param classSignature {@link ClassSignature}
+     * @return {@link GenericNode} list
+     */
     public static List<GenericNode> getParameterTypesInfo(Method method, ClassSignature classSignature){
         return ParameterOperation.getParameterTypesInfo(method , classSignature);
     }
 
+    /**
+     * get parameter type information by native
+     * @param method {@link Method}
+     * @return {@link GenericNode} list
+     */
     public static List<GenericNode> getParameterTypeInfoByNative(Method method) {
         return ParameterOperation.getParameterTypesInfoByNative(method);
     }
 
+    /**
+     * get parameter names by native
+     * @param m {@link Method}
+     * @return name list
+     */
     public static List<String> getParameterNamesByNative(Method m) {
         return ParameterOperation.getMethodParamNamesByNative(m);
     }
     
     /**
-     * 
+     * invoke method
      * @param target the object which should run the method
      * @param method the define of method
      * @param values the values of parameters of method's

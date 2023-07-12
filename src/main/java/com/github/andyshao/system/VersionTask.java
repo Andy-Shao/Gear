@@ -1,19 +1,17 @@
 package com.github.andyshao.system;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
+import com.github.andyshao.lang.GeneralSystemProperty;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
-import com.github.andyshao.lang.GeneralSystemProperty;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
+import java.io.IOException;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * 
@@ -26,9 +24,11 @@ import com.github.andyshao.lang.GeneralSystemProperty;
  *
  */
 public class VersionTask implements Task {
+    /**keywords*/
     public static final String KEY_WORDS = "-version";
+    /**target*/
     public static final String TARGET = "META-INF/maven/com.github.Andy-Shao/Gear/pom.xml";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -61,6 +61,10 @@ public class VersionTask implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

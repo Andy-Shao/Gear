@@ -1,8 +1,8 @@
 package com.github.andyshao.test;
 
-import java.util.Objects;
-
 import com.github.andyshao.lang.ArrayWrapper;
+
+import java.util.Objects;
 
 /**
  * 
@@ -16,6 +16,13 @@ import com.github.andyshao.lang.ArrayWrapper;
 public final class CompareOptions {
     private CompareOptions() {}
 
+    /**
+     * any of
+     * @param test test
+     * @param cases cases
+     * @return does any case matches
+     * @param <T> data type
+     */
     @SafeVarargs
     public static final <T> boolean anyOf(T test, T... cases) {
         if(test.getClass().isArray()) throw new IllegalArgumentException("argument must not be array");
@@ -24,7 +31,13 @@ public final class CompareOptions {
         }
         return false;
     }
-    
+
+    /**
+     * any array of
+     * @param test a array
+     * @param cases a array cases
+     * @return does any case matches
+     */
     public static final boolean anyArrayOf(ArrayWrapper test, ArrayWrapper... cases) {
         for(ArrayWrapper ca : cases) {
             if(Objects.deepEquals(ca , test)) return true;

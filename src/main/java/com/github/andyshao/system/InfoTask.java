@@ -1,24 +1,22 @@
 package com.github.andyshao.system;
 
+import com.github.andyshao.lang.GeneralSystemProperty;
+import com.github.andyshao.nio.BufferReader;
+import com.github.andyshao.nio.StringBufferReader;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.nio.channels.Channels;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import com.github.andyshao.lang.GeneralSystemProperty;
-import com.github.andyshao.nio.BufferReader;
-import com.github.andyshao.nio.StringBufferReader;
 
 /**
  * 
@@ -31,9 +29,10 @@ import com.github.andyshao.nio.StringBufferReader;
  *
  */
 public class InfoTask implements Task {
+    /**key words*/
     public static final String KEY_WORDS = "-info";
     private static final String TARGET = "META-INF/MANIFEST.MF";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -123,6 +122,10 @@ public class InfoTask implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

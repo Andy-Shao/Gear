@@ -25,6 +25,9 @@ import java.util.Objects;
  *
  */
 public class SignatureDetector extends ClassVisitor {
+    /**
+     * Class signature
+     */
     public static class ClassSignature {
         public String classSignature;
         public Class<?> clazz;
@@ -42,11 +45,20 @@ public class SignatureDetector extends ClassVisitor {
     private int api;
     private volatile ClassSignature signature = new SignatureDetector.ClassSignature();
 
+    /**
+     * build {@link SignatureDetector}
+     * @param api api
+     */
     public SignatureDetector(int api) {
         super(api);
         this.api = api;
     }
 
+    /**
+     * get signature
+     * @param clazz {@link Class}
+     * @return {@link ClassSignature}
+     */
     public ClassSignature getSignature(Class<?> clazz) {
         ClassReader cr;
         try {
@@ -60,7 +72,7 @@ public class SignatureDetector extends ClassVisitor {
     }
 
     /**
-     *
+     * get signature
      * @param clazz class type
      * @param inputStream class file input stream (Sometime, the inputStream is hard to get)
      * @return return type
@@ -77,6 +89,9 @@ public class SignatureDetector extends ClassVisitor {
         return this.signature;
     }
 
+    /**
+     * refresh
+     */
     public void refresh() {
         this.signature = new SignatureDetector.ClassSignature();
     }

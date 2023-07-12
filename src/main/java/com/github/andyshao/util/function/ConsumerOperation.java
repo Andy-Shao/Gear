@@ -15,6 +15,12 @@ import java.util.function.Consumer;
 public final class ConsumerOperation {
 	private ConsumerOperation() {}
 
+	/**
+	 * lambda
+	 * @param consumer consumer
+	 * @return consumer
+	 * @param <T> data type
+	 */
 	public static final <T> Consumer<T> lambda(Consumer<T> consumer) {
 		return consumer;
 	}

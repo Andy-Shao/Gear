@@ -11,7 +11,7 @@ package com.github.andyshao.system;
  *
  */
 public class NoArgumentTask implements Task {
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -29,6 +29,10 @@ public class NoArgumentTask implements Task {
         this.run(new String[] { HelpTask.KEY_WORDS });
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

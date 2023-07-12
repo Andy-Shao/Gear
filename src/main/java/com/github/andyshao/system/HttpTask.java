@@ -17,10 +17,11 @@ import java.util.Properties;
  *
  */
 public class HttpTask implements Task {
+    /**key words*/
     public static final String KEY_WORDS = "-http";
     private static final String STATUE_CODE = "--statusCode";
-    private static final String STAUTS_FILE = "com/github/andyshao/system/HttpStatuesCode.properties";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private static final String STATUS_FILE = "com/github/andyshao/system/HttpStatuesCode.properties";
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -59,12 +60,16 @@ public class HttpTask implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }
 
     void showStatueCode(String[] args) {
-        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(HttpTask.STAUTS_FILE);) {
+        try (InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(HttpTask.STATUS_FILE);) {
             if (this.isPrintAll(args)) try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));) {
                 String line = "";
                 while ((line = reader.readLine()) != null)

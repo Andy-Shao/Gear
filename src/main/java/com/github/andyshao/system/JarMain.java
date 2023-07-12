@@ -12,6 +12,13 @@ import java.lang.reflect.Method;
  * @author Andy.Shao
  */
 public class JarMain {
+    /**
+     * man class run
+     * @param args arguments
+     * @throws NoSuchMethodException no such method exception
+     * @throws InvocationTargetException invocation target exception
+     * @throws IllegalAccessException illegal access exception
+     */
     public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Task head = new NoArgumentTask();
         Task tail = setTask(head, new HelpTask());
@@ -31,6 +38,15 @@ public class JarMain {
         head.run(args);
     }
 
+    /**
+     * set task
+     * @param head head task
+     * @param tail tail task
+     * @return the new task
+     * @throws NoSuchMethodException no such method exception
+     * @throws InvocationTargetException invocation target exception
+     * @throws IllegalAccessException illegal access exception
+     */
     public static Task setTask(Task head, Task tail) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         final Method setNextTask = head.getClass().getMethod("setNextTask", Task.class);
         setNextTask.invoke(head, tail);

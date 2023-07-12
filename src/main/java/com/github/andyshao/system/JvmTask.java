@@ -1,11 +1,11 @@
 package com.github.andyshao.system;
 
+import com.github.andyshao.nio.BufferReader;
+import com.github.andyshao.nio.ByteBufferReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
-
-import com.github.andyshao.nio.BufferReader;
-import com.github.andyshao.nio.ByteBufferReader;
 
 /**
  * 
@@ -18,16 +18,27 @@ import com.github.andyshao.nio.ByteBufferReader;
  *
  */
 public class JvmTask implements Task {
+    /**args path*/
     public static final String ARGS_PATH = "com/github/andyshao/system/jvm.txt";
+    /**command path*/
     public static final String COMMAND_PATH = "com/github/andyshao/system/jvmCommand.txt";
+    /**keywords*/
     public static final String KEY_WORDS = "-jvm";
+    /**method path*/
     public static final String METHOD_PATH = "com/github/andyshao/system/methodDescriptors.txt";
+    /**reference path*/
     public static final String REFERENCE_PATH = "com/github/andyshao/system/reference.txt";
+    /**sub option args*/
     public static final String SUB_OPTION_ARGS = "--args";
+    /**sub option command*/
     public static final String SUB_OPTION_COMMAND = "--command";
+    /**sub option method*/
     public static final String SUB_OPTION_METHOD = "--method";
+    /**sub option type*/
     public static final String SUB_OPTION_TYPE = "--type";
+    /**sub option reference*/
     public static final String SUB_OPTION_REFERENCE = "--ref";
+    /**type path*/
     public static final String TYPE_PATH = "com/github/andyshao/system/typeDescription.txt";
 
     static byte[] readFile(String path) throws IOException {
@@ -37,7 +48,7 @@ public class JvmTask implements Task {
         }
     }
 
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -77,6 +88,10 @@ public class JvmTask implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

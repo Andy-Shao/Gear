@@ -25,6 +25,11 @@ import java.util.jar.JarFile;
  *
  */
 public final class PackageOperation {
+    /**
+     * get classes from {@link Path}
+     * @param jarPath jar location
+     * @return the class name list
+     */
     public static String[] getClasses(Path jarPath) {
         List<String> result = new ArrayList<>();
         try (JarFile jar = new JarFile(jarPath.toFile());) {
@@ -45,7 +50,12 @@ public final class PackageOperation {
         return result.toArray(new String[result.size()]);
     }
 
-    public static String[] getPackageClasseName(Package pkg) {
+    /**
+     * get package class name
+     * @param pkg {@link Package}
+     * @return class name list
+     */
+    public static String[] getPackageClassName(Package pkg) {
         List<String> result = new ArrayList<>();
         String packageName = pkg.getName();
         String packageDirName = packageName.replace('.' , '/');
@@ -84,6 +94,11 @@ public final class PackageOperation {
         return result.toArray(new String[result.size()]);
     }
 
+    /**
+     * get package class
+     * @param pkg {@link Package}
+     * @return {@link Class} list
+     */
     public static Class<?>[] getPackageClasses(Package pkg) {
         List<Class<?>> result = new ArrayList<>();
         String packageName = pkg.getName();
@@ -123,7 +138,11 @@ public final class PackageOperation {
         return result.toArray(new Class<?>[result.size()]);
     }
 
-    @Deprecated(since = "4.0.0.RELEASE")
+    /**
+     * get package by regex expression
+     * @param regex regex expression
+     * @return {@link Package} list
+     */
     public static Package[] getPackages(String regex) {
         List<Package> result = new ArrayList<>();
         Package[] packages = Package.getPackages();
@@ -132,7 +151,12 @@ public final class PackageOperation {
         return result.toArray(new Package[result.size()]);
     }
 
-    public static Package[] getPckages(Package basePackage) {
+    /**
+     * get packages
+     * @param basePackage base package
+     * @return {@link Package} list
+     */
+    public static Package[] getPackages(Package basePackage) {
         List<Package> result = new ArrayList<>();
         Package[] packages = Package.getPackages();
         for (Package ppkg : packages)

@@ -1,14 +1,14 @@
 package com.github.andyshao.system;
 
+import com.github.andyshao.lang.GeneralSystemProperty;
+import com.github.andyshao.nio.ByteBufferOperation;
+import com.github.andyshao.reflect.ArrayOperation;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import com.github.andyshao.lang.GeneralSystemProperty;
-import com.github.andyshao.nio.ByteBufferOperation;
-import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -24,7 +24,7 @@ public class CleanJavadocTask implements Task {
     private static final String HEAD = "/**";
     public static final String KEY_WORDS = "-cleanJavadoc";
     private static final String TAIL = "*/";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -76,6 +76,10 @@ public class CleanJavadocTask implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

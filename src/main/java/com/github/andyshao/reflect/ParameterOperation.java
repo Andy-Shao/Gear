@@ -34,6 +34,11 @@ import java.util.stream.Collectors;
  */
 @SuppressWarnings("deprecation")
 public final class ParameterOperation {
+    /**
+     * get method param generic information
+     * @param method {@link Method}
+     * @return {@link GenericInfo} list
+     */
     @Deprecated
     public static GenericInfo[] getMethodParamGenricInfo(Method method) {
         GenericInfo[] result = new GenericInfo[method.getParameterCount()];
@@ -51,7 +56,12 @@ public final class ParameterOperation {
         }
         return result;
     }
-    
+
+    /**
+     * get generic information by param
+     * @param parameter parameter
+     * @return {@link GenericInfo}
+     */
     @Deprecated
     public static GenericInfo getGenericInfoByParam(Parameter parameter) {
         Param param = parameter.getAnnotation(Param.class);
@@ -64,10 +74,21 @@ public final class ParameterOperation {
         return genericInfo;
     }
 
+    /**
+     * get parameter type information
+     * @param method {@link Method}
+     * @return {@link GenericNode} list
+     */
     public static List<GenericNode> getParameterTypesInfo(Method method){
         return getParameterTypesInfo(method, new SignatureDetector(ApiConfs.DEFAULT_ASM_VERSION).getSignature(method.getDeclaringClass()));
     }
 
+    /**
+     * get parameter type information
+     * @param method {@link Method}
+     * @param classSignature {@link ClassSignature}
+     * @return {@link GenericNode} list
+     */
     public static List<GenericNode> getParameterTypesInfo(Method method, ClassSignature classSignature){
         final List<GenericNode> result = new ArrayList<>();
         if(method.getParameterTypes().length == 0) return result;
@@ -191,6 +212,12 @@ public final class ParameterOperation {
         return getMethodParamNames(m, cr);
     }
 
+    /**
+     * get method param name
+     * @param m {@link Method}
+     * @param cr {@link ClassReader}
+     * @return param name list
+     */
     public static String[] getMethodParamNames(Method m, ClassReader cr) {
         final ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
         final String[] paramNames = new String[m.getParameterTypes().length];
@@ -218,12 +245,22 @@ public final class ParameterOperation {
         return paramNames;
     }
 
+    /**
+     * get method param names by native
+     * @param m {@link Method}
+     * @return param name list
+     */
     public static List<String> getMethodParamNamesByNative(Method m) {
         return Arrays.stream(m.getParameters())
                 .map(Parameter::getName)
                 .collect(Collectors.toList());
     }
 
+    /**
+     * get method param names by reflection API
+     * @param m {@link Method}
+     * @return param name list
+     */
     public static String[] getMethodParamNamesByReflect(final Method m) {
         Parameter[] parameters = m.getParameters();
         String[] ret = new String[parameters.length];
@@ -233,6 +270,11 @@ public final class ParameterOperation {
         return ret;
     }
 
+    /**
+     * get param name by annotation
+     * @param method {@link Method}
+     * @return param name list
+     */
     public static String[] getParamNamesByAnnotation(Method method) {
         String[] result = new String[method.getParameterCount()];
         Parameter[] parameters = method.getParameters();

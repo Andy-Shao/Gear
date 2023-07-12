@@ -13,8 +13,10 @@ import java.util.Properties;
  *
  */
 public class SystemPropertiesTask implements Task {
+    /**keywords*/
     public static final String KEY_WORDS = "-sp";
-    public volatile Task nextTask = Task.EMTPY_TASK;
+    /**next task*/
+    public volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -36,6 +38,10 @@ public class SystemPropertiesTask implements Task {
         } else System.out.println(System.getProperty(args[1]));
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

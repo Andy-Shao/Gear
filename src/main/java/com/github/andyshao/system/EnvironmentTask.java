@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class EnvironmentTask implements Task {
     public static final String KEY_WORDS = "-env";
-    public volatile Task nextTask = Task.EMTPY_TASK;
+    public volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -36,6 +36,10 @@ public class EnvironmentTask implements Task {
         } else System.out.println(System.getenv(args[1]));
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

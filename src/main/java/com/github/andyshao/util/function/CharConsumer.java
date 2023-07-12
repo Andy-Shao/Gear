@@ -14,8 +14,17 @@ import java.util.Objects;
  */
 @FunctionalInterface
 public interface CharConsumer {
+	/**
+	 * accept char
+	 * @param value char value
+	 */
 	void accept(char value);
-	
+
+	/**
+	 * and then
+	 * @param after after {@link CharConsumer}
+	 * @return new {@link CharConsumer}
+	 */
 	default CharConsumer andThen(CharConsumer after) {
 		Objects.requireNonNull(after);
 		return it -> {

@@ -29,7 +29,7 @@ public class ClassAnalysis implements Task {
     private static final String FIELDS = "--fields";
     public static final String KEY_WORDS = "-classPrint";
     private static final String METHODS = "--methods";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -124,6 +124,10 @@ public class ClassAnalysis implements Task {
             }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

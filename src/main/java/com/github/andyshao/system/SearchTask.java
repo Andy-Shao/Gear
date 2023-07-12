@@ -1,9 +1,9 @@
 package com.github.andyshao.system;
 
-import java.nio.file.Paths;
-
 import com.github.andyshao.lang.GeneralSystemProperty;
 import com.github.andyshao.reflect.PackageOperation;
+
+import java.nio.file.Paths;
 
 /**
  * 
@@ -17,7 +17,7 @@ import com.github.andyshao.reflect.PackageOperation;
  */
 public class SearchTask implements Task {
     public static final String KEY_WORDS = "-search";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
@@ -36,10 +36,14 @@ public class SearchTask implements Task {
         for (String className : PackageOperation.getClasses(Paths.get(GeneralSystemProperty.JAVA_HOME.value() , "lib" , "rt.jar")))
             if (className.matches(args[1])) System.out.println(className);
         for (Package pkg : Package.getPackages())
-            for (String className : PackageOperation.getPackageClasseName(pkg))
+            for (String className : PackageOperation.getPackageClassName(pkg))
                 if (className.matches(args[1])) System.out.println(className);
     }
 
+    /**
+     * set next task
+     * @param nextTask set next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

@@ -11,7 +11,8 @@ package com.github.andyshao.system;
  *
  */
 public interface Task {
-    public static final Task EMTPY_TASK = new Task() {
+    /**empty task*/
+    public static final Task EMPTY_TASK = new Task() {
 
         @Override
         public Task getNextTask() {
@@ -29,12 +30,29 @@ public interface Task {
         }
     };
 
+    /**
+     * get next task
+     * @return next task
+     */
     public Task getNextTask();
 
+    /**
+     * is duty
+     * @param args argument
+     * @return if it is then true
+     */
     public boolean isDuty(String[] args);
 
+    /**
+     * process task
+     * @param args argument
+     */
     public void process(String[] args);
 
+    /**
+     * run task
+     * @param args argument
+     */
     public default void run(String[] args) {
         if (this.isDuty(args)) this.process(args);
         else this.getNextTask().run(args);

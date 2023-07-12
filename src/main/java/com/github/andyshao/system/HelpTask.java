@@ -1,11 +1,11 @@
 package com.github.andyshao.system;
 
+import com.github.andyshao.nio.BufferReader;
+import com.github.andyshao.nio.ByteBufferReader;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
-
-import com.github.andyshao.nio.BufferReader;
-import com.github.andyshao.nio.ByteBufferReader;
 
 /**
  * 
@@ -18,9 +18,10 @@ import com.github.andyshao.nio.ByteBufferReader;
  *
  */
 public class HelpTask implements Task {
+    /**key words*/
     public static final String KEY_WORDS = "-help";
     private static final String TARGET = "com/github/andyshao/system/help.txt";
-    private volatile Task nextTask = Task.EMTPY_TASK;
+    private volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override
     public Task getNextTask() {
