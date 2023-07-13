@@ -1,33 +1,14 @@
 package com.github.andyshao.util.stream;
 
-import java.util.Comparator;
-import java.util.Optional;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
-
 import com.github.andyshao.util.ExceptionableComparator;
-import com.github.andyshao.util.function.ExceptionableBiConsumer;
-import com.github.andyshao.util.function.ExceptionableBiFunction;
-import com.github.andyshao.util.function.ExceptionableBiPredicate;
-import com.github.andyshao.util.function.ExceptionableConsumer;
-import com.github.andyshao.util.function.ExceptionableFunction;
-import com.github.andyshao.util.function.ExceptionablePredicate;
-import com.github.andyshao.util.function.ExceptionableSupplier;
-import com.github.andyshao.util.function.ExceptionableToDoubleFunction;
-import com.github.andyshao.util.function.ExceptionableToIntFunction;
-import com.github.andyshao.util.function.ExceptionableToLongFunction;
-
+import com.github.andyshao.util.function.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Comparator;
+import java.util.Optional;
+import java.util.function.*;
 
 /**
  * 
@@ -54,7 +35,7 @@ public final class Try<T, R> {
 		return new Try<>(null, argument, resource, true);
 	}
 	
-	public static <T, R> Try<T, R> failure(T argument, Exception e) {
+	public static <T, R> Try<T, R> failure(T argument, Throwable e) {
 		return new Try<>(e, argument, null, false);
 	}
 	
@@ -98,7 +79,7 @@ public final class Try<T, R> {
 		return t -> {
 			try {
 				return fun.applyAsDouble(t);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return errorProcess.apply(Try.failure(t, e));
 			}
 		};
@@ -109,7 +90,7 @@ public final class Try<T, R> {
 		return t -> {
 			try {
 				return fun.applyAsLong(t);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return errorProcess.apply(Try.failure(t, e));
 			}
 		};
@@ -120,7 +101,7 @@ public final class Try<T, R> {
 		return t -> {
 			try {
 				return fun.applyAsInt(t);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return errorProcess.apply(Try.failure(t, e));
 			}
 		};
@@ -131,7 +112,7 @@ public final class Try<T, R> {
 		return (o1, o2) -> {
 			try {
 				return comp.compare(o1, o2);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return errorProcess.apply(Try.failure(Pair.of(o1, o2), e));
 			}
 		};
@@ -141,7 +122,7 @@ public final class Try<T, R> {
 		return () -> {
 			try {
 				return Try.success(null, supplier.get());
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return Try.failure(null, e);
 			}
 		};
@@ -151,7 +132,7 @@ public final class Try<T, R> {
 		return t -> {
 			try {
 				return Try.success(t, function.apply(t));
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return Try.failure(t, e);
 			}
 		};
@@ -161,7 +142,7 @@ public final class Try<T, R> {
 		return (t,u) -> {
 			try {
 				return Try.success(Pair.of(t, u), function.apply(t, u));
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return Try.failure(Pair.of(t, u), e);
 			}
 		};
@@ -171,7 +152,7 @@ public final class Try<T, R> {
 		return it -> {
 			try {
 				consumer.accept((T) it);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				errorProcess.accept(Try.failure(it, e));
 			}
 		};
@@ -182,7 +163,7 @@ public final class Try<T, R> {
 		return (t, u) -> {
 			try {
 				consumer.accept(t, u);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				errorProcess.accept(Try.failure(Pair.of(t, u), e));
 			}
 		};
@@ -193,7 +174,7 @@ public final class Try<T, R> {
 		return t -> {
 			try {
 				return predicate.test(t);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return errorProcess.apply(Try.failure(t, e));
 			}
 		};
@@ -204,7 +185,7 @@ public final class Try<T, R> {
 		return (t, u) -> {
 			try {
 				return predicate.test(t, u);
-			} catch (Exception e) {
+			} catch (Throwable e) {
 				return errorProcess.apply(Try.failure(Pair.of(t, u), e));
 			}
 		};

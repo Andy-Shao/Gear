@@ -30,7 +30,7 @@ public interface ExceptionableBiFunction<T, U, R> {
 	 * @return ret
 	 * @throws Exception any error
 	 */
-	R apply(T t, U u) throws Exception;
+	R apply(T t, U u) throws Throwable;
 
 	/**
 	 * to {@link BiFunction}
@@ -45,7 +45,7 @@ public interface ExceptionableBiFunction<T, U, R> {
 			return (t, u) -> {
 				try {
 					return input.apply(t, u);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw f.build(e);
 				}
 			};

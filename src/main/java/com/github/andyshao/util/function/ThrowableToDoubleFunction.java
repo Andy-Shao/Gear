@@ -1,9 +1,9 @@
 package com.github.andyshao.util.function;
 
-import java.util.function.ToDoubleFunction;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.function.ToDoubleFunction;
 
 /**
  * 
@@ -17,7 +17,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <T> argument type
  * @see ToDoubleFunction
  * @see ExceptionableToDoubleFunction
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableToDoubleFunction<T> {
 	double applyAsDouble(T value) throws Throwable;
 	

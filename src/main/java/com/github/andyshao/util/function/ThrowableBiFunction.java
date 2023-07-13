@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.Objects;
-import java.util.function.BiFunction;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.Objects;
+import java.util.function.BiFunction;
 
 /**
  * 
@@ -21,7 +21,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <R> return type
  * @see ExceptionableBiFunction
  * @see BiFunction
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableBiFunction<T, U, R> {
 	R apply(T t, U u) throws Throwable;
 	
@@ -30,7 +32,7 @@ public interface ThrowableBiFunction<T, U, R> {
 			return new ExceptionableBiFunction<T, U, R>() {
 			
 				@Override
-				public R apply(T t, U u) throws Exception {
+				public R apply(T t, U u) throws Throwable {
 					try {
 						return input.apply(t, u);
 					} catch (Throwable e) {

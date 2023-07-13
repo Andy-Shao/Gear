@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.function.ToLongBiFunction;
-import java.util.function.ToLongFunction;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
+import java.util.function.ToLongBiFunction;
+import java.util.function.ToLongFunction;
 
 /**
  * 
@@ -19,14 +19,14 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @see ToLongBiFunction
  */
 public interface ExceptionableToLongFunction<T> {
-	long applyAsLong(T value) throws Exception;
+	long applyAsLong(T value) throws Throwable;
 	
 	static <T> Convert<ExceptionableToLongFunction<T>, ToLongFunction<T>> toLongFunction(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
 				try {
 					return input.applyAsLong(t);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw f.build(e);
 				}
 			};

@@ -1,9 +1,9 @@
 package com.github.andyshao.util.function;
 
-import java.util.function.ToDoubleFunction;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
+import java.util.function.ToDoubleFunction;
 
 /**
  * 
@@ -18,14 +18,14 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @see ToDoubleFunction
  */
 public interface ExceptionableToDoubleFunction<T> {
-	double applyAsDouble(T value) throws Exception;
+	double applyAsDouble(T value) throws Throwable;
 	
 	static <T> Convert<ExceptionableToDoubleFunction<T>, ToDoubleFunction<T>> toDoubleFunction(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
 				try {
 					return input.applyAsDouble(t);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw f.build(e);
 				}
 			};

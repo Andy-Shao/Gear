@@ -1,9 +1,9 @@
 package com.github.andyshao.util.function;
 
-import java.util.function.ToIntFunction;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
+import java.util.function.ToIntFunction;
 
 /**
  * 
@@ -18,14 +18,14 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @see ToIntFunction
  */
 public interface ExceptionableToIntFunction<T> {
-	int applyAsInt(T value) throws Exception;
+	int applyAsInt(T value) throws Throwable;
 	
 	static <T> Convert<ExceptionableToIntFunction<T>, ToIntFunction<T>> toIntFunction(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
 				try {
 					return input.applyAsInt(t);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw f.build(e);
 				}
 			};

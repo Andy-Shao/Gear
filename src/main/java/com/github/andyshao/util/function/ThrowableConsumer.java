@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.Objects;
-import java.util.function.Consumer;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.Objects;
+import java.util.function.Consumer;
 
 /**
  * 
@@ -19,7 +19,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <T> argument type
  * @see ExceptionableConsumer
  * @see Consumer
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 @FunctionalInterface
 public interface ThrowableConsumer<T> {
 	void accept(T t) throws Throwable;

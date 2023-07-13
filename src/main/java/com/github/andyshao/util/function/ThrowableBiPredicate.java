@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.Objects;
-import java.util.function.Predicate;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * 
@@ -20,7 +20,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <U> argujent type
  * @see ExceptionablePredicate
  * @see Predicate
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableBiPredicate<T, U> {
 	boolean test(T t, U u) throws Throwable;
 	

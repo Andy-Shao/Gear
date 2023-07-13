@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.Objects;
-import java.util.function.Predicate;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
+import java.util.Objects;
+import java.util.function.Predicate;
 
 /**
  * 
@@ -20,14 +20,14 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  * @see Predicate
  */
 public interface ExceptionablePredicate<T> {
-	boolean test(T t) throws Exception;
+	boolean test(T t) throws Throwable;
 	
 	static <T> Convert<ExceptionablePredicate<T>, Predicate<T>> toPredicate(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
 				try {
 					return input.test(t);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw f.build(e);
 				}
 			};

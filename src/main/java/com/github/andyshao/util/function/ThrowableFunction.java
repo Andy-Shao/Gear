@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.Objects;
-import java.util.function.Function;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * 
@@ -20,7 +20,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <R> return type
  * @see ExceptionableFunction
  * @see Function
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 @FunctionalInterface
 public interface ThrowableFunction<T, R> {
 	R apply(T t) throws Throwable;

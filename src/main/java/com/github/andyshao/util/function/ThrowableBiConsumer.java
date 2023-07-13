@@ -1,10 +1,10 @@
 package com.github.andyshao.util.function;
 
-import java.util.Objects;
-import java.util.function.BiConsumer;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.Objects;
+import java.util.function.BiConsumer;
 
 /**
  * 
@@ -20,7 +20,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <U> artument type
  * @see ExceptionableBiConsumer
  * @see BiConsumer
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableBiConsumer<T, U> {
 	void accept(T t, U u) throws Throwable;
 	

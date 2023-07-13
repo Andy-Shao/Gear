@@ -26,9 +26,9 @@ public interface ExceptionableBiConsumer<T, U> {
 	 * accept
 	 * @param t left
 	 * @param u right
-	 * @throws Exception any error
+	 * @throws Throwable any error
 	 */
-	void accept(T t, U u) throws Exception;
+	void accept(T t, U u) throws Throwable;
 
 	/**
 	 * to {@link BiConsumer}
@@ -42,7 +42,7 @@ public interface ExceptionableBiConsumer<T, U> {
 			return (t, u) -> {
 				try {
 					input.accept(t, u);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw factory.build(e);
 				}
 			};

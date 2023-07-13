@@ -1,9 +1,9 @@
 package com.github.andyshao.util.function;
 
-import java.util.function.ToIntFunction;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.function.ToIntFunction;
 
 /**
  * 
@@ -17,7 +17,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <T> argument type
  * @see ToIntFunction
  * @see ExceptionableToIntFunction
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableToIntFunction<T> {
 	int applyAsInt(T value) throws Throwable;
 	
