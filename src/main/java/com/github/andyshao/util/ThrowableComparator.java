@@ -1,9 +1,9 @@
 package com.github.andyshao.util;
 
-import java.util.Comparator;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.ThrowableException;
+
+import java.util.Comparator;
 
 /**
  * 
@@ -17,7 +17,9 @@ import com.github.andyshao.util.stream.ThrowableException;
  * @param <T> the type of objects that may be compared by this comparator
  * @see ExceptionableComparator
  * @see Comparator
+ * @deprecated repeated
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableComparator<T> {
 	int compare(T o1, T o2) throws Throwable;
 	

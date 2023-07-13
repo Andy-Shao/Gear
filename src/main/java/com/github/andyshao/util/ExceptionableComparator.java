@@ -1,9 +1,9 @@
 package com.github.andyshao.util;
 
-import java.util.Comparator;
-
 import com.github.andyshao.lang.Convert;
 import com.github.andyshao.util.stream.RuntimeExceptionFactory;
+
+import java.util.Comparator;
 
 /**
  * 
@@ -19,14 +19,14 @@ import com.github.andyshao.util.stream.RuntimeExceptionFactory;
  */
 @FunctionalInterface
 public interface ExceptionableComparator<T> {
-	int compare(T o1, T o2) throws Exception;
+	int compare(T o1, T o2) throws Throwable;
 	
 	static <T> Convert<ExceptionableComparator<T>, Comparator<T>> toComparator(RuntimeExceptionFactory f) {
 		return input -> {
 			return (o1, o2) -> {
 				try {
 					return input.compare(o1, o2);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					throw f.build(e);
 				}
 			};

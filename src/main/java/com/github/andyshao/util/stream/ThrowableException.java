@@ -9,8 +9,10 @@ package com.github.andyshao.util.stream;
  * Encoding: UNIX UTF-8
  * 
  * @author Andy.Shao
+ * @deprecated unnecessary
  *
  */
+@Deprecated(since = "5.0.0.RELEASE")
 public class ThrowableException extends Exception {
 	private static final long serialVersionUID = 3780569937997515984L;
 	
