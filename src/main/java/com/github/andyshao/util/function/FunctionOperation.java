@@ -1,8 +1,8 @@
 package com.github.andyshao.util.function;
 
-import java.util.function.Function;
-
 import com.github.andyshao.lang.Convert;
+
+import java.util.function.Function;
 
 /**
  * 
@@ -15,13 +15,29 @@ import com.github.andyshao.lang.Convert;
  *
  */
 public final class FunctionOperation {
-	private FunctionOperation() {}
-	
+	private FunctionOperation() {
+		throw new AssertionError("Does not support construction");
+	}
+
+	/**
+	 * lambda
+	 * @param function {@link Function}
+	 * @return {@link Function}
+	 * @param <T> left type
+	 * @param <R> right type
+	 */
 	public static final <T, R> Function<T, R> lambda(Function<T, R> function) {
 		return function;
 	}
-	
+
+	/**
+	 * function
+	 * @param convert {@link Convert}
+	 * @return {@link Function}
+	 * @param <T> left type
+	 * @param <R> right type
+	 */
 	public static final <T, R> Function<T, R> function(Convert<T, R> convert) {
-		return t -> convert.convert(t);
+		return convert::convert;
 	}
 }

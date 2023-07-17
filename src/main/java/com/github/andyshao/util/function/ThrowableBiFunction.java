@@ -25,8 +25,22 @@ import java.util.function.BiFunction;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableBiFunction<T, U, R> {
+	/**
+	 * apply operation
+	 * @param t left type
+	 * @param u right type
+	 * @return ret
+	 * @throws Throwable any error
+	 */
 	R apply(T t, U u) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableBiFunction}
+	 * @return {@link ExceptionableBiFunction}
+	 * @param <T> left type
+	 * @param <U> right type
+	 * @param <R> return type
+	 */
 	static <T, U, R> Convert<ThrowableBiFunction<T, U, R>, ExceptionableBiFunction<T, U, R>> toExceptionableBiFunction() {
 		return input -> {
 			return new ExceptionableBiFunction<T, U, R>() {
@@ -42,7 +56,13 @@ public interface ThrowableBiFunction<T, U, R> {
 			};
 		};
 	}
-	
+
+	/**
+	 * and then
+	 * @param after after {@link ThrowableFunction}
+	 * @return {@link ThrowableFunction}
+	 * @param <V> data type
+	 */
 	default <V> ThrowableBiFunction<T, U, V> andThen(ThrowableFunction<? super R, ? extends V> after) {
         Objects.requireNonNull(after);
         return (T t, U u) -> after.apply(apply(t, u));

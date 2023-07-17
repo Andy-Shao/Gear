@@ -18,8 +18,20 @@ import java.util.function.ToDoubleFunction;
  * @see ToDoubleFunction
  */
 public interface ExceptionableToDoubleFunction<T> {
+	/**
+	 * apply as {@link Double}
+	 * @param value input
+	 * @return double value
+	 * @throws Throwable any error
+	 */
 	double applyAsDouble(T value) throws Throwable;
-	
+
+	/**
+	 * to double function
+	 * @param f exception function
+	 * @return {@link ToDoubleFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ExceptionableToDoubleFunction<T>, ToDoubleFunction<T>> toDoubleFunction(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
@@ -31,7 +43,12 @@ public interface ExceptionableToDoubleFunction<T> {
 			};
 		};
 	}
-	
+
+	/**
+	 * to double function
+	 * @return {@link ToDoubleFunction}
+ 	 * @param <T> data type
+	 */
 	static <T> Convert<ExceptionableToDoubleFunction<T>, ToDoubleFunction<T>> toDoubleFunction() {
 		return toDoubleFunction(RuntimeExceptionFactory.DEFAULT);
 	}

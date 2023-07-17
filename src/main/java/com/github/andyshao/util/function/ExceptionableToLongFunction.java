@@ -19,8 +19,20 @@ import java.util.function.ToLongFunction;
  * @see ToLongBiFunction
  */
 public interface ExceptionableToLongFunction<T> {
+	/**
+	 * apply as long
+	 * @param value input
+	 * @return long value
+	 * @throws Throwable any error
+	 */
 	long applyAsLong(T value) throws Throwable;
-	
+
+	/**
+	 * to long function
+	 * @param f exception factory
+	 * @return {@link ToLongFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ExceptionableToLongFunction<T>, ToLongFunction<T>> toLongFunction(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
@@ -32,7 +44,12 @@ public interface ExceptionableToLongFunction<T> {
 			};
 		};
 	}
-	
+
+	/**
+	 * to long function
+	 * @return {@link ToLongFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ExceptionableToLongFunction<T>, ToLongFunction<T>> toLongFunction() {
 		return toLongFunction(RuntimeExceptionFactory.DEFAULT);
 	}

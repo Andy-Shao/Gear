@@ -18,8 +18,20 @@ import java.util.function.ToIntFunction;
  * @see ToIntFunction
  */
 public interface ExceptionableToIntFunction<T> {
+	/**
+	 * apply as int
+	 * @param value input
+	 * @return int value
+	 * @throws Throwable any error
+	 */
 	int applyAsInt(T value) throws Throwable;
-	
+
+	/**
+	 * to {@link ToIntFunction}
+	 * @param f exception factory
+	 * @return {@link ToIntFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ExceptionableToIntFunction<T>, ToIntFunction<T>> toIntFunction(RuntimeExceptionFactory f) {
 		return input -> {
 			return t -> {
@@ -31,7 +43,12 @@ public interface ExceptionableToIntFunction<T> {
 			};
 		};
 	}
-	
+
+	/**
+	 * to int function
+	 * @return {@link ToIntFunction}
+	 * @param <T> data type
+	 */
 	public static <T> Convert<ExceptionableToIntFunction<T>, ToIntFunction<T>> toIntFunction() {
 		return toIntFunction(RuntimeExceptionFactory.DEFAULT);
 	}

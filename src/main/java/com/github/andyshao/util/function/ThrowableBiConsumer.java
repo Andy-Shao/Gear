@@ -24,8 +24,20 @@ import java.util.function.BiConsumer;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableBiConsumer<T, U> {
+	/**
+	 * accept operation
+	 * @param t left type
+	 * @param u right type
+	 * @throws Throwable any error
+	 */
 	void accept(T t, U u) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableBiConsumer}
+	 * @return {@link ExceptionableBiConsumer}
+	 * @param <T> left type
+	 * @param <U> right type
+	 */
 	static <T, U> Convert<ThrowableBiConsumer<T, U>, ExceptionableBiConsumer<T, U>> toExceptionableBiConsumer() {
 		return input -> {
 			return new ExceptionableBiConsumer<T, U>() {
@@ -40,7 +52,12 @@ public interface ThrowableBiConsumer<T, U> {
 			};
 		};
 	}
-	
+
+	/**
+	 * and then
+	 * @param after after operation
+	 * @return {@link ThrowableBiConsumer}
+	 */
 	default ThrowableBiConsumer<T, U> andThen(ThrowableBiConsumer<? super T, ? super U> after) {
 		Objects.requireNonNull(after);
 		return (t, u) -> {

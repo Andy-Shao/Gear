@@ -10,7 +10,7 @@ import java.util.function.Function;
  * 
  * 
  * Title:<br>
- * Descript:<br>
+ * Description:<br>
  * Copyright: Copryright(c) May 27, 2019<br>
  * Encoding: UNIX UTF-8
  * 
@@ -63,7 +63,7 @@ public interface ExceptionableFunction<T, R> {
 	 * compose
 	 * @param before before {@link ExceptionableFunction}
 	 * @return new {@link ExceptionableFunction}
-	 * @param <V>
+	 * @param <V> data type
 	 */
 	default <V> ExceptionableFunction<V, R> compose(ExceptionableFunction<? super V, ? extends T> before) {
 		Objects.requireNonNull(before);
@@ -71,16 +71,21 @@ public interface ExceptionableFunction<T, R> {
 	}
 
 	/**
-	 *
-	 * @param after
-	 * @return
-	 * @param <V>
+	 * and then
+	 * @param after after {@link ExceptionableFunction}
+	 * @return a new {@link ExceptionableFunction}
+	 * @param <V> data type
 	 */
 	default <V> ExceptionableFunction<T, V> andThen(ExceptionableFunction<? super R, ? extends V> after) {
 		Objects.requireNonNull(after);
 		return t -> after.apply(this.apply(t));
 	}
-	
+
+	/**
+	 * identity
+	 * @return {@link ExceptionableFunction}
+	 * @param <T> data type
+	 */
 	static <T> ExceptionableFunction<T, T> identity() {
 		return t -> t;
 	}

@@ -20,8 +20,19 @@ import java.util.function.Supplier;
  */
 @FunctionalInterface
 public interface ExceptionableSupplier<R> {
+	/**
+	 * get operation
+	 * @return the value
+	 * @throws Throwable any error
+	 */
 	R get() throws Throwable;
-	
+
+	/**
+	 * to supplier
+	 * @param f exception factory
+	 * @return {@link Supplier}
+	 * @param <R> data type
+	 */
 	static <R> Convert<ExceptionableSupplier<R>, Supplier<R>> toSupplier(RuntimeExceptionFactory f) {
 		return input -> {
 			return () -> {
@@ -33,7 +44,12 @@ public interface ExceptionableSupplier<R> {
 			};
 		};
 	}
-	
+
+	/**
+	 * to supplier
+	 * @return {@link Supplier}
+	 * @param <R> data type
+	 */
 	static <R> Convert<ExceptionableSupplier<R>, Supplier<R>> toSupplier() {
 		return toSupplier(RuntimeExceptionFactory.DEFAULT);
 	}

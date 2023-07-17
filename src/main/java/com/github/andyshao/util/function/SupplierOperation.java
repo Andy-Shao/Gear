@@ -13,8 +13,16 @@ import java.util.function.Supplier;
  *
  */
 public class SupplierOperation {
-	private SupplierOperation() {}
-	
+	private SupplierOperation() {
+		throw new AssertionError("Does not support exception");
+	}
+
+	/**
+	 * lambda
+	 * @param supplier {@link Supplier}
+	 * @return original {@link Supplier}
+	 * @param <T> data type
+	 */
 	public static final <T> Supplier<T> lambda(Supplier<T> supplier) {
 		return supplier;
 	}
