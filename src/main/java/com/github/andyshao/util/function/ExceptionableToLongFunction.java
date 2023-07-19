@@ -33,7 +33,7 @@ public interface ExceptionableToLongFunction<T> {
 	 * @return {@link ToLongFunction}
 	 * @param <T> data type
 	 */
-	static <T> Convert<ExceptionableToLongFunction<T>, ToLongFunction<T>> toLongFunction(RuntimeExceptionFactory f) {
+	static <T> Convert<ExceptionableToLongFunction<T>, ToLongFunction<T>> toLongFunction(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return t -> {
 				try {

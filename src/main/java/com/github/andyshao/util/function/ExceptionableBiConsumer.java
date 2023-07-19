@@ -37,7 +37,7 @@ public interface ExceptionableBiConsumer<T, U> {
 	 * @param <T> left type
 	 * @param <U> right type
 	 */
-	static <T,U> Convert<ExceptionableBiConsumer<T, U>, BiConsumer<T, U>> toBiConsumer(RuntimeExceptionFactory factory) {
+	static <T,U> Convert<ExceptionableBiConsumer<T, U>, BiConsumer<T, U>> toBiConsumer(RuntimeExceptionFactory<?> factory) {
 		return input -> {
 			return (t, u) -> {
 				try {

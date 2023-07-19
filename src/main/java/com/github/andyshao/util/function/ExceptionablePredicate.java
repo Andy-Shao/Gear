@@ -34,7 +34,7 @@ public interface ExceptionablePredicate<T> {
 	 * @return {@link Predicate}
 	 * @param <T> data type
 	 */
-	static <T> Convert<ExceptionablePredicate<T>, Predicate<T>> toPredicate(RuntimeExceptionFactory f) {
+	static <T> Convert<ExceptionablePredicate<T>, Predicate<T>> toPredicate(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return t -> {
 				try {

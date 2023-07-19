@@ -24,8 +24,18 @@ import java.util.function.Consumer;
 @Deprecated(since = "5.0.0.RELEASE")
 @FunctionalInterface
 public interface ThrowableConsumer<T> {
+	/**
+	 * accept operation
+	 * @param t input
+	 * @throws Throwable any error
+	 */
 	void accept(T t) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableConsumer}
+	 * @return {@link ExceptionableConsumer}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ThrowableConsumer<T>, ExceptionableConsumer<T>> toExceptionableConsumer() {
 		return input -> {
 			return new ExceptionableConsumer<T>() {
@@ -41,7 +51,12 @@ public interface ThrowableConsumer<T> {
 			};
 		};
 	}
-	
+
+	/**
+	 * and then
+	 * @param after after {@link ThrowableConsumer}
+	 * @return {@link ThrowableConsumer}
+	 */
 	default ThrowableConsumer<T> andThen(ThrowableConsumer<? super T> after) {
 		Objects.requireNonNull(after);
 		return it -> {

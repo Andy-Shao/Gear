@@ -32,6 +32,11 @@ public interface CollectionModel<E> extends Collection<E>, Serializable {
         return false;
     }
 
+    /**
+     * index of
+     * @param o input
+     * @return the first address of input value
+     */
     default int indexOf(Object o) {
         int index = 0;
         for(E e : this) {
@@ -41,6 +46,11 @@ public interface CollectionModel<E> extends Collection<E>, Serializable {
         return -1;
     }
 
+    /**
+     * last index of
+     * @param o input
+     * @return the last index of input value
+     */
     default int lastIndexOf(Object o) {
         int index = 0;
         for(E e : this) {

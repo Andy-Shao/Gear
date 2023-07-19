@@ -19,11 +19,27 @@ import java.util.function.Supplier;
  *
  */
 public final class CollectionOperation {
+    /**
+     * of operation
+     * @param col {@link Collection}
+     * @param item the member of {@link Collection}
+     * @return origin {@link Collection}
+     * @param <E> data type
+     */
     public static <E> Collection<E> of(Collection<E> col, E item){
         col.add(item);
         return col;
     }
 
+    /**
+     * range
+     * @param start start point (inclusive)
+     * @param end end point (exclusive)
+     * @param step add step
+     * @param fun {@link Function}
+     * @return {@link Iterator}
+     * @param <E> data type
+     */
     public static <E> Iterator<E> range(int start, int end, int step, Function<Integer, E> fun){
         return new Iterator<E>() {
             private int start;
@@ -44,19 +60,48 @@ public final class CollectionOperation {
             }
         }.setStart(start);
     }
+
+    /**
+     * add all
+     * @param collection {@link Collection}
+     * @param array {@link com.github.andyshao.lang.ArrayType} array
+     * @param <E> the type of {@link Collection}'s members'
+     * @param <ARRAY> array type
+     */
     public static <E , ARRAY> void addAll(Collection<E> collection , ARRAY array) {
         CollectionOperation.addAll(collection , ArrayWrapper.wrap(array));
     }
 
+    /**
+     * add all
+     * @param collection {@link Collection}
+     * @param array array type
+     * @param <E> the type of {@link Collection}'s members'
+     */
     @SuppressWarnings("unchecked")
     public static <E> void addAll(Collection<E> collection , ArrayWrapper array) {
         for (Object item : array) collection.add((E) item);
     }
-    
+
+    /**
+     * is empty or null
+     * @param collection {@link Collection}
+     * @return if it is then true
+     * @param <E> the type of {@link Collection}'s members'
+     */
     public static <E> boolean isEmptyOrNull(Collection<E> collection) {
         return collection == null || collection.isEmpty();
     }
 
+    /**
+     * or operation
+     * @param left left {@link Collection}
+     * @param right right {@link Collection}
+     * @param supplier {@link Supplier}
+     * @return {@link Collection}
+     * @param <E> member type
+     * @param <T> {@link Collection} type
+     */
     public static <E, T extends Collection<E>> T or(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
         T ret = supplier.get();
         if(Objects.isNull(left) && Objects.isNull(right)) {
@@ -74,6 +119,15 @@ public final class CollectionOperation {
         }
     }
 
+    /**
+     * and operation
+     * @param left left {@link Collection}
+     * @param right right {@link Collection}
+     * @param supplier {@link Supplier}
+     * @return {@link Collection}
+     * @param <E> member type
+     * @param <T> {@link Collection} type
+     */
     public static <E, T extends Collection<E>> T and(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
         T ret = supplier.get();
         if(Objects.isNull(left) || Objects.isNull(right)) {
@@ -88,12 +142,12 @@ public final class CollectionOperation {
     /**
      * return a collection which includes items that are included in left but
      * are not included in right.
-     * @param left
-     * @param right
-     * @param supplier
-     * @return
-     * @param <E>
-     * @param <T>
+     * @param left left {@link Collection}
+     * @param right right {@link Collection}
+     * @param supplier {@link Supplier}
+     * @return {@link Collection}
+     * @param <E> member type
+     * @param <T> {@link Collection} type
      */
     public static <E, T extends Collection<E>> T not(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
         T ret = supplier.get();
@@ -110,6 +164,15 @@ public final class CollectionOperation {
         }
     }
 
+    /**
+     * xor operation
+     * @param left left {@link Collection}
+     * @param right right {@link Collection}
+     * @param supplier {@link Supplier}
+     * @return {@link Collection}
+     * @param <E> member type
+     * @param <T> {@link Collection} type
+     */
     public static <E, T extends Collection<E>> T xor(Collection<E> left, Collection<E> right, Supplier<T> supplier) {
         return or(not(left, right, supplier), not(right, left, supplier), supplier);
     }

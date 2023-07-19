@@ -33,7 +33,7 @@ public interface ExceptionableConsumer<T> {
 	 * @return {@link Convert}
 	 * @param <T> data type
 	 */
-	static <T> Convert<ExceptionableConsumer<T>, Consumer<T>> toConsumer(RuntimeExceptionFactory f) {
+	static <T> Convert<ExceptionableConsumer<T>, Consumer<T>> toConsumer(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return t -> {
 				try {

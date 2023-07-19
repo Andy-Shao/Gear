@@ -32,7 +32,7 @@ public interface ExceptionableToDoubleFunction<T> {
 	 * @return {@link ToDoubleFunction}
 	 * @param <T> data type
 	 */
-	static <T> Convert<ExceptionableToDoubleFunction<T>, ToDoubleFunction<T>> toDoubleFunction(RuntimeExceptionFactory f) {
+	static <T> Convert<ExceptionableToDoubleFunction<T>, ToDoubleFunction<T>> toDoubleFunction(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return t -> {
 				try {

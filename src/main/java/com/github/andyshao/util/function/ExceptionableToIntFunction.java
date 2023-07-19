@@ -32,7 +32,7 @@ public interface ExceptionableToIntFunction<T> {
 	 * @return {@link ToIntFunction}
 	 * @param <T> data type
 	 */
-	static <T> Convert<ExceptionableToIntFunction<T>, ToIntFunction<T>> toIntFunction(RuntimeExceptionFactory f) {
+	static <T> Convert<ExceptionableToIntFunction<T>, ToIntFunction<T>> toIntFunction(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return t -> {
 				try {

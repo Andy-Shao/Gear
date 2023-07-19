@@ -21,8 +21,19 @@ import java.util.function.ToLongFunction;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableToLongFunction<T> {
+	/**
+	 * apply as long
+	 * @param value input
+	 * @return long value
+	 * @throws Throwable any error
+	 */
 	long applyAsLong(T value) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableToLongFunction}
+	 * @return {@link ExceptionableToLongFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ThrowableToLongFunction<T>, ExceptionableToLongFunction<T>> toExceptionableToLongFunction() {
 		return input -> {
 			return t -> {

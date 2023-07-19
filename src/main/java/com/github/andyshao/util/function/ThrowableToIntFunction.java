@@ -21,8 +21,19 @@ import java.util.function.ToIntFunction;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableToIntFunction<T> {
+	/**
+	 * apply as int
+	 * @param value input
+	 * @return int value
+	 * @throws Throwable any error
+	 */
 	int applyAsInt(T value) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableToIntFunction}
+	 * @return {@link ExceptionableToIntFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ThrowableToIntFunction<T>, ExceptionableToIntFunction<T>> toExceptionableToIntFunction() {
 		return input -> {
 			return t -> {

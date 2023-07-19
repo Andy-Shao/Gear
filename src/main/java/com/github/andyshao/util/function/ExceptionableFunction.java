@@ -37,7 +37,7 @@ public interface ExceptionableFunction<T, R> {
 	 * @param <T> left type
 	 * @param <R> right type
 	 */
-	static <T, R> Convert<ExceptionableFunction<T, R>, Function<T, R>> toFunction(RuntimeExceptionFactory factory) {
+	static <T, R> Convert<ExceptionableFunction<T, R>, Function<T, R>> toFunction(RuntimeExceptionFactory<?> factory) {
 		return input -> {
 			return t -> {
 				try {

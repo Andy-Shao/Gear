@@ -24,8 +24,19 @@ import java.util.function.Predicate;
 @Deprecated(since = "5.0.0.RELEASE")
 @FunctionalInterface
 public interface ThrowablePredicate<T> {
+	/**
+	 * test operation
+	 * @param t input
+	 * @return ret
+	 * @throws Throwable any error
+	 */
 	boolean test(T t) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionablePredicate}
+	 * @return {@link ExceptionablePredicate}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ThrowablePredicate<T>, ExceptionablePredicate<T>> toExceptionablePredicate() {
 		return input -> {
 			return new ExceptionablePredicate<T>() {
@@ -41,25 +52,51 @@ public interface ThrowablePredicate<T> {
 			};
 		};
 	}
-	
-	default ThrowablePredicate<T> and(ThrowablePredicate<? super T> other) {
-		Objects.requireNonNull(other);
-		return t -> this.test(t) && other.test(t);
+
+	/**
+	 * and operation
+	 * @param another {@link ThrowablePredicate}
+	 * @return {@link ThrowablePredicate}
+	 */
+	default ThrowablePredicate<T> and(ThrowablePredicate<? super T> another) {
+		Objects.requireNonNull(another);
+		return t -> this.test(t) && another.test(t);
 	}
-	
+
+	/**
+	 * negate operation
+	 * @return {@link ThrowablePredicate}
+	 */
 	default ThrowablePredicate<T> negate() {
 		return t -> !this.test(t);
 	}
-	
+
+	/**
+	 * negate operation
+	 * @param predicate {@link ThrowablePredicate}
+	 * @return {@link ThrowablePredicate}
+	 * @param <T> data type
+	 */
 	static <T> ThrowablePredicate<T> negate(ThrowablePredicate<T> predicate) {
 		return predicate.negate();
 	}
-	
-	default ThrowablePredicate<T> or(ThrowablePredicate<? super T> other) {
-		Objects.requireNonNull(other);
-		return t -> this.test(t) || other.test(t);
+
+	/**
+	 * or operation
+	 * @param another {@link ThrowablePredicate}
+	 * @return {@link ThrowablePredicate}
+	 */
+	default ThrowablePredicate<T> or(ThrowablePredicate<? super T> another) {
+		Objects.requireNonNull(another);
+		return t -> this.test(t) || another.test(t);
 	}
-	
+
+	/**
+	 * is equal
+	 * @param targetRef target
+	 * @return is equal
+	 * @param <T> data type
+	 */
 	static <T> ThrowablePredicate<T> isEqual(Object targetRef) {
         return (null == targetRef)
                 ? Objects::isNull

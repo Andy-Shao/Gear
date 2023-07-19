@@ -22,8 +22,18 @@ import java.util.function.Supplier;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableSupplier<R> {
+	/**
+	 * get operation
+	 * @return ret
+	 * @throws Throwable any error
+	 */
 	R get() throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableSupplier}
+	 * @return {@link ExceptionableSupplier}
+	 * @param <R> return type
+	 */
 	static <R> Convert<ThrowableSupplier<R>, ExceptionableSupplier<R>> toExceptionableSupplier() {
 		return input -> {
 			return new ExceptionableSupplier<R>() {

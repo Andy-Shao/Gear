@@ -38,7 +38,7 @@ public interface ExceptionableBiPredicate<T, U> {
 	 * @param <T> left type
 	 * @param <U> right type
 	 */
-	static <T, U> Convert<ExceptionableBiPredicate<T, U>, BiPredicate<T, U>> toBiPredicate(RuntimeExceptionFactory f) {
+	static <T, U> Convert<ExceptionableBiPredicate<T, U>, BiPredicate<T, U>> toBiPredicate(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return (t, u) -> {
 				try {

@@ -21,8 +21,19 @@ import java.util.function.ToDoubleFunction;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableToDoubleFunction<T> {
+	/**
+	 * apply as double
+	 * @param value input
+	 * @return double value
+	 * @throws Throwable any error
+	 */
 	double applyAsDouble(T value) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableToDoubleFunction}
+	 * @return {@link ExceptionableToDoubleFunction}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ThrowableToDoubleFunction<T>, ExceptionableToDoubleFunction<T>> toDoubleFunction() {
 		return input -> {
 			return t -> {

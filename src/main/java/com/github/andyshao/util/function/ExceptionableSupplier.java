@@ -33,7 +33,7 @@ public interface ExceptionableSupplier<R> {
 	 * @return {@link Supplier}
 	 * @param <R> data type
 	 */
-	static <R> Convert<ExceptionableSupplier<R>, Supplier<R>> toSupplier(RuntimeExceptionFactory f) {
+	static <R> Convert<ExceptionableSupplier<R>, Supplier<R>> toSupplier(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return () -> {
 				try {

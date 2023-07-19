@@ -1,12 +1,12 @@
 package com.github.andyshao.util.stream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class EitherTest {
 
@@ -17,7 +17,7 @@ class EitherTest {
 			.map(Either.funExp(item -> dosomething(item)))
 			.forEach(either -> {
 				if(either.isLeft()) {
-					Optional<Exception> left = either.getLeft();
+					Optional<Throwable> left = either.getLeft();
 					assertTrue(left.isPresent());
 					assertTrue(left.get() instanceof RuntimeException);
 				} else {

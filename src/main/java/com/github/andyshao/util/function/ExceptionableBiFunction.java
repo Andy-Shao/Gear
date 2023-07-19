@@ -40,7 +40,7 @@ public interface ExceptionableBiFunction<T, U, R> {
 	 * @param <U> right type
 	 * @param <R> return type
 	 */
-	static <T, U, R> Convert<ExceptionableBiFunction<T, U, R>, BiFunction<T, U, R>> toBiFunction(RuntimeExceptionFactory f) {
+	static <T, U, R> Convert<ExceptionableBiFunction<T, U, R>, BiFunction<T, U, R>> toBiFunction(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return (t, u) -> {
 				try {
