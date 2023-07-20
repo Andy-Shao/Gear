@@ -19,6 +19,13 @@ public final class IteratorOperation {
         throw new AssertionError("No instance " + IteratorOperation.class + " for you");
     }
 
+    /**
+     * to array
+     * @param it {@link Iterator}
+     * @param clazz type
+     * @return new array
+     * @param <T> data type
+     */
     @SuppressWarnings("unchecked")
     public static final <T> T[] toArray(Iterator<T> it, Class<T> clazz) {
         List<T> ls = new ArrayList<>();

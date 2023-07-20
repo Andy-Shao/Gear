@@ -25,15 +25,41 @@ public final class MapOperation {
     private MapOperation() {
     }
 
+	/**
+	 * of operation
+	 * @param map {@link Map}
+	 * @param key key
+	 * @param value value
+	 * @return origin {@link Map}
+	 */
 	@SuppressWarnings({"rawtypes", "unchecked"})
 	public static Map of(Map map, Object key, Object value){
 		map.put(key, value);
 		return map;
 	}
+
+	/**
+	 * is empty or null
+	 * @param map {@link Map}
+	 * @return if it is then true
+	 * @param <K> key type
+	 * @param <V> value type
+	 */
     public static final <K,V> boolean isEmptyOrNull(Map<K, V> map) {
         return map == null || map.isEmpty();
     }
-    
+
+	/**
+	 * convert map
+	 * @param convert key &amp; value {@link Convert}
+	 * @param suplier {@link Map} factory
+	 * @return the {@link Map}
+	 * @param <K> origin key type
+	 * @param <K2> new key type
+	 * @param <V> origin value type
+	 * @param <V2> new value type
+	 * @param <R> new {@link Map} type
+	 */
     public static final <K, K2, V, V2, R extends Map<K2, V2>> Convert<Map<K, V>, R> convertMap(
     		Convert<Pair<K, V>, Optional<Pair<K2, V2>>> convert, 
     		Supplier<R> suplier) {
@@ -49,17 +75,45 @@ public final class MapOperation {
 			return ret;
     	};
     }
-    
+
+	/**
+	 * convert map
+	 * @param convert key &amp; value {@link Convert}
+	 * @return new {@link Map}
+	 * @param <K> origin key type
+	 * @param <K2> new key type
+	 * @param <V> origin value type
+	 * @param <V2> new value type
+	 */
     public static final <K, K2, V, V2> Convert<Map<K, V>, Map<K2, V2>> convertMap(
     		Convert<Pair<K, V>, Optional<Pair<K2, V2>>> convert) {
     	return convertMap(convert, HashMap::new);
     }
-    
+
+	/**
+	 * convert {@link ConcurrentMap}
+	 * @param convert key &amp; value {@link Convert}
+	 * @return new {@link Map}
+	 * @param <K> origin key type
+	 * @param <K2> new key type
+	 * @param <V> origin value type
+	 * @param <V2> new value type
+	 */
     public static final <K, K2, V, V2> Convert<Map<K, V>, ConcurrentMap<K2, V2>> convertConcurrentMap(
     		Convert<Pair<K, V>, Optional<Pair<K2, V2>>> convert) {
     	return convertMap(convert, ConcurrentHashMap::new);
     }
-    
+
+	/**
+	 * wrap {@link Map}
+	 * @param supplier {@link Map} factory
+	 * @param valStr value string
+	 * @param convert key &amp; value {@link Convert}
+	 * @return a new {@link Map}
+	 * @param <K> new key type
+	 * @param <V> origin value type
+	 * @param <R> new {@link Map} type
+	 */
     public static final <K, V, R extends Map<K, V>> R wrapMap(
     		Supplier<R> supplier, 
     		String valStr, 
@@ -88,24 +142,50 @@ public final class MapOperation {
 
 		return result;
     }
-    
+
+	/**
+	 * wrap {@link Map}
+	 * @param valStr value string
+	 * @param convert key &amp; value {@link Convert}
+	 * @return new {@link Map}
+	 * @param <K> key type
+	 * @param <V> value type
+	 */
     public static final <K, V> Map<K, V> wrapMap(
     		String valStr, 
     		Convert<Pair<String, String>, Optional<Pair<K, V>>> convert) {
     	return wrapMap(HashMap::new, valStr, convert);
     }
-    
+
+	/**
+	 * wrap {@link ConcurrentMap}
+	 * @param valStr value string
+	 * @param convert key &amp; value {@link Convert}
+	 * @return new {@link ConcurrentMap}
+	 * @param <K> key type
+	 * @param <V> value type
+	 */
     public static final <K, V> ConcurrentMap<K, V> wrapConcurrentMap(
     		String valStr, 
     		Convert<Pair<String, String>, Optional<Pair<K, V>>> convert) {
     	return wrapMap(ConcurrentHashMap::new, valStr, convert);
     }
-    
-    public static final Map<String, Object> wrapMap(String valStr) {
+
+	/**
+	 * wrap {@link Map}
+	 * @param valStr value string
+	 * @return {@link Map}
+	 */
+	public static final Map<String, Object> wrapMap(String valStr) {
     	return wrapMap(valStr, input -> Optional.of(Pair.of(input.getFirst(), input.getSecond())));
     }
-    
-    public static final Map<String, String> wrapStringMap(String valStr) {
+
+	/**
+	 * wrap string map
+	 * @param valStr value string
+	 * @return {@link Map}
+	 */
+	public static final Map<String, String> wrapStringMap(String valStr) {
     	return wrapMap(valStr, input -> Optional.of(Pair.of(input.getFirst(), input.getSecond())));
     }
 }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 /**
  * 
  * Title:object properties copy<br>
- * Descript:<br>
+ * Description:<br>
  * Copyright: Copryright(c) 28 Feb 2017<br>
  * Encoding:UNIX UTF-8
  * @author Andy.Shao
@@ -30,7 +30,7 @@ public final class EntityOperation {
     /**
      * 
      * Title: Field matching procession interface<br>
-     * Descript:<br>
+     * Description:<br>
      * Copyright: Copryright(c) 28 Feb 2017<br>
      * Encoding:UNIX UTF-8
      * @author Andy.Shao
@@ -39,18 +39,43 @@ public final class EntityOperation {
      * @param <OUT> outpu args
      */
 	public static interface FieldMapper<IN, OUT> {
+		/**
+		 * match
+		 * @param in input
+		 * @param out output
+		 * @return {@link FieldMatch}
+		 */
 		List<FieldMatch> match(IN in, OUT out);
 	}
-	
+
+	/**
+	 * Field mapper operations
+	 * @param <IN> input type
+	 * @param <OUT> output type
+	 */
 	public static interface FieldMapperOps<IN, OUT> extends FieldMapper<IN, OUT> {
+		/**
+		 * replace or add
+		 * @param in input {@link Field}
+		 * @param out output {@link Field}
+		 * @param newValue {@link FieldMatch}
+		 * @return {@link FieldMapperOps}
+		 */
 		FieldMapperOps<IN, OUT> replaceOrAdd(Field in, Field out, FieldMatch newValue);
+
+		/**
+		 * remove
+		 * @param in input {@link Field}
+		 * @param out output {@link Field}
+		 * @return {@link FieldMapperOps}
+		 */
 		FieldMapperOps<IN, OUT> remove(Field in, Field out);
 	}
 	
 	/**
 	 * 
 	 * Title: Field matching definition<br>
-	 * Descript:<br>
+	 * Description:<br>
 	 * Copyright: Copryright(c) 28 Feb 2017<br>
 	 * Encoding:UNIX UTF-8
 	 * @author Andy.Shao
@@ -63,7 +88,12 @@ public final class EntityOperation {
 		private Field destField;
         private PropertyConvert convert;
         private BiPredicate<Object, Object> isConvertable;
-		
+
+		/**
+		 * build {@link FieldMatch}
+		 * @param resField resource {@link Field}
+		 * @param destField destination {@link Field}
+		 */
 		public FieldMatch(Field resField, Field destField){
 			this.resField = resField;
 			this.destField = destField;
@@ -81,6 +111,13 @@ public final class EntityOperation {
 	 */
 	@FunctionalInterface
 	public static interface PropertyConvert extends Convert<PropertyNode, Object>{
+		/**
+		 * convert operation
+		 * @param in input
+		 * @param inClazz input type
+		 * @param outClazz output type
+		 * @return output
+		 */
 		default Object convert(Object in, Class<?> inClazz, Class<?> outClazz) {
 			return this.convert(PropertyNode.builder()
 					.in(in)
@@ -134,6 +171,13 @@ public final class EntityOperation {
 		});
 	}
 
+	/**
+	 * ops
+	 * @param origin origin mapper
+	 * @return new mapper
+	 * @param <RES> resource type
+	 * @param <DEST> destination type
+	 */
 	public static final <RES, DEST> FieldMapperOps<RES, DEST> ops(FieldMapper<RES, DEST> origin) {
 		return new FieldMapperOps<RES, DEST>() {
 			private Map<Key, FieldMatch> replace = new HashMap<>();
@@ -188,11 +232,25 @@ public final class EntityOperation {
 			}
 		};
 	}
-	
+
+	/**
+	 * default {@link FieldMapper}
+	 * @return {@link FieldMapper}
+	 * @param <RES> resource
+	 * @param <DEST> destination
+	 */
 	public static final <RES, DEST> FieldMapper<RES, DEST> defaultFieldMapper() {
 		return defaultFieldMapper((in, out) -> false, (in, out) -> null);
 	}
 
+	/**
+	 * default {@link FieldMapper}
+	 * @param predicate {@link BiPredicate}
+	 * @param function {@link BiFunction}
+	 * @return {@link FieldMapper}
+	 * @param <RES> resource
+	 * @param <DEST> destination
+	 */
 	public static final <RES, DEST> FieldMapper<RES, DEST> defaultFieldMapper(BiPredicate<Field, Field> predicate, BiFunction<Field, Field, FieldMatch> function) {
 		return (input, output) -> {
 			if(input == null || output == null) return Collections.emptyList();
@@ -218,7 +276,13 @@ public final class EntityOperation {
 			return result;
 		};
 	}
-	
+
+	/**
+	 * is match
+	 * @param inputField {@link Field}
+	 * @param outputField {@link Field}
+	 * @return if it is then true
+	 */
 	public static final boolean isMatch(Field inputField, Field outputField) {
 	    final Class<?> outputType = outputField.getType();
         final Class<?> inputType = inputField.getType();

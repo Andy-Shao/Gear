@@ -19,9 +19,22 @@ import java.util.Comparator;
  */
 @FunctionalInterface
 public interface ExceptionableComparator<T> {
+	/**
+	 * compare
+	 * @param o1 left item
+	 * @param o2 right item
+	 * @return compare result
+	 * @throws Throwable any error
+	 */
 	int compare(T o1, T o2) throws Throwable;
-	
-	static <T> Convert<ExceptionableComparator<T>, Comparator<T>> toComparator(RuntimeExceptionFactory f) {
+
+	/**
+	 * to comparator
+	 * @param f exception factory
+	 * @return return type
+	 * @param <T> data type
+	 */
+	static <T> Convert<ExceptionableComparator<T>, Comparator<T>> toComparator(RuntimeExceptionFactory<?> f) {
 		return input -> {
 			return (o1, o2) -> {
 				try {
@@ -32,7 +45,12 @@ public interface ExceptionableComparator<T> {
 			};
 		};
 	}
-	
+
+	/**
+	 * from {@link ExceptionableComparator} to {@link Comparator}
+	 * @return {@link Comparator}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ExceptionableComparator<T>, Comparator<T>> toComparator() {
 		return toComparator(RuntimeExceptionFactory.DEFAULT);
 	}

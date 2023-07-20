@@ -19,39 +19,86 @@ import java.util.function.Supplier;
  *
  */
 public final class ObjectOperation {
+    /**
+     * function not null or default
+     * @param t input
+     * @param function {@link Function}
+     * @param def default
+     * @return function result or default value
+     * @param <T> input type
+     * @param <R> output type
+     */
     public static final <T,R> R functionNonNullOrDefault(T t, Function<T, R> function, R def) {
         return functionNonNullOrElseGet(t, function, () -> def);
     }
 
+    /**
+     * function not null or else get
+     * @param t input
+     * @param function {@link Function}
+     * @param supplier default factory
+     * @return function result or default value
+     * @param <T> input type
+     * @param <R> output type
+     */
     public static final <T,R> R functionNonNullOrElseGet(T t, Function<T, R> function, Supplier<R> supplier) {
         return functionAfterTestOrElseGet(t, it -> Objects.nonNull(t), function, supplier);
     }
 
+    /**
+     * function after test or else get
+     * @param t input
+     * @param predicate {@link Predicate}
+     * @param function {@link Function}
+     * @param supplier default factory
+     * @return function result or default value
+     * @param <T> input type
+     * @param <R> output type
+     */
     public static final <T,R> R functionAfterTestOrElseGet(
             T t, Predicate<T> predicate, Function<T, R> function, Supplier<R> supplier) {
         if(predicate.test(t)) return function.apply(t);
         return supplier.get();
     }
 
+    /**
+     * is same object
+     * @param thiz object A
+     * @param that object B
+     * @return if it is then true
+     */
 	public static final boolean isSameObj(Object thiz, Object that) {
 		return thiz == that;
 	}
-	
+
+    /**
+     * is pass equals and hashCode
+     * @param thiz Object A
+     * @param that Object B
+     * @return if it is then true
+     */
 	public static final boolean isPassEqualsAndHashCode(Object thiz, Object that) {
 		if(thiz == null || that == null) return false;
 		return thiz.equals(that) && thiz.hashCode() == that.hashCode();
 	}
-	
+
+    /**
+     * value or default
+     * @param value value
+     * @param def default value
+     * @return value or default
+     * @param <T> data type
+     */
     public static final <T> T valueOrDefault(T value , T def) {
         return Objects.isNull(value) ? def : value;
     }
-    
-    @Deprecated
-    public static final <T> T valueOrNull(T value , T nullDefault) {
-        if (value == null) return nullDefault;
-        else return value;
-    }
-    
+
+    /**
+     * equals any one return item
+     * @param value value
+     * @param compareList compare list
+     * @return compare result
+     */
     public static final Pair<Object, Boolean> equalsAnyOneRetItem(Object value, Object...compareList) {
     	if(value == null && compareList == null) return Pair.of(null, false);
         else if(value != null && compareList == null) return Pair.of(null, false);
