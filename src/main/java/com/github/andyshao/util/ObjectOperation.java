@@ -109,11 +109,23 @@ public final class ObjectOperation {
     	
     	return Pair.of(null, false);
     }
-    
+
+    /**
+     * equals and one
+     * @param value value
+     * @param compareList compare list
+     * @return if it is then true
+     */
     public static final boolean equalsAnyOne(Object value, Object...compareList) {
         return equalsAnyOneRetItem(value, compareList).getSecond();
     }
-    
+
+    /**
+     * equals and one return item
+     * @param value value
+     * @param it {@link Iterator}
+     * @return compare answer
+     */
     public static final Pair<Object, Boolean> equalsAnyOneRetItem(Object value, Iterator<Object> it) {
     	if(value == null && it == null) return Pair.of(null, false);
         else if(value != null && it == null) return Pair.of(null, false);
@@ -125,7 +137,13 @@ public final class ObjectOperation {
     	
     	return Pair.of(null, false);
     }
-    
+
+    /**
+     * equals any one
+     * @param value value
+     * @param it {@link Iterator}
+     * @return equal any one
+     */
     public static final boolean equalsAnyOne(Object value, Iterator<Object> it) {
         return equalsAnyOneRetItem(value, it).getSecond();
     }
