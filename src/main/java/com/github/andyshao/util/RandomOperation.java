@@ -404,6 +404,14 @@ public final class RandomOperation {
 	 */
 	static class RandomShortSpliterator extends RandomBaseSpliterator<Short> {
 
+		/**
+		 * build {@link RandomShortSpliterator}
+		 * @param random {@link Random}
+		 * @param index index
+		 * @param fence fence
+		 * @param minimum minimum value (inclusive)
+		 * @param maximum maximum value (exclusive)
+		 */
 		protected RandomShortSpliterator(Random random, long index, long fence, Short minimum, Short maximum) {
 			super(random, index, fence, minimum, maximum);
 		}
@@ -439,8 +447,19 @@ public final class RandomOperation {
 			return RandomOperation.nextByte(super.random, super.minimum, super.maximum);
 		}
 	}
-	
+
+	/**
+	 * Random char spliterator
+	 */
 	static class RandomCharSpliterator extends RandomBaseSpliterator<Character> {
+		/**
+		 * build {@link RandomCharSpliterator}
+		 * @param random {@link Random}
+		 * @param index index
+		 * @param fence fence
+		 * @param minimum minimum value (inclusive)
+		 * @param maximum maximum value (exclusive)
+		 */
 		protected RandomCharSpliterator(Random random, long index, long fence, Character minimum, Character maximum) {
 			super(random, index, fence, minimum, maximum);
 		}
@@ -459,8 +478,19 @@ public final class RandomOperation {
 		
 	}
 
+	/**
+	 * Random float spliterator
+	 */
 	static class RandomFloatSpliterator extends RandomBaseSpliterator<Float> {
 
+		/**
+		 * build {@link RandomFloatSpliterator}
+		 * @param random {@link Random}
+		 * @param index index
+		 * @param fence fence
+		 * @param minimum minimum value (inclusive)
+		 * @param maximum maximum value (exclusive)
+		 */
 		protected RandomFloatSpliterator(Random random, long index, long fence, Float minimum, Float maximum) {
 			super(random, index, fence, minimum, maximum);
 		}
@@ -477,12 +507,21 @@ public final class RandomOperation {
 		}
 	}
 
+	/**
+	 * Random base spliterator
+	 * @param <E> data type
+	 */
 	@AllArgsConstructor(access = AccessLevel.PROTECTED)
 	static abstract class RandomBaseSpliterator<E> implements Spliterator<E> {
+		/**{@link Random}*/
 		protected final Random random;
+		/**index*/
 		protected long index;
+		/**fence*/
 		protected long fence;
+		/**minimum value (inclusive)*/
 		protected final E minimum;
+		/**maximum value (exclusive)*/
 		protected final E maximum;
 		
 		@Override
@@ -495,9 +534,17 @@ public final class RandomOperation {
 			}
 			return false;
 		}
-		
+
+		/**
+		 * require next
+		 * @return the next item
+		 */
 		protected abstract E requireNext();
 
+		/**
+		 * the middle position
+		 * @return position
+		 */
 		protected long mid() {
 			return (this.index + this.fence) >>> 1;
 		}

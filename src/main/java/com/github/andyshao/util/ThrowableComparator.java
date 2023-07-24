@@ -21,8 +21,20 @@ import java.util.Comparator;
  */
 @Deprecated(since = "5.0.0.RELEASE")
 public interface ThrowableComparator<T> {
+	/**
+	 * compare
+	 * @param o1 one
+	 * @param o2 two
+	 * @return compare result
+	 * @throws Throwable any error
+	 */
 	int compare(T o1, T o2) throws Throwable;
-	
+
+	/**
+	 * to {@link ExceptionableComparator}
+	 * @return {@link ExceptionableComparator}
+	 * @param <T> data type
+	 */
 	static <T> Convert<ThrowableComparator<T>, ExceptionableComparator<T>> toExceptionableComparator() {
 		return input -> {
 			return (o1, o2) -> {
