@@ -22,6 +22,7 @@ import java.nio.file.Path;
  */
 public class CleanJavadocTask implements Task {
     private static final String HEAD = "/**";
+    /**keywords*/
     public static final String KEY_WORDS = "-cleanJavadoc";
     private static final String TAIL = "*/";
     private volatile Task nextTask = Task.EMPTY_TASK;

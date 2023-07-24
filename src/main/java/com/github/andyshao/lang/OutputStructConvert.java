@@ -26,6 +26,10 @@ public interface OutputStructConvert<IN , OUT> extends Convert<IN , OUT> {
      */
     @FunctionalInterface
     interface OutputFactory<E> {
+        /**
+         * build operation
+         * @return output element
+         */
         E build();
     }
  }

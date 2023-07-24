@@ -1,10 +1,10 @@
 package com.github.andyshao.arithmetic;
 
+import com.github.andyshao.lang.AutoIncreaseArray;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.function.Function;
-
-import com.github.andyshao.lang.AutoIncreaseArray;
 
 /**
  * 
@@ -151,7 +151,7 @@ public final class NumberMeths {
         return x.toArray(new Double[x.size()]);
     }
 
-    public NumberMeths() {
+    private NumberMeths() {
         throw new AssertionError("No " + NumberMeths.class.getName() + " instances for you!");
     }
 }

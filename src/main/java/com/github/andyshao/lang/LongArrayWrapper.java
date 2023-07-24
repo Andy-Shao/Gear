@@ -24,7 +24,7 @@ public class LongArrayWrapper extends ArrayWrapperModel implements ArrayWrapper 
 
     /**
      * build {@link LongArrayWrapper}
-     * @param array
+     * @param array {@link ArrayType#LONG_ARRAY}
      */
     public LongArrayWrapper(long[] array) {
         this.array = array;

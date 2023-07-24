@@ -20,6 +20,7 @@ public class ClassicRbTree<K extends Comparable<K> , V> implements RbTree<K , V>
     @Serial
     private static final long serialVersionUID = -2644066545159104607L;
     private final Supplier<RbTreeNode<K , V>> nodeFactory;
+    /**{@link BitreeNode} factory*/
     protected final Supplier<BitreeNode<RbTreeNode<K , V>>> treeNodeFactory;
     private volatile BitreeNode<RbTreeNode<K , V>> root;
 

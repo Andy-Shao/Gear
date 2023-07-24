@@ -136,8 +136,11 @@ public interface Bitree<D> extends Cleanable , Tree<D,BitreeNode<D>> {
     public class MyBitree<DATA> implements Bitree<DATA> {
         @Serial
         private static final long serialVersionUID = -509145251435765498L;
+        /**root node*/
         protected BitreeNode<DATA> root;
+        /**size of the tree*/
         protected int size;
+        /**{@link BitreeNode} factory*/
         protected final Supplier<BitreeNode<DATA>> treeNodeFactory;
 
         /**

@@ -22,7 +22,7 @@ public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrappe
 
     /**
      * build {@link DoubleArrayWrapper}
-     * @param array
+     * @param array {@link ArrayType#DOUBLE_ARRAY}
      */
     public DoubleArrayWrapper(double[] array) {
         this.array = array;

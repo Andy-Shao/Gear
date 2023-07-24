@@ -30,7 +30,7 @@ public class ConvertByte2Str implements Convert<Byte , String> {
     /**
      * byte to {@link String}
      * @param format format string like {@link ConvertByte2Str#BYTE_HEX}
-     * @return
+     * @return {@link Convert}
      */
     public static Convert<Byte[] , String> byte2Str(final String[] format) {
         return (Byte[] in) -> {

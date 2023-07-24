@@ -58,6 +58,12 @@ public final class ClassOperation {
     	return forName(typ.getTypeName());
     }
 
+    /**
+     * get class generic info
+     * @param clazz {@link Class}
+     * @return {@link GenericInfo}
+     * @deprecated it has the more directly methodology
+     */
     @Deprecated
     public static GenericInfo getClassGenericInfo(Class<?> clazz) {
         Generic generic = clazz.getAnnotation(Generic.class);
@@ -253,8 +259,8 @@ public final class ClassOperation {
 
     /**
      * is primitive type
-     * @param clazz
-     * @return
+     * @param clazz {@link Class}
+     * @return if it is then true
      */
     public static boolean isPrimitiveType(Class<?> clazz) {
         return clazz.isPrimitive() || ClassOperation.isPrimitiveObject(clazz);

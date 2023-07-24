@@ -25,7 +25,7 @@ public class IllegalAccessException extends ReflectiveOperationException {
 
     /**
      * With error message
-     * @param message
+     * @param message error message
      */
     public IllegalAccessException(String message) {
         super(message);

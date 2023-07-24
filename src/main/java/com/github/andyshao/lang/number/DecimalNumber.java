@@ -17,7 +17,7 @@ public interface DecimalNumber extends Number , Convertible<BigDecimal> {
     /**
      * add {@link DecimalNumber}
      * @param number {@link DecimalNumber}
-     * @return
+     * @return {@link DecimalNumber}
      */
     default DecimalNumber add(DecimalNumber number) {
         return this.instance(this.convert().add(number.convert()));

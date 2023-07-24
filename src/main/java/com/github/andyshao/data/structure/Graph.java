@@ -279,15 +279,23 @@ public interface Graph<D> extends Cleanable, Serializable {
         @Serial
         private static final long serialVersionUID = 7536136593612372614L;
         private long actionAcount;
+
+        /**{@link AdjList} factory*/
         protected Supplier<AdjList<DATA>> adjListFactory = () -> {
             return AdjList.<DATA> defaultAdjList(() -> {
                 return new HashSet<>();
             });
         };
+
+        /**adj lists*/
         protected Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>> adjlists;
         private final Comparator<DATA> comparator;
+        /**edge number*/
         protected int ecount;
+
+        /**{@link Linked} factory*/
         protected final Supplier<Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>>> linkedFactory;
+        /**vertex number*/
         protected int vcount;
 
         /**

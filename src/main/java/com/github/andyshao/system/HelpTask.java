@@ -45,6 +45,10 @@ public class HelpTask implements Task {
         }
     }
 
+    /**
+     * set next task
+     * @param nextTask next task
+     */
     public void setNextTask(Task nextTask) {
         this.nextTask = nextTask;
     }

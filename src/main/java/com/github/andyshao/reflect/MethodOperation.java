@@ -91,7 +91,12 @@ public final class MethodOperation {
         superGetMethods1(cache , clazz);
         return cache.values().toArray(new Method[cache.size()]);
     }
-    
+
+    /**
+     * super get method s1
+     * @param cache {@link Map}
+     * @param clazz {@link Class}
+     */
     protected static void superGetMethods1(Map<String, Method> cache, Class<?> clazz) {
         Class<?> superclass = clazz.getSuperclass();
         if(superclass != null) superGetMethods1(cache , superclass);
@@ -114,7 +119,12 @@ public final class MethodOperation {
         superGetDeclaredMethods1(cache , clazz);
         return cache.values().toArray(new Method[cache.size()]);
     }
-    
+
+    /**
+     * super get declared method s1
+     * @param cache {@link Map}
+     * @param clazz {@link Class}
+     */
     protected static void superGetDeclaredMethods1(Map<String, Method> cache, Class<?> clazz) {
         Class<?> superclass = clazz.getSuperclass();
         if(superclass != null) superGetDeclaredMethods1(cache , superclass);

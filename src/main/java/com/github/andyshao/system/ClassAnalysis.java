@@ -27,6 +27,7 @@ import java.util.List;
 public class ClassAnalysis implements Task {
     private static final String CLASS = "--class";
     private static final String FIELDS = "--fields";
+    /**keywords*/
     public static final String KEY_WORDS = "-classPrint";
     private static final String METHODS = "--methods";
     private volatile Task nextTask = Task.EMPTY_TASK;

@@ -109,6 +109,10 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
      */
     @FunctionalInterface
     public interface AvlNodeFactory<D , T extends AvlNode<D>> {
+        /**
+         * build {@link AvlNode}
+         * @return {@link AvlNode}
+         */
         public T build();
     }
 
@@ -342,8 +346,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
      * @param <D> data type
      */
     public class Ret<D> {
+        /**balance tag*/
         public int balance;
+        /**data*/
         public D data;
+        /**{@link AvlNode}*/
         public BitreeNode<AvlNode<D>> elmt;
     }
 

@@ -126,7 +126,10 @@ public final class EntityOperation {
 					.build());
 		}
 	}
-	
+
+	/**
+	 * property node
+	 */
 	@Getter
 	@Setter
 	@Builder

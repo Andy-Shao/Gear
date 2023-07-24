@@ -20,11 +20,16 @@ import java.util.function.Consumer;
  *
  */
 public class BlockingTcpClient implements TcpClient {
+    /**Exception*/
     public static final String EXCEPTION = BlockingTcpClient.class.getName() + "_EXCEPTION";
+    /**error process*/
     protected Consumer<MessageContext> errorProcess = (context) -> {
     };
+    /**process tag*/
     protected volatile boolean isProcessing = false;
+    /**message factory*/
     protected MessageFactory messageFactory;
+    /**socket channel*/
     protected SocketChannel socketChannel = null;
 
     /**

@@ -292,7 +292,7 @@ public final class ByteOperation {
      * @param startPos start position
      * @param endPos end position
      * @param bs {@link ArrayType#BYTE_ARRAY}
-     * @return
+     * @return {@link ArrayType#BYTE_ARRAY}
      */
     public static final byte[] fill(int state , int startPos , int endPos , final byte... bs) {
         if (state != 0 && state != 1) throw new IllegalArgumentException("state neither 0 or 1");
@@ -330,6 +330,11 @@ public final class ByteOperation {
         return result.substring(0 , result.length() - 1);
     }
 
+    /**
+     * to string from byte
+     * @param b {@link PrimitiveType#BYTE}
+     * @return string
+     */
     public static final String toString(byte b) {
         StringBuilder result = new StringBuilder();
         for (int i = 7 ; i >= 0 ; i--)
@@ -337,6 +342,11 @@ public final class ByteOperation {
         return result.toString();
     }
 
+    /**
+     * to string from byte array
+     * @param bs {@link ArrayType#BYTE_ARRAY}
+     * @return string
+     */
     public static final String toString(byte... bs) {
         StringBuilder result = new StringBuilder();
         if (bs == null || bs.length == 0) return "";

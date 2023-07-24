@@ -13,7 +13,9 @@ import java.util.Map;
  *
  */
 public class EnvironmentTask implements Task {
+    /**keywords*/
     public static final String KEY_WORDS = "-env";
+    /**next task*/
     public volatile Task nextTask = Task.EMPTY_TASK;
 
     @Override

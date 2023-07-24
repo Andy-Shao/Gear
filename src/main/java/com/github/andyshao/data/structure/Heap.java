@@ -30,6 +30,7 @@ public interface Heap<D> extends Cleanable , Serializable {
         private Comparator<DATA> comparator = (obj1 , obj2) -> {
             return 0;
         };
+        /**tree*/
         protected AutoIncreaseArray<DATA> tree = new AutoIncreaseArray<DATA>();
 
         @Override

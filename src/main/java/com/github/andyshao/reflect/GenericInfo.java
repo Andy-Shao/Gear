@@ -1,13 +1,12 @@
 package com.github.andyshao.reflect;
 
+import com.github.andyshao.asm.TypeOperation;
+import org.objectweb.asm.Type;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-
-import org.objectweb.asm.Type;
-
-import com.github.andyshao.asm.TypeOperation;
 
 /**
  * 
@@ -21,6 +20,11 @@ import com.github.andyshao.asm.TypeOperation;
  */
 @Deprecated
 public final class GenericInfo {
+    /**
+     * analyze script
+     * @param script script array
+     * @return {@link GenericInfo} array
+     */
     @Deprecated
     public static GenericInfo[] analyseScript(String... script) {
         GenericInfo[] result = new GenericInfo[script.length];
@@ -39,6 +43,11 @@ public final class GenericInfo {
         return result;
     }
 
+    /**
+     * split script
+     * @param script script
+     * @return scripts
+     */
     @Deprecated
     static String[] splitScript(String script) {
         List<String> result = new ArrayList<>();
@@ -58,8 +67,11 @@ public final class GenericInfo {
         return result.toArray(new String[result.size()]);
     }
 
+    /**component types*/
     public GenericInfo[] componentTypes = null;
+    /**declared type*/
     public Class<?> declareType = null;
+    /**generic tag*/
     public boolean isGeneiric = false;
 
     @Override

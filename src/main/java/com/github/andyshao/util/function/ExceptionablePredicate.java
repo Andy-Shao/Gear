@@ -56,13 +56,13 @@ public interface ExceptionablePredicate<T> {
 	}
 
 	/**
-	 *
-	 * @param other
-	 * @return
+	 * and
+	 * @param another another {@link ExceptionablePredicate}
+	 * @return a new {@link ExceptionablePredicate}
 	 */
-	default ExceptionablePredicate<T> and(ExceptionablePredicate<? super T> other) {
-		Objects.requireNonNull(other);
-		return t -> this.test(t) && other.test(t);
+	default ExceptionablePredicate<T> and(ExceptionablePredicate<? super T> another) {
+		Objects.requireNonNull(another);
+		return t -> this.test(t) && another.test(t);
 	}
 
 	/**

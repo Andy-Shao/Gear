@@ -25,20 +25,40 @@ public final class GraphAlg {
      * @param <DATA> data type
      */
     public static class MstVertex<DATA> {
+        /**
+         * set untoward endge
+         * @param graph {@link Graph}
+         * @param one {@link MstVertex}
+         * @param two {@link MstVertex}
+         * @param weight weight
+         * @param <DATA> data type
+         */
         public static final <DATA> void setUntowardEdge(Graph<MstVertex<DATA>> graph , MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             Graph.addUntowardEdge(graph , one , two);
             MstVertex.setUntowardWeight(one , two , weight);
         }
 
+        /**
+         * set untoward weight
+         * @param one {@link MstVertex}
+         * @param two {@link MstVertex}
+         * @param weight weight
+         * @param <DATA> data type
+         */
         public static final <DATA> void setUntowardWeight(MstVertex<DATA> one , MstVertex<DATA> two , double weight) {
             one.weight.put(two , weight);
             two.weight.put(one , weight);
         }
 
+        /**color*/
         public VertexColor color;
+        /**data*/
         public DATA data;
+        /**key*/
         public double key;
+        /**parent {@link MstVertex}*/
         public MstVertex<DATA> parent;
+        /**weight map*/
         public final Map<MstVertex<DATA> , Double> weight = new HashMap<>();
     }
 
@@ -47,28 +67,57 @@ public final class GraphAlg {
      * @param <DATA> data type
      */
     public static class PathVertex<DATA> {
+        /**
+         * set double edge
+         * @param graph {@link Graph}
+         * @param one {@link PathVertex}
+         * @param two {@link PathVertex}
+         * @param one2two one to two
+         * @param two2one two to one
+         * @param <DATA> data type
+         */
         public static final <DATA> void setDoubleEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> one , PathVertex<DATA> two , double one2two , double two2one) {
             Graph.addUntowardEdge(graph , one , two);
             one.weight.put(two , one2two);
             two.weight.put(one , two2one);
         }
 
+        /**
+         * set edge
+         * @param graph {@link Graph}
+         * @param start start point
+         * @param end end point
+         * @param weight weight
+         * @param <DATA> data type
+         */
         public static final <DATA> void setEdge(Graph<PathVertex<DATA>> graph , PathVertex<DATA> start , PathVertex<DATA> end , double weight) {
             graph.insEdge(start , end);
             start.weight.put(end , weight);
         }
 
+        /**color*/
         public VertexColor color;
+        /**double*/
         public double d;
+        /**data*/
         public DATA data;
+        /**parent vertex*/
         public PathVertex<DATA> parent;
+        /**weight map*/
         public final Map<PathVertex<DATA> , Double> weight = new HashMap<>();
     }
 
+    /**
+     * Tsp vertex
+     * @param <DATA> data type
+     */
     public static class TspVertex<DATA> {
+        /**color*/
         public VertexColor color;
+        /**data*/
         public DATA data;
-        public double x , y;
+        /**x*/
+        public double x , /**y*/y;
     }
 
     /**
