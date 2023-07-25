@@ -3,6 +3,9 @@ package com.github.andyshao.context;
 import java.io.Serial;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * simple context
+ */
 public class SimpleContext extends ConcurrentHashMap<String , Object> implements Context {
 
     @Serial

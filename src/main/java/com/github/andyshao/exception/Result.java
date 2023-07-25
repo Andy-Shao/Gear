@@ -12,13 +12,52 @@ import java.io.Serializable;
  * @param <DATA> data type
  */
 public interface Result<DATA> extends Serializable{
+    /**
+     * get data
+     * @return data
+     */
     DATA getData();
+
+    /**
+     * set data
+     * @param data data
+     */
     void setData(DATA data);
+
+    /**
+     * get message
+     * @return message
+     */
     String getMessage();
+
+    /**
+     * set message
+     * @param message message
+     */
     void setMessage(String message);
+
+    /**
+     * is success
+     * @return if it is then true
+     */
     boolean isSuccess();
+
+    /**
+     * set success tage
+     * @param isSuccess success tage
+     */
     void isSuccess(boolean isSuccess);
+
+    /**
+     * get code
+     * @return code value
+     */
     String getCode();
+
+    /**
+     * set code
+     * @param code code value
+     */
     void setCode(String code);
 
     /**
@@ -271,7 +310,11 @@ public interface Result<DATA> extends Serializable{
         result.setCode(code);
         return result;
     }
-    
+
+    /**
+     * default result
+     * @param <E> data type
+     */
     static class DefaultResult<E> implements Result<E>{
         private static final long serialVersionUID = -8009738064238682676L;
         private E data;
@@ -318,37 +361,70 @@ public interface Result<DATA> extends Serializable{
         public void setCode(String code) {
             this.code = code;
         }
-        
+
+        /**
+         * builder
+         * @return {@link SelfBuilder}
+         * @param <T> data type
+         */
         public static <T> SelfBuilder<T> builder() {
         	return new SelfBuilder<T>();
         }
-        
+
+        /**
+         * self builder
+         * @param <T> data type
+         */
         static class SelfBuilder<T> {
         	private T data;
             private String message;
             private boolean isSuccess;
             private String code;
-            
+
+            /**
+             * set code
+             * @param code code
+             * @return {@link SelfBuilder}
+             */
             public SelfBuilder<T> code(String code) {
             	this.code = code;
             	return this;
             }
-            
+
+            /**
+             * set success tage
+             * @param isSuccess success tage
+             * @return {@link SelfBuilder}
+             */
             public SelfBuilder<T> isSuccess(boolean isSuccess) {
             	this.isSuccess = isSuccess;
             	return this;
             }
-            
+
+            /**
+             * set message
+             * @param message message
+             * @return {@link SelfBuilder}
+             */
             public SelfBuilder<T> message(String message) {
             	this.message = message;
             	return this;
             }
-            
+
+            /**
+             * set data
+             * @param data data
+             * @return {@link SelfBuilder}
+             */
             public SelfBuilder<T> data(T data) {
             	this.data = data;
             	return this;
             }
-            
+
+            /**
+             * build action
+             * @return {@link DefaultResult}
+             */
             public DefaultResult<T> build() {
             	DefaultResult<T> ret = new DefaultResult<T>();
             	ret.data = this.data;

@@ -28,7 +28,9 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
     private class MyIterator implements Iterator<D>, Serializable {
         @Serial
         private static final long serialVersionUID = -8175296928562043751L;
+        /**action count*/
         private final long actionCount = SingleLinked.this.actionCount;
+        /**{@link CycleLinkedElmt}*/
         private volatile CycleLinkedElmt<D> index = SingleLinked.this.head();
 
         @Override
@@ -65,11 +67,16 @@ public class SingleLinked<D> implements Linked<D , CycleLinkedElmt<D>> {
         return new SingleLinked<DATA>(cycleLinkedElmt);
     }
 
+    /**action count*/
     private long actionCount = 0;
+    /**{@link CycleLinkedElmt} factory*/
     private final Function<D , CycleLinkedElmt<D>> cycleLinkedElmtFactory;
+    /**head of the elements*/
     private CycleLinkedElmt<D> head;
+    /**size*/
     private int size = 0;
 
+    /**tail of the elements*/
     private CycleLinkedElmt<D> tail;
 
     /**

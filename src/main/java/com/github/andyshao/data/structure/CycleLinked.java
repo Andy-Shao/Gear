@@ -27,13 +27,13 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
     class MyIterator implements Iterator<DATA>, Serializable {
         @Serial
         private static final long serialVersionUID = -4771582456239944351L;
-        private final long actionCount = CycleLinked.this.actionAcount;
+        private final long actionCount = CycleLinked.this.actionAccount;
         private volatile CycleLinkedElmt<DATA> index = CycleLinked.this.head();
         private volatile int position = 0;
 
         @Override
         public boolean hasNext() {
-            if (this.actionCount != CycleLinked.this.actionAcount) throw new ConcurrentModificationException();
+            if (this.actionCount != CycleLinked.this.actionAccount) throw new ConcurrentModificationException();
             return this.position < CycleLinked.this.size();
         }
 
@@ -66,12 +66,16 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
         return new CycleLinked<DATA>(elmtFactory);
     }
 
-    private long actionAcount = 0;
+    /**action account*/
+    private long actionAccount = 0;
 
+    /**element factory*/
     private final Function<DATA , CycleLinkedElmt<DATA>> elmtFactory;
 
+    /**head of the elements*/
     private CycleLinkedElmt<DATA> head;
 
+    /**size*/
     private int size;
 
     /**
@@ -124,7 +128,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
         //Adjust the size of the list to account for the inserted element.
         this.size++;
-        this.actionAcount++;
+        this.actionAccount++;
     }
 
     @Override
@@ -158,7 +162,7 @@ public class CycleLinked<DATA> implements Linked<DATA , CycleLinkedElmt<DATA>> {
 
         //Adjust the size of the list to account for the removed element.
         this.size--;
-        this.actionAcount++;
+        this.actionAccount++;
 
         return data;
     }

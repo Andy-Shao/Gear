@@ -28,20 +28,34 @@ import java.util.function.Consumer;
  *
  */
 public class UnblockingTcpServer implements TcpServer {
+    /**exception*/
     public static final String EXCEPTION = UnblockingTcpServer.class.getName() + "_EXCEPTION";
+    /**socket channel*/
     public static final String SOCKET_CHANNEL = UnblockingTcpServer.class.getName() + "_SOCKET_CHANNEL";
+    /**error process*/
     protected Consumer<MessageContext> errorProcess = (context) -> {
         Exception e = (Exception) context.get(UnblockingTcpServer.EXCEPTION);
         e.printStackTrace();
     };
+    /**executor service*/
     protected ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors() * 4);
+    /**is processing*/
     protected volatile boolean isProcessing = false;
+    /**is waiting for close*/
     protected volatile boolean isWaitingForClose = false;
+    /**message factory*/
     protected MessageFactory messageFactory;
+    /**port*/
     protected int port = 8000;
+    /**selector*/
     protected Selector selector = null;
+    /**server socket channel*/
     protected ServerSocketChannel serverSocketChannel = null;
 
+    /**
+     * build {@link UnblockingTcpServer}
+     * @param messageFactory {@link MessageFactory}
+     */
     public UnblockingTcpServer(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;
     }
@@ -110,6 +124,12 @@ public class UnblockingTcpServer implements TcpServer {
         });
     }
 
+    /**
+     * process acceptable
+     * @param selector {@link Selector}
+     * @param key {@link SelectionKey}
+     * @throws IOException IO error
+     */
     protected void processAcceptable(Selector selector , SelectionKey key) throws IOException {
         final MessageContext context = this.messageFactory.buildMessageContext();
         final ServerSocketChannel ssc = (ServerSocketChannel) key.channel();
@@ -123,6 +143,11 @@ public class UnblockingTcpServer implements TcpServer {
         socketChannel.register(selector , SelectionKey.OP_READ | SelectionKey.OP_WRITE , context);
     }
 
+    /**
+     * process readable
+     * @param key {@link SelectionKey}
+     * @throws IOException IO error
+     */
     protected void processReadable(SelectionKey key) throws IOException {
         final MessageContext context = (MessageContext) key.attachment();
         if (context.isWaitingForReceive()) {
@@ -157,6 +182,11 @@ public class UnblockingTcpServer implements TcpServer {
         }
     }
 
+    /**
+     * process writable
+     * @param key {@link SelectionKey}
+     * @throws IOException IO error
+     */
     protected void processWritable(SelectionKey key) throws IOException {
         final MessageContext context = (MessageContext) key.attachment();
         if (context.isWaitingForSending()) {
@@ -166,14 +196,26 @@ public class UnblockingTcpServer implements TcpServer {
         }
     }
 
+    /**
+     * set error process
+     * @param errorProcess {@link Consumer}
+     */
     public void setErrorProcess(Consumer<MessageContext> errorProcess) {
         this.errorProcess = errorProcess;
     }
 
+    /**
+     * set executor service
+     * @param executorService {@link ExecutorService}
+     */
     public void setExecutorService(ExecutorService executorService) {
         this.executorService = executorService;
     }
 
+    /**
+     * set port
+     * @param port port number
+     */
     public void setPort(int port) {
         this.port = port;
     }

@@ -29,10 +29,15 @@ public class SignatureDetector extends ClassVisitor {
      * Class signature
      */
     public static class ClassSignature {
+        /**class signature*/
         public String classSignature;
+        /**clazz*/
         public Class<?> clazz;
+        /**field signatures*/
         public final Map<Field , String> fieldSignatures = new HashMap<>();
+        /**inner class signatures*/
         public final Map<Class<?> , ClassSignature> innerClassSignatures = new HashMap<>();
+        /**method signature*/
         public final Map<Method , String> methodSignatures = new HashMap<>();
 
         @Override

@@ -49,8 +49,13 @@ public interface Stack<D> extends CollectionModel<D> {
 
         }
 
+        /**linked*/
         private final Linked<DATA , E> linked;
 
+        /**
+         * build {@link MyStack}
+         * @param linked {@link Linked}
+         */
         public MyStack(Linked<DATA , E> linked) {
             this.linked = linked;
         }

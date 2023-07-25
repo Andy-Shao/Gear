@@ -25,13 +25,19 @@ import java.util.Map;
 public class ElectionNode implements Serializable {
     @Serial
     private static final long serialVersionUID = 7411111126118539635L;
+    /**name*/
     @EqualsAndHashCode.Include
     private String name;
+    /**host*/
     @EqualsAndHashCode.Include
     private String host;
+    /**port number*/
     @EqualsAndHashCode.Include
     private int port;
+    /**memory*/
     private ByteSize memory;
+    /**cpu number*/
     private int cpuNum;
+    /**pros*/
     private Map<String , ? super Serializable> pros = new HashMap<>();
 }

@@ -33,7 +33,7 @@ public class StringBufferReader implements BufferReader<String> {
 
         /**
          * build {@link SeparateByStr}
-         * @param key
+         * @param key key
          */
         public SeparateByStr(String key) {
             this.key = key;

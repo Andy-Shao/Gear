@@ -27,6 +27,7 @@ public interface Heap<D> extends Cleanable , Serializable {
     public class MyHeap<DATA> implements Heap<DATA> {
         @Serial
         private static final long serialVersionUID = -4077792585328556219L;
+        /**{@link Comparator}*/
         private Comparator<DATA> comparator = (obj1 , obj2) -> {
             return 0;
         };

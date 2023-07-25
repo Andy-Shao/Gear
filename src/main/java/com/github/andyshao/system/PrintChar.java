@@ -13,6 +13,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public class PrintChar implements Task {
+    /**keywords*/
     public static final String KEY_WORDS = "-printChar";
     private volatile Task nextTask = Task.EMPTY_TASK;
 

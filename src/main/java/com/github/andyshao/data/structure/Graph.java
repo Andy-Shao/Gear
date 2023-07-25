@@ -102,8 +102,11 @@ public interface Graph<D> extends Cleanable, Serializable {
         public class MyBfsVertex<DAT> implements BfsVertex<DAT> {
             @Serial
             private static final long serialVersionUID = 6404213558812061680L;
+            /**{@link VertexColor}*/
             private VertexColor color;
+            /**data*/
             private DAT data;
+            /**hops*/
             private int hops;
 
             @Override
@@ -207,7 +210,9 @@ public interface Graph<D> extends Cleanable, Serializable {
         public class MyDfsVertex<DAT> implements DfsVertex<DAT> {
             @Serial
             private static final long serialVersionUID = 8854641678739879112L;
+            /**{@link VertexColor}*/
             private VertexColor color;
+            /**data*/
             private DAT data;
 
             @Override
@@ -278,7 +283,8 @@ public interface Graph<D> extends Cleanable, Serializable {
     public class MyGraph<DATA> implements Graph<DATA> {
         @Serial
         private static final long serialVersionUID = 7536136593612372614L;
-        private long actionAcount;
+        /**action account*/
+        private long actionAccount;
 
         /**{@link AdjList} factory*/
         protected Supplier<AdjList<DATA>> adjListFactory = () -> {
@@ -287,8 +293,9 @@ public interface Graph<D> extends Cleanable, Serializable {
             });
         };
 
-        /**adj lists*/
+        /**adjust lists*/
         protected Linked<AdjList<DATA> , CycleLinkedElmt<AdjList<DATA>>> adjlists;
+        /**{@link Comparator}*/
         private final Comparator<DATA> comparator;
         /**edge number*/
         protected int ecount;
@@ -309,7 +316,7 @@ public interface Graph<D> extends Cleanable, Serializable {
             this.adjlists = this.linkedFactory.get();
             this.vcount = 0;
             this.ecount = 0;
-            this.actionAcount = 0;
+            this.actionAccount = 0;
         }
 
         @Override
@@ -337,7 +344,7 @@ public interface Graph<D> extends Cleanable, Serializable {
             this.vcount = 0;
             this.ecount = 0;
             this.adjlists.clear();
-            this.actionAcount++;
+            this.actionAccount++;
         }
 
         @Override
@@ -479,7 +486,7 @@ public interface Graph<D> extends Cleanable, Serializable {
 
         @Override
         public void setAdjListFactory(Supplier<Graph.AdjList<DATA>> adjListFactory) {
-            if (this.actionAcount != 0) throw new SecurityException("Only could set field before insert & remove.");
+            if (this.actionAccount != 0) throw new SecurityException("Only could set field before insert & remove.");
             this.adjListFactory = adjListFactory;
         }
 

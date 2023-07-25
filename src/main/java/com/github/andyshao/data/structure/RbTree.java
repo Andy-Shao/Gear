@@ -22,15 +22,59 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
      * @param <VALUE> the value
      */
     public interface RbTreeNode<KEY,VALUE> {
+        /**
+         * color
+         * @return {@link NodeColor}
+         */
         public NodeColor color();
+
+        /**
+         * set color
+         * @param color {@link NodeColor}
+         */
         public void color(NodeColor color);
+
+        /**
+         * get key
+         * @return key
+         */
         public KEY key();
+
+        /**
+         * set key
+         * @param key key
+         */
         public void key(KEY key);
+
+        /**
+         * get value
+         * @return value
+         */
         public VALUE value();
+
+        /**
+         * set value
+         * @param value value
+         */
         public void value(VALUE value);
+
+        /**
+         * number of subtree
+         * @return number of subtree
+         */
         public int numberOfSubtree();
+
+        /**
+         * set number of subtree
+         * @param numberOfSubtree number of subtree
+         */
         public void numberOfSubtree(int numberOfSubtree);
-        
+
+        /**
+         * default red-black tree node
+         * @param <K> key type
+         * @param <V> value type
+         */
         public class MyRbTreeNode<K, V> implements RbTreeNode<K , V> {
             private NodeColor color;
             private K key;
@@ -96,7 +140,13 @@ public interface RbTree<K extends Comparable<K>,V> extends Tree<RbTree.RbTreeNod
                 this.numberOfSubtree = numberOfSubtree;
             }
         }
-        
+
+        /**
+         * build {@link RbTreeNode}
+         * @return {@link RbTreeNode}
+         * @param <K> key type
+         * @param <V> value type
+         */
         public static <K,V> RbTreeNode<K,V> defaultNode() {
             return new MyRbTreeNode<K,V>();
         }

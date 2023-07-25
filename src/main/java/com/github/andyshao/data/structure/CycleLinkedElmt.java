@@ -32,7 +32,9 @@ public class CycleLinkedElmt<DATA> implements Linked.LinkedElmt<DATA , CycleLink
         return result;
     }
 
+    /**data*/
     private DATA data;
+    /**next element*/
     private CycleLinkedElmt<DATA> next;
 
     @Override

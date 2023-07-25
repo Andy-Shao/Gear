@@ -54,6 +54,10 @@ public enum Version {
         this.version = version;
     }
 
+    /**
+     * get Version
+     * @return version number
+     */
     public int getVersion() {
         return this.version;
     }

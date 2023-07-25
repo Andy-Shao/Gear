@@ -182,6 +182,11 @@ public final class ParameterOperation {
         return result;
     }
 
+    /**
+     * get parameter types information by JDK solution
+     * @param method {@link Method}
+     * @return {@link GenericNode}
+     */
     public static List<GenericNode> getParameterTypesInfoByNative(Method method) {
         return Arrays.stream(method.getGenericParameterTypes())
                 .map(ClassOperation::analysisGenericType)

@@ -108,11 +108,16 @@ public interface DoubleLinked<D> extends Linked<D , DoubleLinked.DoubleLinkedElm
     public class MyDoubleLinked<DATA> implements DoubleLinked<DATA> {
         @Serial
         private static final long serialVersionUID = 8162911921677856435L;
+        /**action count*/
         private long actionCount = 0;
+        /**element factory*/
         private final Function<DATA , DoubleLinked.DoubleLinkedElmt<DATA>> elmtFactory;
+        /**head of the elements*/
         private DoubleLinked.DoubleLinkedElmt<DATA> head;
+        /**size*/
         private int size;
 
+        /**tail of the elements*/
         private DoubleLinked.DoubleLinkedElmt<DATA> tail;
 
         /**

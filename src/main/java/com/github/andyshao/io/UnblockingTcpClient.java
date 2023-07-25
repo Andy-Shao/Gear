@@ -67,7 +67,7 @@ public class UnblockingTcpClient implements TcpClient {
 
     /**
      * Build {@link UnblockingTcpClient}
-     * @param messageFactory
+     * @param messageFactory {@link MessageFactory}
      */
     public UnblockingTcpClient(MessageFactory messageFactory) {
         this.messageFactory = messageFactory;

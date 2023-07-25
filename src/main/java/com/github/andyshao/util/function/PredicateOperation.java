@@ -33,7 +33,7 @@ public final class PredicateOperation {
 	 * negate operation
 	 * @param predicate {@link Predicate}
 	 * @return negate {@link Predicate}
-	 * @param <T>
+	 * @param <T> data type
 	 */
 	public static final <T> Predicate<T> negate(Predicate<T> predicate) {
 		return predicate.negate();

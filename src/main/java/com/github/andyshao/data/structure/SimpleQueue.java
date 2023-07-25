@@ -20,6 +20,7 @@ import java.util.Queue;
 public class SimpleQueue<D> implements Queue<D>, Serializable {
     @Serial
     private static final long serialVersionUID = -4518863973315443170L;
+    /**{@link SingleLinked}*/
     private final SingleLinked<D> linked = SingleLinked.defaultSingleLinked((data) -> CycleLinkedElmt.defaultElmt(data));
 
     @Override

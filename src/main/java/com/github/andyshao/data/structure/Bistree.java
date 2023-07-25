@@ -121,8 +121,11 @@ public interface Bistree<DATA> extends Cleanable , Tree<Bistree.AvlNode<DATA>,Bi
      * @param <D> data type
      */
     public class MyBistree<D> implements Bistree<D> {
+        /**{@link AvlNodeFactory}*/
         private final AvlNodeFactory<D , AvlNode<D>> avlNodeFactory;
+        /**{@link Bitree}*/
         private final Bitree<AvlNode<D>> bitree;
+        /**{@link Comparator}*/
         private Comparator<D> comparator = (obj1 , obj2) -> {
             return 0;
         };
