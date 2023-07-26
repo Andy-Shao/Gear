@@ -16,6 +16,7 @@ import java.io.Serial;
 public class ResultError extends RuntimeException{
     @Serial
     private static final long serialVersionUID = 4909234766541027522L;
+    /**{@link Result}*/
     @Getter
     private final Result<?> result;
 

@@ -2,6 +2,7 @@ package com.github.andyshao.lang;
 
 import com.github.andyshao.reflect.ArrayOperation;
 
+import java.io.Serial;
 import java.util.stream.Stream;
 
 /**
@@ -15,7 +16,9 @@ import java.util.stream.Stream;
  *
  */
 public class CharArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    @Serial
     private static final long serialVersionUID = 2019041095527286099L;
+    /**{@link ArrayType#CHAR_ARRAY}*/
     private final char[] array;
 
     /**

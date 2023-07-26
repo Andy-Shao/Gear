@@ -317,9 +317,13 @@ public interface Result<DATA> extends Serializable{
      */
     static class DefaultResult<E> implements Result<E>{
         private static final long serialVersionUID = -8009738064238682676L;
+        /**data*/
         private E data;
+        /**message*/
         private String message;
+        /**success tag*/
         private boolean isSuccess;
+        /**code*/
         private String code;
 
         @Override

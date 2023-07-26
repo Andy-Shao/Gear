@@ -25,13 +25,19 @@ import java.util.Map;
 public class MemberNode implements Serializable {
     @Serial
     private static final long serialVersionUID = 3307546608951426261L;
+    /**name*/
     @EqualsAndHashCode.Include
     private String name;
+    /**host*/
     @EqualsAndHashCode.Include
     private String host;
+    /**port number*/
     @EqualsAndHashCode.Include
     private int port;
+    /**memory size*/
     private ByteSize memory;
+    /**cpu number*/
     private int cpuNum;
+    /**pros*/
     private Map<String , ? super Serializable> pros = new HashMap<>();
 }

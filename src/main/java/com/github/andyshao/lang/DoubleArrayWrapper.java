@@ -3,6 +3,7 @@ package com.github.andyshao.lang;
 import com.github.andyshao.reflect.ArrayOperation;
 import com.github.andyshao.util.stream.StreamOperation;
 
+import java.io.Serial;
 import java.util.Arrays;
 import java.util.stream.Stream;
 
@@ -17,7 +18,9 @@ import java.util.stream.Stream;
  *
  */
 public class DoubleArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
+    @Serial
     private static final long serialVersionUID = 7582951027306249651L;
+    /**{@link ArrayType#DOUBLE_ARRAY}*/
     private final double[] array;
 
     /**

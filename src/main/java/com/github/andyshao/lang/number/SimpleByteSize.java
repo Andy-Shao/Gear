@@ -15,7 +15,9 @@ import java.io.Serializable;
 public class SimpleByteSize implements ByteSize, Serializable, Comparable<SimpleByteSize> {
     @Serial
     private static final long serialVersionUID = 64729209707050872L;
+    /**l*/
     private long l = 0L;
+    /**{@link ByteLevel}*/
     private ByteLevel level = ByteLevel.MB;
 
     /**

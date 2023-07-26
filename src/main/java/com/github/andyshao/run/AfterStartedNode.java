@@ -21,10 +21,13 @@ import java.io.Serializable;
 public class AfterStartedNode implements Serializable{
     @Serial
     private static final long serialVersionUID = -2468151760859909130L;
+    /**{@link NodeColor}*/
     private NodeColor color = NodeColor.BLACK;
+    /**node name*/
     @NonNull
     @EqualsAndHashCode.Include
     private String nodeName;
+    /**tail tag*/
     private boolean isTail = true;
 
     /**

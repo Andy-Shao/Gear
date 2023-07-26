@@ -37,11 +37,17 @@ public class AutoIncreaseArray<D> implements CollectionModel<D> , Cleanable {
         return autoIncreaseArray;
     }
 
+    /**action account*/
     private long actionAccount;
+    /**array*/
     private Object[] array;
+    /**array size*/
     private int arraySize;
+    /**end position*/
     private int end;
+    /**size*/
     private int size;
+    /**start position*/
     private int start;
 
     /**

@@ -20,6 +20,7 @@ import java.util.stream.Stream;
 public class IntArrayWrapper extends ArrayWrapperModel implements ArrayWrapper {
     @Serial
     private static final long serialVersionUID = 9196038926763439775L;
+    /**{@link ArrayType#INT_ARRAY}*/
     private final int[] array;
 
     /**

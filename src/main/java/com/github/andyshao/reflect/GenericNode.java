@@ -21,16 +21,21 @@ import java.util.Objects;
 public class GenericNode implements Serializable{
     @Serial
     private static final long serialVersionUID = 3073863989335642029L;
+    /**component types*/
     private final List<GenericNode> componentTypes = new ArrayList<>();
+    /**declare type*/
     @Setter(AccessLevel.PACKAGE)
     private Class<?> declareType;
+    /**generic tag*/
     @Setter(AccessLevel.PACKAGE)
     private boolean isGeneiric = false;
+    /**parent*/
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @Setter(AccessLevel.PACKAGE)
     @Getter(AccessLevel.PACKAGE)
     private GenericNode parent;
+    /**type variable*/
     @Setter(AccessLevel.PACKAGE)
     @EqualsAndHashCode.Exclude
     private String typeVariable;

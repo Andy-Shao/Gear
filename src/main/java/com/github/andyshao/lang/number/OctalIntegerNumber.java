@@ -13,14 +13,18 @@ import java.math.BigInteger;
  *
  */
 public class OctalIntegerNumber implements IntegerNumber {
+    /**sign*/
     private static final char[] signs = new char[] {
         '0','1','2','3','4','5',
         '6','7'
     };
+    /**radix*/
     private static final BigInteger radix = new BigInteger("8");
     @Serial
     private static final long serialVersionUID = 7596279325238872381L;
+    /**cache*/
     private volatile BigInteger cache = BigInteger.ZERO;
+    /**value string*/
     private volatile String valueStr = "0";
 
     @Override
