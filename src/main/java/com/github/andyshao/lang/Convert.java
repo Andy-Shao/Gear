@@ -121,6 +121,19 @@ public interface Convert<IN , OUT> {
     OUT convert(IN in) throws NotSupportConvertException;
 
     /**
+     * fill operation
+     * @param condition conidtion
+     * @param getOp get method
+     * @param setOp set method
+     * @param <E> data type
+     */
+    public static <E> void fill(boolean condition, Supplier<E> getOp, Consumer<E> setOp) {
+        if(condition) {
+            setOp.accept(getOp.get());
+        }
+    }
+
+    /**
      * fill data by condition
      * @param condition condition
      * @param getOp get method
