@@ -1,7 +1,10 @@
 package com.github.andyshao.proxy;
 
-import net.sf.cglib.proxy.Enhancer;
-import net.sf.cglib.proxy.InvocationHandler;
+//import net.sf.cglib.proxy.Enhancer;
+//import net.sf.cglib.proxy.InvocationHandler;
+
+import org.springframework.cglib.proxy.Enhancer;
+import org.springframework.cglib.proxy.InvocationHandler;
 
 import java.lang.reflect.Method;
 
@@ -15,9 +18,7 @@ import java.lang.reflect.Method;
  * @author Andy.Shao
  *
  * @param <T> the type of proxied class
- * @deprecated CG lib does not support Java 17
  */
-@Deprecated(since = "5.0.0.RELEASE")
 @FunctionalInterface
 public interface CglibPF<T> extends ProxyFactory<T> {
     @Override

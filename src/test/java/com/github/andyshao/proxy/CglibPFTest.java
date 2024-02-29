@@ -1,7 +1,6 @@
 package com.github.andyshao.proxy;
 
 import com.github.andyshao.reflect.MethodOperation;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -16,7 +15,6 @@ public class CglibPFTest {
     }
 
     @Test
-    @Disabled
     public void test() {
         final CglibPFTest.MyClass myClass = new CglibPFTest.MyClass();
         assertFalse(myClass.isAllow());
